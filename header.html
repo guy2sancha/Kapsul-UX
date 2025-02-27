@@ -1,0 +1,568 @@
+<!-- 1) Script DotLottie -->
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+<style>
+    /* =====================
+       Styles généraux
+       ===================== */
+    #customHeader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 2%;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        z-index: 1000;
+    }
+    .logo-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+    .logo-container img {
+        height: 80px;
+    }
+    .nav-links {
+        display: flex;
+        gap: 0;
+        font-size: 16px;
+        position: absolute;
+        left: 50px;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+    }
+    .nav-links a:hover {
+        transform: scale(1.05);
+        color: #0d26ff;
+    }
+    .nav-links a.active-tab {
+        font-weight: bold;
+        color: #0d26ff;
+    }
+    .nav-item {
+        position: relative;
+    }
+
+    /* =====================
+       Effet d'animation (optionnel)
+       ===================== */
+    @keyframes fadeInOut {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* =====================
+       Zone de droite (user-actions)
+       ===================== */
+    .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: absolute;
+        right: 60px;
+    }
+    .icon-size {
+        font-size: 22px;
+        margin-bottom: 3px;
+    }
+    .cart-container a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+    .cart-container a:hover {
+        color: #0d26ff;
+    }
+
+    /* =====================
+       Profil utilisateur (menu déroulant)
+       ===================== */
+    .profile-container {
+        position: relative;
+    }
+    .profile-button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 5px;
+    }
+    .profile-button i {
+        font-size: 20px;
+        color: #333;
+    }
+    .profile-button:hover i {
+        color: #0d26ff;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        left: -100px;
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: none;
+        flex-direction: column;
+        padding: 10px 0;
+    }
+    .dropdown-menu a {
+        text-decoration: none;
+        color: #333;
+        padding: 10px 15px;
+        display: block;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+        background: #f0f0f0;
+    }
+    .dropdown-menu.show {
+        display: flex;
+    }
+
+    /* =====================
+       Sélecteurs (langue, devise)
+       ===================== */
+    #languageSelector,
+    #currencySelector {
+        padding: 5px 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    /* =====================
+       Modales
+       ===================== */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background: #fff;
+        padding: 30px;
+        text-align: center;
+        width: 400px;
+    }
+    .modal-button {
+        position: relative;
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        color: #000;
+        margin: 5px;
+        border: 2px solid #000;
+        text-decoration: none;
+        overflow: hidden;
+        transition: color 0.3s ease-in-out, background-color 0.9s;
+        z-index: 1;
+    }
+    .modal-button::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0920c5;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease-in-out;
+        z-index: -1;
+    }
+    .modal-button:hover {
+        color: #fff;
+        background-color: #0920c5;
+        text-decoration: none;
+    }
+    .modal-button:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* =====================
+       Lottie Logo
+       ===================== */
+    #lottieLogo {
+        cursor: pointer;
+    }
+</style>
+
+<!-- =====================
+     HEADER
+     ===================== -->
+<div id="customHeader">
+    <div class="logo-container">
+        <a href="/">
+            <img src="https://corporate.kapsul.world/wp-content/uploads/2024/11/KAPSUL-38.png" alt="Kapsul Logo" />
+        </a>
+    </div>
+    <nav class="nav-links">
+        <a href="/all-the-brands">BRANDS</a>
+        <a href="/all-the-retailers">SHOPS</a>
+        <a href="/map">MAP</a>
+        <a href="/marketplace">MARKETPLACE</a>
+    </nav>
+    <div class="user-actions">
+        <div class="profile-container">
+            <!-- Remarque : on ajoute un id sur l'icône pour pouvoir la modifier quand user logged in -->
+            <button class="profile-button" onclick="toggleMenu(event)">
+                <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
+                <i class="fa-solid fa-bars icon-size"></i>
+            </button>
+            <div class="dropdown-menu" id="profileMenu">
+                <div id="loggedOutMenu">
+                    <a href="/login">Login</a>
+                    <a href="/register">Sign Up</a>
+                </div>
+                <div id="loggedInMenu" style="display: none;">
+                    <a href="/favorites">My Favorites</a>
+                    <a href="/my-qrcode">My QR Code</a>
+                    <a href="#" onclick="logoutUser()">Log-out</a>
+                </div>
+            </div>
+        </div>
+        <div class="cart-container">
+            <a href="#" onclick="showModal('cartModal')">
+                <i class="fa-solid fa-cart-shopping icon-size"></i>
+            </a>
+        </div>
+        <select id="languageSelector">
+            <option value="en">EN</option>
+            <option value="ja">JP</option>
+        </select>
+        <select id="currencySelector">
+            <option value="USD">$</option>
+            <option value="EUR">€</option>
+            <option value="GBP">£</option>
+            <option value="JPY">¥</option>  
+            <option value="KRW">₩</option>     
+            <option value="TWD">NT$</option>   
+            <option value="SGD">S$</option>    
+            <option value="THB">฿</option>     
+            <option value="AUD">A$</option>    
+            <option value="HKD">HK$</option>  
+            <option value="CAD">C$</option>    
+            <option value="NZD">NZ$</option>   
+        </select>
+    </div>
+</div>
+
+<!-- =====================
+     MODALES
+     ===================== -->
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <h2>Please Login or Signup</h2>
+        <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
+        <div class="modal-actions">
+            <a href="/login" class="modal-button">Login</a>
+            <a href="/register" class="modal-button">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        detectBrowserLanguage();
+        initializeLanguageSelector();
+        initializeCurrencySelector();
+        updateMenu();
+        highlightActiveLink();
+        setupLogoToggle();
+        setupLottieClick();
+        setupProfileMenu();
+    });
+
+    /* =====================
+       1) Gestion des devises
+       ===================== */
+    async function fetchExchangeRates() {
+        try {
+            let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+            let data = await response.json();
+            return data.rates;
+        } catch (err) {
+            console.error("Erreur lors de la récupération des taux de change", err);
+            // Valeurs par défaut si l'API échoue :
+            return {
+                USD: 1,
+                EUR: 0.91,
+                GBP: 0.76,
+                JPY: 135,
+                KRW: 1300,
+                TWD: 30,
+                SGD: 1.35,
+                THB: 33,
+                AUD: 1.45,
+                HKD: 7.85,
+                CAD: 1.36,
+                NZD: 1.57
+            };
+        }
+    }
+
+    async function initializeCurrencySelector() {
+        let rates = await fetchExchangeRates();
+
+        // Ajout des symboles correspondants
+        let currencySymbols = {
+            USD: "$",
+            EUR: "€",
+            GBP: "£",
+            JPY: "¥",
+            KRW: "₩",
+            TWD: "NT$",
+            SGD: "S$",
+            THB: "฿",
+            AUD: "A$",
+            HKD: "HK$",
+            CAD: "C$",
+            NZD: "NZ$"
+        };
+
+        let currencySelector = document.getElementById("currencySelector");
+
+        currencySelector.addEventListener("change", function () {
+            let selected = this.value;
+            let symbol = currencySymbols[selected] || selected;
+
+            document.querySelectorAll("[data-price]").forEach((item) => {
+                let basePrice = parseFloat(item.getAttribute("data-price"));
+                let converted = Math.round(basePrice * (rates[selected] || 1));
+                item.textContent = `${converted} ${symbol}`;
+            });
+
+            localStorage.setItem("userPreferredCurrency", selected);
+        });
+
+        // Restaurer la préférence de l'utilisateur s'il y en a une
+        let storedCurrency = localStorage.getItem("userPreferredCurrency");
+        if (storedCurrency) {
+            currencySelector.value = storedCurrency;
+            // Déclenche manuellement l'événement "change" pour mettre à jour les prix
+            currencySelector.dispatchEvent(new Event("change"));
+        }
+    }
+
+    /* =====================
+       2) Gestion de la langue
+       ===================== */
+    function detectBrowserLanguage() {
+        let pathParts = window.location.pathname.split("/");
+        let currentLang = pathParts[1];
+        let supportedLangs = ["fr", "ja"];
+        let browserLang = navigator.language.slice(0, 2);
+        let storedLang = localStorage.getItem("userPreferredLanguage");
+
+        // Si aucune préférence n'est stockée
+        if (!storedLang) {
+            let defaultLang = supportedLangs.includes(browserLang) ? browserLang : "en";
+            localStorage.setItem("userPreferredLanguage", defaultLang);
+            // Si l'URL ne contient pas déjà une langue supportée
+            if (!supportedLangs.includes(currentLang)) {
+                let newPath = (defaultLang === "en") ? "/" : `/${defaultLang}${window.location.pathname}`;
+                window.location.href = newPath;
+            }
+        }
+    }
+    function initializeLanguageSelector() {
+        let pathParts = window.location.pathname.split("/");
+        let currentLang = pathParts[1];
+        let supportedLangs = ["fr", "ja"];
+        let languageSelector = document.getElementById("languageSelector");
+
+        languageSelector.value = supportedLangs.includes(currentLang) ? currentLang : "en";
+
+        languageSelector.addEventListener("change", function () {
+            let selectedLang = this.value;
+            let trimmedPath = window.location.pathname.replace(/^\/(fr|ja)/, "") || "/";
+            let newPath = (selectedLang === "en") ? trimmedPath : `/${selectedLang}${trimmedPath}`;
+            localStorage.setItem("userPreferredLanguage", selectedLang);
+            window.location.href = newPath;
+        });
+    }
+
+    /* =====================
+       3) Gestion du panier
+       ===================== */
+    function handleCartClick() {
+        let isLoggedIn = (localStorage.getItem("userToken") !== null);
+        if (isLoggedIn) {
+            window.location.href = "/cart";
+        } else {
+            showModal("cartModal");
+        }
+    }
+
+    /* =====================
+       4) Gestion des modales
+       ===================== */
+    function showModal(modalId) {
+        let modal = document.getElementById(modalId);
+        modal.style.display = "flex";
+
+        // Fermer la modal si on clique hors contenu
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                closeModal(modalId);
+            }
+        });
+    }
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    /* =====================
+       5) Mise à jour du menu (login / logout + icône)
+       ===================== */
+    function updateMenu() {
+        let isLoggedIn = (localStorage.getItem("userToken") !== null);
+
+        // Afficher/Masquer les liens "loggedOutMenu" et "loggedInMenu"
+        document.getElementById("loggedOutMenu").style.display = isLoggedIn ? "none" : "block";
+        document.getElementById("loggedInMenu").style.display = isLoggedIn ? "block" : "none";
+
+        // Changer le lien du panier selon la connexion
+        let cartLink = document.querySelector(".cart-container a");
+        if (isLoggedIn) {
+            cartLink.href = "/cart";
+            cartLink.removeAttribute("onclick");
+        } else {
+            cartLink.href = "#";
+            cartLink.setAttribute("onclick", "showModal('cartModal')");
+        }
+
+        // Changer l'icône utilisateur (fa-user -> fa-user-check) si connecté
+        let userIcon = document.getElementById("profileIcon");
+        if (userIcon) {
+            if (isLoggedIn) {
+                userIcon.classList.remove("fa-user");
+                userIcon.classList.add("fa-user-check");
+            } else {
+                userIcon.classList.remove("fa-user-check");
+                userIcon.classList.add("fa-user");
+            }
+        }
+    }
+    function logoutUser() {
+        // Suppression du token
+        localStorage.removeItem("userToken");
+        updateMenu();
+        window.location.reload();
+    }
+
+    /* =====================
+       6) Profil (menu déroulant)
+       ===================== */
+    function setupProfileMenu() {
+        let profileMenu = document.getElementById("profileMenu");
+
+        // Ferme le menu quand on clique en dehors
+        document.addEventListener("click", function(event) {
+            if (!profileMenu.contains(event.target)) {
+                profileMenu.classList.remove("show");
+            }
+        });
+    }
+
+    // Fonction déclenchée par onclick sur le bouton profil
+    function toggleMenu(event) {
+        event.stopPropagation();
+        let menu = document.getElementById("profileMenu");
+        menu.classList.toggle("show");
+    }
+
+    /* =====================
+       7) Surligner le lien actif
+       ===================== */
+    function highlightActiveLink() {
+        let links = document.querySelectorAll(".nav-links a");
+        links.forEach((link) => {
+            if (link.href === window.location.href) {
+                link.classList.add("active-tab");
+            } else {
+                link.classList.remove("active-tab");
+            }
+        });
+    }
+
+    /* =====================
+       8) Gestion du logo (animation Lottie au scroll)
+       ===================== */
+    function setupLogoToggle() {
+        const logoContainer = document.querySelector(".logo-container");
+        const defaultHTML = logoContainer.innerHTML;
+        // Lottie que l'on veut afficher après un certain scroll :
+        const lottieHTML = `
+            <dotlottie-player
+                id="lottieLogo"
+                src="https://lottie.host/1ecc6b7b-5a9e-45fb-ac0e-22c42783669b/eIDivJz09E.lottie"
+                background="transparent"
+                speed="1"
+                style="width:120px;height:60px;"
+                loop
+                autoplay>
+            </dotlottie-player>
+        `;
+
+        let isLottieVisible = false;
+
+        function onScroll() {
+            // Si on scrolle plus de 400px, on remplace le logo
+            if (window.scrollY > 400) {
+                if (!isLottieVisible) {
+                    logoContainer.innerHTML = lottieHTML;
+                    isLottieVisible = true;
+                    setupLottieClick();
+                }
+            } else {
+                // Si on remonte, on revient au logo par défaut
+                if (isLottieVisible) {
+                    logoContainer.innerHTML = defaultHTML;
+                    isLottieVisible = false;
+                }
+            }
+        }
+
+        window.addEventListener("scroll", onScroll);
+    }
+
+    function setupLottieClick() {
+        const lottieLogo = document.getElementById("lottieLogo");
+        if (lottieLogo) {
+            lottieLogo.addEventListener("click", function () {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        }
+    }
+</script>
