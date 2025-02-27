@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.querySelectorAll("[data-price]").forEach((item) => {
                 let basePrice = parseFloat(item.getAttribute("data-price"));
                 let converted = Math.round(basePrice * (rates[selected] || 1));
-                item.textContent = ${converted} ${symbol};
+                item.textContent = `${converted} ${symbol}`;
             });
 
             localStorage.setItem("userPreferredCurrency", selected);
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             localStorage.setItem("userPreferredLanguage", defaultLang);
             // Si l'URL ne contient pas déjà une langue supportée
             if (!supportedLangs.includes(currentLang)) {
-                let newPath = (defaultLang === "en") ? "/" : /${defaultLang}${window.location.pathname};
+                let newPath = (defaultLang === "en") ? "/" : `/${defaultLang}${window.location.pathname}`;
                 window.location.href = newPath;
             }
         }
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         languageSelector.addEventListener("change", function () {
             let selectedLang = this.value;
             let trimmedPath = window.location.pathname.replace(/^\/(fr|ja)/, "") || "/";
-            let newPath = (selectedLang === "en") ? trimmedPath : /${selectedLang}${trimmedPath};
+            let newPath = (selectedLang === "en") ? trimmedPath : `/${selectedLang}${trimmedPath}`;
             localStorage.setItem("userPreferredLanguage", selectedLang);
             window.location.href = newPath;
         });
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const logoContainer = document.querySelector(".logo-container");
         const defaultHTML = logoContainer.innerHTML;
         // Lottie que l'on veut afficher après un certain scroll :
-        const lottieHTML = 
+        const lottieHTML = `
             <dotlottie-player
                 id="lottieLogo"
                 src="https://lottie.host/1ecc6b7b-5a9e-45fb-ac0e-22c42783669b/eIDivJz09E.lottie"
@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 loop
                 autoplay>
             </dotlottie-player>
-        ;
+        `;
 
         let isLottieVisible = false;
 
