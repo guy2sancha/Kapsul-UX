@@ -59,6 +59,7 @@ async function initializeCurrencySelector() {
         document.querySelectorAll("[data-price]").forEach((item) => {
             let basePrice = parseFloat(item.getAttribute("data-price"));
             let converted = Math.round(basePrice * (rates[selected] || 1));
+                        let formattedPrice = converted.toLocaleString(); // Ajoute le séparateur de milliers
             item.textContent = `${converted} ${symbol}`;
         });
         localStorage.setItem("userPreferredCurrency", selected);
