@@ -81,42 +81,53 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     /* =====================
-       2) Gestion de la langue
-       ===================== */
-    function detectBrowserLanguage() {
-        let pathParts = window.location.pathname.split("/");
-        let currentLang = pathParts[1];
-        let supportedLangs = ["fr", "ja"];
-        let browserLang = navigator.language.slice(0, 2);
-        let storedLang = localStorage.getItem("userPreferredLanguage");
+   2) Gestion de la langue
+   ===================== */
+function detectBrowserLanguage() {
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1];
 
-        // Si aucune préférence n'est stockée
-        if (!storedLang) {
-            let defaultLang = supportedLangs.includes(browserLang) ? browserLang : "en";
-            localStorage.setItem("userPreferredLanguage", defaultLang);
-            // Si l'URL ne contient pas déjà une langue supportée
-            if (!supportedLangs.includes(currentLang)) {
-                let newPath = (defaultLang === "en") ? "/" : `/${defaultLang}${window.location.pathname}`;
-                window.location.href = newPath;
-            }
+    // Ajout des langues supportées
+    let supportedLangs = ["fr", "ja", "ko", "es", "th", "pt", "de", "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"];
+
+    let browserLang = navigator.language.slice(0, 2).toLowerCase();
+    let storedLang = localStorage.getItem("userPreferredLanguage");
+
+    // Si aucune préférence utilisateur n'est stockée
+    if (!storedLang) {
+        let defaultLang = supportedLangs.includes(browserLang) ? browserLang : "en";
+        localStorage.setItem("userPreferredLanguage", defaultLang);
+
+        // Vérifier si l'URL contient déjà une langue supportée
+        if (!supportedLangs.includes(currentLang)) {
+            let newPath = (defaultLang === "en") ? "/" : `/${defaultLang}${window.location.pathname}`;
+            window.location.href = newPath;
         }
     }
-    function initializeLanguageSelector() {
-        let pathParts = window.location.pathname.split("/");
-        let currentLang = pathParts[1];
-        let supportedLangs = ["fr", "ja"];
-        let languageSelector = document.getElementById("languageSelector");
+}
 
-        languageSelector.value = supportedLangs.includes(currentLang) ? currentLang : "en";
+function initializeLanguageSelector() {
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1];
 
-        languageSelector.addEventListener("change", function () {
-            let selectedLang = this.value;
-            let trimmedPath = window.location.pathname.replace(/^\/(fr|ja)/, "") || "/";
-            let newPath = (selectedLang === "en") ? trimmedPath : `/${selectedLang}${trimmedPath}`;
-            localStorage.setItem("userPreferredLanguage", selectedLang);
-            window.location.href = newPath;
-        });
-    }
+    // Ajout des langues supportées
+    let supportedLangs = ["fr", "ja", "ko", "es", "th", "pt", "de", "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"];
+
+    let languageSelector = document.getElementById("languageSelector");
+
+    // Vérifie si la langue actuelle est supportée, sinon met "en" par défaut
+    languageSelector.value = supportedLangs.includes(currentLang) ? currentLang : "en";
+
+    languageSelector.addEventListener("change", function () {
+        let selectedLang = this.value;
+        let trimmedPath = window.location.pathname.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh-cn|zh-tw)/, "") || "/";
+        let newPath = (selectedLang === "en") ? trimmedPath : `/${selectedLang}${trimmedPath}`;
+
+        localStorage.setItem("userPreferredLanguage", selectedLang);
+        window.location.href = newPath;
+    });
+}
+
 
     /* =====================
        3) Gestion du panier
