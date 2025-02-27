@@ -1,5 +1,4 @@
-<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-<script>
+
     document.addEventListener("DOMContentLoaded", async function () {
         detectBrowserLanguage();
         initializeLanguageSelector();
@@ -273,4 +272,3 @@
             });
         }
     }
-</script>
