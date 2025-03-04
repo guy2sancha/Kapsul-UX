@@ -1,0 +1,137 @@
+<style>
+  /* ---------- Container principal en 3 colonnes ---------- */
+  .grid-container {
+    display: flex;
+    grid-template-columns: 30% 1fr 30%; 
+    gap: 20px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Bloc de gauche/droite : deux classes distinctes ---------- */
+  .menu-list-left,
+  .menu-list-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 200px;
+  }
+
+  /* Alignement du texte */
+  .menu-list-left {
+    text-align: left;    
+  }
+  .menu-list-right {
+    text-align: right;   
+    margin-left: auto;  
+  }
+
+  /* ---------- Style des liens de menu ---------- */
+  .menu-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 25px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    border: 2px solid #333;
+    text-decoration: none;
+    background-color: white;
+    white-space: nowrap; 
+    overflow: hidden;
+    transition: color 0.4s ease-in-out;
+    z-index: 1;
+  }
+
+  /* Active */
+  .menu-item.active {
+    background-color: blue;
+    color: #fff;
+    border-color: blue;
+  }
+  .menu-item.active::after {
+    content: none;
+  }
+
+  /* 藍色條懸停效果 */
+  .menu-item::after {
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: blue;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease-in-out;
+    z-index: -1;
+  }
+  
+  .menu-list-right .menu-item::after {
+    transform-origin: right;
+  }
+
+  .menu-item:hover::after {
+    transform: scaleX(1);
+  }
+  .menu-item:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+  /* ---------- 中央區塊：圖片 ---------- */
+  .image-container2 {
+    position: relative;
+    width: 100%;
+    height: 555px;
+  }
+  .right-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---------- 響應式設計 ---------- */
+  @media (max-width: 768px) {
+    .grid-container {
+      flex-direction: column;
+    }
+    .menu-list-left,
+    .menu-list-right {
+      max-width: 100%;
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+</style>
+
+<div class="grid-container">
+
+  <!-- 第一列（左側）：菜單 -->
+  <div class="menu-list-left">
+    <a href="https://kapsul.world/zh-tw/all-the-brands" class="menu-item active">所有國家</a>
+    <a href="https://kapsul.world/zh-tw/japanese-brands" class="menu-item">日本</a>
+    <a href="https://kapsul.world/zh-tw/korean-brands" class="menu-item">韓國</a>
+    <a href="https://kapsul.world/zh-tw/taiwanese-brands" class="menu-item">台灣</a>
+    <a href="https://kapsul.world/zh-tw/vietnamese-brands" class="menu-item">越南</a>
+    <a href="https://kapsul.world/zh-tw/australian-brands" class="menu-item">澳洲</a>
+  </div>
+
+  <!-- 第二列（中間）：圖片 -->
+  <div class="image-container2">
+    <img class="right-image" src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1740480743/herobanner_AGAIN_U107_dzwbkb.jpg" alt="橫幅圖片">
+  </div>
+
+  <!-- 第三列（右側）：菜單 -->
+  <div class="menu-list-right">
+    <a href="https://kapsul.world/zh-tw/french-brands" class="menu-item">法國</a>
+    <a href="https://kapsul.world/zh-tw/italian-brands" class="menu-item">義大利</a>
+    <a href="https://kapsul.world/zh-tw/german-brands" class="menu-item">德國</a>
+    <a href="https://kapsul.world/zh-tw/swedish-brands" class="menu-item">瑞典</a>
+    <a href="https://kapsul.world/zh-tw/united-states-brands" class="menu-item">美國</a>
+    <a href="https://kapsul.world/zh-tw/united-kingdom-brands" class="menu-item">英國</a>
+  </div>
+
+</div>
