@@ -1,5 +1,3 @@
-
-<script>
 document.addEventListener("DOMContentLoaded", async function () {
     let mobileHeader = document.getElementById("mobileHeader");
     let lastScrollY = window.scrollY;
@@ -200,4 +198,3 @@ function closeModal(id) {
       modal.style.display = 'none';
     }
 }
-</script>
