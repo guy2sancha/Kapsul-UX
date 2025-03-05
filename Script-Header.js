@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // 2) Initialise le sélecteur de langue
     initializeLanguageSelector();
 
-    // 3) Initialise le sélecteur de devise (fetch des taux, etc.)
+    // 3) Initialise le sélecteur de devise (fetch taux, etc.), SANS localStorage
     await initializeCurrencySelector(); 
 
     // 4) Met à jour le menu (login/logout)
@@ -41,11 +41,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 /* ===================================================
-   A) GESTION DES DEVISES
+   A) GESTION DES DEVISES (SANS LOCALSTORAGE)
    =================================================== */
 
 /**
- * Récupération des taux depuis l’API
+ * Récupère les taux de change depuis l'API
  */
 async function fetchExchangeRates() {
     try {
@@ -74,10 +74,10 @@ async function fetchExchangeRates() {
 }
 
 /**
- * Initialise le select #currencySelector : 
- * - on lit la préférence userPreferredCurrency
- * - sinon on force la devise associée à la langue
- * - on convertit immédiatement les [data-price]
+ * Initialise le sélecteur #currencySelector :
+ * - On force la devise en fonction de la langue
+ * - On convertit immédiatement les [data-price]
+ * - On écoute "change" pour que l'utilisateur puisse changer, mais on n'enregistre rien
  */
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
@@ -102,33 +102,26 @@ async function initializeCurrencySelector() {
     let currencySelector = document.getElementById("currencySelector");
     if (!currencySelector) return;
 
-    // Quand on change de devise :
-    currencySelector.addEventListener("change", function () {
-        let selected = this.value;
-        // On stocke la préférence
-        localStorage.setItem("userPreferredCurrency", selected);
-        convertAllPrices(selected, rates, currencySymbols);
-    });
-
-    // Determine la langue courante
+    // 1) Détermine la langue courante
     let currentLang = getCurrentLang();
-    // Devise par défaut pour cette langue
+    // 2) Devise par défaut pour cette langue
     let forcedCurrency = languageToCurrency[currentLang] || "USD";
 
-    // Préférence de l’utilisateur
-    let storedCurrency = localStorage.getItem("userPreferredCurrency");
+    // 3) On assigne forcedCurrency
+    currencySelector.value = forcedCurrency;
+    
+    // 4) On convertit immédiatement en forçant un event "change"
+    convertAllPrices(forcedCurrency, rates, currencySymbols);
 
-    // On priorise la devise choisie par l’utilisateur, si elle existe
-    let finalCurrency = storedCurrency || forcedCurrency;
-
-    // On assigne cette valeur
-    currencySelector.value = finalCurrency;
-    // On déclenche un "change" pour convertir immédiatement
-    currencySelector.dispatchEvent(new Event("change"));
+    // 5) On écoute "change" : l'utilisateur change la devise, on reconvertit 
+    currencySelector.addEventListener("change", function () {
+        let selected = this.value;
+        convertAllPrices(selected, rates, currencySymbols);
+    });
 }
 
 /**
- * Convertir tous les [data-price] (en USD) dans la devise "selectedCurrency"
+ * Convertit tous les [data-price] (en USD) vers la devise "selectedCurrency"
  */
 function convertAllPrices(selectedCurrency, rates, currencySymbols) {
     let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
@@ -146,10 +139,8 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
    =================================================== */
 
 /**
- * On détecte si l’URL contient déjà une langue supportée.
- * Si NON, on est sur "/", on supprime userPreferredCurrency 
- * pour éviter le "flash" de la devise stockée, 
- * et on redirige vers la langue du navigateur ou "en".
+ * Détecte si l'URL contient déjà une langue supportée
+ * Si NON, on est sur "/", on redirige vers la langue du navigateur (ou "en").
  */
 function detectBrowserLanguage() {
     let pathParts = window.location.pathname.split("/");
@@ -161,36 +152,18 @@ function detectBrowserLanguage() {
     ];
 
     let browserLang = navigator.language.slice(0, 2).toLowerCase();
-    let storedLang = localStorage.getItem("userPreferredLanguage");
-
-    // Vérifie si l'URL est déjà localisée
+    // Test si l'URL a déjà une langue
     let isLangURL = supportedLangs.includes(currentLang);
 
     if (!isLangURL) {
-        // => On est sur "/", ou autre URL non localisée
-        // Pour éviter d'avoir la devise stockée, on supprime
-        localStorage.removeItem("userPreferredCurrency");
-
-        // On choisit la langue du navigateur, ou "en"
+        // => On est sur "/" ou autre URL non localisée
         let defaultLang = (supportedLangs.includes(browserLang)) ? browserLang : "en";
-        localStorage.setItem("userPreferredLanguage", defaultLang);
-
         // On redirige si ce n'est pas "en"
         if (defaultLang !== "en") {
             let newPath = `/${defaultLang}${window.location.pathname}`;
             window.location.href = newPath;
         } 
-        else {
-            // Si c'est "en", on reste sur "/", ou tu peux forcer "/en" si tu le souhaites
-            // window.location.href = "/en"; // Optionnel
-        }
-    }
-    else {
-        // On est déjà sur "/fr", "/ja", etc.
-        // Si le localStorage n’existe pas encore, on le définit
-        if (!storedLang) {
-            localStorage.setItem("userPreferredLanguage", currentLang);
-        }
+        // Si c'est "en", on reste sur "/", ou tu peux forcer "/en" si tu veux
     }
 }
 
@@ -213,7 +186,7 @@ function initializeLanguageSelector() {
     let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
     languageSelector.value = activeLang;
 
-    // Au changement de langue => on reconstruit l’URL
+    // Au changement de langue => on reconstruit l'URL
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
         // Retire d'abord le segment s'il existe
@@ -225,14 +198,11 @@ function initializeLanguageSelector() {
             ? trimmedPath
             : `/${selectedLang}${trimmedPath}`;
 
-        localStorage.setItem("userPreferredLanguage", selectedLang);
-
-        // Redirection
         window.location.href = newPath;
     });
 }
 
-/** Raccourci pour connaître la langue de l’URL */
+/** Raccourci : renvoie la langue courante de l’URL ou "en" */
 function getCurrentLang() {
     let pathParts = window.location.pathname.split("/");
     let currentLang = pathParts[1];
