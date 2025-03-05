@@ -1,0 +1,93 @@
+<div id="mobileHeader">
+  <!-- Bloc de gauche : langue + devise -->
+  <div class="mobile-left">
+    <!-- Langue -->
+    <div class="mobile-select">
+      <select id="languageSelector">
+        <option value="fr">FR</option>
+        <option value="en">EN</option>
+        <option value="ja">JP</option>
+        <option value="ko">KO</option>
+        <option value="es">ES</option>
+        <option value="th">TH</option>
+        <option value="pt">PT</option>
+        <option value="de">DE</option>
+        <option value="nl">NL</option>
+        <option value="pl">PL</option>
+        <option value="it">IT</option>
+        <option value="ar">AR</option>
+        <option value="vi">VI</option>
+        <option value="zh-cn">CN</option>
+        <option value="zh-tw">TW</option>
+      </select>
+    </div>
+
+    <!-- Devise -->
+    <div class="mobile-select">
+      <select id="currencySelector">
+        <option value="EUR">€ (EUR)</option>
+        <option value="USD">$ (USD)</option>
+        <option value="GBP">£ (GBP)</option>
+        <option value="JPY">¥ (JPY)</option>
+        <option value="KRW">₩ (KRW)</option>
+        <option value="TWD">NT (TWD)</option>
+        <option value="SGD">S$ (SGD)</option>
+        <option value="THB">฿ (THB)</option>
+        <option value="AUD">A$ (AUD)</option>
+        <option value="HKD">HK$ (HKD)</option>
+        <option value="CAD">C$ (CAD)</option>
+        <option value="NZD">NZ$ (NZD)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Bloc du centre : logo -->
+  <div class="mobile-center">
+    <div class="mobile-logo">
+      <a href="/fr/">
+        <img
+          src="https://corporate.kapsul.world/wp-content/uploads/2024/11/KAPSUL-38.png"
+          alt="Logo Kapsul">
+      </a>
+    </div>
+  </div>
+
+  <!-- Bloc de droite : icônes (Utilisateur, puis Panier) -->
+  <div class="mobile-right">
+    <!-- Bouton Connexion/Utilisateur -->
+    <button class="login-btn" id="loginButton">
+      <i class="fa-solid fa-user"></i>
+    </button>
+
+    <!-- Bouton Panier -->
+    <button class="cart-btn" id="cartButton">
+      <i class="fa-solid fa-cart-shopping"></i>
+    </button>
+
+    <!-- Menu Utilisateur dropdown -->
+    <div class="dropdown-menu" id="profileMenu">
+      <div id="loggedOutMenu">
+        <a href="/fr/login">Connexion</a>
+        <a href="/fr/register">S'inscrire</a>
+      </div>
+      <div id="loggedInMenu" style="display: none;">
+        <a href="/fr/favorites">Mes Favoris</a>
+        <a href="/fr/my-qrcode">Mon QR Code</a>
+        <a href="#" onclick="logoutUser()">Déconnexion</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('cartModal')">&times;</button>
+    <h2>Veuillez vous connecter ou vous inscrire</h2>
+    <p>Si vous souhaitez accéder aux fonctionnalités de la Marketplace,
+       veuillez vous connecter ou créer un nouveau compte.</p>
+    <div class="modal-actions">
+      <a href="/fr/login" class="modal-button">Connexion</a>
+      <a href="/fr/register" class="modal-button">S'inscrire</a>
+    </div>
+  </div>
+</div>
