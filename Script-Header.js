@@ -132,12 +132,12 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
         let basePrice = parseFloat(item.getAttribute("data-price"));
         let converted = Math.round(basePrice * rate);
 
-        // Séparateur de milliers par Regex (virgule)
         let splitted = converted
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        // Ex. "40,498 ¥"
+        console.log("[DEBUG] base=", basePrice, " => splitted=", splitted);
+
         item.textContent = `${splitted} ${symbol}`;
     });
 }
