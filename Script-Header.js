@@ -17,36 +17,20 @@ let languageToCurrency = {
 };
 
 document.addEventListener("DOMContentLoaded", async function () {
-    // 1) Détection/Redirection langue (si on est sur "/")
-    detectBrowserLanguage();  
-
-    // 2) Initialise le sélecteur de langue
+    detectBrowserLanguage();
     initializeLanguageSelector();
-
-    // 3) Initialise le sélecteur de devise (fetch taux, etc.), SANS localStorage
-    await initializeCurrencySelector(); 
-
-    // 4) Met à jour le menu (login/logout)
+    await initializeCurrencySelector();
     updateMenu();
-
-    // 5) Surligne le lien actif
     highlightActiveLink();
-
-    // 6) Logo Lottie (scroll + clic)
     setupLogoToggle();
     setupLottieClick();
-
-    // 7) Menu profil (fermeture au clic extérieur)
     setupProfileMenu();
 });
 
-/* ===================================================
-   A) GESTION DES DEVISES (SANS LOCALSTORAGE)
-   =================================================== */
-
-/**
- * Récupère les taux de change depuis l'API
- */
+/* ========================
+   GESTION DES DEVISES
+   (sans localStorage)
+   ======================== */
 async function fetchExchangeRates() {
     try {
         let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
@@ -54,7 +38,6 @@ async function fetchExchangeRates() {
         return data.rates;
     } catch (err) {
         console.error("Erreur lors de la récupération des taux de change", err);
-        // Valeurs fallback si l'API est indisponible :
         return {
             USD: 1,
             EUR: 0.91,
@@ -73,16 +56,9 @@ async function fetchExchangeRates() {
     }
 }
 
-/**
- * Initialise le sélecteur #currencySelector :
- * - On force la devise en fonction de la langue
- * - On convertit immédiatement les [data-price]
- * - On écoute "change" pour que l'utilisateur puisse changer, mais on n'enregistre rien
- */
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
 
-    // Symboles
     let currencySymbols = {
         USD: "$",
         EUR: "€",
@@ -102,94 +78,80 @@ async function initializeCurrencySelector() {
     let currencySelector = document.getElementById("currencySelector");
     if (!currencySelector) return;
 
-    // 1) Détermine la langue courante
+    // 1) Devise par défaut selon la langue
     let currentLang = getCurrentLang();
-    // 2) Devise par défaut pour cette langue
     let forcedCurrency = languageToCurrency[currentLang] || "USD";
 
-    // 3) On assigne forcedCurrency
+    // 2) On affecte cette valeur au <select>
     currencySelector.value = forcedCurrency;
-    
-    // 4) On convertit immédiatement en forçant un event "change"
+
+    // 3) On fait la conversion
     convertAllPrices(forcedCurrency, rates, currencySymbols);
 
-    // 5) On écoute "change" : l'utilisateur change la devise, on reconvertit 
+    // 4) Si l'utilisateur change de devise, on reconvertit
     currencySelector.addEventListener("change", function () {
         let selected = this.value;
         convertAllPrices(selected, rates, currencySymbols);
     });
 }
 
-/**
- * Convertit tous les [data-price] (en USD) vers la devise "selectedCurrency"
- */
 function convertAllPrices(selectedCurrency, rates, currencySymbols) {
     let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
     let rate = rates[selectedCurrency] || 1;
 
     document.querySelectorAll("[data-price]").forEach((item) => {
-        let basePrice = parseFloat(item.getAttribute("data-price")); 
+        let basePrice = parseFloat(item.getAttribute("data-price"));
         let converted = Math.round(basePrice * rate);
-        item.textContent = `${converted} ${symbol}`;
+
+        // Ajout d'un séparateur de milliers
+        let formattedNumber = new Intl.NumberFormat("en-US").format(converted);
+
+        item.textContent = `${formattedNumber} ${symbol}`;
     });
 }
 
-/* ===================================================
-   B) GESTION DE LA LANGUE
-   =================================================== */
-
-/**
- * Détecte si l'URL contient déjà une langue supportée
- * Si NON, on est sur "/", on redirige vers la langue du navigateur (ou "en").
- */
+/* ========================
+   GESTION DE LA LANGUE
+   ======================== */
 function detectBrowserLanguage() {
     let pathParts = window.location.pathname.split("/");
     let currentLang = pathParts[1];
 
     let supportedLangs = [
-        "fr", "ja", "ko", "es", "th", "pt", "de",
-        "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
+        "fr", "ja", "ko", "es", "th", 
+        "pt", "de", "nl", "pl", "it", 
+        "ar", "vi", "zh-cn", "zh-tw"
     ];
-
     let browserLang = navigator.language.slice(0, 2).toLowerCase();
-    // Test si l'URL a déjà une langue
     let isLangURL = supportedLangs.includes(currentLang);
 
     if (!isLangURL) {
-        // => On est sur "/" ou autre URL non localisée
         let defaultLang = (supportedLangs.includes(browserLang)) ? browserLang : "en";
-        // On redirige si ce n'est pas "en"
         if (defaultLang !== "en") {
             let newPath = `/${defaultLang}${window.location.pathname}`;
             window.location.href = newPath;
-        } 
-        // Si c'est "en", on reste sur "/", ou tu peux forcer "/en" si tu veux
+        }
     }
 }
 
-/**
- * Initialise le sélecteur de langue
- */
 function initializeLanguageSelector() {
     let pathParts = window.location.pathname.split("/");
     let currentLang = pathParts[1];
 
     let supportedLangs = [
-        "fr", "ja", "ko", "es", "th", "pt", "de",
-        "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
+        "fr", "ja", "ko", "es", "th", 
+        "pt", "de", "nl", "pl", "it", 
+        "ar", "vi", "zh-cn", "zh-tw"
     ];
 
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
-    // Si l'URL n’a pas de langue supportée, on met "en"
     let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
     languageSelector.value = activeLang;
 
-    // Au changement de langue => on reconstruit l'URL
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
-        // Retire d'abord le segment s'il existe
         let trimmedPath = window.location.pathname.replace(
             /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/,
             ""
@@ -197,25 +159,24 @@ function initializeLanguageSelector() {
         let newPath = (selectedLang === "en")
             ? trimmedPath
             : `/${selectedLang}${trimmedPath}`;
-
         window.location.href = newPath;
     });
 }
 
-/** Raccourci : renvoie la langue courante de l’URL ou "en" */
 function getCurrentLang() {
     let pathParts = window.location.pathname.split("/");
     let currentLang = pathParts[1];
     let supportedLangs = [
-        "fr", "ja", "ko", "es", "th", "pt", "de",
-        "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
+        "fr", "ja", "ko", "es", "th", 
+        "pt", "de", "nl", "pl", "it", 
+        "ar", "vi", "zh-cn", "zh-tw"
     ];
     return supportedLangs.includes(currentLang) ? currentLang : "en";
 }
 
-/* ===================================================
-   C) GESTION DU PANIER
-   =================================================== */
+/* ========================
+   GESTION DU PANIER
+   ======================== */
 function handleCartClick() {
     let isLoggedIn = (localStorage.getItem("userToken") !== null);
     if (isLoggedIn) {
@@ -225,9 +186,9 @@ function handleCartClick() {
     }
 }
 
-/* ===================================================
-   D) GESTION DES MODALES
-   =================================================== */
+/* ========================
+   GESTION DES MODALES
+   ======================== */
 function showModal(modalId) {
     let modal = document.getElementById(modalId);
     if (!modal) return;
@@ -247,9 +208,9 @@ function closeModal(modalId) {
     }
 }
 
-/* ===================================================
-   E) MISE À JOUR DU MENU
-   =================================================== */
+/* ========================
+   MISE À JOUR DU MENU
+   ======================== */
 function updateMenu() {
     let isLoggedIn = (localStorage.getItem("userToken") !== null);
 
@@ -289,9 +250,9 @@ function logoutUser() {
     window.location.reload();
 }
 
-/* ===================================================
-   F) PROFIL (menu déroulant)
-   =================================================== */
+/* ========================
+   PROFIL (menu déroulant)
+   ======================== */
 function setupProfileMenu() {
     let profileMenu = document.getElementById("profileMenu");
     if (!profileMenu) return;
@@ -311,9 +272,9 @@ function toggleMenu(event) {
     }
 }
 
-/* ===================================================
-   G) SURLIGNER LE LIEN ACTIF
-   =================================================== */
+/* ========================
+   SURLIGNER LE LIEN ACTIF
+   ======================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
     links.forEach((link) => {
@@ -325,9 +286,9 @@ function highlightActiveLink() {
     });
 }
 
-/* ===================================================
-   H) LOGO LOTTIE (SCROLL)
-   =================================================== */
+/* ========================
+   LOGO LOTTIE (SCROLL)
+   ======================== */
 function setupLogoToggle() {
     const logoContainer = document.querySelector(".logo-container");
     if (!logoContainer) return;
