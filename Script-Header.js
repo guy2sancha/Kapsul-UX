@@ -137,7 +137,7 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
         // 'undefined' => laisse le navigateur choisir la locale par défaut
         // Vous pouvez spécifier une locale (ex: "fr-FR", "en-US", etc.)
         let formatted = rounded.toLocaleString(undefined, { 
-            maximumFractionDigits: 0 
+            maximumFractionDigits: 2 
         });
 
         // Ajout du symbole
