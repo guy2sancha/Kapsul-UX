@@ -45,11 +45,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    // 7) Bouton cart -> ouvre la modal
-    document.getElementById("cartButton").addEventListener("click", function() {
-        showModal('cartModal');
-    });
+    // 7) Bouton cart -> vérifie login ou ouvre modal
+    document.getElementById("cartButton").addEventListener("click", handleCartClick);
 });
+
+/* =====================
+   handleCartClick
+   ===================== */
+function handleCartClick() {
+    let isLoggedIn = (localStorage.getItem("userToken") !== null);
+    if (isLoggedIn) {
+        // Rediriger vers la page /cart
+        window.location.href = "/cart";
+    } else {
+        // Ouvrir la modale
+        showModal("cartModal");
+    }
+}
 
 /* =====================
    1) fetchExchangeRates
@@ -134,8 +146,14 @@ async function initializeCurrencySelector() {
 function detectBrowserLanguageMobile() {
     let pathSegments = window.location.pathname.split('/');
     let currentLang = pathSegments[1];
-    let supportedLanguages = ["fr", "ja"]; 
-    let browserLang = navigator.language.slice(0, 2);
+    
+    // Toutes les langues
+    let supportedLanguages = [
+      "fr", "ja", "ko", "es", "th", "pt", "de", 
+      "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
+    ];
+    
+    let browserLang = navigator.language.slice(0, 2).toLowerCase();
     let storedLang = localStorage.getItem("userPreferredLanguage");
 
     if (!supportedLanguages.includes(currentLang)) {
@@ -147,18 +165,28 @@ function detectBrowserLanguageMobile() {
         }
     }
 }
+
 function initializeLanguageSelectorMobile() {
     let pathSegments = window.location.pathname.split('/');
     let currentLang = pathSegments[1];
-    let supportedLanguages = ["fr", "ja"];
+
+    // Les mêmes langues
+    let supportedLanguages = [
+      "fr", "ja", "ko", "es", "th", "pt", "de", 
+      "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
+    ];
+    
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
+    // Sélectionne la langue en cours ou "en"
     languageSelector.value = supportedLanguages.includes(currentLang) ? currentLang : "en";
 
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
-        let newPath = window.location.pathname.replace(/^\/(fr|ja)/, '');
+        // Supprime le segment "fr", "ja", etc. si présent
+        let regexLangs = /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/;
+        let newPath = window.location.pathname.replace(regexLangs, '');
 
         localStorage.setItem("userPreferredLanguage", selectedLang);
 
