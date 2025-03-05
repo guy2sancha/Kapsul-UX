@@ -125,25 +125,30 @@ async function initializeCurrencySelector() {
  * Ajoute un séparateur de milliers par Regex.
  */
 function convertAllPrices(selectedCurrency, rates, currencySymbols) {
+    // 1) On récupère le symbole de la devise et le taux
     let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
     let rate = rates[selectedCurrency] || 1;
 
+    // 2) On parcourt tous les éléments [data-price]
     document.querySelectorAll("[data-price]").forEach((item) => {
-        let basePrice = parseFloat(item.getAttribute("data-price")); 
-        let converted = basePrice * rate;           // conversion
-        let rounded = Math.round(converted);        // arrondi éventuel
+        let basePrice = parseFloat(item.getAttribute("data-price")) || 0;
+        // Conversion et arrondi si besoin
+        let converted = basePrice * rate;           
+        // Pour gérer 2 décimales maxi, par ex. 
+        let rounded = parseFloat(converted.toFixed(2));
 
-        // Utilise toLocaleString pour ajouter le séparateur de milliers
-        // 'undefined' => laisse le navigateur choisir la locale par défaut
-        // Vous pouvez spécifier une locale (ex: "fr-FR", "en-US", etc.)
-        let formatted = rounded.toLocaleString(undefined, { 
+        // 3) Formatage en forçant "en-US" pour avoir des séparateurs de milliers ("," par défaut)
+        //    Si vous préférez une autre présentation, remplacez "en-US" par "fr-FR" ou "ja-JP", etc.
+        let formatted = rounded.toLocaleString("en-US", { 
+            minimumFractionDigits: 0, 
             maximumFractionDigits: 2 
         });
 
-        // Ajout du symbole
+        // 4) Ajout du symbole
         item.textContent = `${formatted} ${symbol}`;
     });
 }
+
 
 
 
