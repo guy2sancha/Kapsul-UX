@@ -1,7 +1,7 @@
 
 /**
  * Objet associant chaque langue à une devise par défaut.
- * Ajuste comme tu veux (ex: "zh-cn": "CNY" si ton API gère CNY).
+ * Ajuste comme tu veux (ex: "zh-cn": "CNY" si l'API gère CNY, etc.).
  */
 let languageToCurrency = {
     fr: "EUR",
@@ -16,42 +16,37 @@ let languageToCurrency = {
     it: "EUR",
     ar: "USD",   // ou autre
     vi: "USD",
-    "zh-cn": "CNY", // si ton API gère CNY
+    "zh-cn": "CNY",
     "zh-tw": "TWD"
 };
 
-// Quand le DOM est prêt, on lance tout
 document.addEventListener("DOMContentLoaded", async function () {
-    // 1) Détection automatique de la langue et redirection si besoin
+    // 1) Détecte automatiquement la langue (URL / browser / localStorage)
     detectBrowserLanguage();
 
-    // 2) Sélecteur de langue (et forçage de devise selon la langue choisie)
+    // 2) Initialise le sélecteur de langue
     initializeLanguageSelector();
 
-    // 3) Gestion des devises (récupère les taux et met à jour les prix data-price)
+    // 3) Initialise les devises (récupère les taux + setSelect + conversion)
     await initializeCurrencySelector(); 
 
-    // 4) Mise à jour du menu (login vs logout, icône user, etc.)
+    // 4) Met à jour l’interface utilisateur (menu log in/out, etc.)
     updateMenu();
 
-    // 5) Surligne le lien actif dans le menu (desktop)
+    // 5) Surligne le lien actif
     highlightActiveLink();
 
-    // 6) Logo Lottie (affiché au scroll, clique pour remonter)
+    // 6) Logo Lottie : animation + scroll top
     setupLogoToggle();
     setupLottieClick();
 
-    // 7) Profil (menu déroulant) + clic extérieur pour fermer
+    // 7) Menu profil (fermeture au clic extérieur)
     setupProfileMenu();
 });
 
 /* ===================================================
    1) GESTION DES DEVISES
    =================================================== */
-
-/**
- * Récupération des taux de change depuis l'API
- */
 async function fetchExchangeRates() {
     try {
         let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
@@ -59,7 +54,7 @@ async function fetchExchangeRates() {
         return data.rates;
     } catch (err) {
         console.error("Erreur lors de la récupération des taux de change", err);
-        // Valeurs par défaut si l'API échoue :
+        // Taux par défaut si l'API échoue
         return {
             USD: 1,
             EUR: 0.91,
@@ -78,13 +73,9 @@ async function fetchExchangeRates() {
     }
 }
 
-/**
- * Initialise le sélecteur de devises (currencySelector) et convertit les prix
- */
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
-
-    // Symboles associés aux devises
+    
     let currencySymbols = {
         USD: "$",
         EUR: "€",
@@ -102,55 +93,48 @@ async function initializeCurrencySelector() {
     };
 
     let currencySelector = document.getElementById("currencySelector");
-    if (!currencySelector) return; // Si pas de select, on quitte
-
-    currencySelector.addEventListener("change", function () {
-        let selected = this.value;
-        let symbol = currencySymbols[selected] || selected;
-
-        // Convertit tous les [data-price] en USD vers la devise choisie
-        document.querySelectorAll("[data-price]").forEach((item) => {
-            let basePrice = parseFloat(item.getAttribute("data-price")); // prix en USD
-            let rate = rates[selected] || 1;
-            let converted = Math.round(basePrice * rate);
-            item.textContent = `${converted} ${symbol}`;
-        });
-
-        // Stocke la préférence en localStorage
-        localStorage.setItem("userPreferredCurrency", selected);
-    });
-
-    // Restaurer la préférence de l'utilisateur s'il y en a une
-    let storedCurrency = localStorage.getItem("userPreferredCurrency");
-    if (storedCurrency) {
-        currencySelector.value = storedCurrency;
-        // On déclenche manuellement l'événement "change"
-        currencySelector.dispatchEvent(new Event("change"));
-    }
-}
-
-/* ---------------------------------------------------
-   Forcer la devise en fonction de la langue
-   --------------------------------------------------- */
-function setCurrencyByLang(lang) {
-    let defaultCurrency = languageToCurrency[lang] || "USD";
-    let currencySelector = document.getElementById("currencySelector");
     if (!currencySelector) return;
 
-    // On force la valeur du select
-    currencySelector.value = defaultCurrency;
-    // On déclenche "change" pour mettre à jour les prix
+    // 1) On accroche l'event "change"
+    currencySelector.addEventListener("change", function () {
+        let selected = this.value;
+        localStorage.setItem("userPreferredCurrency", selected);
+        convertAllPrices(selected, rates, currencySymbols);
+    });
+
+    // 2) On regarde si l’utilisateur a déjà choisi une devise
+    let storedCurrency = localStorage.getItem("userPreferredCurrency");
+
+    // 3) On détermine la devise forcée par la langue (s’il n’y a pas de préférence user)
+    let currentLang = getCurrentLang();
+    let forcedCurrency = languageToCurrency[currentLang] || "USD";
+    // => finalCurrency = la devise du user si existante, sinon forcedCurrency
+    let finalCurrency = storedCurrency || forcedCurrency;
+
+    // 4) On set la value du <select>
+    currencySelector.value = finalCurrency;
+
+    // 5) On déclenche manuellement le "change" pour recalculer immédiatement
     currencySelector.dispatchEvent(new Event("change"));
+}
+
+/** 
+ * Convertit tous les [data-price] (en USD) vers la devise "selectedCurrency".
+ */
+function convertAllPrices(selectedCurrency, rates, currencySymbols) {
+    let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
+    let rate = rates[selectedCurrency] || 1;
+
+    document.querySelectorAll("[data-price]").forEach((item) => {
+        let basePrice = parseFloat(item.getAttribute("data-price")); // base USD
+        let converted = Math.round(basePrice * rate);
+        item.textContent = `${converted} ${symbol}`;
+    });
 }
 
 /* ===================================================
    2) GESTION DE LA LANGUE
    =================================================== */
-
-/**
- * Détection auto de la langue (URL vs. browser vs. localStorage).
- * Si l'URL n'a pas de langue supportée et userPreferredLanguage != 'en', on redirige.
- */
 function detectBrowserLanguage() {
     let pathParts = window.location.pathname.split("/");
     let currentLang = pathParts[1];
@@ -163,12 +147,10 @@ function detectBrowserLanguage() {
     let browserLang = navigator.language.slice(0, 2).toLowerCase();
     let storedLang = localStorage.getItem("userPreferredLanguage");
 
-    // Si pas de préférence stockée, on choisit la langue par défaut
     if (!storedLang) {
         let defaultLang = supportedLangs.includes(browserLang) ? browserLang : "en";
         localStorage.setItem("userPreferredLanguage", defaultLang);
 
-        // Si l'URL n'a pas déjà une langue, on redirige
         if (!supportedLangs.includes(currentLang)) {
             let newPath = (defaultLang === "en") 
               ? "/" 
@@ -193,45 +175,44 @@ function initializeLanguageSelector() {
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
-    // Si la langue actuelle est supportée, on l'utilise, sinon 'en'
     let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
     languageSelector.value = activeLang;
 
-    // Forcer la devise en fonction de la langue détectée
-    setCurrencyByLang(activeLang);
-
-    // Au changement de langue :
+    // Quand on change de langue
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
-
-        // On enlève le segment /fr|/ja etc. si présent
+        // on enlève les éventuels /fr /ja etc.
         let trimmedPath = window.location.pathname.replace(
             /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/, 
             ""
         ) || "/";
-
         let newPath = (selectedLang === "en") 
           ? trimmedPath 
           : `/${selectedLang}${trimmedPath}`;
 
         localStorage.setItem("userPreferredLanguage", selectedLang);
 
-        // Forcer la devise associée à la langue CHOISIE
-        setCurrencyByLang(selectedLang);
-
-        // Redirection
+        // On redirige => la logique de devise se fera au rechargement
         window.location.href = newPath;
     });
+}
+
+/**
+ * Raccourci pour connaître la langue courante depuis l’URL.
+ */
+function getCurrentLang() {
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1];
+    let supportedLangs = [
+        "fr", "ja", "ko", "es", "th", "pt", "de", 
+        "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
+    ];
+    return supportedLangs.includes(currentLang) ? currentLang : "en";
 }
 
 /* ===================================================
    3) GESTION DU PANIER
    =================================================== */
-
-/**
- * Si l'utilisateur est connecté, on va sur /cart
- * Sinon, on ouvre la modale de login
- */
 function handleCartClick() {
     let isLoggedIn = (localStorage.getItem("userToken") !== null);
     if (isLoggedIn) {
@@ -244,10 +225,6 @@ function handleCartClick() {
 /* ===================================================
    4) GESTION DES MODALES
    =================================================== */
-
-/**
- * Ouvre la modale et écoute le clic en dehors pour la fermer
- */
 function showModal(modalId) {
     let modal = document.getElementById(modalId);
     if (!modal) return;
@@ -262,9 +239,6 @@ function showModal(modalId) {
     });
 }
 
-/**
- * Ferme la modale
- */
 function closeModal(modalId) {
     let modal = document.getElementById(modalId);
     if (modal) {
@@ -273,13 +247,8 @@ function closeModal(modalId) {
 }
 
 /* ===================================================
-   5) MISE À JOUR DU MENU
+   5) MISE À JOUR DU MENU (LOGIN / LOGOUT)
    =================================================== */
-
-/**
- * Met à jour le menu (boutons connectés vs déconnectés)
- * Gère aussi l'icône user si besoin
- */
 function updateMenu() {
     let isLoggedIn = (localStorage.getItem("userToken") !== null);
 
@@ -291,7 +260,7 @@ function updateMenu() {
         loggedInMenu.style.display = isLoggedIn ? "block" : "none";
     }
 
-    // Si tu as un lien direct pour le panier dans le menu desktop par ex:
+    // Ex. si le panier est un lien direct
     let cartLink = document.querySelector(".cart-container a");
     if (cartLink) {
         if (isLoggedIn) {
@@ -316,9 +285,6 @@ function updateMenu() {
     }
 }
 
-/**
- * Déconnecte l'utilisateur
- */
 function logoutUser() {
     localStorage.removeItem("userToken");
     updateMenu();
@@ -328,10 +294,6 @@ function logoutUser() {
 /* ===================================================
    6) PROFIL (menu déroulant)
    =================================================== */
-
-/**
- * Menu profil : ferme si on clique en dehors
- */
 function setupProfileMenu() {
     let profileMenu = document.getElementById("profileMenu");
     if (!profileMenu) return;
@@ -343,9 +305,6 @@ function setupProfileMenu() {
     });
 }
 
-/**
- * Ouvre/ferme le menu utilisateur (onclick sur le bouton user)
- */
 function toggleMenu(event) {
     event.stopPropagation();
     let menu = document.getElementById("profileMenu");
@@ -357,10 +316,6 @@ function toggleMenu(event) {
 /* ===================================================
    7) SURLIGNER LE LIEN ACTIF
    =================================================== */
-
-/**
- * Ajoute la classe .active-tab sur le lien correspondant à la page courante
- */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
     links.forEach((link) => {
@@ -375,11 +330,6 @@ function highlightActiveLink() {
 /* ===================================================
    8) GESTION DU LOGO (LOTTIE AU SCROLL)
    =================================================== */
-
-/**
- * Au scroll > 400px, on remplace le logo par un Lottie.
- * Clic sur le Lottie = remonter en haut (smooth).
- */
 function setupLogoToggle() {
     const logoContainer = document.querySelector(".logo-container");
     if (!logoContainer) return;
@@ -412,13 +362,9 @@ function setupLogoToggle() {
             }
         }
     }
-
     window.addEventListener("scroll", onScroll);
 }
 
-/**
- * Quand on clique sur le Lottie, on remonte en haut
- */
 function setupLottieClick() {
     const lottieLogo = document.getElementById("lottieLogo");
     if (lottieLogo) {
