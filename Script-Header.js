@@ -125,22 +125,30 @@ async function initializeCurrencySelector() {
  * Ajoute un séparateur de milliers par Regex.
  */
 function convertAllPrices(selectedCurrency, rates, currencySymbols) {
-    let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
-    let rate = rates[selectedCurrency] || 1;
+  let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
+  let rate = rates[selectedCurrency] || 1;
 
-    document.querySelectorAll("[data-price]").forEach((item) => {
-        let basePrice = parseFloat(item.getAttribute("data-price"));
-        let converted = Math.round(basePrice * rate);
+  // On cible tous les éléments .price-display (ou [data-price], selon ton choix)
+  document.querySelectorAll(".price-display").forEach((item) => {
+    let basePrice = parseFloat(item.getAttribute("data-price"));
+    if (isNaN(basePrice)) {
+      console.warn("data-price n'est pas un nombre sur", item);
+      return;
+    }
 
-        let splitted = converted
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Conversion
+    let converted = Math.round(basePrice * rate);
 
-        console.log("[DEBUG] base=", basePrice, " => splitted=", splitted);
+    // Séparateur de milliers via Regex (",")
+    let splitted = converted
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        item.textContent = `${splitted} ${symbol}`;
-    });
+    // On injecte "35,734 ¥" par ex.
+    item.textContent = `${splitted} ${symbol}`;
+  });
 }
+
 
 /* ===================================================
    B) GESTION DE LA LANGUE
