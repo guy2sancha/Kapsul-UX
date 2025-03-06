@@ -1,3 +1,7 @@
+
+/* ===================================================
+   MAPPING LANGUE -> DEVISE
+   =================================================== */
 let languageToCurrency = {
     fr: "EUR",
     ja: "JPY",
@@ -16,13 +20,13 @@ let languageToCurrency = {
 };
 
 document.addEventListener("DOMContentLoaded", async function () {
-    // 1) Détection ou redirection langue (si on est sur "/")
+    // 1) Détection / redirection langue
     detectBrowserLanguage();
 
     // 2) Initialise le sélecteur de langue
     initializeLanguageSelector();
 
-    // 3) Initialise le sélecteur de devise (pas de localStorage)
+    // 3) Initialise le sélecteur de devise
     await initializeCurrencySelector();
 
     // 4) Mise à jour du menu (login/logout)
@@ -39,9 +43,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 /* ===================================================
-   A) GESTION DES DEVISES (SANS localStorage)
+   A) GESTION DES DEVISES
    =================================================== */
-
 async function fetchExchangeRates() {
     try {
         let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
@@ -49,7 +52,7 @@ async function fetchExchangeRates() {
         return data.rates;
     } catch (err) {
         console.error("Erreur lors de la récupération des taux de change", err);
-        // Valeurs fallback si l'API est indisponible :
+        // Valeurs fallback
         return {
             USD: 1,
             EUR: 0.91,
@@ -71,7 +74,6 @@ async function fetchExchangeRates() {
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
 
-    // Symboles
     let currencySymbols = {
         USD: "$",
         EUR: "€",
@@ -91,21 +93,17 @@ async function initializeCurrencySelector() {
     let currencySelector = document.getElementById("currencySelector");
     if (!currencySelector) return;
 
-    // 1) Détermine la langue courante
+    // Devise forcée par la langue
     let currentLang = getCurrentLang();
-    // 2) Devise par défaut pour cette langue
     let forcedCurrency = languageToCurrency[currentLang] || "USD";
-
-    // 3) On assigne la devise forcée
     currencySelector.value = forcedCurrency;
 
-    // 4) Convertit tout de suite les [data-price]
+    // Conversion initiale
     convertAllPrices(forcedCurrency, rates, currencySymbols);
 
-    // 5) Écoute le changement pour convertir en direct
+    // Conversion au changement
     currencySelector.addEventListener("change", function () {
-        let selected = this.value;
-        convertAllPrices(selected, rates, currencySymbols);
+        convertAllPrices(this.value, rates, currencySymbols);
     });
 }
 
@@ -132,21 +130,28 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
    =================================================== */
 
 /**
- * 1) Si l'utilisateur a déjà choisi une langue (localStorage), on respecte son choix.
- *    - Si on est sur "/", on redirige vers "/xx" si préférence != "en".
- * 2) Sinon, si on est sur "/", on redirige selon la langue navigateur (si != "en").
+ * - Si l'utilisateur a déjà un preferredLang => pas de redirection auto
+ * - Sinon, si on n'a pas déjà redirigé dans cette session => on redirige (si le nav est supporté)
+ *   et on met "alreadyRedirected" dans sessionStorage
+ * - "/" = anglais par défaut
  */
 function detectBrowserLanguage() {
-    let userPreferred = localStorage.getItem("preferredLang"); 
-    let path = window.location.pathname; // ex: "/", "/fr/about", etc.
-
-    // 1. Si l'utilisateur a déjà une langue préférée, on ne redirige plus jamais
+    // 1) Si l'utilisateur a déjà choisi une langue manuellement (localStorage)
+    let userPreferred = localStorage.getItem("preferredLang");
     if (userPreferred) {
+        // Pas de redirection auto, on respecte son choix
         return;
     }
 
-    // 2. Pas de préférence => on redirige seulement si on est sur la racine "/"
-    if (path === "/") {
+    // 2) Vérifie si on a déjà fait une redirection automatique cette session
+    let alreadyRedirected = sessionStorage.getItem("alreadyRedirected");
+    if (alreadyRedirected) {
+        // On a déjà redirigé une fois cette session, on ne refait rien
+        return;
+    }
+
+    // 3) Si on est sur la racine "/", on détecte la langue du navigateur
+    if (window.location.pathname === "/") {
         const supportedLangs = [
             "fr", "ja", "ko", "es", "th", 
             "pt", "de", "nl", "pl", "it", 
@@ -154,32 +159,21 @@ function detectBrowserLanguage() {
         ];
         let browserLang = navigator.language.slice(0, 2).toLowerCase();
 
+        // On marque qu'on a redirigé cette session (même si on ne redirige pas, pour ne pas re-tester)
+        sessionStorage.setItem("alreadyRedirected", "true");
+
+        // Si la langue du navigateur est supportée
         if (supportedLangs.includes(browserLang)) {
+            // Redirige vers /xx
             window.location.href = `/${browserLang}`;
         }
-    }
-}
-
-
-    // Aucune préférence stockée => on applique la détection
-    let supportedLangs = [
-        "fr", "ja", "ko", "es", "th", 
-        "pt", "de", "nl", "pl", "it", 
-        "ar", "vi", "zh-cn", "zh-tw"
-    ];
-    // On ne redirige que si on est sur la racine "/"
-    if (path === "/") {
-        let browserLang = navigator.language.slice(0, 2).toLowerCase();
-        if (supportedLangs.includes(browserLang)) {
-            // Rediriger vers /xx
-            window.location.href = `/${browserLang}`;
-        }
+        // Sinon on reste sur "/", qui est EN
     }
 }
 
 /**
- * Initialise le sélecteur de langue (#languageSelector)
- * Stocke la préférence de langue quand l'utilisateur change.
+ * Initialise le sélecteur de langue (#languageSelector).
+ * Stocke la préférence de langue quand l'utilisateur change (dans localStorage).
  */
 function initializeLanguageSelector() {
     let supportedLangs = [
@@ -191,45 +185,43 @@ function initializeLanguageSelector() {
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
-    // Détermine la langue courante depuis l'URL
+    // Langue actuelle depuis l'URL
     let pathParts = window.location.pathname.split("/");
-    let currentLang = pathParts[1]; // ex: "ja" ou "es", sinon ""
+    let currentLang = pathParts[1]; 
     let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
-
-    // Assigne la valeur actuelle au <select>
     languageSelector.value = activeLang;
 
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
 
-        // 1) Stocke le choix de l'utilisateur
+        // Stocke le choix de l'utilisateur en localStorage
         localStorage.setItem("preferredLang", selectedLang);
 
-        // 2) On retire la langue éventuellement présente dans l'URL
+        // Retire l'ancienne langue si présente
         let trimmedPath = window.location.pathname.replace(
             /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/,
             ""
         ) || "/";
 
-        // 3) Construit la nouvelle URL
+        // Construit la nouvelle URL
         let newPath = (selectedLang === "en")
-            ? trimmedPath // => racine ou /something
+            ? trimmedPath // => on reste sur "/" ou "/xxxx" sans préfixe
             : `/${selectedLang}${trimmedPath}`;
 
-        // 4) Redirige
+        // Redirige
         window.location.href = newPath;
     });
 }
 
 /** Renvoie la langue courante de l’URL ou "en" */
 function getCurrentLang() {
-    let pathParts = window.location.pathname.split("/");
-    let currentLang = pathParts[1];
     let supportedLangs = [
         "fr", "ja", "ko", "es", "th", 
         "pt", "de", "nl", "pl", "it", 
         "ar", "vi", "zh-cn", "zh-tw"
     ];
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1];
     return supportedLangs.includes(currentLang) ? currentLang : "en";
 }
 
@@ -352,10 +344,7 @@ function setupLogoToggle() {
     const logoContainer = document.querySelector(".logo-container");
     if (!logoContainer) return;
 
-    // Votre HTML statique actuel :
     const defaultHTML = logoContainer.innerHTML;
-
-    // Le code Lottie
     const lottieHTML = `
         <dotlottie-player
             id="lottieLogo"
@@ -367,7 +356,6 @@ function setupLogoToggle() {
             autoplay>
         </dotlottie-player>
     `;
-
     let isLottieVisible = false;
 
     function onScroll() {
@@ -375,21 +363,22 @@ function setupLogoToggle() {
             if (!isLottieVisible) {
                 logoContainer.innerHTML = lottieHTML;
                 isLottieVisible = true;
-                setupLottieClick(); // pour le scroll top au clic
+                setupLottieClick(); // Scroll top au clic
             }
         } else {
             if (isLottieVisible) {
                 logoContainer.innerHTML = defaultHTML;
                 isLottieVisible = false;
-                // Si vous souhaitez le scroll sur la version statique, ajoutez un listener
-                // ex: document.querySelector(".logo-container img")?.addEventListener("click", ...
+                // Pour ajouter un clic "scroll top" sur le logo statique, vous pouvez faire :
+                // document.querySelector(".logo-container img")?.addEventListener("click", () => {
+                //     window.scrollTo({ top: 0, behavior: "smooth" });
+                // });
             }
         }
     }
     window.addEventListener("scroll", onScroll);
 }
 
-/** Clic sur le logo Lottie => scrollTop() */
 function setupLottieClick() {
     const lottieLogo = document.getElementById("lottieLogo");
     if (lottieLogo) {
