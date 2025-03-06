@@ -1,4 +1,3 @@
-
 let languageToCurrency = {
     fr: "EUR",
     ja: "JPY",
@@ -34,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // 6) Logo Lottie (scroll + clic)
     setupLogoToggle();
-    setupLottieClick();
 
     // 7) Menu profil (clic extérieur pour fermer)
     setupProfileMenu();
@@ -44,9 +42,6 @@ document.addEventListener("DOMContentLoaded", async function () {
    A) GESTION DES DEVISES (SANS localStorage)
    =================================================== */
 
-/**
- * Récupère les taux de change depuis l'API
- */
 async function fetchExchangeRates() {
     try {
         let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
@@ -73,12 +68,6 @@ async function fetchExchangeRates() {
     }
 }
 
-/**
- * Initialise le <select id="currencySelector">
- * - On force la devise selon la langue
- * - On convertit immédiatement les [data-price]
- * - On écoute "change" pour permettre de changer la devise dynamiquement (non persistant)
- */
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
 
@@ -113,83 +102,75 @@ async function initializeCurrencySelector() {
     // 4) Convertit tout de suite les [data-price]
     convertAllPrices(forcedCurrency, rates, currencySymbols);
 
-    // 5) Si l'utilisateur change la devise, on reconvertit
+    // 5) Écoute le changement pour convertir en direct
     currencySelector.addEventListener("change", function () {
         let selected = this.value;
         convertAllPrices(selected, rates, currencySymbols);
     });
 }
 
-/**
- * Convertit tous les [data-price] (en USD) vers selectedCurrency.
- * Ajoute un séparateur de milliers par Regex.
- */
 function convertAllPrices(selectedCurrency, rates, currencySymbols) {
-    // 1) On récupère le symbole de la devise et le taux
     let symbol = currencySymbols[selectedCurrency] || selectedCurrency;
     let rate = rates[selectedCurrency] || 1;
 
-    // 2) On parcourt tous les éléments [data-price]
     document.querySelectorAll("[data-price]").forEach((item) => {
         let basePrice = parseFloat(item.getAttribute("data-price")) || 0;
-        // Conversion et arrondi si besoin
-        let converted = basePrice * rate;           
-        // Pour gérer 2 décimales maxi, par ex. 
+        let converted = basePrice * rate;
         let rounded = parseFloat(converted.toFixed(2));
 
-        // 3) Formatage en forçant "en-US" pour avoir des séparateurs de milliers ("," par défaut)
-        //    Si vous préférez une autre présentation, remplacez "en-US" par "fr-FR" ou "ja-JP", etc.
-        let formatted = rounded.toLocaleString("en-US", { 
-            minimumFractionDigits: 0, 
-            maximumFractionDigits: 2 
+        let formatted = rounded.toLocaleString("en-US", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
         });
 
-        // 4) Ajout du symbole
         item.textContent = `${formatted} ${symbol}`;
     });
 }
-
-
-
 
 /* ===================================================
    B) GESTION DE LA LANGUE
    =================================================== */
 
 /**
- * Regarde si l'URL contient déjà une langue supportée.
- * Si NON, on est sur "/", on redirige vers la langue du navigateur (ou "en").
+ * 1) Si l'utilisateur a déjà choisi une langue (localStorage), on respecte son choix.
+ *    - Si on est sur "/", on redirige vers "/xx" si préférence != "en".
+ * 2) Sinon, si on est sur "/", on redirige selon la langue navigateur (si != "en").
  */
 function detectBrowserLanguage() {
-    let pathParts = window.location.pathname.split("/");
-    let currentLang = pathParts[1];
+    let path = window.location.pathname; // ex: "/", "/fr", "/ja/about", ...
+    let userPreferred = localStorage.getItem("preferredLang"); // ex: "fr", "ja", "en"
 
+    if (userPreferred) {
+        // Si l'utilisateur a déjà choisi une langue
+        // et qu'on est EXACTEMENT sur "/", on redirige vers sa langue (sauf "en")
+        if (path === "/" && userPreferred !== "en") {
+            window.location.href = `/${userPreferred}`;
+        }
+        // Sinon, on ne fait rien
+        return;
+    }
+
+    // Aucune préférence stockée => on applique la détection
     let supportedLangs = [
         "fr", "ja", "ko", "es", "th", 
         "pt", "de", "nl", "pl", "it", 
         "ar", "vi", "zh-cn", "zh-tw"
     ];
-    let browserLang = navigator.language.slice(0, 2).toLowerCase();
-
-    let isLangURL = supportedLangs.includes(currentLang);
-
-    // Si pas de langue dans l'URL -> on est sur "/"
-    if (!isLangURL) {
-        let defaultLang = (supportedLangs.includes(browserLang)) ? browserLang : "en";
-        if (defaultLang !== "en") {
-            let newPath = `/${defaultLang}${window.location.pathname}`;
-            window.location.href = newPath;
+    // On ne redirige que si on est sur la racine "/"
+    if (path === "/") {
+        let browserLang = navigator.language.slice(0, 2).toLowerCase();
+        if (supportedLangs.includes(browserLang)) {
+            // Rediriger vers /xx
+            window.location.href = `/${browserLang}`;
         }
     }
 }
 
 /**
  * Initialise le sélecteur de langue (#languageSelector)
+ * Stocke la préférence de langue quand l'utilisateur change.
  */
 function initializeLanguageSelector() {
-    let pathParts = window.location.pathname.split("/");
-    let currentLang = pathParts[1];
-
     let supportedLangs = [
         "fr", "ja", "ko", "es", "th", 
         "pt", "de", "nl", "pl", "it", 
@@ -199,19 +180,32 @@ function initializeLanguageSelector() {
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
+    // Détermine la langue courante depuis l'URL
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1]; // ex: "ja" ou "es", sinon ""
     let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
+
+    // Assigne la valeur actuelle au <select>
     languageSelector.value = activeLang;
 
-    // Au changement, on reconstruit l'URL
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
+
+        // 1) Stocke le choix de l'utilisateur
+        localStorage.setItem("preferredLang", selectedLang);
+
+        // 2) On retire la langue éventuellement présente dans l'URL
         let trimmedPath = window.location.pathname.replace(
             /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/,
             ""
         ) || "/";
+
+        // 3) Construit la nouvelle URL
         let newPath = (selectedLang === "en")
-            ? trimmedPath
+            ? trimmedPath // => racine ou /something
             : `/${selectedLang}${trimmedPath}`;
+
+        // 4) Redirige
         window.location.href = newPath;
     });
 }
@@ -341,13 +335,16 @@ function highlightActiveLink() {
 }
 
 /* ===================================================
-   H) LOGO LOTTIE (SCROLL)
+   H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
    =================================================== */
 function setupLogoToggle() {
     const logoContainer = document.querySelector(".logo-container");
     if (!logoContainer) return;
 
+    // Votre HTML statique actuel :
     const defaultHTML = logoContainer.innerHTML;
+
+    // Le code Lottie
     const lottieHTML = `
         <dotlottie-player
             id="lottieLogo"
@@ -359,6 +356,7 @@ function setupLogoToggle() {
             autoplay>
         </dotlottie-player>
     `;
+
     let isLottieVisible = false;
 
     function onScroll() {
@@ -366,18 +364,21 @@ function setupLogoToggle() {
             if (!isLottieVisible) {
                 logoContainer.innerHTML = lottieHTML;
                 isLottieVisible = true;
-                setupLottieClick();
+                setupLottieClick(); // pour le scroll top au clic
             }
         } else {
             if (isLottieVisible) {
                 logoContainer.innerHTML = defaultHTML;
                 isLottieVisible = false;
+                // Si vous souhaitez le scroll sur la version statique, ajoutez un listener
+                // ex: document.querySelector(".logo-container img")?.addEventListener("click", ...
             }
         }
     }
     window.addEventListener("scroll", onScroll);
 }
 
+/** Clic sur le logo Lottie => scrollTop() */
 function setupLottieClick() {
     const lottieLogo = document.getElementById("lottieLogo");
     if (lottieLogo) {
