@@ -137,18 +137,29 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
  * 2) Sinon, si on est sur "/", on redirige selon la langue navigateur (si != "en").
  */
 function detectBrowserLanguage() {
-    let path = window.location.pathname; // ex: "/", "/fr", "/ja/about", ...
-    let userPreferred = localStorage.getItem("preferredLang"); // ex: "fr", "ja", "en"
+    let userPreferred = localStorage.getItem("preferredLang"); 
+    let path = window.location.pathname; // ex: "/", "/fr/about", etc.
 
+    // 1. Si l'utilisateur a déjà une langue préférée, on ne redirige plus jamais
     if (userPreferred) {
-        // Si l'utilisateur a déjà choisi une langue
-        // et qu'on est EXACTEMENT sur "/", on redirige vers sa langue (sauf "en")
-        if (path === "/" && userPreferred !== "en") {
-            window.location.href = `/${userPreferred}`;
-        }
-        // Sinon, on ne fait rien
         return;
     }
+
+    // 2. Pas de préférence => on redirige seulement si on est sur la racine "/"
+    if (path === "/") {
+        const supportedLangs = [
+            "fr", "ja", "ko", "es", "th", 
+            "pt", "de", "nl", "pl", "it", 
+            "ar", "vi", "zh-cn", "zh-tw"
+        ];
+        let browserLang = navigator.language.slice(0, 2).toLowerCase();
+
+        if (supportedLangs.includes(browserLang)) {
+            window.location.href = `/${browserLang}`;
+        }
+    }
+}
+
 
     // Aucune préférence stockée => on applique la détection
     let supportedLangs = [
