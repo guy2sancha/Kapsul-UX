@@ -1,0 +1,12 @@
+._447d5d1_18f8k1k0._447d5d1_18f8k1k2 {
+    contain: strict;
+    display: flex;
+    height: 550px;
+    position: relative;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+._447d5d1_18f8k1k0._447d5d1_18f8k1k2 {
+      height: 500px;  /* Adjust height for mobile */
+  }
