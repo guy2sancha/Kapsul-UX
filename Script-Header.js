@@ -126,59 +126,11 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
 }
 
 /* ===================================================
-   B) GESTION DE LA LANGUE (sans redirection auto)
+   B) GESTION DE LA LANGUE (manuelle seulement)
    =================================================== */
-
-/**
- * Initialise le sélecteur de langue (#languageSelector).
- * Stocke la préférence de langue quand l'utilisateur change (dans localStorage).
- */
 function initializeLanguageSelector() {
-    let supportedLangs = [
-        "fr", "ja", "ko", "es", "th", 
-        "pt", "de", "nl", "pl", "it", 
-        "ar", "vi", "zh-cn", "zh-tw"
-    ];
-
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
-
-    // Langue actuelle depuis l'URL
-    let pathParts = window.location.pathname.split("/");
-    let currentLang = pathParts[1]; 
-    let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
-    languageSelector.value = activeLang;
-
-    // Stocke la langue sélectionnée dans localStorage
-    languageSelector.addEventListener("change", function () {
-        let selectedLang = languageSelector.value;
-
-        localStorage.setItem("preferredLang", selectedLang);
-
-        let trimmedPath = window.location.pathname.replace(
-            /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/,
-            ""
-        ) || "/";
-
-        let newPath = (selectedLang === "en" ? "" : "/" + selectedLang) + trimmedPath;
-        window.location.href = newPath;
-    });
-}
-
-/**
- * Récupère la langue actuelle d'après l'URL, ou "en" par défaut.
- */
-function getCurrentLang() {
-    let supportedLangs = [
-        "fr", "ja", "ko", "es", "th", 
-        "pt", "de", "nl", "pl", "it", 
-        "ar", "vi", "zh-cn", "zh-tw"
-    ];
-
-    let pathParts = window.location.pathname.split("/");
-    let currentLang = pathParts[1]; 
-
-    return supportedLangs.includes(currentLang) ? currentLang : "en";
 }
 
 
