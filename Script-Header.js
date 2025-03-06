@@ -126,13 +126,104 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
 }
 
 /* ===================================================
-   B) GESTION DE LA LANGUE (manuelle seulement)
+   B) GESTION DE LA LANGUE
    =================================================== */
-function initializeLanguageSelector() {
-    let languageSelector = document.getElementById("languageSelector");
-    if (!languageSelector) return;
+
+/**
+ * - Si l'utilisateur a déjà un preferredLang => pas de redirection auto
+ * - Sinon, si on n'a pas déjà redirigé dans cette session => on redirige (si le nav est supporté)
+ *   et on met "alreadyRedirected" dans sessionStorage
+ * - "/" = anglais par défaut
+ */
+function detectBrowserLanguage() {
+    // 1) Si l'utilisateur a déjà choisi une langue manuellement (localStorage)
+    let userPreferred = localStorage.getItem("preferredLang");
+    if (userPreferred) {
+        // Pas de redirection auto, on respecte son choix
+        return;
+    }
+
+    // 2) Vérifie si on a déjà fait une redirection automatique cette session
+    let alreadyRedirected = sessionStorage.getItem("alreadyRedirected");
+    if (alreadyRedirected) {
+        // On a déjà redirigé une fois cette session, on ne refait rien
+        return;
+    }
+
+    // 3) Si on est sur la racine "/", on détecte la langue du navigateur
+    if (window.location.pathname === "/") {
+        const supportedLangs = [
+            "fr", "ja", "ko", "es", "th", 
+            "pt", "de", "nl", "pl", "it", 
+            "ar", "vi", "zh-cn", "zh-tw"
+        ];
+        let browserLang = navigator.language.slice(0, 2).toLowerCase();
+
+        // On marque qu'on a redirigé cette session (même si on ne redirige pas, pour ne pas re-tester)
+        sessionStorage.setItem("alreadyRedirected", "true");
+
+        // Si la langue du navigateur est supportée
+        if (supportedLangs.includes(browserLang)) {
+            // Redirige vers /xx
+            window.location.href = `/${browserLang}`;
+        }
+        // Sinon on reste sur "/", qui est EN
+    }
 }
 
+/**
+ * Initialise le sélecteur de langue (#languageSelector).
+ * Stocke la préférence de langue quand l'utilisateur change (dans localStorage).
+ */
+function initializeLanguageSelector() {
+    let supportedLangs = [
+        "fr", "ja", "ko", "es", "th", 
+        "pt", "de", "nl", "pl", "it", 
+        "ar", "vi", "zh-cn", "zh-tw"
+    ];
+
+    let languageSelector = document.getElementById("languageSelector");
+    if (!languageSelector) return;
+
+    // Langue actuelle depuis l'URL
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1]; 
+    let activeLang = supportedLangs.includes(currentLang) ? currentLang : "en";
+    languageSelector.value = activeLang;
+
+    languageSelector.addEventListener("change", function () {
+        let selectedLang = this.value;
+
+        // Stocke le choix de l'utilisateur en localStorage
+        localStorage.setItem("preferredLang", selectedLang);
+
+        // Retire l'ancienne langue si présente
+        let trimmedPath = window.location.pathname.replace(
+            /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/,
+            ""
+        ) || "/";
+
+        // Construit la nouvelle URL
+        let newPath = (selectedLang === "en")
+            ? trimmedPath // => on reste sur "/" ou "/xxxx" sans préfixe
+            : `/${selectedLang}${trimmedPath}`;
+
+        // Redirige
+        window.location.href = newPath;
+    });
+}
+
+/** Renvoie la langue courante de l’URL ou "en" */
+function getCurrentLang() {
+    let supportedLangs = [
+        "fr", "ja", "ko", "es", "th", 
+        "pt", "de", "nl", "pl", "it", 
+        "ar", "vi", "zh-cn", "zh-tw"
+    ];
+    let pathParts = window.location.pathname.split("/");
+    let currentLang = pathParts[1];
+    return supportedLangs.includes(currentLang) ? currentLang : "en";
+}
 
 /* ===================================================
    C) GESTION DU PANIER
