@@ -1,0 +1,37 @@
+._447d5d1_18f8k1k0._447d5d1_18f8k1k2 {
+    contain: strict;
+    display: flex;
+    height: 700px;
+    position: relative;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    ._447d5d1_18f8k1k0._447d5d1_18f8k1k2 {
+        height: 500px;  /* Adjust height for mobile */
+    }
+}
+
+@media (min-width: 200px) {
+    ._447d5d1_18f8k1k0._447d5d1_18f8k1k2 {
+        height: 500px;  /* Adjust height for mobile */
+    }
+}
+
+._447d5d1_1c9qxe34 {
+    aspect-ratio: unset;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+._447d5d1_1c9qxe31 {
+    border-radius: inherit;
+    box-sizing: border-box;
+    height: 100%;  /* Utilisez 100% pour occuper tout l'espace disponible */
+    max-width: 100%; 
+    object-fit: cover; /* Important pour éviter la distorsion */
+    overflow: hidden;  /* Empêche le débordement */
+    display: block;
+    width: 100%;
+}
