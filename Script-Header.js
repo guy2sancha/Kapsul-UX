@@ -114,7 +114,7 @@ function convertAllPrices(selectedCurrency, rates, currencySymbols) {
     document.querySelectorAll("[data-price]").forEach((item) => {
         let basePrice = parseFloat(item.getAttribute("data-price")) || 0;
         let converted = basePrice * rate;
-        let rounded = parseFloat(converted.toFixed(2));
+        let rounded = Math.round(converted);
 
         let formatted = rounded.toLocaleString("en-US", {
             minimumFractionDigits: 0,
