@@ -282,20 +282,25 @@ function toggleMenu(event) {
    G) SURLIGNER LE LIEN ACTIF
    =================================================== */
 function highlightActiveLink() {
-    let links = document.querySelectorAll(".nav-links a");
-    let currentURL = window.location.href;
+    let links = document.querySelectorAll(".nav-links a"); // Sélectionne tous les liens du menu
+    let currentURL = window.location.href; // Récupère l'URL actuelle
 
     links.forEach((link) => {
-        let linkHref = link.getAttribute("href").replace("/", ""); // Enlève le "/" du début
+        let linkHref = link.getAttribute("href"); // Récupère le href du lien
+        if (!linkHref) return; // Ignore si pas de href
 
-        // Vérifie si l'URL actuelle contient la partie principale du lien
-        if (currentURL.includes(linkHref)) {
+        // Vérifie si l'URL actuelle contient la base du lien (gère aussi les sous-catégories)
+        if (currentURL.includes(linkHref.replace("/", ""))) {
             link.classList.add("active-tab");
         } else {
             link.classList.remove("active-tab");
         }
     });
 }
+
+// Exécute la fonction après chargement du DOM
+document.addEventListener("DOMContentLoaded", highlightActiveLink);
+
 
 
 /* ===================================================
