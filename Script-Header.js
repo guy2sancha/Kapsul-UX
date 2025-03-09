@@ -282,26 +282,36 @@ function toggleMenu(event) {
    G) SURLIGNER LE LIEN ACTIF
    =================================================== */
 function highlightActiveLink() {
-    let links = document.querySelectorAll(".nav-links a"); // Sélectionne tous les liens du menu
-    let currentURL = window.location.href; // Récupère l'URL actuelle
+    let links = document.querySelectorAll(".nav-links a");
+    let currentURL = window.location.href;
+
+    // 📌 Groupement des pages sous une seule clé
+    let pageMappings = {
+        "brands": ["all-the-brands", "japanese-brands", "french-brands", "german-brands"],
+        "marketplace": ["marketplace", "marketplace-women", "marketplace-men"],
+        "shops": ["shops", "local-shops", "global-shops"],
+        "map": ["map", "store-locator"],
+        "cart": ["cart", "checkout"],
+        "profile": ["profile", "profile-settings", "orders"]
+    };
 
     links.forEach((link) => {
-        let linkHref = link.getAttribute("href"); // Récupère le href du lien
-        if (!linkHref) return; // Ignore si pas de href
+        let linkHref = link.getAttribute("href");
+        if (!linkHref) return; // Ignore les liens sans href
 
-        // Vérifie si l'URL actuelle contient la base du lien (gère aussi les sous-catégories)
-        if (currentURL.includes(linkHref.replace("/", ""))) {
-            link.classList.add("active-tab");
-        } else {
-            link.classList.remove("active-tab");
-        }
+        // Vérifier si l'URL actuelle appartient à un des groupes
+        Object.entries(pageMappings).forEach(([key, paths]) => {
+            if (paths.some(path => currentURL.includes(path)) && linkHref.includes(key)) {
+                link.classList.add("active-tab"); // Active le lien correspondant
+            } else {
+                link.classList.remove("active-tab");
+            }
+        });
     });
 }
 
-// Exécute la fonction après chargement du DOM
+// Exécuter après chargement du DOM
 document.addEventListener("DOMContentLoaded", highlightActiveLink);
-
-
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
