@@ -40,16 +40,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 /* ===================================================
-   A) GESTION DES DEVISES
+   A) GESTION DES DEVISES (AVEC MISE EN CACHE)
    =================================================== */
 async function fetchExchangeRates() {
+    let cachedRates = sessionStorage.getItem("exchangeRates");
+    if (cachedRates) {
+        return JSON.parse(cachedRates);
+    }
+
     try {
         let response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
         let data = await response.json();
+        sessionStorage.setItem("exchangeRates", JSON.stringify(data.rates)); // Mise en cache
         return data.rates;
     } catch (err) {
         console.error("Erreur lors de la récupération des taux de change", err);
-        // Valeurs fallback
         return {
             USD: 1,
             EUR: 0.91,
