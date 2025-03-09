@@ -328,14 +328,59 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
+    let currentUrl = window.location.href;
+
+    lfunction highlightActiveLink() {
+    let links = document.querySelectorAll(".nav-links a");
+    let currentUrl = window.location.href.toLowerCase(); // Rend l'URL insensible à la casse
+
+    let highlightRules = [
+        { keyword: "marketplace", targetText: "MARKET" },
+        { keyword: "all-the-brands", targetText: "BRANDS" },
+        { keyword: "all-the-retailers", targetText: "SHOPS" },
+        { keyword: "map", targetText: "MAP" }
+    ];
+
     links.forEach((link) => {
-        if (link.href === window.location.href) {
+        let linkText = link.textContent.trim().toUpperCase(); // Normalise le texte du lien
+        let linkHref = link.getAttribute("href").toLowerCase();
+
+        // Vérifie si l'URL correspond au lien
+        if (currentUrl.includes(linkHref)) {
             link.classList.add("active-tab");
         } else {
             link.classList.remove("active-tab");
         }
+
+        // Vérifie les règles de mise en surbrillance
+        highlightRules.forEach(rule => {
+            if (currentUrl.includes(rule.keyword) && linkText === rule.targetText) {
+                link.classList.add("active-tab");
+            }
+        });
     });
 }
+
+// Exécute la fonction après le chargement de la page
+document.addEventListener("DOMContentLoaded", highlightActiveLink);
+
+    links.forEach((link) => {
+        let linkTarget = link.getAttribute("data-highlight");
+
+        if (link.href === currentUrl) {
+            link.classList.add("active-tab");
+        } else {
+            link.classList.remove("active-tab");
+        }
+
+        highlightRules.forEach(rule => {
+            if (currentUrl.includes(rule.keyword) && linkTarget === rule.target) {
+                link.classList.add("active-tab");
+            }
+        });
+    });
+}
+
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
