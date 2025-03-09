@@ -283,35 +283,33 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
-    let currentURL = window.location.href;
+    let currentPath = window.location.pathname; // Chemin sans le domaine
 
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
-        "brands": ["all-the-brands", "japanese-brands", "french-brands", "german-brands"],
-        "marketplace": ["marketplace", "marketplace-women", "marketplace-men"],
-        "shops": ["shops", "local-shops", "global-shops"],
-        "map": ["map", "store-locator"],
-        "cart": ["cart", "checkout"],
-        "profile": ["profile", "profile-settings", "orders"]
+        "brands": ["/all-the-brands", "/japanese-brands", "/french-brands", "/german-brands"],
+        "shops": ["/all-the-retailers", "/local-shops", "/global-shops"],
+        "map": ["/map", "/store-locator"],
+        "market": ["/marketplace", "/marketplace-women", "/marketplace-men"]
     };
 
     links.forEach((link) => {
         let linkHref = link.getAttribute("href");
+
         if (!linkHref) return; // Ignore les liens sans href
 
-        // Vérifier si l'URL actuelle appartient à un des groupes
+        // Vérifie si l'URL actuelle appartient à un des groupes
         Object.entries(pageMappings).forEach(([key, paths]) => {
-            if (paths.some(path => currentURL.includes(path)) && linkHref.includes(key)) {
+            if (paths.includes(currentPath) && linkHref.includes(key)) {
                 link.classList.add("active-tab"); // Active le lien correspondant
             } else {
                 link.classList.remove("active-tab");
             }
         });
     });
-}
 
-// Exécuter après chargement du DOM
-document.addEventListener("DOMContentLoaded", highlightActiveLink);
+    console.log("URL actuelle:", currentPath);
+}
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
