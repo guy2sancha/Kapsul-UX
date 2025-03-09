@@ -53,6 +53,19 @@
     }
 
     /* =====================
+       Effet d'animation (optionnel)
+       ===================== */
+    @keyframes fadeInOut {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* =====================
        Zone de droite (user-actions)
        ===================== */
     .user-actions {
@@ -171,10 +184,33 @@
         transition: color 0.3s ease-in-out, background-color 0.9s;
         z-index: 1;
     }
+    .modal-button::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0920c5;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease-in-out;
+        z-index: -1;
+    }
     .modal-button:hover {
         color: #fff;
         background-color: #0920c5;
         text-decoration: none;
+    }
+    .modal-button:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* =====================
+       Lottie Logo
+       ===================== */
+    #lottieLogo {
+        cursor: pointer;
     }
 </style>
 
@@ -183,59 +219,58 @@
      ===================== -->
 <div id="customHeader">
     <div class="logo-container">
-        <a href="/fr/">
-            <img src="https://corporate.kapsul.world/wp-content/uploads/2024/11/KAPSUL-38.png" alt="Logo Kapsul" />
+        <a href="/">
+            <img src="https://corporate.kapsul.world/wp-content/uploads/2024/11/KAPSUL-38.png" alt="Kapsul Logo" />
         </a>
     </div>
-    <<nav class="nav-links">
-    <a href="/all-the-brands">BRANDS</a>
-    <a href="/all-the-retailers">SHOPS</a>
-    <a href="/map">MAP</a>
-    <a href="/marketplace">MARKETPLACE</a>
-</nav>
-<div class="user-actions">
-    <div class="profile-container">
-        <button class="profile-button" onclick="toggleMenu(event)">
-            <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
-            <i class="fa-solid fa-bars icon-size"></i>
-        </button>
-        <div class="dropdown-menu" id="profileMenu">
-            <div id="loggedOutMenu">
-                <a href="/login">Login</a>
-                <a href="/register">Create an Account</a>
-            </div>
-            <div id="loggedInMenu" style="display: none;">
-                <a href="/favorites">My Favorites</a>
-                <a href="/my-qrcode">My QR Code</a>
-                <a href="#" onclick="logoutUser()">Logout</a>
+    <nav class="nav-links">
+        <a href="/all-the-brands">BRANDS</a>
+        <a href="/all-the-retailers">SHOPS</a>
+        <a href="/map">MAP</a>
+        <a href="/marketplace">MARKET</a>
+    </nav>
+    <div class="user-actions">
+        <div class="profile-container">
+            <!-- Remarque : on ajoute un id sur l'icône pour pouvoir la modifier quand user logged in -->
+            <button class="profile-button" onclick="toggleMenu(event)">
+                <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
+                <i class="fa-solid fa-bars icon-size"></i>
+            </button>
+            <div class="dropdown-menu" id="profileMenu">
+                <div id="loggedOutMenu">
+                    <a href="/login">Login</a>
+                    <a href="/register">Sign Up</a>
+                </div>
+                <div id="loggedInMenu" style="display: none;">
+                    <a href="/favorites">My Favorites</a>
+                    <a href="/my-qrcode">My QR Code</a>
+                    <a href="#" onclick="logoutUser()">Log-out</a>
+                </div>
             </div>
         </div>
-    </div>
-</div>
         <div class="cart-container">
             <a href="#" onclick="showModal('cartModal')">
                 <i class="fa-solid fa-cart-shopping icon-size"></i>
             </a>
         </div>
         <select id="languageSelector">
-    <option value="fr">FR</option>
     <option value="en">EN</option>
     <option value="ja">JP</option>
 </select>
 
         <select id="currencySelector">
-            <option value="EUR">€</option>
             <option value="USD">$</option>
-            <option value="JPY">¥</option>
-            <option value="GBP">£</option>  
+            <option value="EUR">€</option>
+            <option value="GBP">£</option>
+            <option value="JPY">¥</option>  
             <option value="KRW">₩</option>     
-            <option value="TWD">NT$</option>   
+            <option value="TWD">NT</option>   
             <option value="SGD">S$</option>    
             <option value="THB">฿</option>     
             <option value="AUD">A$</option>    
-            <option value="HKD">HK$</option>  
+            <option value="HKD">HK</option>  
             <option value="CAD">C$</option>    
-            <option value="NZD">NZ$</option>   
+            <option value="NZD">NZ</option>   
         </select>
     </div>
 </div>
@@ -245,11 +280,11 @@
      ===================== -->
 <div id="cartModal" class="modal">
     <div class="modal-content">
-        <h2>Please log in or create an account</h2>
-        <p>To access the Marketplace features, log in to your account or create a new one with Kapsul.</p>
+        <h2>Please Login or Signup</h2>
+        <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
         <div class="modal-actions">
-            <a href="/login" class="modal-button">Log in</a>
-            <a href="/register" class="modal-button">Create an account</a>
+            <a href="/login" class="modal-button">Login</a>
+            <a href="/register" class="modal-button">Sign Up</a>
         </div>
     </div>
 </div>
