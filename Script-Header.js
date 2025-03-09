@@ -327,56 +327,14 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
-    let currentUrl = window.location.pathname.toLowerCase(); // Prend uniquement le chemin (sans domaine)
-
-    console.log("🔍 URL actuelle :", currentUrl); // DEBUG
-
-    let highlightRules = [
-        { keyword: "marketplace", targetText: ["MARKET"] },
-        { keyword: "brands", targetText: ["BRANDS"] }, // Détection dynamique
-        { keyword: "retailers", targetText: ["SHOPS"] },
-        { keyword: "map", targetText: ["MAP"] }
-    ];
-
     links.forEach((link) => {
-        let linkText = link.textContent.trim().toUpperCase(); // Normalisation du texte affiché
-        let linkHref = new URL(link.href, window.location.origin).pathname.toLowerCase(); // Normalisation de href
-
-        console.log(`➡ Vérification du lien: ${linkText} (${linkHref})`); // DEBUG
-
-        // Retire la classe "active-tab" avant de tester
-        link.classList.remove("active-tab");
-
-        // 1️⃣ Vérifie si l'URL actuelle correspond directement au href du lien
-        if (currentUrl === linkHref || currentUrl.startsWith(linkHref)) {
-            console.log(`✅ Match direct : ${linkText}`);
+        if (link.href === window.location.href) {
             link.classList.add("active-tab");
+        } else {
+            link.classList.remove("active-tab");
         }
-
-        // 2️⃣ Vérifie les mots-clés définis dans highlightRules
-        highlightRules.forEach(rule => {
-            if (currentUrl.includes(rule.keyword) && rule.targetText.includes(linkText)) {
-                console.log(`✅ Match par mot-clé : ${linkText} contient ${rule.keyword}`);
-                link.classList.add("active-tab");
-            }
-        });
-
-        // 3️⃣ Vérifie si un mot du href du lien contient une règle définie
-        highlightRules.forEach(rule => {
-            if (linkHref.includes(rule.keyword) && rule.targetText.includes(linkText)) {
-                console.log(`✅ Match indirect : ${linkText} pour ${rule.keyword}`);
-                link.classList.add("active-tab");
-            }
-        });
     });
-
-    console.log("🚀 Surlignement terminé !"); // DEBUG
 }
-
-// Exécute la fonction après le chargement de la page
-document.addEventListener("DOMContentLoaded", highlightActiveLink);
-
-
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
