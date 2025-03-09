@@ -20,18 +20,18 @@
 
 ._447d5d1_1c9qxe34 {
     aspect-ratio: unset;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
 }
 
 ._447d5d1_1c9qxe31 {
     border-radius: inherit;
     box-sizing: border-box;
-    height: 100%;  /* Utilisez 100% pour occuper tout l'espace disponible */
-    max-width: 100%; 
-    object-fit: cover; /* Important pour éviter la distorsion */
-    overflow: hidden;  /* Empêche le débordement */
-    display: block;
-    width: 100%;
+    height: 100% !important;  /* Utilisez 100% pour occuper tout l'espace disponible */
+    max-width: 100% !important;
+    object-fit: cover !important; /* Important pour éviter la distorsion */
+    overflow: hidden !important;  /* Empêche le débordement */
+    display: block !important;
+    width: 100% !important;
 }
