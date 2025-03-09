@@ -287,29 +287,39 @@ function highlightActiveLink() {
 
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
-        "brands": ["/all-the-brands", "/japanese-brands", "/french-brands", "/german-brands"],
-        "shops": ["/all-the-retailers", "/local-shops", "/global-shops"],
-        "map": ["/map", "/store-locator"],
-        "market": ["/marketplace", "/marketplace-women", "/marketplace-men"]
+        "/all-the-brands": "brands",
+        "/japanese-brands": "brands",
+        "/french-brands": "brands",
+        "/german-brands": "brands",
+        "/all-the-retailers": "shops",
+        "/local-shops": "shops",
+        "/global-shops": "shops",
+        "/map": "map",
+        "/store-locator": "map",
+        "/marketplace": "market",
+        "/marketplace-women": "market",
+        "/marketplace-men": "market"
     };
+
+    let activeCategory = pageMappings[currentPath]; // Ex: "brands" si l'URL est "/all-the-brands"
 
     links.forEach((link) => {
         let linkHref = link.getAttribute("href");
 
         if (!linkHref) return; // Ignore les liens sans href
 
-        // Vérifie si l'URL actuelle appartient à un des groupes
-        Object.entries(pageMappings).forEach(([key, paths]) => {
-            if (paths.includes(currentPath) && linkHref.includes(key)) {
-                link.classList.add("active-tab"); // Active le lien correspondant
-            } else {
-                link.classList.remove("active-tab");
-            }
-        });
+        // Vérifie si ce lien correspond à la catégorie active
+        if (pageMappings[linkHref] === activeCategory) {
+            link.classList.add("active-tab");
+        } else {
+            link.classList.remove("active-tab");
+        }
     });
 
     console.log("URL actuelle:", currentPath);
+    console.log("Catégorie active détectée:", activeCategory);
 }
+
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
