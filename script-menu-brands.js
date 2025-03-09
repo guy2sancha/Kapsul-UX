@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Met un délai avant de remettre l'image du menu actif
             timeoutId = setTimeout(() => {
                 if (mainImage.src !== defaultImage) { 
-                    mainImage.style.transition = "opacity 1.5s ease-in-out"; 
+                    mainImage.style.transition = "opacity 0.5s ease-in-out"; 
                     mainImage.style.opacity = 0;
                     setTimeout(() => {
                         mainImage.src = defaultImage;
