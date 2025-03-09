@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       item.addEventListener("mouseout", function () {
         // Revenir à l'image de base lorsqu'on sort du hover
-        mainImage.style.transition = "opacity 0.8s ease-in-out"; // Ralentir l'effet
+        mainImage.style.transition = "opacity 1.5s ease-in-out"; // Ralentir l'effet
         mainImage.style.opacity = 0;
         setTimeout(() => {
           mainImage.src = defaultImage;
