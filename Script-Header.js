@@ -337,6 +337,7 @@ function highlightActiveLink() {
     let highlightRules = [
         { keyword: "marketplace", targetText: "MARKET" },
         { keyword: "all-the-brands", targetText: "BRANDS" },
+               { keyword: "brands", targetText: "BRANDS" },
         { keyword: "all-the-retailers", targetText: "SHOPS" },
         { keyword: "map", targetText: "MAP" }
     ];
