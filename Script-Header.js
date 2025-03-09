@@ -19,9 +19,7 @@ let languageToCurrency = {
 };
 
 document.addEventListener("DOMContentLoaded", async function () {
-    // 1) Détection / redirection langue
-    detectBrowserLanguage();
-
+    
     // 2) Initialise le sélecteur de langue
     initializeLanguageSelector();
 
