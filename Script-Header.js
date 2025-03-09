@@ -283,14 +283,20 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
+    let currentURL = window.location.href;
+
     links.forEach((link) => {
-        if (link.href === window.location.href) {
+        let linkHref = link.getAttribute("href").replace("/", ""); // Enlève le "/" du début
+
+        // Vérifie si l'URL actuelle contient la partie principale du lien
+        if (currentURL.includes(linkHref)) {
             link.classList.add("active-tab");
         } else {
             link.classList.remove("active-tab");
         }
     });
 }
+
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
