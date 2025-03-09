@@ -328,30 +328,30 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
-    let currentUrl = window.location.href.toLowerCase(); // Rend l'URL insensible à la casse
+    let currentUrl = window.location.pathname.toLowerCase(); // Prend uniquement le chemin (sans domaine)
 
     let highlightRules = [
-        { keyword: "marketplace", targetText: "MARKET" },
-        { keyword: "brands", targetText: "BRANDS" }, // "japanese-brands" sera aussi détecté
-        { keyword: "retailers", targetText: "SHOPS" },
-        { keyword: "map", targetText: "MAP" }
+        { keyword: "marketplace", targetText: ["MARKET"] },
+        { keyword: "brands", targetText: ["BRANDS"] }, // "japanese-brands" fonctionnera aussi
+        { keyword: "retailers", targetText: ["SHOPS"] },
+        { keyword: "map", targetText: ["MAP"] }
     ];
 
     links.forEach((link) => {
-        let linkText = link.textContent.trim().toUpperCase(); // Texte affiché dans le menu
-        let linkHref = link.getAttribute("href").toLowerCase();
+        let linkText = link.textContent.trim().toUpperCase(); // Texte du lien normalisé
+        let linkHref = link.getAttribute("href").toLowerCase(); // Lien dans l'attribut href
 
-        // Retire "active-tab" de tous les liens
+        // Retire la classe "active-tab" de tous les liens avant de traiter
         link.classList.remove("active-tab");
 
-        // 1️⃣ Vérifie si l'URL contient directement le lien
-        if (currentUrl.includes(linkHref)) {
+        // 1️⃣ Vérifie si l'URL correspond exactement au lien
+        if (currentUrl === linkHref || currentUrl.startsWith(linkHref)) {
             link.classList.add("active-tab");
         }
 
-        // 2️⃣ Vérifie les règles dynamiquement (ex: "japanese-brands" contient "brands")
+        // 2️⃣ Vérifie si l'URL contient un mot-clé correspondant
         highlightRules.forEach(rule => {
-            if (currentUrl.includes(rule.keyword) && linkText.includes(rule.targetText)) {
+            if (currentUrl.includes(rule.keyword) && rule.targetText.includes(linkText)) {
                 link.classList.add("active-tab");
             }
         });
