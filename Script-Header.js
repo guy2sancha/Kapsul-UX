@@ -283,26 +283,34 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
-    let currentPath = window.location.pathname; // Chemin sans le domaine
+    let currentPath = window.location.pathname; // Chemin actuel
 
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
-        {
-    "/all-the-brands": "brands",
-    "/japanese-brands": "brands",
-    "/south-korean-brands": "brands",
-    "/taiwanese-brands": "brands",
-    "/vietnamese-brands": "brands",
-    "/australian-brands": "brands",
-    "/french-brands": "brands",
-    "/italian-brands": "brands",
-    "/german-brands": "brands",
-    "/swedish-brands": "brands",
-    "/united-states-brands": "brands",
-    "/united-kingdom-brands": "brands"
+        "/all-the-brands": "brands",
+        "/japanese-brands": "brands",
+        "/south-korean-brands": "brands",
+        "/taiwanese-brands": "brands",
+        "/vietnamese-brands": "brands",
+        "/australian-brands": "brands",
+        "/french-brands": "brands",
+        "/italian-brands": "brands",
+        "/german-brands": "brands",
+        "/swedish-brands": "brands",
+        "/united-states-brands": "brands",
+        "/united-kingdom-brands": "brands",
+
         "/all-the-retailers": "shops",
-        "/local-shops": "shops",
-        "/global-shops": "shops",
+        "/tokyo": "shops",
+        "/seoul": "shops",
+        "/taipei": "shops",
+        "/hong-kong": "shops",
+        "/paris": "shops",
+        "/new-york": "shops",
+        "/london": "shops",
+        "/amsterdam": "shops",
+        "/melbourne": "shops",
+
         "/map": "map",
         "/store-locator": "map",
         "/marketplace": "market",
@@ -313,21 +321,23 @@ function highlightActiveLink() {
     let activeCategory = pageMappings[currentPath]; // Ex: "brands" si l'URL est "/all-the-brands"
 
     links.forEach((link) => {
-        let linkHref = link.getAttribute("href");
+        let linkHref = new URL(link.href, window.location.origin).pathname; // Normaliser le chemin
 
         if (!linkHref) return; // Ignore les liens sans href
 
         // Vérifie si ce lien correspond à la catégorie active
         if (pageMappings[linkHref] === activeCategory) {
             link.classList.add("active-tab");
+            console.log("Lien actif détecté :", linkHref);
         } else {
             link.classList.remove("active-tab");
         }
     });
 
-    console.log("URL actuelle:", currentPath);
-    console.log("Catégorie active détectée:", activeCategory);
-}
+// Exécute après chargement complet
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(highlightActiveLink, 100);
+});
 
 
 /* ===================================================
