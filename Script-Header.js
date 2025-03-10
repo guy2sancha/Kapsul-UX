@@ -304,8 +304,8 @@ function highlightActiveLink() {
         "/united-states-brands": "brands",
         "/united-kingdom-brands": "brands",
         
-        "/brand-details": "brands",
-        "/shop-details": "shops",
+        "/brand-details": "brands", // ✅ Highlight les marques
+        "/shop-details": "shops",   // ✅ Highlight les magasins
 
         "/all-the-retailers": "shops",
         "/tokyo": "shops",
@@ -325,9 +325,10 @@ function highlightActiveLink() {
         "/marketplace-men": "market"
     };
 
-    // ✅ Correction : Prendre en compte les URLs contenant `/brand-details`
+    // ✅ Vérifier si l'URL commence par `/brand-details` ou `/shop-details`
     let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key)) 
-                         ? pageMappings["/brand-details"] 
+                         ? pageMappings[currentPath.startsWith("/brand-details") ? "/brand-details" : 
+                                          currentPath.startsWith("/shop-details") ? "/shop-details" : currentPath]
                          : pageMappings[currentPath];
 
     links.forEach((link) => {
