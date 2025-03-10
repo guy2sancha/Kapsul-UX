@@ -83,7 +83,8 @@ function initializeLanguageSelector() {
         let selectedLang = this.value;
         let trimmedPath = window.location.pathname.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh-cn|zh-tw)/, "") || "/";
         let newPath = selectedLang === "en" ? trimmedPath : `/${selectedLang}${trimmedPath}`;
-        history.pushState(null, "", newPath); // Change l'URL SANS recharger la page
+        history.pushState(null, "", newPath);
+        location.reload(); // Recharge uniquement après changement de langue
     });
 }
 
@@ -119,18 +120,11 @@ function closeModal(modalId) {
    E) OPTIMISATION DU MENU (NE PAS RECHARGER)
    =================================================== */
 function isUserLoggedIn() {
-    let cachedStatus = sessionStorage.getItem("isLoggedIn");
-    if (cachedStatus !== null) return cachedStatus === "true";
-
     let token = localStorage.getItem("jwtToken");
-    let isValid = token !== null;
-    sessionStorage.setItem("isLoggedIn", isValid.toString());
-    return isValid;
+    return token !== null;
 }
 
 function updateMenu() {
-    if (sessionStorage.getItem("menuUpdated") === "true") return;
-
     let isLoggedIn = isUserLoggedIn();
     document.getElementById("loggedOutMenu")?.style.display = isLoggedIn ? "none" : "block";
     document.getElementById("loggedInMenu")?.style.display = isLoggedIn ? "block" : "none";
@@ -146,15 +140,11 @@ function updateMenu() {
         userIcon.classList.toggle("fa-user-check", isLoggedIn);
         userIcon.classList.toggle("fa-user", !isLoggedIn);
     }
-
-    sessionStorage.setItem("menuUpdated", "true");
 }
 
 function logoutUser() {
     localStorage.removeItem("jwtToken");
-    sessionStorage.clear();
-    updateMenu();
-    window.location.reload();
+    location.reload();
 }
 
 /* ===================================================
