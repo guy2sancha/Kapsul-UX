@@ -18,11 +18,11 @@ let languageToCurrency = {
     "zh-tw": "TWD"
 };
 
-// 🔹 Exécuter immédiatement avant même le chargement du DOM
+// 🔹 Exécuter immédiatement avant même que le DOM soit chargé
 forceMenuDisplay();
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Vérification secondaire pour éviter tout problème si l'élément n'était pas prêt
+    // Vérification secondaire après chargement du DOM pour éviter les erreurs
     updateMenu();
     setupProfileMenu();
     initializeLanguageSelector();
@@ -31,18 +31,20 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeCurrencySelector().catch(console.error);
 });
 
-/** 🔥 Force immédiatement l'affichage du bon menu */
+/** 🔥 Fonction qui force immédiatement l'affichage du bon menu sans attendre */
 function forceMenuDisplay() {
-    let isLoggedIn = (localStorage.getItem("jwtToken") !== null); // Utiliser localStorage !
+    let isLoggedIn = (localStorage.getItem("jwtToken") !== null);
 
-    let loggedOutMenu = document.getElementById("loggedOutMenu");
-    let loggedInMenu = document.getElementById("loggedInMenu");
+    // On applique directement les styles via JS pour éviter le repaint après chargement du DOM
+    let css = isLoggedIn
+        ? "#loggedOutMenu { display: none !important; } #loggedInMenu { display: block !important; }"
+        : "#loggedOutMenu { display: block !important; } #loggedInMenu { display: none !important; }";
 
-    if (loggedOutMenu && loggedInMenu) {
-        loggedOutMenu.style.display = isLoggedIn ? "none" : "block";
-        loggedInMenu.style.display = isLoggedIn ? "block" : "none";
-    }
+    let styleTag = document.createElement("style");
+    styleTag.innerHTML = css;
+    document.head.appendChild(styleTag);
 }
+
 
 
 /* ===================================================
@@ -220,10 +222,9 @@ function closeModal(modalId) {
     }
 }
 
-/** 🔄 Met à jour le menu après `DOMContentLoaded` */
+/** 🔄 Fonction mise à jour du menu après `DOMContentLoaded` */
 function updateMenu() {
-    let isLoggedIn = (localStorage.getItem("jwtToken") !== null); // Utiliser localStorage !
-
+    let isLoggedIn = (localStorage.getItem("jwtToken") !== null);
     console.log("État connecté:", isLoggedIn); // Vérification console
 
     let loggedOutMenu = document.getElementById("loggedOutMenu");
@@ -254,7 +255,7 @@ function updateMenu() {
 
 /** 🚪 Fonction de déconnexion */
 function logoutUser() {
-    localStorage.removeItem("jwtToken"); // Assurer qu'on utilise localStorage ici aussi !
+    localStorage.removeItem("jwtToken"); 
     updateMenu();
     window.location.reload();
 }
