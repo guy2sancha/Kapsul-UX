@@ -318,14 +318,11 @@ function highlightActiveLink() {
         "/marketplace-men": "market"
     };
 
-    let activeCategory = pageMappings[currentPath]; // Ex: "brands" si l'URL est "/all-the-brands"
+     let activeCategory = pageMappings[currentPath]; // Catégorie de la page actuelle
 
     links.forEach((link) => {
-        let linkHref = new URL(link.href, window.location.origin).pathname; // Normaliser le chemin
+        let linkHref = new URL(link.href, window.location.origin).pathname; // Force un pathname propre
 
-        if (!linkHref) return; // Ignore les liens sans href
-
-        // Vérifie si ce lien correspond à la catégorie active
         if (pageMappings[linkHref] === activeCategory) {
             link.classList.add("active-tab");
             console.log("Lien actif détecté :", linkHref);
@@ -334,11 +331,14 @@ function highlightActiveLink() {
         }
     });
 
+    console.log("URL actuelle:", currentPath);
+    console.log("Catégorie active détectée:", activeCategory);
+}
+
 // Exécute après chargement complet
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(highlightActiveLink, 100);
 });
-
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
