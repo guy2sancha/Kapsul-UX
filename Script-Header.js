@@ -18,13 +18,18 @@ let languageToCurrency = {
     "zh-tw": "TWD"
 };
 
-document.addEventListener("DOMContentLoaded", async function () {
-    updateMenu(); // 💡 Exécuter en premier'
-       setupProfileMenu();
-    initializeLanguageSelector(); 
+// Exécuter immédiatement les fonctions critiques AVANT le chargement du DOM
+setupProfileMenu();
+updateMenu();
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Le reste des fonctionnalités s'exécute après que le DOM est chargé
+    initializeLanguageSelector();
     highlightActiveLink();
-       initializeCurrencySelector(); 
-    setupLogoToggle(); 
+    setupLogoToggle();
+
+    // Lancer les taux de change en arrière-plan sans bloquer
+    initializeCurrencySelector().catch(console.error);
 });
 
 
