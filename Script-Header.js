@@ -19,12 +19,12 @@ let languageToCurrency = {
 };
 
 document.addEventListener("DOMContentLoaded", async function () {
-    updateMenu(); // 💡 Exécuter en premier
+    updateMenu(); // 💡 Exécuter en premier'
+       setupProfileMenu();
     initializeLanguageSelector(); 
-    await initializeCurrencySelector(); 
-    highlightActiveLink(); 
+    highlightActiveLink();
+       initializeCurrencySelector(); 
     setupLogoToggle(); 
-    setupProfileMenu();
 });
 
 
