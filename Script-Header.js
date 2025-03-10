@@ -287,7 +287,7 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
-    let currentPath = window.location.pathname; // Chemin actuel
+    let currentPath = window.location.pathname; // Chemin actuel sans query params
 
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
@@ -303,7 +303,8 @@ function highlightActiveLink() {
         "/swedish-brands": "brands",
         "/united-states-brands": "brands",
         "/united-kingdom-brands": "brands",
-       "/brand-details": "brands,
+        
+        "/brand-details": "brands", // ✅ Ajouté ici
 
         "/all-the-retailers": "shops",
         "/tokyo": "shops",
@@ -323,21 +324,24 @@ function highlightActiveLink() {
         "/marketplace-men": "market"
     };
 
-     let activeCategory = pageMappings[currentPath]; // Catégorie de la page actuelle
+    // ✅ Correction : Prendre en compte les URLs contenant `/brand-details`
+    let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key)) 
+                         ? pageMappings["/brand-details"] 
+                         : pageMappings[currentPath];
 
     links.forEach((link) => {
         let linkHref = new URL(link.href, window.location.origin).pathname; // Force un pathname propre
 
         if (pageMappings[linkHref] === activeCategory) {
             link.classList.add("active-tab");
-            console.log("Lien actif détecté :", linkHref);
+            console.log("✅ Lien actif détecté :", linkHref);
         } else {
             link.classList.remove("active-tab");
         }
     });
 
-    console.log("URL actuelle:", currentPath);
-    console.log("Catégorie active détectée:", activeCategory);
+    console.log("🌍 URL actuelle:", currentPath);
+    console.log("📌 Catégorie active détectée:", activeCategory);
 }
 
 // Exécute après chargement complet
