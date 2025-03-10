@@ -304,7 +304,8 @@ function highlightActiveLink() {
         "/united-states-brands": "brands",
         "/united-kingdom-brands": "brands",
         
-        "/brand-details": "brands", // ✅ Ajouté ici
+        "/brand-details": "brands",
+        "/shop-details": "shops",
 
         "/all-the-retailers": "shops",
         "/tokyo": "shops",
