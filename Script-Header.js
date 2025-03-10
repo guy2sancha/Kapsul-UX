@@ -303,6 +303,7 @@ function highlightActiveLink() {
         "/swedish-brands": "brands",
         "/united-states-brands": "brands",
         "/united-kingdom-brands": "brands",
+       "/brand-details": "brands,
 
         "/all-the-retailers": "shops",
         "/tokyo": "shops",
