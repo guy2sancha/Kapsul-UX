@@ -18,20 +18,32 @@ let languageToCurrency = {
     "zh-tw": "TWD"
 };
 
-// Exécuter immédiatement les fonctions critiques AVANT le chargement du DOM
-setupProfileMenu();
-updateMenu();
+// 🔹 Exécuter immédiatement avant même le chargement du DOM
+forceMenuDisplay();
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Le reste des fonctionnalités s'exécute après que le DOM est chargé
+    // Vérification secondaire pour éviter tout problème si l'élément n'était pas prêt
+    updateMenu();
+    setupProfileMenu();
     initializeLanguageSelector();
     highlightActiveLink();
     setupLogoToggle();
-
-    // Lancer les taux de change en arrière-plan sans bloquer
     initializeCurrencySelector().catch(console.error);
 });
 
+/** 🔥 Fonction qui force immédiatement l'affichage du bon menu sans attendre */
+function forceMenuDisplay() {
+    let isLoggedIn = (sessionStorage.getItem("jwtToken") !== null);
+
+    // Récupère les éléments du menu (ils doivent exister même si le DOM est encore en cours de chargement)
+    let loggedOutMenu = document.getElementById("loggedOutMenu");
+    let loggedInMenu = document.getElementById("loggedInMenu");
+
+    if (loggedOutMenu && loggedInMenu) {
+        loggedOutMenu.style.display = isLoggedIn ? "none" : "block";
+        loggedInMenu.style.display = isLoggedIn ? "block" : "none";
+    }
+}
 
 
 /* ===================================================
@@ -209,14 +221,14 @@ function closeModal(modalId) {
     }
 }
 
-/* ===================================================
-   E) MISE À JOUR DU MENU (login/logout)
-   =================================================== */
+/** 🔄 Fonction mise à jour du menu (réexécutée après `DOMContentLoaded` pour finaliser) */
 function updateMenu() {
-    let isLoggedIn = (localStorage.getItem("jwtToken") !== null);
+    let isLoggedIn = (sessionStorage.getItem("jwtToken") !== null);
+    console.log("État connecté:", isLoggedIn);
 
     let loggedOutMenu = document.getElementById("loggedOutMenu");
     let loggedInMenu = document.getElementById("loggedInMenu");
+
     if (loggedOutMenu && loggedInMenu) {
         loggedOutMenu.style.display = isLoggedIn ? "none" : "block";
         loggedInMenu.style.display = isLoggedIn ? "block" : "none";
@@ -235,23 +247,17 @@ function updateMenu() {
 
     let userIcon = document.getElementById("profileIcon");
     if (userIcon) {
-        if (isLoggedIn) {
-            userIcon.classList.remove("fa-user");
-            userIcon.classList.add("fa-user-check");
-        } else {
-            userIcon.classList.remove("fa-user-check");
-            userIcon.classList.add("fa-user");
-        }
+        userIcon.classList.remove("fa-user", "fa-user-check");
+        userIcon.classList.add(isLoggedIn ? "fa-user-check" : "fa-user");
     }
 }
 
+/** 🚪 Fonction de déconnexion */
 function logoutUser() {
-    localStorage.removeItem("jwtToken");
+    sessionStorage.removeItem("jwtToken");
     updateMenu();
     window.location.reload();
 }
-
-
 /* ===================================================
    F) PROFIL (menu déroulant)
    =================================================== */
