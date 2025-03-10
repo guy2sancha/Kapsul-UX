@@ -287,10 +287,19 @@ function highlightActiveLink() {
 
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
-        "/all-the-brands": "brands",
-        "/japanese-brands": "brands",
-        "/french-brands": "brands",
-        "/german-brands": "brands",
+        {
+    "/all-the-brands": "brands",
+    "/japanese-brands": "brands",
+    "/south-korean-brands": "brands",
+    "/taiwanese-brands": "brands",
+    "/vietnamese-brands": "brands",
+    "/australian-brands": "brands",
+    "/french-brands": "brands",
+    "/italian-brands": "brands",
+    "/german-brands": "brands",
+    "/swedish-brands": "brands",
+    "/united-states-brands": "brands",
+    "/united-kingdom-brands": "brands"
         "/all-the-retailers": "shops",
         "/local-shops": "shops",
         "/global-shops": "shops",
