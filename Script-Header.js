@@ -184,7 +184,7 @@ function getCurrentLang() {
    C) GESTION DU PANIER
    =================================================== */
 function handleCartClick() {
-    let isLoggedIn = (localStorage.getItem("userToken") !== null);
+    let isLoggedIn = (localStorage.getItem("jwtToken") !== null);
     if (isLoggedIn) {
         window.location.href = "/cart";
     } else {
@@ -218,7 +218,7 @@ function closeModal(modalId) {
    E) MISE À JOUR DU MENU (login/logout)
    =================================================== */
 function updateMenu() {
-    let isLoggedIn = (localStorage.getItem("userToken") !== null);
+    let isLoggedIn = (localStorage.getItem("jwtToken") !== null);
 
     let loggedOutMenu = document.getElementById("loggedOutMenu");
     let loggedInMenu = document.getElementById("loggedInMenu");
@@ -251,10 +251,11 @@ function updateMenu() {
 }
 
 function logoutUser() {
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("jwtToken");
     updateMenu();
     window.location.reload();
 }
+
 
 /* ===================================================
    F) PROFIL (menu déroulant)
