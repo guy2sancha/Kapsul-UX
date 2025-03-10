@@ -31,11 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeCurrencySelector().catch(console.error);
 });
 
-/** 🔥 Fonction qui force immédiatement l'affichage du bon menu sans attendre */
+/** 🔥 Force immédiatement l'affichage du bon menu */
 function forceMenuDisplay() {
-    let isLoggedIn = (sessionStorage.getItem("jwtToken") !== null);
+    let isLoggedIn = (localStorage.getItem("jwtToken") !== null); // Utiliser localStorage !
 
-    // Récupère les éléments du menu (ils doivent exister même si le DOM est encore en cours de chargement)
     let loggedOutMenu = document.getElementById("loggedOutMenu");
     let loggedInMenu = document.getElementById("loggedInMenu");
 
@@ -221,10 +220,11 @@ function closeModal(modalId) {
     }
 }
 
-/** 🔄 Fonction mise à jour du menu (réexécutée après `DOMContentLoaded` pour finaliser) */
+/** 🔄 Met à jour le menu après `DOMContentLoaded` */
 function updateMenu() {
-    let isLoggedIn = (sessionStorage.getItem("jwtToken") !== null);
-    console.log("État connecté:", isLoggedIn);
+    let isLoggedIn = (localStorage.getItem("jwtToken") !== null); // Utiliser localStorage !
+
+    console.log("État connecté:", isLoggedIn); // Vérification console
 
     let loggedOutMenu = document.getElementById("loggedOutMenu");
     let loggedInMenu = document.getElementById("loggedInMenu");
@@ -254,10 +254,11 @@ function updateMenu() {
 
 /** 🚪 Fonction de déconnexion */
 function logoutUser() {
-    sessionStorage.removeItem("jwtToken");
+    localStorage.removeItem("jwtToken"); // Assurer qu'on utilise localStorage ici aussi !
     updateMenu();
     window.location.reload();
 }
+
 /* ===================================================
    F) PROFIL (menu déroulant)
    =================================================== */
