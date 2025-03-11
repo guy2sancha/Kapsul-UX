@@ -1,0 +1,111 @@
+<!-- =====================
+     MODALES
+     ===================== -->
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <h2>Please Login or Signup</h2>
+        <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
+        <div class="modal-actions">
+            <a href="/sign-in" class="modal-button">Login</a>
+            <a href="/register" class="modal-button">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+<style>
+  .custom-add-to-cart-button {
+    width: 100%;
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 15px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .custom-add-to-cart-button:hover {
+    background-color: #f7f7f7;
+    transform: scale(1.02);
+  }
+
+  .custom-add-to-cart-button.in-cart {
+    background-color: #00443F;
+    color: white;
+    border: 1px solid #00443F;
+    cursor: default;
+  }
+
+  .spinner {
+    border: 2px solid transparent;
+    border-top: 2px solid #000000;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  #cart-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .cart-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+
+  .cart-modal-content select, 
+  .cart-modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+  }
+
+  .cart-modal-content button {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .cart-modal-content .confirm {
+    background-color: #0D26FF;
+    color: white;
+  }
+
+  .cart-modal-content .cancel {
+    background-color: #ccc;
+    color: black;
+  }
+  
+  
+</style>
