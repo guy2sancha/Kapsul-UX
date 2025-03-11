@@ -62,6 +62,12 @@ function initializeCartSystem() {
             button.getAttribute("data-colors").split(",").map(color => `<option value="${color.trim()}">${color.trim()}</option>`).join('') : 
             `<option value="">Default</option>`;
 
+        // Supprimer tout modal existant avant d'ajouter un nouveau
+        const existingModal = document.getElementById("cart-modal");
+        if (existingModal) {
+            existingModal.remove();
+        }
+
         const modalHTML = `
           <div id="cart-modal" class="cart-modal-overlay">
             <div class="cart-modal-content">
@@ -80,8 +86,12 @@ function initializeCartSystem() {
 
         document.body.insertAdjacentHTML("beforeend", modalHTML);
 
+        // 🔥 Attacher les événements APRÈS l'ajout au DOM
         document.getElementById("submit-cart").addEventListener("click", () => addToCart(button, productID));
-        document.getElementById("close-cart").addEventListener("click", () => document.getElementById("cart-modal").remove());
+        document.getElementById("close-cart").addEventListener("click", () => {
+            console.log("❌ Fermeture du modal...");
+            document.getElementById("cart-modal").remove();
+        });
     }
 
     async function addToCart(button, productID) {
