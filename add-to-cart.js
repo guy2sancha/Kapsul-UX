@@ -42,7 +42,7 @@ function initializeCartSystem() {
             const productID = button.getAttribute("data-product-id");
 
             if (cartProductIDs.includes(productID)) {
-                button.textContent = "✔ In Cart";
+                button.textContent = "In Cart";
                 button.classList.add("in-cart");
                 button.disabled = true;
             }
