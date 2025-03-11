@@ -242,7 +242,7 @@ function updateMenu() {
             cartLink.removeAttribute("onclick");
         } else {
             cartLink.href = "#";
-            cartLink.setAttribute("onclick", "showModal('cartModal')");
+            cartLink.setAttribute("onclick", "event.preventDefault(); showModal('cartModal');");
         }
     }
 
