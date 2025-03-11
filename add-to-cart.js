@@ -124,7 +124,7 @@ function initializeCartSystem() {
 
             if (response.ok) {
                 console.log("✅ Produit ajouté au panier avec succès !");
-                button.textContent = "✔ In Cart";
+                button.textContent = "In Cart";
                 button.classList.add("in-cart");
                 button.disabled = true;
                 document.getElementById("cart-modal").remove();
