@@ -255,10 +255,17 @@ function updateMenu() {
 
 /** 🚪 Fonction de déconnexion */
 function logoutUser() {
-    localStorage.removeItem("jwtToken"); 
+    // Supprimer les tokens
+    localStorage.removeItem("jwtToken");  // Supprime le token d'authentification
+    sessionStorage.removeItem("userToken"); // Supprime l'ID utilisateur stocké pour Airtable
+
+    // Mettre à jour l'UI du menu (si nécessaire)
     updateMenu();
+
+    // Recharger la page pour revenir à l'état déconnecté
     window.location.reload();
 }
+
 
 /* ===================================================
    F) PROFIL (menu déroulant)
