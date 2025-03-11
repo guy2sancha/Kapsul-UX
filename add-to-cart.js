@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const buttons = document.querySelectorAll(".custom-add-to-cart-button");
   const API_URL = "https://kapsul-cart-backend-production.up.railway.app"; 
-  const userToken = sessionStorage.getItem("userToken"); // Correction ici (minuscule)
+  const userToken = localStorage.getItem("userToken"); // Correction ici (minuscule)
 
   if (!userToken) {
     buttons.forEach(button => {
