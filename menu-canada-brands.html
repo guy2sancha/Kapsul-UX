@@ -1,0 +1,158 @@
+ <style>
+    /* ---------- Container principal en 3 colonnes ---------- */
+    .grid-container {
+      display: flex; 
+      /* 
+        NB: 'grid-template-columns' here doesn't apply because 
+        you're using 'display: flex' instead of 'display: grid'.
+        You could remove 'grid-template-columns' or switch to 'display: grid'.
+      */
+      grid-template-columns: 30% 1fr 30%; 
+      gap: 20px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Bloc de gauche/droite : deux classes distinctes ---------- */
+    .menu-list-left,
+    .menu-list-right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 200px; /* Limit the menu item width */
+    }
+
+    /* Align text in each column */
+    .menu-list-left {
+      text-align: left;    
+    }
+    .menu-list-right {
+      text-align: right;   
+      margin-left: auto;  
+    }
+
+    /*
+      ---------- Style commun pour chaque lien (menu-item) ----------
+      - border, background, etc.
+      - hover effect with a "blue band"
+    */
+    .menu-item {
+      position: relative;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 25px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      border: 2px solid #333;
+      border-radius: 0px;
+      text-decoration: none;
+      background-color: white;
+      white-space: nowrap; 
+      overflow: hidden;
+      transition: color 0.4s ease-in-out;
+      z-index: 1; /* pseudo-element goes behind */
+    }
+
+    /* 
+      ---------- Active state ----------
+      - Fill background in blue, text in white, remove border or adapt it
+      - You can remove the hover effect if you like
+    */
+    .menu-item.active {
+      background-color: blue;
+      color: #fff;
+      border-color: blue;
+    }
+    .menu-item.active::after {
+      content: none; /* remove the "blue band" hover effect on the active item */
+    }
+
+    /* Blue band that expands on hover for non-active items */
+    .menu-item::after {
+      content: "";
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: blue;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease-in-out;
+      z-index: -1;
+    }
+    
+    .menu-list-right .menu-item::after {
+  transform-origin: right;
+}
+
+
+    /* On hover: expand the band, text turns white */
+    .menu-item:hover::after {
+      transform: scaleX(1);
+    }
+    .menu-item:hover {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* ---------- Bloc central : image ---------- */
+    .image-container2 {
+      position: relative;
+      width: 100%;
+      height: 460px; /* Fixed height for the example */
+    }
+    .right-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0px;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: 1fr; /* Or switch to 'display: grid' if you prefer */
+        flex-direction: column; /* So that the columns stack on mobile */
+      }
+      .menu-list-left,
+      .menu-list-right {
+        max-width: 100%;
+        text-align: center;
+        margin: 0 auto;
+      }
+    }
+  </style>
+
+  <div class="grid-container">
+
+  <!-- Colonne 1 (gauche) : menu (classe .menu-list-left) -->
+<div class="menu-list-left">
+    <a href="https://kapsul.world/east-asian-brands" class="menu-item">All in Americas</a>
+   <a href="https://kapsul.world/united-states-brands" class="menu-item">United States</a>
+    <a href="https://kapsul.world/canadian-brands" class="menu-item active">Canada</a>
+    <a href="https://kapsul.world/mexican-brands" class="menu-item">Mexico</a>
+    <a href="https://kapsul.world/brazilian-brands" class="menu-item">Brazil</a>
+</div>
+
+<!-- Colonne 2 (centre) : image -->
+<div class="image-container2">
+    <img
+        class="right-image"
+        src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1740480743/herobanner_AGAIN_U107_dzwbkb.jpg"
+        alt="Visuel"
+    >
+</div>
+
+<!-- Colonne 3 (droite) : menu (classe .menu-list-right) -->
+<div class="menu-list-right">
+    <a href="https://kapsul.world/argentinian-brands" class="menu-item">Argentina</a>
+    <a href="https://kapsul.world/colombian-brands" class="menu-item">Colombia</a>
+    <a href="https://kapsul.world/chilean-brands" class="menu-item">Chile</a>
+    <a href="https://kapsul.world/peruvian-brands" class="menu-item">Peru</a>
+    <a href="https://kapsul.world/all-the-brands" class="menu-item">← Back</a>
+</div>
+
+
+  </div>
