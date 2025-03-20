@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     let lastScrollY = window.scrollY;
     let isHidden = false;
 
-    // 1) Au scroll, hide/show le header
+    // 1️⃣ Hide/Show du header mobile au scroll
     window.addEventListener("scroll", function () {
         let currentScrollY = window.scrollY;
         if (currentScrollY > 50) {
@@ -21,50 +21,57 @@ document.addEventListener("DOMContentLoaded", async function () {
         lastScrollY = currentScrollY;
     });
 
-    // 2) Détection de la langue
+    // 2️⃣ Détection et initialisation de la langue
     detectBrowserLanguageMobile();
     initializeLanguageSelectorMobile();
 
-    // 3) Gestion devise
-    await initializeCurrencySelector(); // important: on attend la réponse fetch
+    // 3️⃣ Initialisation de la gestion des devises
+    await initializeCurrencySelector();
 
-    // 4) Mise à jour menu (connecté ou pas)
+    // 4️⃣ Mise à jour de l'affichage du menu utilisateur
     updateMenu();
 
-    // 5) Bouton user -> dropdown
-    document.getElementById("loginButton").addEventListener("click", function(event) {
-        event.stopPropagation();
-        toggleMenu();
-    });
+    // 5️⃣ Gestion du menu utilisateur (dropdown)
+    let loginButton = document.getElementById("loginButton");
+    if (loginButton) {
+        loginButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            toggleMenu();
+        });
+    }
 
-    // 6) Clic global -> fermer le dropdown
-    document.addEventListener("click", function(event) {
+    // 6️⃣ Fermer le dropdown utilisateur au clic extérieur
+    document.addEventListener("click", function (event) {
         let menu = document.getElementById("profileMenu");
-        if (!menu.contains(event.target)) {
+        if (menu && !menu.contains(event.target)) {
             menu.classList.remove("show");
         }
     });
 
-    // 7) Bouton cart -> vérifie login ou ouvre modal
-    document.getElementById("cartButton").addEventListener("click", handleCartClick);
+    // 7️⃣ Gestion du panier (redirige ou ouvre une modale)
+    let cartButton = document.getElementById("cartButton");
+    if (cartButton) {
+        cartButton.addEventListener("click", handleCartClick);
+    }
+
+    // 8️⃣ Activation automatique du lien actif dans la bottom-bar
+    highlightActiveLink();
 });
 
 /* =====================
-   handleCartClick
+   1️⃣ handleCartClick - Gestion du bouton panier
    ===================== */
 function handleCartClick() {
-    let isLoggedIn = (localStorage.getItem("userToken") !== null);
+    let isLoggedIn = localStorage.getItem("userToken") !== null;
     if (isLoggedIn) {
-        // Rediriger vers la page /cart
         window.location.href = "/cart";
     } else {
-        // Ouvrir la modale
         showModal("cartModal");
     }
 }
 
 /* =====================
-   1) fetchExchangeRates
+   2️⃣ fetchExchangeRates - Récupération des taux de change
    ===================== */
 async function fetchExchangeRates() {
     try {
@@ -72,45 +79,22 @@ async function fetchExchangeRates() {
         let data = await response.json();
         return data.rates;
     } catch (err) {
-        console.error("Erreur lors de la récupération des taux de change", err);
-        // Valeurs par défaut si l'API échoue :
+        console.error("❌ Erreur API taux de change :", err);
         return {
-            USD: 1,
-            EUR: 0.91,
-            GBP: 0.76,
-            JPY: 135,
-            KRW: 1300,
-            TWD: 30,
-            SGD: 1.35,
-            THB: 33,
-            AUD: 1.45,
-            HKD: 7.85,
-            CAD: 1.36,
-            NZD: 1.57
+            USD: 1, EUR: 0.91, GBP: 0.76, JPY: 135, KRW: 1300, TWD: 30, SGD: 1.35,
+            THB: 33, AUD: 1.45, HKD: 7.85, CAD: 1.36, NZD: 1.57
         };
     }
 }
 
 /* =====================
-   2) initializeCurrencySelector
+   3️⃣ initializeCurrencySelector - Initialisation du sélecteur de devise
    ===================== */
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
-
-    // Symboles
     let currencySymbols = {
-        USD: "$",
-        EUR: "€",
-        GBP: "£",
-        JPY: "¥",
-        KRW: "₩",
-        TWD: "NT$",
-        SGD: "S$",
-        THB: "฿",
-        AUD: "A$",
-        HKD: "HK$",
-        CAD: "C$",
-        NZD: "NZ$"
+        USD: "$", EUR: "€", GBP: "£", JPY: "¥", KRW: "₩", TWD: "NT$", SGD: "S$", 
+        THB: "฿", AUD: "A$", HKD: "HK$", CAD: "C$", NZD: "NZ$"
     };
 
     let currencySelector = document.getElementById("currencySelector");
@@ -118,41 +102,33 @@ async function initializeCurrencySelector() {
 
     currencySelector.addEventListener("change", function () {
         let selected = this.value;
-        let symbol = currencySymbols[selected] || selected; // fallback = code
+        let symbol = currencySymbols[selected] || selected;
 
         document.querySelectorAll("[data-price]").forEach((item) => {
-            let basePrice = parseFloat(item.getAttribute("data-price")); // USD base
+            let basePrice = parseFloat(item.getAttribute("data-price"));
             let rate = rates[selected] || 1;
             let converted = Math.round(basePrice * rate);
-
             item.textContent = `${converted} ${symbol}`;
         });
 
         localStorage.setItem("userPreferredCurrency", selected);
     });
 
-    // Restaurer la préférence
     let storedCurrency = localStorage.getItem("userPreferredCurrency");
     if (storedCurrency) {
         currencySelector.value = storedCurrency;
-        // On force le change pour convertir immédiatement
         currencySelector.dispatchEvent(new Event("change"));
     }
 }
 
 /* =====================
-   3) Fonctions existantes (Langue, Menu, etc.)
+   4️⃣ Détection et initialisation de la langue
    ===================== */
 function detectBrowserLanguageMobile() {
     let pathSegments = window.location.pathname.split('/');
     let currentLang = pathSegments[1];
     
-    // Toutes les langues
-    let supportedLanguages = [
-      "fr", "ja", "ko", "es", "th", "pt", "de", 
-      "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
-    ];
-    
+    let supportedLanguages = ["fr", "ja", "ko", "es", "th", "pt", "de", "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"];
     let browserLang = navigator.language.slice(0, 2).toLowerCase();
     let storedLang = localStorage.getItem("userPreferredLanguage");
 
@@ -167,62 +143,54 @@ function detectBrowserLanguageMobile() {
 }
 
 function initializeLanguageSelectorMobile() {
-    let pathSegments = window.location.pathname.split('/');
-    let currentLang = pathSegments[1];
-
-    // Les mêmes langues
-    let supportedLanguages = [
-      "fr", "ja", "ko", "es", "th", "pt", "de", 
-      "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
-    ];
-    
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
-    // Sélectionne la langue en cours ou "en"
-    languageSelector.value = supportedLanguages.includes(currentLang) ? currentLang : "en";
+    let currentLang = window.location.pathname.split('/')[1];
+    let supportedLanguages = ["fr", "ja", "ko", "es", "th", "pt", "de", "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"];
 
+    languageSelector.value = supportedLanguages.includes(currentLang) ? currentLang : "en";
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
-        // Supprime le segment "fr", "ja", etc. si présent
-        let regexLangs = /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/;
-        let newPath = window.location.pathname.replace(regexLangs, '');
+        let newPath = window.location.pathname.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/, '');
 
         localStorage.setItem("userPreferredLanguage", selectedLang);
-
-        if (selectedLang === "en") {
-            window.location.href = newPath || "/";
-        } else {
-            window.location.href = `/${selectedLang}${newPath}`;
-        }
+        window.location.href = selectedLang === "en" ? newPath || "/" : `/${selectedLang}${newPath}`;
     });
 }
 
+/* =====================
+   5️⃣ Menu utilisateur & Authentification
+   ===================== */
 function checkLoginStatus() {
     return localStorage.getItem("userToken") !== null;
 }
+
 function updateMenu() {
     let isLoggedIn = checkLoginStatus();
     document.getElementById("loggedOutMenu").style.display = isLoggedIn ? "none" : "block";
     document.getElementById("loggedInMenu").style.display = isLoggedIn ? "block" : "none";
 }
+
 function logoutUser() {
     localStorage.removeItem("userToken");
     updateMenu();
     window.location.reload();
 }
+
 function toggleMenu() {
     document.getElementById("profileMenu").classList.toggle("show");
 }
-function showModal(id) {
-    let modal = document.getElementById(id);
-    if (modal) {
-      modal.style.display = 'flex';
-    }
-}
-function closeModal(id) {
-    let modal = document.getElementById(id);
-    if (modal) {
-      modal.style.display = 'none';
-    }
+
+/* =====================
+   6️⃣ Bottom-bar : Mettre en surbrillance l'onglet actif
+   ===================== */
+function highlightActiveLink() {
+    let links = document.querySelectorAll(".bottom-bar a");
+    let currentPath = window.location.pathname;
+
+    links.forEach(link => {
+        let linkHref = new URL(link.href, window.location.origin).pathname;
+        link.classList.toggle("active-tab", linkHref === currentPath);
+    });
 }
