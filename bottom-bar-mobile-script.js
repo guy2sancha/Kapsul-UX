@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 bottomBar.style.backgroundColor = `rgba(255, 255, 255, ${Math.max(0.4, 1 - currentScrollY / 300)})`;
                 bottomBar.style.boxShadow = 'none';
             } else {
-                bottomBar.style.backgroundColor = 'rgba(255, 255, 1)';
+                bottomBar.style.backgroundColor = 'rgba(255, 255, 255, 1)';
                 bottomBar.style.boxShadow = '0px -4px 10px rgba(0, 0, 0, 0.1)';
             }
         } else {
@@ -20,12 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
         lastScrollY = currentScrollY;
     });
 
-    // Ajout du comportement de surbrillance du lien actif
+    // ✅ Fonction pour surligner le lien actif (Desktop + Mobile)
     function highlightActiveLink() {
         let links = document.querySelectorAll(".bottom-bar a");
-        let currentPath = normalizePath(window.location.pathname); // Chemin actuel sans préfixe de langue
+        let currentPath = normalizePath(window.location.pathname);
 
         let pageMappings = {
+            "/": "home",
+            "/map": "map",
             "/all-the-brands": "brands",
             "/american-brands": "brands",
             "/european-brands": "brands",
@@ -34,48 +36,36 @@ document.addEventListener("DOMContentLoaded", function () {
             "/south-asian-brands": "brands",
             "/east-asian-brands": "brands",
             "/oceanian-brands": "brands",
-
-            "/brand-details": "brands",
-            "/shop-details": "shops",
             "/all-the-retailers": "shops",
-            "/tokyo": "shops",
-            "/seoul": "shops",
-            "/taipei": "shops",
-            "/hong-kong": "shops",
-            "/paris": "shops",
-            "/new-york": "shops",
-            "/london": "shops",
-            "/amsterdam": "shops",
-            "/melbourne": "shops",
-
-            "/map": "map",
-            "/store-locator": "map",
-            "/marketplace": "market",
-            "/marketplace-women": "market",
-            "/marketplace-men": "market"
+            "/marketplace": "market"
         };
 
-        // Identifier la catégorie active
         let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key)) 
-                            ? pageMappings[currentPath.startsWith("/brand-details") ? "/brand-details" : 
-                                            currentPath.startsWith("/shop-details") ? "/shop-details" : currentPath]
-                            : pageMappings[currentPath];
+                            ? pageMappings[currentPath]
+                            : null;
+
+        console.log("🌍 URL actuelle:", currentPath);
+        console.log("📌 Catégorie active détectée:", activeCategory);
 
         links.forEach((link) => {
             let linkHref = normalizePath(new URL(link.href, window.location.origin).pathname);
 
             if (pageMappings[linkHref] === activeCategory) {
-                link.classList.add("active-tab");
+                link.classList.add("active");
+                console.log("✅ Lien actif détecté :", linkHref);
             } else {
-                link.classList.remove("active-tab");
+                link.classList.remove("active");
             }
         });
     }
 
     // Fonction pour normaliser les chemins en supprimant le préfixe de langue
     function normalizePath(path) {
-        return path.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)(\/|$)/, "/"); // Supprime le préfixe de langue
+        return path.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)(\/|$)/, "/").toLowerCase(); // Supprime le préfixe de langue
     }
+
+    // ✅ Appliquer la mise en surbrillance au chargement de la page
+    setTimeout(highlightActiveLink, 100);
 
     // Gestion du clic sur les liens de la bottom-bar pour scroller en haut
     document.querySelectorAll(".bottom-bar a").forEach(link => {
@@ -97,7 +87,4 @@ document.addEventListener("DOMContentLoaded", function () {
             behavior: "smooth"
         });
     }
-
-    // Exécuter la mise en surbrillance après chargement
-    setTimeout(highlightActiveLink, 100);
 });
