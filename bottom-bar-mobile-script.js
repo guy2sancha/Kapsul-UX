@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 bottomBar.style.backgroundColor = `rgba(255, 255, 255, ${Math.max(0.4, 1 - currentScrollY / 300)})`;
                 bottomBar.style.boxShadow = 'none';
             } else {
-                bottomBar.style.backgroundColor = 'rgba(255, 255, 255, 1)';
+                bottomBar.style.backgroundColor = 'rgba(255, 255, 1)';
                 bottomBar.style.boxShadow = '0px -4px 10px rgba(0, 0, 0, 0.1)';
             }
         } else {
@@ -20,14 +20,12 @@ document.addEventListener("DOMContentLoaded", function () {
         lastScrollY = currentScrollY;
     });
 
-    // ✅ Fonction pour surligner le lien actif (Desktop + Mobile)
+    // Fonction pour mettre en surbrillance le lien actif
     function highlightActiveLink() {
         let links = document.querySelectorAll(".bottom-bar a");
         let currentPath = normalizePath(window.location.pathname);
 
         let pageMappings = {
-            "/": "home",
-            "/map": "map",
             "/all-the-brands": "brands",
             "/american-brands": "brands",
             "/european-brands": "brands",
@@ -36,23 +34,38 @@ document.addEventListener("DOMContentLoaded", function () {
             "/south-asian-brands": "brands",
             "/east-asian-brands": "brands",
             "/oceanian-brands": "brands",
+
+            "/brand-details": "brands",
+            "/shop-details": "shops",
             "/all-the-retailers": "shops",
-            "/marketplace": "market"
+            "/tokyo": "shops",
+            "/seoul": "shops",
+            "/taipei": "shops",
+            "/hong-kong": "shops",
+            "/paris": "shops",
+            "/new-york": "shops",
+            "/london": "shops",
+            "/amsterdam": "shops",
+            "/melbourne": "shops",
+
+            "/map": "map",
+            "/store-locator": "map",
+            "/marketplace": "market",
+            "/marketplace-women": "market",
+            "/marketplace-men": "market"
         };
 
+        // Trouver la catégorie active
         let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key)) 
-                            ? pageMappings[currentPath]
-                            : null;
-
-        console.log("🌍 URL actuelle:", currentPath);
-        console.log("📌 Catégorie active détectée:", activeCategory);
+                             ? pageMappings[currentPath] 
+                             : null;
 
         links.forEach((link) => {
-            let linkHref = normalizePath(new URL(link.href, window.location.origin).pathname);
+            let linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+            let linkCategory = pageMappings[linkPath];
 
-            if (pageMappings[linkHref] === activeCategory) {
+            if (linkCategory === activeCategory) {
                 link.classList.add("active");
-                console.log("✅ Lien actif détecté :", linkHref);
             } else {
                 link.classList.remove("active");
             }
@@ -61,10 +74,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fonction pour normaliser les chemins en supprimant le préfixe de langue
     function normalizePath(path) {
-        return path.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)(\/|$)/, "/").toLowerCase(); // Supprime le préfixe de langue
+        return path.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)(\/|$)/, "/").toLowerCase(); 
     }
 
-    // ✅ Appliquer la mise en surbrillance au chargement de la page
+    // Appliquer la mise en surbrillance après chargement de la page
     setTimeout(highlightActiveLink, 100);
 
     // Gestion du clic sur les liens de la bottom-bar pour scroller en haut
