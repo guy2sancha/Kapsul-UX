@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 bottomBar.style.backgroundColor = `rgba(255, 255, 255, ${Math.max(0.4, 1 - currentScrollY / 300)})`;
                 bottomBar.style.boxShadow = 'none';
             } else {
-                bottomBar.style.backgroundColor = 'rgba(255, 255, 1)';
+                bottomBar.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // <- BLANC ICI
                 bottomBar.style.boxShadow = '0px -4px 10px rgba(0, 0, 0, 0.1)';
             }
         } else {
@@ -55,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "/marketplace-men": "market"
         };
 
-        // Trouver la catégorie active
         let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key)) 
                              ? pageMappings[currentPath] 
                              : null;
@@ -72,15 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Fonction pour normaliser les chemins en supprimant le préfixe de langue
     function normalizePath(path) {
-        return path.replace(/^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)(\/|$)/, "/").toLowerCase(); 
+        return path.replace(/^\\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\\-cn|zh\\-tw)(\\/|$)/, \"/\").toLowerCase(); 
     }
 
-    // Appliquer la mise en surbrillance après chargement de la page
     setTimeout(highlightActiveLink, 100);
 
-    // Gestion du clic sur les liens de la bottom-bar pour scroller en haut
     document.querySelectorAll(".bottom-bar a").forEach(link => {
         link.addEventListener("click", function (event) {
             const linkPath = normalizePath(new URL(link.href).pathname);
@@ -93,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Fonction de scroll fluide vers le haut
     function smoothScrollToTop() {
         window.scrollTo({
             top: 0,
