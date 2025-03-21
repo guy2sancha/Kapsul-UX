@@ -297,6 +297,7 @@ function highlightActiveLink() {
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
         "/all-the-brands": "brands",
+       "/american-brands": "brands",
         "/japanese-brands": "brands",
         "/korean-brands": "brands",
         "/taiwanese-brands": "brands",
