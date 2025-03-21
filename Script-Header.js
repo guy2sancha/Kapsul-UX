@@ -298,6 +298,7 @@ function highlightActiveLink() {
     let pageMappings = {
         "/all-the-brands": "brands",
        "/american-brands": "brands",
+       "/european-brands": "brands",
         "/japanese-brands": "brands",
         "/korean-brands": "brands",
         "/taiwanese-brands": "brands",
