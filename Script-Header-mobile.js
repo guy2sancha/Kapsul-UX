@@ -21,8 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         lastScrollY = currentScrollY;
     });
 
-    // 2) Détection de la langue
-    detectBrowserLanguageMobile();
+    // 2) Initialiser le sélecteur de langue (sans détection automatique)
     initializeLanguageSelectorMobile();
 
     // 3) Gestion devise
@@ -97,7 +96,6 @@ async function fetchExchangeRates() {
 async function initializeCurrencySelector() {
     let rates = await fetchExchangeRates();
 
-    // Symboles
     let currencySymbols = {
         USD: "$",
         EUR: "€",
@@ -118,10 +116,10 @@ async function initializeCurrencySelector() {
 
     currencySelector.addEventListener("change", function () {
         let selected = this.value;
-        let symbol = currencySymbols[selected] || selected; // fallback = code
+        let symbol = currencySymbols[selected] || selected;
 
         document.querySelectorAll("[data-price]").forEach((item) => {
-            let basePrice = parseFloat(item.getAttribute("data-price")); // USD base
+            let basePrice = parseFloat(item.getAttribute("data-price"));
             let rate = rates[selected] || 1;
             let converted = Math.round(basePrice * rate);
 
@@ -131,60 +129,32 @@ async function initializeCurrencySelector() {
         localStorage.setItem("userPreferredCurrency", selected);
     });
 
-    // Restaurer la préférence
     let storedCurrency = localStorage.getItem("userPreferredCurrency");
     if (storedCurrency) {
         currencySelector.value = storedCurrency;
-        // On force le change pour convertir immédiatement
         currencySelector.dispatchEvent(new Event("change"));
     }
 }
 
 /* =====================
-   3) Fonctions existantes (Langue, Menu, etc.)
+   3) initializeLanguageSelectorMobile
    ===================== */
-function detectBrowserLanguageMobile() {
-    let pathSegments = window.location.pathname.split('/');
-    let currentLang = pathSegments[1];
-    
-    // Toutes les langues
-    let supportedLanguages = [
-      "fr", "ja", "ko", "es", "th", "pt", "de", 
-      "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
-    ];
-    
-    let browserLang = navigator.language.slice(0, 2).toLowerCase();
-    let storedLang = localStorage.getItem("userPreferredLanguage");
-
-    if (!supportedLanguages.includes(currentLang)) {
-        let preferredLang = storedLang || (supportedLanguages.includes(browserLang) ? browserLang : "en");
-        localStorage.setItem("userPreferredLanguage", preferredLang);
-
-        if (currentLang !== preferredLang && preferredLang !== "en") {
-            window.location.assign(`/${preferredLang}${window.location.pathname}`);
-        }
-    }
-}
-
 function initializeLanguageSelectorMobile() {
     let pathSegments = window.location.pathname.split('/');
     let currentLang = pathSegments[1];
 
-    // Les mêmes langues
     let supportedLanguages = [
       "fr", "ja", "ko", "es", "th", "pt", "de", 
       "nl", "pl", "it", "ar", "vi", "zh-cn", "zh-tw"
     ];
-    
+
     let languageSelector = document.getElementById("languageSelector");
     if (!languageSelector) return;
 
-    // Sélectionne la langue en cours ou "en"
     languageSelector.value = supportedLanguages.includes(currentLang) ? currentLang : "en";
 
     languageSelector.addEventListener("change", function () {
         let selectedLang = this.value;
-        // Supprime le segment "fr", "ja", etc. si présent
         let regexLangs = /^\/(fr|ja|ko|es|th|pt|de|nl|pl|it|ar|vi|zh\-cn|zh\-tw)/;
         let newPath = window.location.pathname.replace(regexLangs, '');
 
@@ -198,6 +168,9 @@ function initializeLanguageSelectorMobile() {
     });
 }
 
+/* =====================
+   Fonctions diverses
+   ===================== */
 function checkLoginStatus() {
     return localStorage.getItem("userToken") !== null;
 }
@@ -217,12 +190,12 @@ function toggleMenu() {
 function showModal(id) {
     let modal = document.getElementById(id);
     if (modal) {
-      modal.style.display = 'flex';
+        modal.style.display = 'flex';
     }
 }
 function closeModal(id) {
     let modal = document.getElementById(id);
     if (modal) {
-      modal.style.display = 'none';
+        modal.style.display = 'none';
     }
 }
