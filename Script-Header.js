@@ -292,18 +292,18 @@ function toggleMenu(event) {
    =================================================== */
 function highlightActiveLink() {
     let links = document.querySelectorAll(".nav-links a");
-    let currentPath = window.location.pathname; // Chemin actuel sans query params
+    let currentPath = window.location.pathname;
 
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
         "/all-the-brands": "brands",
-       "/american-brands": "brands",
-       "/european-brands": "brands",
-              "/african-brands": "brands",
-              "/middle-eastern-brands": "brands",
-              "/south-asian-brands": "brands",
-              "/east-asian-brands": "brands",
-              "/oceanian-brands": "brands",
+        "/american-brands": "brands",
+        "/european-brands": "brands",
+        "/african-brands": "brands",
+        "/middle-eastern-brands": "brands",
+        "/south-asian-brands": "brands",
+        "/east-asian-brands": "brands",
+        "/oceanian-brands": "brands",
         "/japanese-brands": "brands",
         "/korean-brands": "brands",
         "/taiwanese-brands": "brands",
@@ -315,9 +315,9 @@ function highlightActiveLink() {
         "/swedish-brands": "brands",
         "/united-states-brands": "brands",
         "/united-kingdom-brands": "brands",
-        
-        "/brand-details": "brands", // ✅ Highlight les marques
-        "/shop-details": "shops",   // ✅ Highlight les magasins
+
+        "/brand-details": "brands",
+        "/shop-details": "shops",
 
         "/all-the-retailers": "shops",
         "/tokyo": "shops",
@@ -334,24 +334,35 @@ function highlightActiveLink() {
         "/store-locator": "map",
         "/marketplace": "market",
         "/marketplace-women": "market",
-        "/marketplace-men": "market"
-         "/collections": "collections",
-"/agenda": "agenda",
-"/consignement": "consignement"
+        "/marketplace-men": "market",
 
-
+        "/collections": "collections",
+        "/agenda": "agenda",
+        "/consignement": "consignement"
     };
 
-    // ✅ Vérifier si l'URL commence par `/brand-details` ou `/shop-details`
-    let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key)) 
-                         ? pageMappings[currentPath.startsWith("/brand-details") ? "/brand-details" : 
-                                          currentPath.startsWith("/shop-details") ? "/shop-details" : currentPath]
-                         : pageMappings[currentPath];
+    // ✅ Cas spécial pour la homepage : aucun lien actif
+    if (currentPath === "/") {
+        links.forEach((link) => {
+            link.classList.remove("active-tab");
+        });
+        console.log("🏠 Page d’accueil : aucun lien actif.");
+        return;
+    }
+
+    // ✅ Déterminer la catégorie active
+    let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key))
+        ? pageMappings[
+              currentPath.startsWith("/brand-details") ? "/brand-details" :
+              currentPath.startsWith("/shop-details") ? "/shop-details" :
+              currentPath
+          ]
+        : pageMappings[currentPath];
 
     links.forEach((link) => {
-        let linkHref = new URL(link.href, window.location.origin).pathname; // Force un pathname propre
+        let linkHref = new URL(link.href, window.location.origin).pathname;
 
-        if (pageMappings[linkHref] === activeCategory) {
+        if (activeCategory && pageMappings[linkHref] === activeCategory) {
             link.classList.add("active-tab");
             console.log("✅ Lien actif détecté :", linkHref);
         } else {
