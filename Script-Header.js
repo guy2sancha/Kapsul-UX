@@ -335,6 +335,10 @@ function highlightActiveLink() {
         "/marketplace": "market",
         "/marketplace-women": "market",
         "/marketplace-men": "market"
+               "/collections": "collections"
+           "/agenda": "agenda"
+           "/consignement": "consignement"
+
     };
 
     // ✅ Vérifier si l'URL commence par `/brand-details` ou `/shop-details`
