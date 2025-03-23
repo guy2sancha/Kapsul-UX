@@ -335,9 +335,10 @@ function highlightActiveLink() {
         "/marketplace": "market",
         "/marketplace-women": "market",
         "/marketplace-men": "market"
-               "/collections": "collections"
-           "/agenda": "agenda"
-           "/consignement": "consignement"
+         "/collections": "collections",
+"/agenda": "agenda",
+"/consignement": "consignement"
+
 
     };
 
