@@ -2,9 +2,53 @@
     /* =====================
        Styles généraux
        ===================== */
+    #kapsul-ticker-bar {
+  background: #000;
+  color: #888;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #222;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999; /* au-dessus du header */
+}
+
+.ticker-inner {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.divider {
+  color: #444;
+}
+
+.ticker-selectors {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+#languageSelectorTop,
+#currencySelectorTop {
+  padding: 4px 6px;
+  border: 1px solid #444;
+  background-color: #111;
+  color: #fff;
+  font-size: 12px;
+}
+
     #customHeader {
         position: fixed;
-        top: 0;
+  top: 36px; /* pour laisser de l’espace pour la barre ticker */
         left: 0;
         right: 0;
         display: flex;
@@ -215,6 +259,39 @@
 <!-- =====================
      HEADER
      ===================== -->
+<div id="kapsul-ticker-bar">
+  <div class="ticker-inner">
+    <span id="usd-jpy-rate">USD/JPY: ...</span>
+    <span class="divider">|</span>
+    <span id="time-tokyo">Tokyo: --:--</span>
+    <span class="divider">|</span>
+    <span id="time-paris">Paris: --:--</span>
+    <span class="divider">|</span>
+    <span id="time-nyc">NYC: --:--</span>
+
+    <!-- Langue & monnaie à droite -->
+    <div class="ticker-selectors">
+      <select id="languageSelectorTop">
+        <option value="en">EN</option>
+      </select>
+      <select id="currencySelectorTop">
+        <option value="USD">$</option>
+        <option value="EUR">€</option>
+        <option value="GBP">£</option>
+        <option value="JPY">¥</option>  
+        <option value="KRW">₩</option>     
+        <option value="TWD">NT</option>   
+        <option value="SGD">S$</option>    
+        <option value="THB">฿</option>     
+        <option value="AUD">A$</option>    
+        <option value="HKD">HK</option>  
+        <option value="CAD">C$</option>    
+        <option value="NZD">NZ</option>   
+      </select>
+    </div>
+  </div>
+</div>
+
 <div id="customHeader">
     <div class="logo-container">
         <a href="/">
