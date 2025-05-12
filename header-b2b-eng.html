@@ -405,26 +405,16 @@
     <span class="divider">|</span>
     <span id="time-tokyo">Tokyo: --:--</span>
 
-    <div class="ticker-selectors">
-      <select id="languageSelector">
-        <option value="en">EN</option>
-      </select>
-      <select id="currencySelector">
-        <option value="USD">$</option>
-            <option value="EUR">€</option>
-            <option value="GBP">£</option>
-            <option value="JPY">¥</option>  
-            <option value="KRW">₩</option>     
-            <option value="TWD">NT</option>   
-            <option value="SGD">S$</option>    
-            <option value="THB">฿</option>     
-            <option value="AUD">A$</option>    
-            <option value="HKD">HK</option>  
-            <option value="CAD">C$</option>    
-            <option value="NZD">NZ</option>
-      </select>
+
+       <div class="toggle-mode">
+  <span class="mode-option left" id="labelImport">Buy from 🇯🇵</span>
+  <label class="kapsul-switch">
+    <input type="checkbox" id="modeToggle" checked>
+    <span class="slider"></span>
+  </label>
+  <span class="mode-option right" id="labelExport">Sell in 🇯🇵</span>
+</div>
     </div>
-  </div>
 </div>
 
 
@@ -535,15 +525,26 @@
             </a>
         </div>
 
-         <div class="toggle-mode">
-  <span class="mode-option left" id="labelImport">Buy from 🇯🇵</span>
-  <label class="kapsul-switch">
-    <input type="checkbox" id="modeToggle" checked>
-    <span class="slider"></span>
-  </label>
-  <span class="mode-option right" id="labelExport">Sell in 🇯🇵</span>
-</div>
+             <div class="ticker-selectors">
+      <select id="languageSelector">
+        <option value="en">EN</option>
+      </select>
+      <select id="currencySelector">
+        <option value="USD">$</option>
+            <option value="EUR">€</option>
+            <option value="GBP">£</option>
+            <option value="JPY">¥</option>  
+            <option value="KRW">₩</option>     
+            <option value="TWD">NT</option>   
+            <option value="SGD">S$</option>    
+            <option value="THB">฿</option>     
+            <option value="AUD">A$</option>    
+            <option value="HKD">HK</option>  
+            <option value="CAD">C$</option>    
+            <option value="NZD">NZ</option>
+      </select>
     </div>
+  </div>
 </div>
 
 <!-- =====================
