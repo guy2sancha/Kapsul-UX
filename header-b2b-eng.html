@@ -183,6 +183,40 @@
   transform: rotate(180deg);
 }
 
+    .nested-item {
+  position: relative;
+}
+
+.nested-submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  z-index: 1001;
+}
+
+.nested-submenu a {
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #333;
+  white-space: nowrap;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.nested-submenu a:hover {
+  background-color: #f5f5f5;
+  color: #0d26ff;
+}
+
+.nested-item:hover .nested-submenu {
+  display: flex;
+}
+
+
 
 
     /* =====================
@@ -272,16 +306,35 @@
     </div>
     <nav class="nav-links">
   <div class="nav-item">
-    <a href="/all-the-brands">DISCOVER <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <a href="/brands/fashion">Fashion</a>
-      <a href="/brands/beauty">Beauty</a>
-      <a href="/brands/f&b">F&B</a>
-      <a href="/brands/homeware">Homeware</a>
-      <a href="/brands/art-design">Art & Design</a>
-      <a href="/brands/sake">Sake</a>
+  <a href="#">FIND <span class="chevron">▼</span></a>
+  <div class="dropdown-submenu">
+    <div class="nested-item">
+      <a href="#">Fashion ▸</a>
+      <div class="nested-submenu">
+        <a href="/brands/fashion/brands">Brands</a>
+        <a href="/brands/fashion/retailers">Retailers</a>
+        <a href="/brands/fashion/designers">Designers</a>
+      </div>
+    </div>
+    <div class="nested-item">
+      <a href="#">Beauty ▸</a>
+      <div class="nested-submenu">
+        <a href="/brands/beauty/brands">Brands</a>
+        <a href="/brands/beauty/salons">Salons</a>
+        <a href="/brands/beauty/shops">Shops</a>
+      </div>
+    </div>
+    <div class="nested-item">
+      <a href="#">F&B ▸</a>
+      <div class="nested-submenu">
+        <a href="/brands/fnb/restaurants">Restaurants</a>
+        <a href="/brands/fnb/bars">Bars</a>
+        <a href="/brands/fnb/producers">Producers</a>
+      </div>
     </div>
   </div>
+</div>
+
 
   <div class="nav-item">
     <a href="/marketplace">ORDER <span class="chevron">▼</span></a>
