@@ -48,9 +48,39 @@
         font-weight: bold;
         color: #0d26ff;
     }
-    .nav-item {
-        position: relative;
-    }
+   .nav-item {
+  position: relative;
+}
+
+.dropdown-submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.dropdown-submenu a {
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #333;
+  white-space: nowrap;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.dropdown-submenu a:hover {
+  background-color: #f5f5f5;
+  color: #0d26ff;
+}
+
+.nav-item:hover .dropdown-submenu {
+  display: flex;
+}
+
 
     /* =====================
        Effet d'animation (optionnel)
@@ -222,11 +252,48 @@
         </a>
     </div>
     <nav class="nav-links">
-        <a href="/all-the-brands">BRANDS</a>
-        <a href="/marketplace">PRODUCTS</a>
-        <a href="/spaces">SPACES</a>
-        <a href="/campaigns">CAMPAIGNS</a>
-    </nav>
+  <div class="nav-item">
+    <a href="/all-the-brands">BRANDS</a>
+    <div class="dropdown-submenu">
+      <a href="/brands/fashion">Fashion</a>
+      <a href="/brands/beauty">Beauty</a>
+      <a href="/brands/f&b">F&B</a>
+      <a href="/brands/homeware">Homeware</a>
+      <a href="/brands/art-design">Art & Design</a>
+      <a href="/brands/sake">Sake</a>
+    </div>
+  </div>
+
+  <div class="nav-item">
+    <a href="/marketplace">PRODUCTS</a>
+    <div class="dropdown-submenu">
+      <a href="/products/apparel">Apparel</a>
+      <a href="/products/skincare">Skincare</a>
+      <a href="/products/tableware">Tableware</a>
+      <a href="/products/furniture">Furniture</a>
+    </div>
+  </div>
+
+  <div class="nav-item">
+    <a href="/spaces">SPACES</a>
+    <div class="dropdown-submenu">
+      <a href="/spaces/retail">Retail Pop-ups</a>
+      <a href="/spaces/hotels">Hotels / Ryokan</a>
+      <a href="/spaces/restaurants">Restaurants</a>
+      <a href="/spaces/galleries">Galleries</a>
+    </div>
+  </div>
+
+  <div class="nav-item">
+    <a href="/campaigns">CAMPAIGNS</a>
+    <div class="dropdown-submenu">
+      <a href="/campaigns/activation">Activation</a>
+      <a href="/campaigns/media">Media / Creators</a>
+      <a href="/campaigns/collabs">Collaborations</a>
+    </div>
+  </div>
+</nav>
+
     <div class="user-actions">
         <div class="profile-container">
             <!-- Remarque : on ajoute un id sur l'icône pour pouvoir la modifier quand user logged in -->
