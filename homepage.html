@@ -1,0 +1,102 @@
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .video-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      backdrop-filter: brightness(0.8);
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      width: 40%;
+      max-width: 400px;
+    }
+
+    .text-box {
+      margin-top: 100px;
+    }
+
+    .text-box h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .buttons button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-wrapper">
+    <video autoplay muted loop playsinline>
+      <source src="https://res.cloudinary.com/dxaybtbp3/video/upload/v1744687859/test_unjfb1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="content">
+    <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747039069/KAPSUL_1200x400_7_vtrxja.png" alt="Logo" class="logo">
+
+    <div class="text-box">
+      <h1>Are you looking to...</h1>
+      <div class="buttons">
+        <button>Sell to Japan</button>
+        <button>Buy from Japan</button>
+      </div>
+    </div>
+  </div>
+
