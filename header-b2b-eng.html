@@ -183,50 +183,38 @@
   transform: rotate(180deg);
 }
 
-   /* STYLE GENERAL DU MEGA MENU */
-.mega-menu {
+    .nested-item {
+  position: relative;
+}
+
+.nested-submenu {
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: 0;
+  left: 100%;
+  background: #fff;
   display: none;
-  background-color: #fff;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  display: flex;
-  z-index: 999;
-  min-width: 500px;
-}
-
-/* COLONNES */
-.mega-menu-column {
-  display: flex;
   flex-direction: column;
-  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   min-width: 180px;
-  border-right: 1px solid #f0f0f0;
+  z-index: 1001;
 }
 
-.mega-menu-column:last-child {
-  border-right: none;
-}
-
-.mega-menu-column a {
-  padding: 8px 0;
+.nested-submenu a {
+  padding: 10px 15px;
+  font-size: 13px;
   color: #333;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  white-space: nowrap;
+  border-bottom: 1px solid #f2f2f2;
 }
 
-.mega-menu-column a:hover {
+.nested-submenu a:hover {
+  background-color: #f5f5f5;
   color: #0d26ff;
-  font-weight: bold;
 }
 
-/* LIENS PARENTS */
-.nav-item:hover .mega-menu {
+.nested-item:hover .nested-submenu {
   display: flex;
 }
-
 
 
 
@@ -319,27 +307,33 @@
     <nav class="nav-links">
   <div class="nav-item">
   <a href="#">FIND <span class="chevron">▼</span></a>
-  <div class="mega-menu">
-    <!-- COLONNE INDUSTRIES -->
-    <div class="mega-menu-column">
-      <a href="#">Fashion</a>
-      <a href="#">Beauty</a>
-      <a href="#">F&B</a>
-      <a href="#">Homeware</a>
-      <a href="#">Art & Design</a>
+  <div class="dropdown-submenu">
+    <div class="nested-item">
+      <a href="#">Fashion ▸</a>
+      <div class="nested-submenu">
+        <a href="/brands/fashion/brands">Brands</a>
+        <a href="/brands/fashion/retailers">Retailers</a>
+        <a href="/brands/fashion/designers">Designers</a>
+      </div>
     </div>
-
-    <!-- COLONNE SECTIONS (peut être conditionnée dynamiquement avec JS si besoin) -->
-    <div class="mega-menu-column">
-      <a href="#">Brands</a>
-      <a href="#">Retailers</a>
-      <a href="#">Designers</a>
-      <a href="#">Agents</a>
-      <a href="#">Tech Tools</a>
+    <div class="nested-item">
+      <a href="#">Beauty ▸</a>
+      <div class="nested-submenu">
+        <a href="/brands/beauty/brands">Brands</a>
+        <a href="/brands/beauty/salons">Salons</a>
+        <a href="/brands/beauty/shops">Shops</a>
+      </div>
+    </div>
+    <div class="nested-item">
+      <a href="#">F&B ▸</a>
+      <div class="nested-submenu">
+        <a href="/brands/fnb/restaurants">Restaurants</a>
+        <a href="/brands/fnb/bars">Bars</a>
+        <a href="/brands/fnb/producers">Producers</a>
+      </div>
     </div>
   </div>
 </div>
-
 
 
   <div class="nav-item">
