@@ -2,6 +2,43 @@
     /* =====================
        Styles généraux
        ===================== */
+
+    #kapsul-ticker-bar {
+  background: #000;
+  color: #888;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #222;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.ticker-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  white-space: nowrap;
+}
+
+.divider {
+  color: #444;
+}
+
+.ticker-selectors {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+    
     #customHeader {
         position: fixed;
         top: 0;
@@ -362,6 +399,31 @@
 <!-- =====================
      HEADER
      ===================== -->
+<div id="kapsul-ticker-bar">
+  <div class="ticker-inner">
+    <span id="usd-jpy-rate">USD/JPY: ...</span>
+    <span class="divider">|</span>
+    <span id="time-tokyo">Tokyo: --:--</span>
+    <span class="divider">|</span>
+    <span id="time-paris">Paris: --:--</span>
+    <span class="divider">|</span>
+    <span id="time-nyc">NYC: --:--</span>
+
+    <div class="ticker-selectors">
+      <select id="languageSelectorTop">
+        <option value="en">EN</option>
+      </select>
+      <select id="currencySelectorTop">
+        <option value="USD">$</option>
+        <option value="EUR">€</option>
+        <option value="GBP">£</option>
+        <!-- etc. -->
+      </select>
+    </div>
+  </div>
+</div>
+
+
 <div id="customHeader">
     <div class="logo-container">
         <a href="/">
