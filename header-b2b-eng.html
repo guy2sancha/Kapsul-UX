@@ -21,11 +21,12 @@
 
 .ticker-inner {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   max-width: 1400px;
   white-space: nowrap;
+  gap: 20px;
 }
 
 .divider {
@@ -256,14 +257,16 @@
    .toggle-mode {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 13px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
+  margin-left: auto; /* pousse à droite */
 }
 
 .mode-option {
   min-width: 50px;
+      color: #aaa;
   text-align: center;
   opacity: 0.6;
   transition: opacity 0.3s, color 0.3s;
