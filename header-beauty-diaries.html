@@ -52,16 +52,19 @@
 
 
     #announcementBar {
+  position: fixed;
+  top: 80px; /* Hauteur du header (ajuste si nécessaire) */
+  left: 0;
+  right: 0;
   background-color: #ffe164;
   color: #000;
   font-weight: bold;
   padding: 12px 20px;
   text-align: center;
   font-size: 15px;
-  position: relative;
   z-index: 999;
-          transition: all 0.3s ease;
-
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #ddd;
 }
 
 #announcementBar span {
