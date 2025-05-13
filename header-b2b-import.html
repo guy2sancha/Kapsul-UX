@@ -314,7 +314,7 @@
 }
 
 .kapsul-switch input:checked + .slider:before {
-  transform: translateX(22px);
+  transform: translateX(0px);
 }
 
 
@@ -424,55 +424,113 @@
             <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747039069/KAPSUL_1200x400_7_vtrxja.png" alt="Kapsul Logo" />
         </a>
     </div>
-    <div class="nav-item">
-          <a href="#">FIND <span class="chevron">▼</span></a>
-          <div class="dropdown-submenu">
-            <div class="nested-item">
-              <a href="#">Fashion & Jewelry ▸</a>
-              <div class="nested-submenu">
-                <a href="/find/fashion/brands">Brands</a>
-                <a href="/find/fashion/agents">Showrooms & Agents</a>
-              </div>
-            </div>
-            <div class="nested-item">
-              <a href="#">Beauty ▸</a>
-              <div class="nested-submenu">
-                <a href="/find/beauty/brands">Brands</a>
-                <a href="/find/beauty/regulatory">Regulatory Consultants</a>
-              </div>
-            </div>
-            <div class="nested-item">
-              <a href="#">Home & Design ▸</a>
-              <div class="nested-submenu">
-                <a href="/find/home/brands">Brands</a>
-                <a href="/find/home/retailers">Artists</a>
-              </div>
-            </div>
-            <div class="nested-item">
-              <a href="#">Food & Beverage ▸</a>
-              <div class="nested-submenu">
-                <a href="/find/fnb/brands">Brands</a>
-                <a href="/find/fnb/restaurants">Producers</a>
-                <a href="/find/fnb/regulatory">Regulatory Consultants</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="nav-item">
-          <a href="/marketplace">ORDER <span class="chevron">▼</span></a>
-          <div class="dropdown-submenu">
-            <a href="/products/apparel">Apparel</a>
-  <a href="/products/accessories">Accessories</a>
-  <a href="/products/jewelry">Jewelry</a>
-            <a href="/products/skincare">Beauty & wellness</a>
-  <a href="/products/furniture">Furniture & Goods</a>
-            <a href="/products/furniture">Arts</a>
-                        <a href="/products/furniture">Food</a>
-            <a href="/products/furniture">Beverage</a>
-          </div>
-        </div>
-</nav>
+    <nav class="nav-links">
+  <div class="nav-item">
+    <a href="#">BRANDS <span class="chevron">▼</span></a>
+    <div class="dropdown-submenu">
 
+      <!-- Fashion -->
+      <div class="nested-item">
+        <a href="#">Fashion & Jewelry ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/fashion/brands">Brands</a>
+          <a href="/find/fashion/retailers">Retailers</a>
+          <a href="/find/fashion/factories">Factories</a>
+          <a href="/find/fashion/agents">Showrooms & Agents</a>
+        </div>
+      </div>
+
+      <!-- Beauty -->
+      <div class="nested-item">
+        <a href="#">Beauty ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/beauty/brands">Brands</a>
+          <a href="/find/beauty/salons">Salons & Clinics</a>
+          <a href="/find/beauty/retailers">Retailers</a>
+          <a href="/find/beauty/distributors">Distributors & Agents</a>
+          <a href="/find/beauty/regulatory">Regulatory Consultants</a>
+        </div>
+      </div>
+
+      <!-- Home & Design -->
+      <div class="nested-item">
+        <a href="#">Home & Design ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/home/brands">Brands</a>
+          <a href="/find/home/retailers">Retailers</a>
+          <a href="/find/home/artisans">Artisans</a>
+          <a href="/find/home/studios">Studios / Makers</a>
+        </div>
+      </div>
+
+      <!-- Food & Beverage -->
+      <div class="nested-item">
+        <a href="#">Food & Beverage ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/fnb/brands">Producers / Brands</a>
+          <a href="/find/fnb/restaurants">Restaurants / Bars</a>
+          <a href="/find/fnb/distributors">Distributors / Retailers</a>
+          <a href="/find/fnb/regulatory">Regulatory Consultants</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+        <nav class="nav-links">
+  <div class="nav-item">
+    <a href="#">Products <span class="chevron">▼</span></a>
+    <div class="dropdown-submenu">
+
+      <!-- Fashion -->
+      <div class="nested-item">
+        <a href="#">Fashion & Jewelry ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/fashion/brands">Brands</a>
+          <a href="/find/fashion/retailers">Retailers</a>
+          <a href="/find/fashion/factories">Factories</a>
+          <a href="/find/fashion/agents">Showrooms & Agents</a>
+        </div>
+      </div>
+
+      <!-- Beauty -->
+      <div class="nested-item">
+        <a href="#">Beauty ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/beauty/brands">Brands</a>
+          <a href="/find/beauty/salons">Salons & Clinics</a>
+          <a href="/find/beauty/retailers">Retailers</a>
+          <a href="/find/beauty/distributors">Distributors & Agents</a>
+          <a href="/find/beauty/regulatory">Regulatory Consultants</a>
+        </div>
+      </div>
+
+      <!-- Home & Design -->
+      <div class="nested-item">
+        <a href="#">Home & Design ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/home/brands">Brands</a>
+          <a href="/find/home/retailers">Retailers</a>
+          <a href="/find/home/artisans">Artisans</a>
+          <a href="/find/home/studios">Studios / Makers</a>
+        </div>
+      </div>
+
+      <!-- Food & Beverage -->
+      <div class="nested-item">
+        <a href="#">Food & Beverage ▸</a>
+        <div class="nested-submenu">
+          <a href="/find/fnb/brands">Producers / Brands</a>
+          <a href="/find/fnb/restaurants">Restaurants / Bars</a>
+          <a href="/find/fnb/distributors">Distributors / Retailers</a>
+          <a href="/find/fnb/regulatory">Regulatory Consultants</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+        </nav>
 
 
     <div class="user-actions">
