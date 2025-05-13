@@ -50,6 +50,37 @@
         position: relative;
     }
 
+
+    #announcementBar {
+  background-color: #ffe164;
+  color: #000;
+  font-weight: bold;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 15px;
+  position: relative;
+  z-index: 999;
+          transition: all 0.3s ease;
+
+}
+
+#announcementBar span {
+  display: inline-block;
+}
+
+#closeAnnouncement {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor: pointer;
+}
+
+
     /* =====================
        Effet d'animation (optionnel)
        ===================== */
@@ -210,6 +241,8 @@
     }
 </style>
 
+
+
 <!-- =====================
      HEADER
      ===================== -->
@@ -282,4 +315,9 @@
             <a href="/register" class="modal-button">Sign Up</a>
         </div>
     </div>
+</div>
+
+<div id="announcementBar">
+  <span>✨ Discover J-beauty🇯🇵— skincare, salons & more ✨</span>
+  <button id="closeAnnouncement" onclick="document.getElementById('announcementBar').style.display='none'">✖</button>
 </div>
