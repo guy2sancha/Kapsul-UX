@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateMenu();
     setupProfileMenu();
     initializeLanguageSelector();
-    highlightActiveLink();
     setupLogoToggle();
     initializeCurrencySelector().catch(console.error);
 });
@@ -287,97 +286,6 @@ function toggleMenu(event) {
     }
 }
 
-/* ===================================================
-   G) SURLIGNER LE LIEN ACTIF
-   =================================================== */
-function highlightActiveLink() {
-    let links = document.querySelectorAll(".nav-links a");
-    let currentPath = window.location.pathname;
-
-    // 📌 Groupement des pages sous une seule clé
-    let pageMappings = {
-        "/all-the-brands": "brands",
-        "/american-brands": "brands",
-        "/european-brands": "brands",
-        "/african-brands": "brands",
-        "/middle-eastern-brands": "brands",
-        "/south-asian-brands": "brands",
-        "/east-asian-brands": "brands",
-        "/oceanian-brands": "brands",
-        "/japanese-brands": "brands",
-        "/korean-brands": "brands",
-        "/taiwanese-brands": "brands",
-        "/vietnamese-brands": "brands",
-        "/australian-brands": "brands",
-        "/french-brands": "brands",
-        "/italian-brands": "brands",
-        "/german-brands": "brands",
-        "/swedish-brands": "brands",
-        "/united-states-brands": "brands",
-        "/united-kingdom-brands": "brands",
-
-        "/brand-details": "brands",
-        "/shop-details": "shops",
-
-        "/all-the-retailers": "shops",
-        "/tokyo": "shops",
-        "/seoul": "shops",
-        "/taipei": "shops",
-        "/hong-kong": "shops",
-        "/paris": "shops",
-        "/new-york": "shops",
-        "/london": "shops",
-        "/amsterdam": "shops",
-        "/melbourne": "shops",
-
-        "/map": "map",
-        "/store-locator": "map",
-        "/marketplace": "market",
-        "/marketplace-women": "market",
-        "/marketplace-men": "market",
-
-        "/collections": "collections",
-        "/agenda": "agenda",
-        "/consignement": "consignement"
-    };
-
-    // ✅ Cas spécial pour la homepage : aucun lien actif
-    if (currentPath === "/") {
-        links.forEach((link) => {
-            link.classList.remove("active-tab");
-        });
-        console.log("🏠 Page d’accueil : aucun lien actif.");
-        return;
-    }
-
-    // ✅ Déterminer la catégorie active
-    let activeCategory = Object.keys(pageMappings).find(key => currentPath.startsWith(key))
-        ? pageMappings[
-              currentPath.startsWith("/brand-details") ? "/brand-details" :
-              currentPath.startsWith("/shop-details") ? "/shop-details" :
-              currentPath
-          ]
-        : pageMappings[currentPath];
-
-    links.forEach((link) => {
-        let linkHref = new URL(link.href, window.location.origin).pathname;
-
-        if (activeCategory && pageMappings[linkHref] === activeCategory) {
-            link.classList.add("active-tab");
-            console.log("✅ Lien actif détecté :", linkHref);
-        } else {
-            link.classList.remove("active-tab");
-        }
-    });
-
-    console.log("🌍 URL actuelle:", currentPath);
-    console.log("📌 Catégorie active détectée:", activeCategory);
-}
-
-// Exécute après chargement complet
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(highlightActiveLink, 100);
-});
 
 /* ===================================================
    H) LOGO LOTTIE (SCROLL + CLIQUE = SMOOTH SCROLL)
