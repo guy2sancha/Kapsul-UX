@@ -2,7 +2,7 @@
 
     #customHeader {
         position: fixed;
-  top: 0px; /* pour laisser de l’espace pour la barre ticker */
+  top: 48px; /* pour laisser de l’espace pour la barre ticker */
         left: 0;
         right: 0;
         display: flex;
@@ -53,7 +53,7 @@
 
     #announcementBar {
   position: fixed;
-  top: 100px; /* Hauteur du header (ajuste si nécessaire) */
+  top: 0;
   left: 0;
   right: 0;
   background-color: #411e01;
@@ -62,7 +62,7 @@
   padding: 12px 20px;
   text-align: center;
   font-size: 15px;
-  z-index: 999;
+  z-index: 1001; /* au-dessus du header */
   transition: all 0.3s ease;
 }
 
@@ -243,6 +243,10 @@
     }
 </style>
 
+<div id="announcementBar">
+  <span>✨ Discover J-beauty🇯🇵— skincare, salons & more ✨</span>
+  <button id="closeAnnouncement" onclick="document.getElementById('announcementBar').style.display='none'">✖</button>
+</div>
 
 
 <!-- =====================
@@ -317,9 +321,4 @@
             <a href="/register" class="modal-button">Sign Up</a>
         </div>
     </div>
-</div>
-
-<div id="announcementBar">
-  <span>✨ Discover J-beauty🇯🇵— skincare, salons & more ✨</span>
-  <button id="closeAnnouncement" onclick="document.getElementById('announcementBar').style.display='none'">✖</button>
 </div>
