@@ -61,12 +61,12 @@
         height: 80px;
     }
     .nav-links {
-    display: flex;
-    gap: 30px;
-    font-size: 16px;
-    flex: 2;
-    justify-content: center;
-}
+        display: flex;
+        gap: 0;
+        font-size: 16px;
+        position: absolute;
+        left: 50px;
+    }
     .nav-links a {
         text-decoration: none;
         color: #333;
@@ -314,7 +314,7 @@
 }
 
 .kapsul-switch input:checked + .slider:before {
-transform: translateX(0px); /* ✅ */
+  transform: translateX(22px);
 }
 
 
@@ -407,12 +407,12 @@ transform: translateX(0px); /* ✅ */
 
 
        <div class="toggle-mode">
-  <span class="mode-option-active left" id="labelImport">Buy from 🇯🇵</span>
+  <span class="mode-option left" id="labelImport">Buy from 🇯🇵</span>
   <label class="kapsul-switch">
     <input type="checkbox" id="modeToggle" checked>
     <span class="slider"></span>
   </label>
-  <span class="mode-option right" id="labelExport">Sell in 🇯🇵</span>
+  <span class="mode-option-active right" id="labelExport">Sell in 🇯🇵</span>
 </div>
     </div>
 </div>
@@ -496,6 +496,9 @@ transform: translateX(0px); /* ✅ */
     </div>
   </div>
 </nav>
+
+
+
     <div class="user-actions">
 
         <div class="profile-container">
