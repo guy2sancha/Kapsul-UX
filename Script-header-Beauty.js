@@ -297,38 +297,17 @@ function highlightActiveLink() {
     // 📌 Groupement des pages sous une seule clé
     let pageMappings = {
         "/all-the-brands": "brands",
-        "/american-brands": "brands",
-        "/european-brands": "brands",
-        "/african-brands": "brands",
-        "/middle-eastern-brands": "brands",
-        "/south-asian-brands": "brands",
-        "/east-asian-brands": "brands",
-        "/oceanian-brands": "brands",
-        "/japanese-brands": "brands",
-        "/korean-brands": "brands",
-        "/taiwanese-brands": "brands",
-        "/vietnamese-brands": "brands",
-        "/australian-brands": "brands",
-        "/french-brands": "brands",
-        "/italian-brands": "brands",
-        "/german-brands": "brands",
-        "/swedish-brands": "brands",
-        "/united-states-brands": "brands",
-        "/united-kingdom-brands": "brands",
 
         "/brand-details": "brands",
         "/shop-details": "shops",
+               "/salon-details": "Salons",
+
 
         "/all-the-retailers": "shops",
-        "/tokyo": "shops",
-        "/seoul": "shops",
-        "/taipei": "shops",
-        "/hong-kong": "shops",
-        "/paris": "shops",
-        "/new-york": "shops",
-        "/london": "shops",
-        "/amsterdam": "shops",
-        "/melbourne": "shops",
+
+               "/all-the-salons": "Salons",
+
+        
 
         "/map": "map",
         "/store-locator": "map",
