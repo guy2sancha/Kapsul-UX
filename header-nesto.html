@@ -266,23 +266,6 @@
 
 </nav>
     </nav>
-    <div class="user-actions">
-        <div class="profile-container">
-            <!-- Remarque : on ajoute un id sur l'icône pour pouvoir la modifier quand user logged in -->
-            <button class="profile-button" onclick="toggleMenu(event)">
-                <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
-                <i class="fa-solid fa-bars icon-size"></i>
-            </button>
-            <div class="dropdown-menu" id="profileMenu">
-                <div id="loggedOutMenu">
-                    <a href="/sign-in">Login</a>
-                    <a href="/register">Sign Up</a>
-                </div>
-                <div id="loggedInMenu" style="display: none;">
-                    <a href="/" onclick="logoutUser()">Log-out</a>
-                </div>
-            </div>
-        </div>
         <select id="languageSelector">
     <option value="en">EN</option>
 </select>
