@@ -1,31 +1,435 @@
+<style>
+    /* =====================
+       Styles généraux
+       ===================== */
+
+    #kapsul-ticker-bar {
+  background: #000;
+  color: #888;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #222;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.ticker-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  white-space: nowrap;
+  gap: 20px;
+}
+
+.divider {
+  color: #444;
+}
+
+.ticker-selectors {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+    
+    #customHeader {
+        position: fixed;
+  top: 36px;
+    left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 2%;
+        background-color: #25632d;
+        border-bottom: 1px solid #ddd;
+        z-index: 1000;
+    }
+    .logo-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+    .logo-container img {
+        height: 80px;
+    }
+    .nav-links {
+        display: flex;
+        gap: 0;
+        font-size: 16px;
+        position: absolute;
+        left: 50px;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+    }
+    .nav-links a:hover {
+        transform: scale(1.05);
+        color: #0d26ff;
+    }
+    .nav-links a.active-tab {
+        font-weight: bold;
+        color: #0d26ff;
+    }
+   .nav-item {
+  position: relative;
+}
+    .nav-item:hover > a {
+  background-color: #f9f9f9;
+}
+
+
+.dropdown-submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.dropdown-submenu a {
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #333;
+  white-space: nowrap;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.dropdown-submenu a:hover {
+  background-color: #f5f5f5;
+  color: #0d26ff;
+}
+
+.nav-item:hover .dropdown-submenu {
+  display: flex;
+}
+
+
+    /* =====================
+       Effet d'animation (optionnel)
+       ===================== */
+    @keyframes fadeInOut {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* =====================
+       Zone de droite (user-actions)
+       ===================== */
+    .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: absolute;
+        right: 60px;
+    }
+    .icon-size {
+        font-size: 22px;
+        margin-bottom: 3px;
+    }
+    .cart-container a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+    .cart-container a:hover {
+        color: #0d26ff;
+    }
+
+    /* =====================
+       Profil utilisateur (menu déroulant)
+       ===================== */
+    .profile-container {
+        position: relative;
+    }
+    .profile-button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 5px;
+    }
+    .profile-button i {
+        font-size: 20px;
+        color: #333;
+    }
+    .profile-button:hover i {
+        color: #0d26ff;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        left: -100px;
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: none;
+        flex-direction: column;
+        padding: 10px 0;
+    }
+    .dropdown-menu a {
+        text-decoration: none;
+        color: #333;
+        padding: 10px 15px;
+        display: block;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+        background: #f0f0f0;
+    }
+    .dropdown-menu.show {
+        display: flex;
+    }
+
+    /* Animation du chevron */
+.chevron {
+  font-size: 10px;
+  margin-left: 4px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Rotation au hover sur le parent */
+.nav-item:hover .chevron {
+  transform: rotate(180deg);
+}
+
+    .nested-item {
+  position: relative;
+}
+
+.nested-submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  z-index: 1001;
+}
+
+.nested-submenu a {
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #333;
+  white-space: nowrap;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.nested-submenu a:hover {
+  background-color: #f5f5f5;
+  color: #0d26ff;
+}
+
+.nested-item:hover .nested-submenu {
+  display: flex;
+}
+
+   .toggle-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  margin-left: auto; /* pousse à droite */
+}
+
+.mode-option {
+  min-width: 50px;
+      color: #aaa;
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.mode-option.active {
+  color: #fff;
+  opacity: 1;
+}
+
+.kapsul-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.kapsul-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.kapsul-switch .slider {
+  background-color: #fff;
+  border-radius: 24px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.kapsul-switch .slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  background-color: #0d26ff;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 3px;
+  transition: transform 0.4s;
+}
+
+.kapsul-switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+
+
+
+
+
+    /* =====================
+       Sélecteurs (langue, devise)
+       ===================== */
+    #languageSelector,
+    #currencySelector {
+        padding: 5px 8px;
+        border: 1px solid #000000;
+        font-size: 14px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    /* =====================
+       Modales
+       ===================== */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background: #fff;
+        padding: 30px;
+        text-align: center;
+        width: 400px;
+    }
+    .modal-button {
+        position: relative;
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        color: #000;
+        margin: 5px;
+        border: 2px solid #000;
+        text-decoration: none;
+        overflow: hidden;
+        transition: color 0.3s ease-in-out, background-color 0.9s;
+        z-index: 1;
+    }
+    .modal-button::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0920c5;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease-in-out;
+        z-index: -1;
+    }
+    .modal-button:hover {
+        color: #fff;
+        background-color: #0920c5;
+        text-decoration: none;
+    }
+    .modal-button:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* =====================
+       Lottie Logo
+       ===================== */
+    #lottieLogo {
+        cursor: pointer;
+    }
+</style>
+
 <!-- =====================
      HEADER
      ===================== -->
-<div id="kapsul-ticker-bar" style="background-color: #000;">
+<div id="kapsul-ticker-bar">
   <div class="ticker-inner">
-    <div id="time-tokyo">Tokyo: --:--</div>
-    <div class="toggle-mode">
-      <span class="mode-option left" id="labelImport">Buy from 🇯🇵</span>
-      <label class="kapsul-switch">
-        <input type="checkbox" id="modeToggle" checked>
-        <span class="slider"></span>
-      </label>
-      <span class="mode-option-active right" id="labelExport">Sell in 🇯🇵</span>
+<div id="time-tokyo">Tokyo: --:--</div>
+
+
+       <div class="toggle-mode">
+  <span class="mode-option left" id="labelImport">Buy from 🇯🇵</span>
+  <label class="kapsul-switch">
+    <input type="checkbox" id="modeToggle" checked>
+    <span class="slider"></span>
+  </label>
+  <span class="mode-option-active right" id="labelExport">Sell in 🇯🇵</span>
+</div>
     </div>
-  </div>
 </div>
 
-<div id="customHeader" style="background-color: #25632d;">
+
+<div id="customHeader">
     <div class="logo-container">
         <a href="/">
-            <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747039069/KAPSUL_1200x400_7_vtrxja.png" alt="Kapsul Logo" />
+            <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo" />
         </a>
     </div>
     <nav class="nav-links">
-        <div class="nav-item">
-            <a href="#">Products <span class="chevron">▼</span></a>
-            <div class="dropdown-submenu">
-                <a href="#">Work & Productivity</a>
+
+  <div class="nav-item">
+    <a href="/spaces">Product <span class="chevron">▼</span></a>
+    <div class="dropdown-submenu">
+      <a href="#">Work & Productivity</a>
                 <a href="#">Engineering & Development</a>
                 <a href="#">Design & Creative</a>
                 <a href="#">Finance</a>
@@ -39,71 +443,28 @@
                 <a href="#">Web3</a>
                 <a href="#">Physical Products</a>
                 <a href="#">Ecommerce</a>
-            </div>
-        </div>
+    </div>
+  </div>
 
-        <div class="nav-item">
-            <a href="#">Services <span class="chevron">▼</span></a>
-            <div class="dropdown-submenu">
-                <a href="#">Legal & Accounting</a>
+  <div class="nav-item">
+    <a href="/campaigns">Services<span class="chevron">▼</span></a>
+    <div class="dropdown-submenu">
+      <a href="#">Legal & Accounting</a>
                 <a href="#">Healthcare & Wellness</a>
                 <a href="#">Education & Language</a>
                 <a href="#">Relocation & Housing</a>
                 <a href="#">Professional Services</a>
                 <a href="#">Lifestyle & Personal Care</a>
-            </div>
-        </div>
+    </div>
+  </div>
+</nav>
 
-        <div class="nav-item">
-            <a href="#">Events</a>
-        </div>
-
-        <div class="nav-item">
-            <a href="#">Explore</a>
-        </div>
-    </nav>
 
     <div class="user-actions">
-        <div class="profile-container">
-            <button class="profile-button" onclick="toggleMenu(event)">
-                <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
-                <i class="fa-solid fa-bars icon-size"></i>
-            </button>
-            <div class="dropdown-menu" id="profileMenu">
-                <div id="loggedOutMenu">
-                    <a href="/sign-in">Login</a>
-                    <a href="/register">Sign Up</a>
-                </div>
-                <div id="loggedInMenu" style="display: none;">
-                    <a href="/favorites">My Favorites</a>
-                    <a href="/my-qrcode">My QR Code</a>
-                    <a href="/" onclick="logoutUser()">Log-out</a>
-                </div>
-            </div>
-        </div>
-        <div class="cart-container">
-            <a href="#" onclick="showModal('cartModal', event)">
-                <i class="fa-solid fa-cart-shopping icon-size"></i>
-            </a>
-        </div>
-        <div class="ticker-selectors">
-            <select id="languageSelector">
-                <option value="en">EN</option>
-            </select>
-            <select id="currencySelector">
-                <option value="USD">$</option>
-                <option value="EUR">€</option>
-                <option value="GBP">£</option>
-                <option value="JPY">¥</option>
-                <option value="KRW">₩</option>
-                <option value="TWD">NT</option>
-                <option value="SGD">S$</option>
-                <option value="THB">฿</option>
-                <option value="AUD">A$</option>
-                <option value="HKD">HK</option>
-                <option value="CAD">C$</option>
-                <option value="NZD">NZ</option>
-            </select>
-        </div>
+             <div class="ticker-selectors">
+      <select id="languageSelector">
+        <option value="en">EN</option>
+      </select>
     </div>
+  </div>
 </div>
