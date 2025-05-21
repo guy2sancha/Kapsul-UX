@@ -1,0 +1,111 @@
+<!-- Updated Announce Bar -->
+<div id="kapsul-ticker-bar" style="background-color: #000;">
+  <div class="ticker-inner">
+    <div id="time-tokyo" style="color: #888;">Tokyo: --:--</div>
+    <div class="toggle-mode">
+      <span class="mode-option left" id="labelImport">Buy from 🇯🇵</span>
+      <label class="kapsul-switch">
+        <input type="checkbox" id="modeToggle" checked>
+        <span class="slider"></span>
+      </label>
+      <span class="mode-option-active right" id="labelExport">Sell in 🇯🇵</span>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Header for Open Circle Mode: Local Users -->
+<div id="customHeader" style="background-color: #25632d;">
+  <div class="logo-container">
+    <a href="/">
+      <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo" />
+    </a>
+  </div>
+
+  <nav class="nav-links">
+    <div class="nav-item">
+      <a href="#">Products <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <a href="/products/work-productivity">Work & Productivity</a>
+        <a href="/products/engineering">Engineering & Development</a>
+        <a href="/products/design">Design & Creative</a>
+        <a href="/products/finance">Finance</a>
+        <a href="/products/marketing">Marketing & Sales</a>
+        <a href="/products/social">Social & Community</a>
+        <a href="/products/ai">AI</a>
+        <a href="/products/health">Health & Fitness</a>
+        <a href="/products/travel">Travel</a>
+        <a href="/products/platforms">Platforms</a>
+        <a href="/products/addons">Product Add-ons</a>
+        <a href="/products/web3">Web3</a>
+        <a href="/products/physical">Physical Products</a>
+        <a href="/products/ecommerce">Ecommerce</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="#">Services <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <a href="/services/legal">Legal & Accounting</a>
+        <a href="/services/healthcare">Healthcare & Wellness</a>
+        <a href="/services/education">Education & Language</a>
+        <a href="/services/relocation">Relocation & Housing</a>
+        <a href="/services/professional">Professional Services</a>
+        <a href="/services/lifestyle">Lifestyle & Personal Care</a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="/events">Events</a>
+    </div>
+
+    <div class="nav-item">
+      <a href="/explore">Explore</a>
+    </div>
+  </nav>
+
+  <div class="user-actions">
+    <div class="profile-container">
+      <button class="profile-button" onclick="toggleMenu(event)">
+        <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
+        <i class="fa-solid fa-bars icon-size"></i>
+      </button>
+      <div class="dropdown-menu" id="profileMenu">
+        <div id="loggedOutMenu">
+          <a href="/sign-in">Login</a>
+          <a href="/register">Sign Up</a>
+        </div>
+        <div id="loggedInMenu" style="display: none;">
+          <a href="/favorites">My Favorites</a>
+          <a href="/my-qrcode">My QR Code</a>
+          <a href="/" onclick="logoutUser()">Log-out</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-container">
+      <a href="#" onclick="showModal('cartModal', event)">
+        <i class="fa-solid fa-cart-shopping icon-size"></i>
+      </a>
+    </div>
+
+    <div class="ticker-selectors">
+      <select id="languageSelector">
+        <option value="en">EN</option>
+      </select>
+      <select id="currencySelector">
+        <option value="USD">$</option>
+        <option value="EUR">€</option>
+        <option value="GBP">£</option>
+        <option value="JPY">¥</option>
+        <option value="KRW">₩</option>
+        <option value="TWD">NT</option>
+        <option value="SGD">S$</option>
+        <option value="THB">฿</option>
+        <option value="AUD">A$</option>
+        <option value="HKD">HK</option>
+        <option value="CAD">C$</option>
+        <option value="NZD">NZ</option>
+      </select>
+    </div>
+  </div>
+</div>
