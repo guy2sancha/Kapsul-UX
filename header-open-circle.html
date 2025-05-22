@@ -343,6 +343,59 @@
     }
 
 
+    .dropdown-submenu {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 400px;
+  gap: 20px;
+}
+
+.dropdown-submenu.two-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.dropdown-submenu .column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 50%;
+}
+
+.dropdown-submenu a {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 5px 0;
+  color: #111;
+  text-decoration: none;
+}
+
+.dropdown-submenu a:hover {
+  color: #0D26FF;
+}
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Show submenu on hover */
+.nav-item:hover .dropdown-submenu {
+  display: flex;
+}
+
+
 
 
 
@@ -400,31 +453,35 @@
     <nav class="nav-links">
 
          <div class="nav-item">
-            <a href="/products">Brands <span class="chevron">▼</span></a>
-            <div class="dropdown-submenu">
-                <a href="#">Cookware</a>
-<a href="#">Everyday Carry</a>
-<a href="#">Flower</a>
-<a href="#">Bicycle</a>
-<a href="#">Hair Care</a>
-<a href="#">Swimsuit</a>
-<a href="#">Furniture</a>
-<a href="#">Jewelry</a>
-<a href="#">Fitness</a>
-<a href="#">Luggage</a>
-<a href="#">Beauty</a>
-<a href="#">Lifestyle</a>
-<a href="#">Health & Wellness</a>
-<a href="#">Personal Care</a>
-<a href="#">Pet</a>
-<a href="#">Beverage</a>
-<a href="#">Kids</a>
-<a href="#">Home</a>
-<a href="#">Apparel</a>
-<a href="#">Food</a>
+  <a href="/products">Brands <span class="chevron">▼</span></a>
+  <div class="dropdown-submenu two-columns">
+    <div class="column">
+      <a href="#"><span class="icon">🍳</span> Cookware</a>
+      <a href="#"><span class="icon">👝</span> Everyday Carry</a>
+      <a href="#"><span class="icon">🌸</span> Flower</a>
+      <a href="#"><span class="icon">🚲</span> Bicycle</a>
+      <a href="#"><span class="icon">💇‍♀️</span> Hair Care</a>
+      <a href="#"><span class="icon">👙</span> Swimsuit</a>
+      <a href="#"><span class="icon">🛋️</span> Furniture</a>
+      <a href="#"><span class="icon">💍</span> Jewelry</a>
+      <a href="#"><span class="icon">🏋️‍♂️</span> Fitness</a>
+      <a href="#"><span class="icon">🧳</span> Luggage</a>
+    </div>
+    <div class="column">
+      <a href="#"><span class="icon">💄</span> Beauty</a>
+      <a href="#"><span class="icon">📚</span> Lifestyle</a>
+      <a href="#"><span class="icon">🍏</span> Health & Wellness</a>
+      <a href="#"><span class="icon">🧴</span> Personal Care</a>
+      <a href="#"><span class="icon">🐶</span> Pet</a>
+      <a href="#"><span class="icon">🥤</span> Beverage</a>
+      <a href="#"><span class="icon">🧒</span> Kids</a>
+      <a href="#"><span class="icon">🏠</span> Home</a>
+      <a href="#"><span class="icon">👗</span> Apparel</a>
+      <a href="#"><span class="icon">🍕</span> Food</a>
+    </div>
+  </div>
+</div>
 
-            </div>
-        </div>
 
         <div class="nav-item">
             <a href="/tools">Tools <span class="chevron">▼</span></a>
