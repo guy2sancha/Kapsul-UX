@@ -148,24 +148,77 @@
     right: 60px;
   }
 
-  .ticker-selectors select {
-    padding: 5px 8px;
-    border: 1px solid #001d20;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #001d20;
-    color: #fffff0;
-    cursor: pointer;
-  }
-
   .toggle-mode {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #000;
-    margin-left: auto;
-  }
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #000;
+  margin-left: auto; /* pousse à droite */
+}
+
+    label {
+    display: inline-block;
+    margin-bottom: 0px!important;
+}
+
+
+.mode-option {
+  min-width: 50px;
+      color: #aaa;
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.mode-option.active {
+  color: #fff;
+  opacity: 1;
+}
+
+.kapsul-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.kapsul-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.kapsul-switch .slider {
+    background-color: #fff;
+    border: 1px solid #191919;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+
+.kapsul-switch .slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  background-color: #f93d3a;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 2px;
+  transition: transform 0.4s;
+}
+
+.kapsul-switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
 </style>
 
 <div id="kapsul-ticker-bar">
