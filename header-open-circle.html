@@ -1,7 +1,3 @@
-<!-- =====================
-     CLEANED HEADER HTML + CSS
-     ===================== -->
-
 <style>
   /* General layout */
   #kapsul-ticker-bar {
@@ -90,9 +86,11 @@
     transform: rotate(180deg);
   }
 
-  /* Dropdown menu 2 columns */
   .dropdown-submenu {
-    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
     position: absolute;
     background-color: #fff;
     padding: 20px;
@@ -103,10 +101,18 @@
     gap: 20px;
   }
 
+  .nav-item:hover > .dropdown-submenu {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
   .dropdown-submenu.two-columns {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .dropdown-submenu .column {
@@ -135,10 +141,6 @@
     text-align: center;
     margin-right: 8px;
     font-size: 16px;
-  }
-
-  .nav-item:hover .dropdown-submenu {
-    display: flex;
   }
 
   .user-actions {
