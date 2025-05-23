@@ -235,6 +235,20 @@
     color: #fffff0;
     }
 
+  .nav-links2 .dropdown-submenu.one-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  gap: 10px;
+}
+
+.nav-links2 .dropdown-submenu.one-column .column {
+  width: 100%;
+  padding: 0;
+  border-left: none;
+}
+
+
 
 </style>
 
@@ -347,8 +361,9 @@
 
   <div class="user-actions">
     <div class="nav-links2">
+  <div class="nav-item">
     <a href="/events">Events <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
+    <div class="dropdown-submenu one-column">
       <div class="column">
         <a href="/events/popups"><span class="icon">🛍️</span> Popups</a>
         <a href="/events/circle-1"><span class="icon">🍸</span> Get in the Circle #1</a>
@@ -356,6 +371,8 @@
       </div>
     </div>
   </div>
+</div>
+
 
   <div class="ticker-selectors">
     <select id="languageSelector">
