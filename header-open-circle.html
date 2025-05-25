@@ -1,197 +1,384 @@
 <style>
-#mobileHeader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  /* General layout */
+  #kapsul-ticker-bar {
+    background: #fffff0;
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
+
+  .ticker-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    gap: 20px;
+  }
+
+  #customHeader {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 2%;
+    background-color: #001d20;
+    border-bottom: 1px solid #001d20;
+    z-index: 1000;
+  }
+
+  .logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo-container img {
+    height: 80px;
+  }
+
+  .nav-links {
+    display: flex;
+    font-size: 16px;
+    position: absolute;
+    left: 50px;
+  }
+
+  .nav-links a,
+  .nav-links2 a {
+    text-decoration: none;
+    color: #fffff0;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links2 a:hover {
+    color: #f93d3a;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .chevron {
+    font-size: 10px;
+    margin-left: 4px;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-item:hover .chevron {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-submenu {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    position: absolute;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 400px;
+  }
+
+  .nav-item:hover > .dropdown-submenu {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .dropdown-submenu.two-columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .dropdown-submenu .column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 50%;
+  }
+
+  .dropdown-submenu a {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 5px 0;
+    color: #111;
+    text-decoration: none;
+  }
+
+  .dropdown-submenu a:hover {
+    color: #f93d3a;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+
+  .user-actions {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 60px;
+  }
+
+  .toggle-mode {
   display: flex;
   align-items: center;
-  padding: 10px;
-  background-color: #001d20;
-  border-bottom: 1px solid #001d20;
-  z-index: 1000;
-}
-
-.mobile-left, .mobile-center, .mobile-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.mobile-left { justify-content: flex-start; }
-.mobile-center { justify-content: center; }
-.mobile-right { justify-content: flex-end; }
-
-.mobile-logo img { height: 50px; }
-
-.mobile-select select {
-  padding: 5px;
-  border: 1px solid #333;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #fff;
+  gap: 8px;
+  font-size: 13px;
   color: #000;
-  cursor: pointer;
+  margin-left: auto; /* pousse à droite */
 }
 
-.hamburger {
-  font-size: 24px;
-  cursor: pointer;
+    label {
+    display: inline-block;
+    margin-bottom: 0px!important;
+}
+
+
+.mode-option {
+  min-width: 50px;
+      color: #aaa;
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.mode-option.active {
   color: #fff;
+  opacity: 1;
 }
 
-#mobileOverlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 1999;
+.kapsul-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
 }
 
-#mobileMenu {
-  position: fixed;
-  top: 0;
-  right: -250px;
-  width: 250px;
-  height: 100%;
-  background-color: #fff;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-  transition: right 0.3s ease;
-  z-index: 2000;
-  padding: 20px;
-  overflow-y: auto;
+.kapsul-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-#mobileMenu.open { right: 0; }
-#mobileOverlay.show { display: block; }
-
-#mobileMenu h3 { margin-top: 0; }
-
-.menu-category {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #f0f0f0;
-  margin-top: 5px;
+.kapsul-switch .slider {
+    background-color: #fff;
+    border: 1px solid #191919;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.4s;
 }
 
-.menu-category:hover {
-  background-color: #e0e0e0;
+
+.kapsul-switch .slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  background-color: #f93d3a;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 2px;
+  transition: transform 0.4s;
 }
 
-.submenu {
-  display: none;
-  padding-left: 15px;
+.kapsul-switch input:checked + .slider:before {
+  transform: translateX(22px);
 }
 
-.submenu a {
-  display: block;
-  padding: 8px 0;
-  color: #333;
-  text-decoration: none;
+  .dropdown-submenu .column + .column {
+  border-left: 1px solid #e0e0e0; /* Ligne fine grise */
+  padding-left: 20px; /* Un peu d'espace pour ne pas coller le texte à la bordure */
 }
 
-.submenu a:hover {
-  background-color: #f9f9f9;
+  #languageSelector,
+    #currencySelector {
+            padding: 5px 8px;
+    border: 1px solid #001d20;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #001d20;
+    cursor: pointer;
+    color: #fffff0;
+    }
+
+  .nav-links2 .dropdown-submenu.one-column {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  gap: 10px;
 }
 
-.menu-category.open + .submenu {
-  display: block;
+.nav-links2 .dropdown-submenu.one-column .column {
+  width: 100%;
+  padding: 0;
+  border-left: none;
 }
+
+
+
 </style>
-</head>
-<body>
 
-<div id="mobileHeader">
-  <div class="mobile-left">
-    <div class="mobile-select">
-      <select id="languageSelector">
-        <option value="en">EN</option>
-      </select>
+<div id="kapsul-ticker-bar">
+  <div class="ticker-inner">
+    <div id="time-tokyo">Tokyo: --:--</div>
+    <div class="toggle-mode">
+      <span class="mode-option left" id="labelImport">🌎 ビジネスを登録</span>
+      <label class="kapsul-switch">
+        <input type="checkbox" id="modeToggle" checked>
+        <span class="slider"></span>
+      </label>
+      <span class="mode-option-active right" id="labelExport">The Best of Japan 🇯🇵</span>
     </div>
-  </div>
-
-  <div class="mobile-center">
-    <div class="mobile-logo">
-      <a href="/">
-        <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo">
-      </a>
-    </div>
-  </div>
-
-  <div class="mobile-right">
-    <span class="hamburger" onclick="toggleMobileMenu()">☰</span>
   </div>
 </div>
 
-<div id="mobileOverlay" onclick="closeMobileMenu()"></div>
-
-<div id="mobileMenu">
-  <h3>Menu</h3>
-
-  <div class="menu-category" onclick="toggleSubmenu(this)">Brands ▼</div>
-  <div class="submenu">
-    <a href="/cookware">🍳 Cookware</a>
-    <a href="/everyday-carry">👝 Everyday Carry</a>
-    <a href="/flower">🌸 Flower</a>
-    <a href="/bicycle">🚲 Bicycle</a>
-    <a href="/hair-care">💇‍♀️ Hair Care</a>
-    <a href="/swimsuit">👙 Swimsuit</a>
-    <a href="/furniture">🛋️ Furniture</a>
-    <a href="/jewelry">💍 Jewelry</a>
-    <a href="/fitness">🏋️‍♀️ Fitness</a>
-    <a href="/luggage">🧳 Luggage</a>
-    <a href="/beauty">💄 Beauty</a>
-    <a href="/lifestyle">🧘‍♂️ Lifestyle</a>
-    <a href="/health-wellness">🍏 Health & Wellness</a>
-    <a href="/personal-care">🧴 Personal Care</a>
-    <a href="/pet">🐶 Pet</a>
-    <a href="/beverage">🥤 Beverage</a>
-    <a href="/kids">🧒 Kids</a>
-    <a href="/home">🏠 Home</a>
-    <a href="/apparel">👗 Apparel</a>
-    <a href="/food">🍔 Food</a>
+<div id="customHeader">
+  <div class="logo-container">
+    <a href="/">
+      <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo" />
+    </a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Tools ▼</div>
-  <div class="submenu">
-    <a href="#">📅 Work & Productivity</a>
-    <a href="#">💻 Development</a>
-    <a href="#">🎨 Design</a>
-    <a href="#">💳 Finance</a>
-    <a href="#">🌐 Marketing</a>
-    <a href="#">💬 Community</a>
-    <a href="#">🤖 AI</a>
-    <a href="#">🏋️ Health</a>
-    <a href="#">✈️ Travel</a>
-    <a href="#">📄 Platforms</a>
-  </div>
+  <nav class="nav-links">
+    <div class="nav-item">
+      <a href="/products">Brands <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu two-columns">
+       <div class="column">
+  <a href="/cookware"><span class="icon">🍳</span> Cookware</a>
+  <a href="/everyday-carry"><span class="icon">👝</span> Everyday Carry</a>
+  <a href="/flower"><span class="icon">🌸</span> Flower</a>
+  <a href="/bicycle"><span class="icon">🚲</span> Bicycle</a>
+  <a href="/hair-care"><span class="icon">💇‍♀️</span> Hair Care</a>
+  <a href="/swimsuit"><span class="icon">👙</span> Swimsuit</a>
+  <a href="/furniture"><span class="icon">🛋️</span> Furniture</a>
+  <a href="/jewelry"><span class="icon">💍</span> Jewelry</a>
+  <a href="/fitness"><span class="icon">🏋️‍♀️</span> Fitness</a>
+  <a href="/luggage"><span class="icon">🧳</span> Luggage</a>
+</div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Spaces ▼</div>
-  <div class="submenu">
-    <a href="#">🛍️ Shops</a>
-    <a href="#">📅 Coworking</a>
-    <a href="#">🍽️ Restaurants</a>
-    <a href="#">🍻 Bars</a>
-    <a href="#">☕️ Cafés</a>
-    <a href="#">🖼️ Gallery & Arts</a>
-    <a href="#">🏋️ Gyms</a>
-    <a href="#">🎦 Salons</a>
-  </div>
+<div class="column">
+  <a href="/beauty"><span class="icon">💄</span> Beauty</a>
+  <a href="/lifestyle"><span class="icon">🧘‍♂️</span> Lifestyle</a>
+  <a href="/health-wellness"><span class="icon">🍏</span> Health & Wellness</a>
+  <a href="/personal-care"><span class="icon">🧴</span> Personal Care</a>
+  <a href="/pet"><span class="icon">🐶</span> Pet</a>
+  <a href="/beverage"><span class="icon">🥤</span> Beverage</a>
+  <a href="/kids"><span class="icon">🧒</span> Kids</a>
+  <a href="/home"><span class="icon">🏠</span> Home</a>
+  <a href="/apparel"><span class="icon">👗</span> Apparel</a>
+  <a href="/food"><span class="icon">🍔</span> Food</a>
+</div>
+      </div>
+    </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Services ▼</div>
-  <div class="submenu">
-    <a href="#">📖 Legal & Accounting</a>
-    <a href="#">🏋️ Wellness</a>
-    <a href="#">🏫 Education</a>
-    <a href="#">🏠 Relocation</a>
-    <a href="#">💼 Pro Services</a>
-    <a href="#">🫌 Lifestyle</a>
-  </div>
+    <div class="nav-item">
+      <a href="/tools">Tools <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu two-columns">
+        <div class="column">
+          <a href="#"><span class="icon">📅</span> Work & Productivity</a>
+          <a href="#"><span class="icon">💻</span> Development</a>
+          <a href="#"><span class="icon">🎨</span> Design</a>
+          <a href="#"><span class="icon">💳</span> Finance</a>
+          <a href="#"><span class="icon">🌐</span> Marketing</a>
+        </div>
+        <div class="column">
+          <a href="#"><span class="icon">💬</span> Community</a>
+          <a href="#"><span class="icon">🤖</span> AI</a>
+          <a href="#"><span class="icon">🏋️</span> Health</a>
+          <a href="#"><span class="icon">✈️</span> Travel</a>
+          <a href="#"><span class="icon">📄</span> Platforms</a>
+        </div>
+      </div>
+    </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Events ▼</div>
-  <div class="submenu">
-    <a href="/events/circle">🍸 Get in the Circle #1</a>
-    <a href="/events/popups">🛍️ Popups</a>
-    <a href="/events/other">💡 Workshops & Talks</a>
+    <div class="nav-item">
+      <a href="/spaces">Spaces <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu two-columns">
+        <div class="column">
+                    <a href="#"><span class="icon">🛍️</span> Shops</a>
+          <a href="#"><span class="icon">📅</span> Coworking</a>
+          <a href="#"><span class="icon">🍽️</span> Restaurants</a>
+          <a href="#"><span class="icon">🍻</span> Bars</a>
+        </div>
+        <div class="column">
+          <a href="#"><span class="icon">☕️</span> Cafés</a>
+                    <a href="#"><span class="icon">🖼️</span> Gallery & Arts</a>
+          <a href="#"><span class="icon">🏋️</span> Gyms</a>
+          <a href="#"><span class="icon">🎦</span> Salons</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <a href="/services">Services <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu two-columns">
+        <div class="column">
+          <a href="#"><span class="icon">📖</span> Legal & Accounting</a>
+          <a href="#"><span class="icon">🏋️</span> Wellness</a>
+          <a href="#"><span class="icon">🏫</span> Education</a>
+        </div>
+        <div class="column">
+          <a href="#"><span class="icon">🏠</span> Relocation</a>
+          <a href="#"><span class="icon">💼</span> Pro Services</a>
+          <a href="#"><span class="icon">🫌</span> Lifestyle</a>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+
+  <div class="user-actions">
+    <div class="nav-links2">
+  <div class="nav-item">
+    <a href="/events">Events <span class="chevron">▼</span></a>
+    <div class="dropdown-submenu one-column">
+      <div class="column">
+                <a href="/events/circle"><span class="icon">🍸</span> Get in the Circle #1</a>
+        <a href="/events/popups"><span class="icon">🛍️</span> Popups</a>
+        <a href="/events/other"><span class="icon">💡</span> Workshops & Talks</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="ticker-selectors">
+    <select id="languageSelector">
+      <option value="en">EN</option>
+    </select>
   </div>
 </div>
