@@ -1,190 +1,183 @@
 <style>
-    #mobileHeader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      background-color: #001d20;
-      border-bottom: 1px solid #001d20;
-      z-index: 1000;
-      transition: transform 0.3s ease-in-out; /* pour cacher/afficher au scroll */
-    }
+#mobileHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #001d20;
+  border-bottom: 1px solid #001d20;
+  z-index: 1000;
+}
 
-    .mobile-left,
-    .mobile-center,
-    .mobile-right {
-      flex: 1;
-      display: flex;
-      align-items: center;
-    }
+.mobile-left, .mobile-center, .mobile-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
 
-    .mobile-left {
-      justify-content: flex-start;
-      gap: 0px;
-    }
-    .mobile-center {
-      justify-content: center;
-    }
-    .mobile-right {
-      justify-content: flex-end;
-      gap: 16px;
-    }
+.mobile-left {
+  justify-content: flex-start;
+}
 
-    .mobile-select {
-      position: relative;
-      display: inline-flex;
-    }
+.mobile-center {
+  justify-content: center;
+}
 
-    select {
-      padding: 3px 10px;
-      border: 1px solid #333;
-      border-radius: 5px;
-      font-size: 12px;
-      transform: scale(0.75); /* Réduit visuellement la taille */
-      background-color: #fff;
-      color: #000;
-      cursor: pointer;
-      appearance: none; /* masque la flèche par défaut iOS/Android */
-    }
+.mobile-right {
+  justify-content: flex-end;
+}
 
-    .mobile-select {
-      background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDE0IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMzMyI+PHBvbHlnb24gcG9pbnRzPSIwIDAgNyA4IDE0IDAgMCAwIi8+PC9nPjwvc3ZnPg==')
-        no-repeat right 10px center;
-      background-size: 10px 6px;
-    }
+.mobile-logo img {
+  height: 50px;
+}
 
-    button.cart-btn, 
-    button.login-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-    button.cart-btn i,
-    button.login-btn i {
-      font-size: 20px;
-      color: #333;
-    }
+.mobile-select select {
+  padding: 5px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
 
-    .mobile-logo img {
-      height: 60px;
-    }
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+}
 
-    .dropdown-menu {
-      position: absolute;
-      top: 50px;
-      right: 0;    /* aligne sur la droite */
-      left: auto;  /* retire l'éventuel left par défaut */
-      background: #fff;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      border-radius: 6px;
-      display: none;
-      flex-direction: column;
-      padding: 10px 0;
-      width: 150px;
-      z-index: 9999;
-    }
-    .dropdown-menu a {
-      text-decoration: none;
-      color: #333;
-      padding: 10px 15px;
-      display: block;
-      font-size: 14px;
-    }
-    .dropdown-menu a:hover {
-      background: #f0f0f0;
-    }
-    .dropdown-menu.show {
-      display: flex;
-    }
+#mobileMenu {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  z-index: 2000;
+  padding: 20px;
+  overflow-y: auto;
+}
 
-    .modal {
-      display: none;
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 2000; 
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 6px;
-      width: 300px;
-      text-align: center;
-      position: relative;
-    }
-    .modal-actions {
-      margin-top: 20px;
-    }
-    .modal-button {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 5px;
-      border: 2px solid #000;
-      color: #000;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .modal-button:hover {
-      background: #000;
-      color: #fff;
-    }
-    .close-modal {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: #333;
-    }
-  </style>
+#mobileMenu.open {
+  right: 0;
+}
+
+#mobileMenu h3 {
+  margin-top: 0;
+}
+
+#mobileMenu a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+#mobileMenu a:hover {
+  background-color: #f0f0f0;
+}
+
+.submenu {
+  padding-left: 15px;
+}
+
+.submenu a {
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
 
 <div id="mobileHeader">
-  <!-- Bloc de gauche : langue + devise -->
   <div class="mobile-left">
-    <!-- Langue -->
     <div class="mobile-select">
       <select id="languageSelector">
         <option value="en">EN</option>
       </select>
     </div>
+  </div>
 
-    <!-- Devise -->
-
-  <!-- Bloc du centre : logo -->
   <div class="mobile-center">
     <div class="mobile-logo">
       <a href="/">
-        <img
-          src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png"
-          alt="Kapsul Logo">
+        <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo">
       </a>
     </div>
   </div>
 
-  <!-- Bloc de droite : icônes (User, puis Cart) -->
   <div class="mobile-right">
+    <span class="hamburger" onclick="toggleMobileMenu()">☰</span>
+  </div>
 </div>
 
-<div id="cartModal" class="modal">
-  <div class="modal-content">
-    <button class="close-modal" onclick="closeModal('cartModal')">&times;</button>
-    <h2>Please Login or Signup</h2>
-    <p>If you want to access Marketplace functionality,
-       please log in or create a new account.</p>
-    <div class="modal-actions">
-      <a href="/login" class="modal-button">Login</a>
-      <a href="/register" class="modal-button">Sign Up</a>
+<div id="mobileMenu">
+  <h3>Menu</h3>
+  <a href="/products">Brands</a>
+    <div class="submenu">
+      <a href="/cookware">🍳 Cookware</a>
+      <a href="/everyday-carry">👝 Everyday Carry</a>
+      <a href="/flower">🌸 Flower</a>
+      <a href="/bicycle">🚲 Bicycle</a>
+      <a href="/hair-care">💇‍♀️ Hair Care</a>
+      <a href="/swimsuit">👙 Swimsuit</a>
+      <a href="/furniture">🛋️ Furniture</a>
+      <a href="/jewelry">💍 Jewelry</a>
+      <a href="/fitness">🏋️‍♀️ Fitness</a>
+      <a href="/luggage">🧳 Luggage</a>
+      <a href="/beauty">💄 Beauty</a>
+      <a href="/lifestyle">🧘‍♂️ Lifestyle</a>
+      <a href="/health-wellness">🍏 Health & Wellness</a>
+      <a href="/personal-care">🧴 Personal Care</a>
+      <a href="/pet">🐶 Pet</a>
+      <a href="/beverage">🥤 Beverage</a>
+      <a href="/kids">🧒 Kids</a>
+      <a href="/home">🏠 Home</a>
+      <a href="/apparel">👗 Apparel</a>
+      <a href="/food">🍔 Food</a>
     </div>
-  </div>
+  <a href="/tools">Tools</a>
+    <div class="submenu">
+      <a href="#">📅 Work & Productivity</a>
+      <a href="#">💻 Development</a>
+      <a href="#">🎨 Design</a>
+      <a href="#">💳 Finance</a>
+      <a href="#">🌐 Marketing</a>
+      <a href="#">💬 Community</a>
+      <a href="#">🤖 AI</a>
+      <a href="#">🏋️ Health</a>
+      <a href="#">✈️ Travel</a>
+      <a href="#">📄 Platforms</a>
+    </div>
+  <a href="/spaces">Spaces</a>
+    <div class="submenu">
+      <a href="#">🛍️ Shops</a>
+      <a href="#">📅 Coworking</a>
+      <a href="#">🍽️ Restaurants</a>
+      <a href="#">🍻 Bars</a>
+      <a href="#">☕️ Cafés</a>
+      <a href="#">🖼️ Gallery & Arts</a>
+      <a href="#">🏋️ Gyms</a>
+      <a href="#">🎦 Salons</a>
+    </div>
+  <a href="/services">Services</a>
+    <div class="submenu">
+      <a href="#">📖 Legal & Accounting</a>
+      <a href="#">🏋️ Wellness</a>
+      <a href="#">🏫 Education</a>
+      <a href="#">🏠 Relocation</a>
+      <a href="#">💼 Pro Services</a>
+      <a href="#">🫌 Lifestyle</a>
+    </div>
+  <a href="/events">Events</a>
+    <div class="submenu">
+      <a href="/events/circle">🍸 Get in the Circle #1</a>
+      <a href="/events/popups">🛍️ Popups</a>
+      <a href="/events/other">💡 Workshops & Talks</a>
+    </div>
 </div>
