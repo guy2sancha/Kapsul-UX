@@ -7,8 +7,8 @@
       display: flex;
       align-items: center;
       padding: 10px;
-      background-color: #fff;
-      border-bottom: 1px solid #ddd;
+      background-color: #001d20;
+      border-bottom: 1px solid #001d20;
       z-index: 1000;
       transition: transform 0.3s ease-in-out; /* pour cacher/afficher au scroll */
     }
@@ -160,23 +160,6 @@
     </div>
 
     <!-- Devise -->
-    <div class="mobile-select">
-      <select id="currencySelector">
-        <option value="USD">$</option>
-        <option value="EUR">€</option>
-        <option value="GBP">£</option>
-        <option value="JPY">¥</option>
-        <option value="KRW">₩</option>
-        <option value="TWD">NT</option>
-        <option value="SGD">S$</option>
-        <option value="THB">฿</option>
-        <option value="AUD">A$</option>
-        <option value="HKD">HK</option>
-        <option value="CAD">C$</option>
-        <option value="NZD">NZ</option>
-      </select>
-    </div>
-  </div>
 
   <!-- Bloc du centre : logo -->
   <div class="mobile-center">
@@ -191,27 +174,6 @@
 
   <!-- Bloc de droite : icônes (User, puis Cart) -->
   <div class="mobile-right">
-    <!-- Bouton Login/User -->
-    <button class="login-btn" id="loginButton">
-      <i class="fa-solid fa-user"></i>
-    </button>
-
-    <!-- Bouton Cart -->
-    <button class="cart-btn" id="cartButton">
-      <i class="fa-solid fa-cart-shopping"></i>
-    </button>
-
-    <!-- Menu User dropdown -->
-    <div class="dropdown-menu" id="profileMenu">
-      <div id="loggedOutMenu">
-        <a href="/sign-in">Login</a>
-        <a href="/register">Sign Up</a>
-      </div>
-      <div id="loggedInMenu" style="display: none;">
-        <a href="#" onclick="logoutUser()">Log-out</a>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div id="cartModal" class="modal">
