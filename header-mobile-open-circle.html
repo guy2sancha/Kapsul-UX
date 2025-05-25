@@ -1,4 +1,3 @@
-<style>
 #mobileHeader {
   position: fixed;
   top: 0;
@@ -18,21 +17,11 @@
   align-items: center;
 }
 
-.mobile-left {
-  justify-content: flex-start;
-}
+.mobile-left { justify-content: flex-start; }
+.mobile-center { justify-content: center; }
+.mobile-right { justify-content: flex-end; }
 
-.mobile-center {
-  justify-content: center;
-}
-
-.mobile-right {
-  justify-content: flex-end;
-}
-
-.mobile-logo img {
-  height: 50px;
-}
+.mobile-logo img { height: 50px; }
 
 .mobile-select select {
   padding: 5px;
@@ -50,6 +39,14 @@
   color: #fff;
 }
 
+#mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1999;
+}
+
 #mobileMenu {
   position: fixed;
   top: 0;
@@ -64,31 +61,40 @@
   overflow-y: auto;
 }
 
-#mobileMenu.open {
-  right: 0;
-}
+#mobileMenu.open { right: 0; }
+#mobileOverlay.show { display: block; }
 
-#mobileMenu h3 {
-  margin-top: 0;
-}
+#mobileMenu h3 { margin-top: 0; }
 
-#mobileMenu a {
-  display: block;
+.menu-category {
+  cursor: pointer;
   padding: 10px;
-  color: #333;
-  text-decoration: none;
+  background-color: #f0f0f0;
+  margin-top: 5px;
 }
 
-#mobileMenu a:hover {
-  background-color: #f0f0f0;
+.menu-category:hover {
+  background-color: #e0e0e0;
 }
 
 .submenu {
+  display: none;
   padding-left: 15px;
 }
 
 .submenu a {
-  font-size: 14px;
+  display: block;
+  padding: 8px 0;
+  color: #333;
+  text-decoration: none;
+}
+
+.submenu a:hover {
+  background-color: #f9f9f9;
+}
+
+.menu-category.open + .submenu {
+  display: block;
 }
 </style>
 </head>
@@ -116,68 +122,75 @@
   </div>
 </div>
 
+<div id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
 <div id="mobileMenu">
   <h3>Menu</h3>
-  <a href="/products">Brands</a>
-    <div class="submenu">
-      <a href="/cookware">🍳 Cookware</a>
-      <a href="/everyday-carry">👝 Everyday Carry</a>
-      <a href="/flower">🌸 Flower</a>
-      <a href="/bicycle">🚲 Bicycle</a>
-      <a href="/hair-care">💇‍♀️ Hair Care</a>
-      <a href="/swimsuit">👙 Swimsuit</a>
-      <a href="/furniture">🛋️ Furniture</a>
-      <a href="/jewelry">💍 Jewelry</a>
-      <a href="/fitness">🏋️‍♀️ Fitness</a>
-      <a href="/luggage">🧳 Luggage</a>
-      <a href="/beauty">💄 Beauty</a>
-      <a href="/lifestyle">🧘‍♂️ Lifestyle</a>
-      <a href="/health-wellness">🍏 Health & Wellness</a>
-      <a href="/personal-care">🧴 Personal Care</a>
-      <a href="/pet">🐶 Pet</a>
-      <a href="/beverage">🥤 Beverage</a>
-      <a href="/kids">🧒 Kids</a>
-      <a href="/home">🏠 Home</a>
-      <a href="/apparel">👗 Apparel</a>
-      <a href="/food">🍔 Food</a>
-    </div>
-  <a href="/tools">Tools</a>
-    <div class="submenu">
-      <a href="#">📅 Work & Productivity</a>
-      <a href="#">💻 Development</a>
-      <a href="#">🎨 Design</a>
-      <a href="#">💳 Finance</a>
-      <a href="#">🌐 Marketing</a>
-      <a href="#">💬 Community</a>
-      <a href="#">🤖 AI</a>
-      <a href="#">🏋️ Health</a>
-      <a href="#">✈️ Travel</a>
-      <a href="#">📄 Platforms</a>
-    </div>
-  <a href="/spaces">Spaces</a>
-    <div class="submenu">
-      <a href="#">🛍️ Shops</a>
-      <a href="#">📅 Coworking</a>
-      <a href="#">🍽️ Restaurants</a>
-      <a href="#">🍻 Bars</a>
-      <a href="#">☕️ Cafés</a>
-      <a href="#">🖼️ Gallery & Arts</a>
-      <a href="#">🏋️ Gyms</a>
-      <a href="#">🎦 Salons</a>
-    </div>
-  <a href="/services">Services</a>
-    <div class="submenu">
-      <a href="#">📖 Legal & Accounting</a>
-      <a href="#">🏋️ Wellness</a>
-      <a href="#">🏫 Education</a>
-      <a href="#">🏠 Relocation</a>
-      <a href="#">💼 Pro Services</a>
-      <a href="#">🫌 Lifestyle</a>
-    </div>
-  <a href="/events">Events</a>
-    <div class="submenu">
-      <a href="/events/circle">🍸 Get in the Circle #1</a>
-      <a href="/events/popups">🛍️ Popups</a>
-      <a href="/events/other">💡 Workshops & Talks</a>
-    </div>
+
+  <div class="menu-category" onclick="toggleSubmenu(this)">Brands ▼</div>
+  <div class="submenu">
+    <a href="/cookware">🍳 Cookware</a>
+    <a href="/everyday-carry">👝 Everyday Carry</a>
+    <a href="/flower">🌸 Flower</a>
+    <a href="/bicycle">🚲 Bicycle</a>
+    <a href="/hair-care">💇‍♀️ Hair Care</a>
+    <a href="/swimsuit">👙 Swimsuit</a>
+    <a href="/furniture">🛋️ Furniture</a>
+    <a href="/jewelry">💍 Jewelry</a>
+    <a href="/fitness">🏋️‍♀️ Fitness</a>
+    <a href="/luggage">🧳 Luggage</a>
+    <a href="/beauty">💄 Beauty</a>
+    <a href="/lifestyle">🧘‍♂️ Lifestyle</a>
+    <a href="/health-wellness">🍏 Health & Wellness</a>
+    <a href="/personal-care">🧴 Personal Care</a>
+    <a href="/pet">🐶 Pet</a>
+    <a href="/beverage">🥤 Beverage</a>
+    <a href="/kids">🧒 Kids</a>
+    <a href="/home">🏠 Home</a>
+    <a href="/apparel">👗 Apparel</a>
+    <a href="/food">🍔 Food</a>
+  </div>
+
+  <div class="menu-category" onclick="toggleSubmenu(this)">Tools ▼</div>
+  <div class="submenu">
+    <a href="#">📅 Work & Productivity</a>
+    <a href="#">💻 Development</a>
+    <a href="#">🎨 Design</a>
+    <a href="#">💳 Finance</a>
+    <a href="#">🌐 Marketing</a>
+    <a href="#">💬 Community</a>
+    <a href="#">🤖 AI</a>
+    <a href="#">🏋️ Health</a>
+    <a href="#">✈️ Travel</a>
+    <a href="#">📄 Platforms</a>
+  </div>
+
+  <div class="menu-category" onclick="toggleSubmenu(this)">Spaces ▼</div>
+  <div class="submenu">
+    <a href="#">🛍️ Shops</a>
+    <a href="#">📅 Coworking</a>
+    <a href="#">🍽️ Restaurants</a>
+    <a href="#">🍻 Bars</a>
+    <a href="#">☕️ Cafés</a>
+    <a href="#">🖼️ Gallery & Arts</a>
+    <a href="#">🏋️ Gyms</a>
+    <a href="#">🎦 Salons</a>
+  </div>
+
+  <div class="menu-category" onclick="toggleSubmenu(this)">Services ▼</div>
+  <div class="submenu">
+    <a href="#">📖 Legal & Accounting</a>
+    <a href="#">🏋️ Wellness</a>
+    <a href="#">🏫 Education</a>
+    <a href="#">🏠 Relocation</a>
+    <a href="#">💼 Pro Services</a>
+    <a href="#">🫌 Lifestyle</a>
+  </div>
+
+  <div class="menu-category" onclick="toggleSubmenu(this)">Events ▼</div>
+  <div class="submenu">
+    <a href="/events/circle">🍸 Get in the Circle #1</a>
+    <a href="/events/popups">🛍️ Popups</a>
+    <a href="/events/other">💡 Workshops & Talks</a>
+  </div>
 </div>
