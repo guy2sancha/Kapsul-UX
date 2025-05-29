@@ -1,5 +1,29 @@
 <style>
   /* General layout */
+  #kapsul-ticker-bar {
+    background: #fffff0;
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
+
+  .ticker-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    gap: 20px;
+  }
 
   #customHeader {
     position: fixed;
@@ -9,7 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 2%;
+    padding: 22px 2%;
     background-color: #001d20;
     border-bottom: 1px solid #001d20;
     z-index: 1000;
