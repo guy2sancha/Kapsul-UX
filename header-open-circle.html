@@ -48,23 +48,14 @@
   }
 
   .chevron {
-    font-size: 10px;
-    margin-left: 4px;
+    font-size: 12px; /* taille uniforme */
+    margin-left: 6px;
+    display: inline-block;
     transition: transform 0.3s ease;
   }
 
   .nav-item:hover .chevron {
     transform: rotate(180deg);
-  }
-
-  .nav-item-right .chevron {
-    margin-left: 0;
-    margin-right: 4px;
-    transform: rotate(270deg);
-  }
-
-  .nav-item-right:hover .chevron {
-    transform: rotate(90deg);
   }
 
   .dropdown-submenu {
@@ -85,12 +76,6 @@
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-  }
-
-  .nav-item-right .dropdown-submenu {
-    left: auto;
-    right: 0;
-    transform-origin: top right;
   }
 
   .dropdown-submenu.two-columns {
@@ -145,7 +130,7 @@
     <div class="custom-nav-left">
       <!-- Local Services -->
       <div class="nav-item">
-        <a href="/services"><span class="chevron">▼</span> Local Services</a>
+        <a href="/services">Local Services <span class="chevron">▼</span></a>
         <div class="dropdown-submenu two-columns">
           <div class="column">
             <p class="category-title">Professional</p>
@@ -166,7 +151,7 @@
         </div>
       </div>
 
-      <!-- Places (déplacé ici) -->
+      <!-- Places -->
       <div class="nav-item">
         <a href="/places">Places <span class="chevron">▼</span></a>
         <div class="dropdown-submenu two-columns">
@@ -196,8 +181,8 @@
     <!-- Right Navigation -->
     <div class="custom-nav-right">
       <!-- Apps & Online -->
-      <div class="nav-item nav-item-right">
-        <a href="/digital"><span class="chevron">▼</span> Apps & Online</a>
+      <div class="nav-item">
+        <a href="/digital">Apps & Online <span class="chevron">▼</span></a>
         <div class="dropdown-submenu two-columns">
           <div class="column">
             <p class="category-title">Professional</p>
@@ -222,8 +207,8 @@
         </div>
       </div>
 
-      <!-- Brands (déplacé ici) -->
-      <div class="nav-item nav-item-right">
+      <!-- Brands -->
+      <div class="nav-item">
         <a href="/brands">Brands <span class="chevron">▼</span></a>
         <div class="dropdown-submenu two-columns">
           <div class="column">
