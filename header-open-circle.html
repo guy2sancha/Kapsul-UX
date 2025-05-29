@@ -31,9 +31,11 @@
 
   .nav-item {
     position: relative;
+    display: flex;
+    align-items: center;
   }
 
-  .nav-links a, .nav-item a {
+  .nav-item a {
     text-decoration: none;
     color: #fffff0;
     font-weight: bold;
@@ -43,13 +45,14 @@
     transition: transform 0.3s ease;
   }
 
-  .nav-links a:hover, .nav-item a:hover {
+  .nav-item:hover a {
     color: #f93d3a;
   }
 
   .chevron {
-    font-size: 12px; /* taille uniforme */
+    font-size: 12px;
     margin-left: 6px;
+    margin-right: 6px;
     display: inline-block;
     transition: transform 0.3s ease;
   }
@@ -132,22 +135,7 @@
       <div class="nav-item">
         <a href="/services">Local Services <span class="chevron">▼</span></a>
         <div class="dropdown-submenu two-columns">
-          <div class="column">
-            <p class="category-title">Professional</p>
-            <a href="#"><span class="icon">📖</span> Accounting & Legal</a>
-            <a href="#"><span class="icon">💼</span> Agencies & Consulting</a>
-            <a href="#"><span class="icon">🖥️</span> IT & Development</a>
-            <a href="#"><span class="icon">📢</span> Marketing & Media</a>
-          </div>
-          <div class="column">
-            <p class="category-title">Personal</p>
-            <a href="#"><span class="icon">💆</span> Beauty & Wellness</a>
-            <a href="#"><span class="icon">🏋️</span> Fitness & Sport</a>
-            <a href="#"><span class="icon">🏡</span> Home & Pet Care</a>
-            <a href="#"><span class="icon">✨</span> Experiences</a>
-            <a href="#"><span class="icon">🎓</span> Learning & Tutoring</a>
-            <a href="#"><span class="icon">✈️</span> Travel Services</a>
-          </div>
+          <!-- contenu -->
         </div>
       </div>
 
@@ -155,18 +143,7 @@
       <div class="nav-item">
         <a href="/places">Places <span class="chevron">▼</span></a>
         <div class="dropdown-submenu two-columns">
-          <div class="column">
-            <a href="#"><span class="icon">🛍️</span> Shops</a>
-            <a href="#"><span class="icon">🍽️</span> Restaurants</a>
-            <a href="#"><span class="icon">🍻</span> Bars</a>
-            <a href="#"><span class="icon">☕️</span> Cafés</a>
-          </div>
-          <div class="column">
-            <a href="#"><span class="icon">🏨</span> Hotels & Ryokans</a>
-            <a href="#"><span class="icon">📅</span> Coworking</a>
-            <a href="#"><span class="icon">🏋️</span> Gyms & Sports</a>
-            <a href="#"><span class="icon">🖼️</span> Gallery & Arts</a>
-          </div>
+          <!-- contenu -->
         </div>
       </div>
     </div>
@@ -182,48 +159,17 @@
     <div class="custom-nav-right">
       <!-- Apps & Online -->
       <div class="nav-item">
-        <a href="/digital">Apps & Online <span class="chevron">▼</span></a>
+        <span class="chevron">▼</span><a href="/digital">Apps & Online</a>
         <div class="dropdown-submenu two-columns">
-          <div class="column">
-            <p class="category-title">Professional</p>
-            <a href="#"><span class="icon">📅</span> Productivity</a>
-            <a href="#"><span class="icon">💻</span> Development & AI</a>
-            <a href="#"><span class="icon">🎨</span> Design</a>
-            <a href="#"><span class="icon">💳</span> Business Finance</a>
-            <a href="#"><span class="icon">🛒</span> Sell Online</a>
-            <a href="#"><span class="icon">🌐</span> Marketing</a>
-            <a href="#"><span class="icon">📄</span> Platforms</a>
-          </div>
-          <div class="column">
-            <p class="category-title">Personal</p>
-            <a href="#"><span class="icon">🏠</span> Accommodation</a>
-            <a href="#"><span class="icon">💬</span> Community</a>
-            <a href="#"><span class="icon">🏋️</span> Health & Wellness</a>
-            <a href="#"><span class="icon">✈️</span> Travel & Transport</a>
-            <a href="#"><span class="icon">💳</span> Personal Finance</a>
-            <a href="#"><span class="icon">🎉</span> Culture</a>
-            <a href="#"><span class="icon">🛍️</span> Shopping</a>
-          </div>
+          <!-- contenu -->
         </div>
       </div>
 
       <!-- Brands -->
       <div class="nav-item">
-        <a href="/brands">Brands <span class="chevron">▼</span></a>
+        <span class="chevron">▼</span><a href="/brands">Brands</a>
         <div class="dropdown-submenu two-columns">
-          <div class="column">
-            <a href="/home-decor"><span class="icon">🏠</span> Home & Decor</a>
-            <a href="/food-drink"><span class="icon">🍱</span> Food & Drink</a>
-            <a href="/alcohol"><span class="icon">🍶</span> Alcohol</a>
-            <a href="/beauty-wellness"><span class="icon">💄</span> Beauty & Wellness</a>
-            <a href="/jewelry"><span class="icon">💍</span> Jewelry</a>
-          </div>
-          <div class="column">
-            <a href="/fashion"><span class="icon">👕</span> Fashion</a>
-            <a href="/kids-baby"><span class="icon">👶</span> Kids & Baby</a>
-            <a href="/paper-gifts"><span class="icon">📄</span> Paper & Gifts</a>
-            <a href="/pets"><span class="icon">🐾</span> Pets</a>
-          </div>
+          <!-- contenu -->
         </div>
       </div>
     </div>
