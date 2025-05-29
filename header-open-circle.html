@@ -1,7 +1,9 @@
 <style>
+  /* General layout */
+
   #customHeader {
     position: fixed;
-    top: 0;
+    top: 36px;
     left: 0;
     right: 0;
     display: flex;
@@ -13,29 +15,25 @@
     z-index: 1000;
   }
 
-  .custom-nav {
+  .logo-container {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-
-  .custom-nav-left, .custom-nav-right {
-    display: flex;
-    gap: 20px;
+    justify-content: center;
   }
 
   .logo-container img {
     height: 80px;
   }
 
-  .nav-item {
-    position: relative;
+  .nav-links {
     display: flex;
-    align-items: center;
+    font-size: 16px;
+    position: absolute;
+    left: 50px;
   }
 
-  .nav-item a {
+  .nav-links a,
+  .nav-links2 a {
     text-decoration: none;
     color: #fffff0;
     font-weight: bold;
@@ -45,15 +43,18 @@
     transition: transform 0.3s ease;
   }
 
-  .nav-item:hover a {
+  .nav-links a:hover,
+  .nav-links2 a:hover {
     color: #f93d3a;
   }
 
+  .nav-item {
+    position: relative;
+  }
+
   .chevron {
-    font-size: 12px;
-    margin-left: 6px;
-    margin-right: 6px;
-    display: inline-block;
+    font-size: 10px;
+    margin-left: 4px;
     transition: transform 0.3s ease;
   }
 
@@ -76,6 +77,7 @@
   }
 
   .nav-item:hover > .dropdown-submenu {
+    display: flex;
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
@@ -94,16 +96,13 @@
     width: 50%;
   }
 
-  .dropdown-submenu .column + .column {
-    border-left: 1px solid #e0e0e0;
-    padding-left: 20px;
-  }
-
   .dropdown-submenu a {
-    color: #111;
+    display: flex;
+    align-items: center;
     font-size: 12px;
-    text-decoration: none;
     padding: 5px 0;
+    color: #111;
+    text-decoration: none;
   }
 
   .dropdown-submenu a:hover {
@@ -111,67 +110,262 @@
   }
 
   .icon {
+    display: inline-block;
     width: 20px;
     text-align: center;
     margin-right: 8px;
     font-size: 16px;
   }
 
-  .category-title {
-    font-weight: bold;
-    text-decoration: underline;
-    font-style: italic;
-    font-size: 0.8em;
-    margin-bottom: 10px;
-    color: #333333;
+  .user-actions {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 60px;
   }
+
+  .toggle-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #000;
+  margin-left: auto; /* pousse à droite */
+}
+
+    label {
+    display: inline-block;
+    margin-bottom: 0px!important;
+}
+
+
+.mode-option {
+  min-width: 50px;
+      color: #aaa;
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.mode-option.active {
+  color: #fff;
+  opacity: 1;
+}
+
+.kapsul-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.kapsul-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.kapsul-switch .slider {
+    background-color: #fff;
+    border: 1px solid #191919;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+
+.kapsul-switch .slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  background-color: #f93d3a;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 2px;
+  transition: transform 0.4s;
+}
+
+.kapsul-switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+  .dropdown-submenu .column + .column {
+  border-left: 1px solid #e0e0e0; /* Ligne fine grise */
+  padding-left: 20px; /* Un peu d'espace pour ne pas coller le texte à la bordure */
+}
+
+  #languageSelector,
+    #currencySelector {
+            padding: 5px 8px;
+    border: 1px solid #001d20;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #001d20;
+    cursor: pointer;
+    color: #fffff0;
+    }
+
+  .nav-links2 .dropdown-submenu.one-column {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  gap: 10px;
+}
+
+.nav-links2 .dropdown-submenu.one-column .column {
+  width: 100%;
+  padding: 0;
+  border-left: none;
+}
+
+  .category-title {
+  font-weight: bold;
+  text-decoration: underline;
+  font-style: italic;
+  font-size: 0.8em; /* Adjust font size */
+  margin-bottom: 10px; /* Add spacing below */
+  color: #333333; /* Text color */
+}
+
+
+
 </style>
 
+<div id="kapsul-ticker-bar">
+  <div class="ticker-inner">
+    <div id="time-tokyo">Tokyo: --:--</div>
+    <div class="toggle-mode">
+      <span class="mode-option left" id="labelImport">🌎 ビジネスを登録</span>
+      <label class="kapsul-switch">
+        <input type="checkbox" id="modeToggle" checked>
+        <span class="slider"></span>
+      </label>
+      <span class="mode-option-active right" id="labelExport">Welcome to Japan 🇯🇵</span>
+    </div>
+  </div>
+</div>
+
 <div id="customHeader">
-  <div class="custom-nav">
-    <!-- Left Navigation -->
-    <div class="custom-nav-left">
-      <!-- Local Services -->
-      <div class="nav-item">
-        <a href="/services">Local Services <span class="chevron">▼</span></a>
-        <div class="dropdown-submenu two-columns">
-          <!-- contenu -->
-        </div>
-      </div>
+  <div class="logo-container">
+    <a href="/">
+      <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo" />
+    </a>
+  </div>
 
-      <!-- Places -->
-      <div class="nav-item">
-        <a href="/places">Places <span class="chevron">▼</span></a>
-        <div class="dropdown-submenu two-columns">
-          <!-- contenu -->
+ <nav class="nav-links">
+  <div class="nav-item">
+    <a href="/brands">Brands <span class="chevron">▼</span></a>
+    <div class="dropdown-submenu two-columns">
+      <div class="column">
+        <a href="/home-decor"><span class="icon">🏠</span> Home & Decor</a>
+        <a href="/food-drink"><span class="icon">🍱</span> Food & Drink</a>
+        <a href="/alcohol"><span class="icon">🍶</span> Alcohol Only</a>
+        <a href="/beauty-wellness"><span class="icon">💄</span> Beauty & Wellness</a>
+        <a href="/jewelry"><span class="icon">💍</span> Jewelry</a>
+      </div>
+      <div class="column">
+        <a href="/fashion"><span class="icon">👕</span> Fashion</a>
+        <a href="/kids-baby"><span class="icon">👶</span> Kids & Baby</a>
+        <a href="/paper-gifts"><span class="icon">📄</span> Paper & Gifts</a>
+        <a href="/pets"><span class="icon">🐾</span> Pets</a>
+      </div>
+    </div>
+  </div>
+
+<div class="nav-item">
+  <a href="/tools">Tools <span class="chevron">▼</span></a>
+  <div class="dropdown-submenu two-columns">
+    <div class="column">
+<p class="category-title"><b><u><i>Professional</i></u></b></p>
+      <a href="#"><span class="icon">📅</span> Productivity</a>
+      <a href="#"><span class="icon">💻</span> Development & AI</a>
+      <a href="#"><span class="icon">🎨</span> Design</a>
+      <a href="#"><span class="icon">💳</span> Business Finance</a>
+      <a href="#"><span class="icon">🛒</span> Sell Online</a>
+      <a href="#"><span class="icon">🌐</span> Marketing</a>
+      <a href="#"><span class="icon">📄</span> Platforms</a>
+    </div>
+    <div class="column">
+<p class="category-title"><b><u><i>Personal</i></u></b></p>
+      <a href="#"><span class="icon">🏠</span> Accomodation</a>
+      <a href="#"><span class="icon">💬</span> Community</a>
+      <a href="#"><span class="icon">🏋️</span> Health & Wellness</a>
+      <a href="#"><span class="icon">✈️</span> Travel & Transport</a>
+            <a href="#"><span class="icon">💳</span> Personal Finance</a>
+      <a href="#"><span class="icon">🎉</span>Culture</a>
+            <a href="#"><span class="icon">🛍️</span> Shopping</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="nav-item">
+      <a href="/spaces">Spaces <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu two-columns">
+        <div class="column">
+                    <a href="#"><span class="icon">🛍️</span> Shops</a>
+<a href="#"><span class="icon">🍽️</span> Restaurants</a>
+<a href="#"><span class="icon">🍻</span> Bars</a>
+<a href="#"><span class="icon">☕️</span> Cafés</a>
+        </div>
+        <div class="column">
+          <a href="#"><span class="icon">🏨</span> Hotels & Ryokans</a> <!-- Updated emoji -->
+<a href="#"><span class="icon">📅</span> Coworking</a>
+<a href="#"><span class="icon">🏋️</span> Gyms & Sports</a>
+<a href="#"><span class="icon">🖼️</span> Gallery & Arts</a>
         </div>
       </div>
     </div>
 
-    <!-- Center Logo -->
-    <div class="logo-container">
-      <a href="/">
-        <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1747797244/KAPSUL_1200x400_11_uujrdh.png" alt="Kapsul Logo">
-      </a>
-    </div>
+<div class="nav-item">
+  <a href="/services">Services <span class="chevron">▼</span></a>
+  <div class="dropdown-submenu two-columns">
+    <div class="column">
+<p class="category-title"><b><u><i>Professional</i></u></b></p>
+      <a href="#"><span class="icon">📖</span> Accounting & Legal</a>
+      <a href="#"><span class="icon">💼</span> Agencies & Consulting</a>
+      <a href="#"><span class="icon">🖥️</span> IT & Development</a>
+      <a href="#"><span class="icon">📢</span> Marketing & Media</a>
 
-    <!-- Right Navigation -->
-    <div class="custom-nav-right">
-      <!-- Apps & Online -->
-      <div class="nav-item">
-        <span class="chevron">▼</span><a href="/digital">Apps & Online</a>
-        <div class="dropdown-submenu two-columns">
-          <!-- contenu -->
-        </div>
-      </div>
+    </div>
+    <div class="column">
+<p class="category-title"><b><u><i>Personal</i></u></b></p>
+      <a href="#"><span class="icon">💆</span> Beauty & Wellness</a>
+      <a href="#"><span class="icon">🏋️</span> Fitness & Sport</a>
+      <a href="#"><span class="icon">🏡</span> Home & Pet Care</a>
+      <a href="#"><span class="icon">✨</span> Experiences</a>
+      <a href="#"><span class="icon">🎓</span> Learning & Tutoring</a>
+      <a href="#"><span class="icon">✈️</span> Travel Services</a>
+    </div>
+  </div>
+</div>
 
-      <!-- Brands -->
-      <div class="nav-item">
-        <span class="chevron">▼</span><a href="/brands">Brands</a>
-        <div class="dropdown-submenu two-columns">
-          <!-- contenu -->
-        </div>
+  </nav>
+
+  <div class="user-actions">
+    <div class="nav-links2">
+  <div class="nav-item">
+    <a href="/events">Events <span class="chevron">▼</span></a>
+    <div class="dropdown-submenu one-column">
+      <div class="column">
+                <a href="/events/circle"><span class="icon">🍸</span> Get in the Circle #1</a>
+        <a href="/events/popups"><span class="icon">🛍️</span> Popups</a>
+        <a href="/events/other"><span class="icon">💡</span> Workshops & Talks</a>
       </div>
     </div>
+  </div>
+</div>
+
+
+  <div class="ticker-selectors">
+    <select id="languageSelector">
+      <option value="en">EN</option>
+    </select>
   </div>
 </div>
