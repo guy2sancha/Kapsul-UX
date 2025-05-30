@@ -1,13 +1,10 @@
 <style>
-
-
   a {
     color: #000;
     text-decoration: none;
     background-color: transparent;
-}
-  
-  /* General layout */
+  }
+
   #kapsul-ticker-bar {
     background: #fff;
     color: #000;
@@ -17,7 +14,6 @@
     padding: 10px 20px;
     display: flex;
     justify-content: center;
-    border-bottom: 0;
     position: fixed;
     top: 0;
     left: 0;
@@ -48,12 +44,6 @@
     z-index: 1000;
   }
 
-  .logo-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-
   .logo-container img {
     height: 80px;
   }
@@ -65,8 +55,7 @@
     left: 15px;
   }
 
-  .nav-links a,
-  .nav-links2 a {
+  .nav-links a, .nav-links2 a {
     text-decoration: none;
     color: #fffff0;
     font-weight: 300;
@@ -76,8 +65,7 @@
     transition: transform 0.3s ease;
   }
 
-  .nav-links a:hover,
-  .nav-links2 a:hover {
+  .nav-links a:hover, .nav-links2 a:hover {
     color: #f93d3a;
   }
 
@@ -110,23 +98,10 @@
   }
 
   .nav-item:hover > .dropdown-submenu {
-    display: flex;
+    display: block;
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-  }
-
-  .dropdown-submenu.two-columns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .dropdown-submenu .column {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 50%;
   }
 
   .dropdown-submenu a {
@@ -135,7 +110,6 @@
     font-size: 12px;
     padding: 5px 0;
     color: #111;
-    text-decoration: none;
   }
 
   .dropdown-submenu a:hover {
@@ -151,131 +125,55 @@
   }
 
   .user-actions {
-    display: flex;
-    align-items: center;
     position: absolute;
     right: 60px;
   }
 
   .toggle-mode {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-  font-size: 13px;
-  color: #000;
-  margin-left: auto; /* pousse à droite */
-}
-
-    label {
-    display: inline-block;
-    margin-bottom: 0px!important;
-}
-
-
-.mode-option {
-  min-width: 50px;
-      color: #000;
-  text-align: center;
-  opacity: 0.6;
-  transition: opacity 0.3s, color 0.3s;
-}
-
-.mode-option.active {
-  color: #fff;
-  opacity: 1;
-}
-
-.kapsul-switch {
-  position: relative;
-  width: 46px;
-  height: 24px;
-  display: inline-block;
-}
-
-.kapsul-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.kapsul-switch .slider {
-    background-color: #fff;
-    border: 1px solid #191919;
-    border-radius: 24px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    cursor: pointer;
-    transition: background-color 0.4s;
-}
-
-
-.kapsul-switch .slider:before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  background-color: #f93d3a;
-  border-radius: 50%;
-  left: 3px;
-  bottom: 2px;
-  transition: transform 0.4s;
-}
-
-.kapsul-switch input:checked + .slider:before {
-  transform: translateX(22px);
-}
-
-  .dropdown-submenu .column + .column {
-  border-left: 1px solid #e0e0e0; /* Ligne fine grise */
-  padding-left: 20px; /* Un peu d'espace pour ne pas coller le texte à la bordure */
-}
-
-  #languageSelector,
-    #currencySelector {
-            padding: 5px 8px;
-    border: 1px solid #001d20;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #001d20;
-    cursor: pointer;
-    color: #fffff0;
-    }
-
-  .nav-links2 .dropdown-submenu.one-column {
-  display: flex;
-  flex-direction: column;
-  max-width: 200px;
-  gap: 10px;
-}
-
-.nav-links2 .dropdown-submenu.one-column .column {
-  width: 100%;
-  padding: 0;
-  border-left: none;
-}
-
-  .category-title {
-  font-weight: bold;
-  text-decoration: underline;
-  font-style: italic;
-  font-size: 0.8em; /* Adjust font size */
-  margin-bottom: 10px; /* Add spacing below */
-  color: #333333; /* Text color */
-}
-
-    .toggle-mode a:hover {
-    text-decoration: underline;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #000;
+    margin-left: auto;
   }
+
+  .mode-option {
+    min-width: 50px;
+    opacity: 0.6;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
   .mode-option-active {
     text-decoration: underline;
     font-weight: bold;
+    opacity: 1;
   }
 
+  .toggle-mode a:hover {
+    text-decoration: underline;
+  }
 
+  .dropdown-submenu .header-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+  }
 
+  .dropdown-submenu .columns {
+    display: flex;
+    gap: 30px;
+  }
+
+  .dropdown-submenu .columns .column {
+    flex: 1;
+  }
+
+  .dropdown-submenu .columns .column + .column {
+    border-left: 1px solid #e0e0e0;
+    padding-left: 20px;
+  }
 </style>
 
 <div id="kapsul-ticker-bar">
@@ -283,12 +181,12 @@
     <div id="time-tokyo" style="font-style: italic;">What are you looking for your business?</div>
     <div class="toggle-mode">
       <span class="mode-label" style="margin-right: 20px; font-style: italic; text-decoration: underline;">I am:</span>
-      <a href="/business" class="mode-option-active left" id="labelImport" style="text-decoration: underline; margin-right: 10px;">A Business</a>
+      <a href="/business" class="mode-option-active left" id="labelImport" style="margin-right: 10px;">A Business</a>
       <label class="kapsul-switch">
         <input type="checkbox" id="modeToggle">
         <span class="slider"></span>
       </label>
-      <a href="/" class="mode-option right" id="labelExport" style="text-decoration: none; margin-left: 10px;">An Individual</a>
+      <a href="/" class="mode-option right" id="labelExport" style="margin-left: 10px;">An Individual</a>
     </div>
   </div>
 </div>
@@ -296,46 +194,39 @@
 <div id="customHeader">
   <div class="logo-container">
     <a href="/business">
-      <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1748578443/KAPSUL_1200x400_14_xcucmu.png" alt="Kapsul Logo" />
+      <img src="https://res.cloudinary.com/dxaybtbp3/image/upload/v1748578443/KAPSUL_1200x400_14_xcucmu.png" alt="Kapsul Logo">
     </a>
   </div>
 
   <nav class="nav-links">
 
-    <!-- Experts & Partners -->
     <div class="nav-item">
       <a href="/experts-partners">Experts & Partners<span class="chevron">▼</span></a>
       <div class="dropdown-submenu">
-        <div style="font-weight: bold; font-size: 1.1em; text-align: center; margin-bottom: 15px;">
-          Find someone locally who can help you grow your business
-        </div>
-        <div style="display: flex; gap: 30px;">
-          <div class="column" style="flex: 1;">
-            <a href="/experts-partners/fashion"><span class="icon">👕</span> Fashion & Textile</a><br>
-            <a href="/experts-partners/fnb"><span class="icon">🍱</span> Food & Beverage</a><br>
-            <a href="/experts-partners/legal"><span class="icon">⚖️</span> Legal & Compliance</a><br>
-            <a href="/experts-partners/accounting"><span class="icon">📖</span> Accounting & Finance</a><br>
+        <div class="header-title">Find someone locally who can help you grow your business</div>
+        <div class="columns">
+          <div class="column">
+            <a href="/experts-partners/fashion"><span class="icon">👕</span> Fashion & Textile</a>
+            <a href="/experts-partners/fnb"><span class="icon">🍱</span> Food & Beverage</a>
+            <a href="/experts-partners/legal"><span class="icon">⚖️</span> Legal & Compliance</a>
+            <a href="/experts-partners/accounting"><span class="icon">📖</span> Accounting & Finance</a>
             <a href="/experts-partners/beauty"><span class="icon">💄</span> Beauty & Wellness</a>
           </div>
-          <div style="border-left: 1px solid #e0e0e0;"></div>
-          <div class="column" style="flex: 1;">
-            <a href="/experts-partners/it"><span class="icon">🖥️</span> IT & Digital</a><br>
-            <a href="/experts-partners/marketing"><span class="icon">📢</span> Marketing & Media</a><br>
-            <a href="/experts-partners/logistics"><span class="icon">🚚</span> Logistics & Supply</a><br>
-            <a href="/experts-partners/hr"><span class="icon">👥</span> HR & Training</a><br>
+          <div class="column">
+            <a href="/experts-partners/it"><span class="icon">🖥️</span> IT & Digital</a>
+            <a href="/experts-partners/marketing"><span class="icon">📢</span> Marketing & Media</a>
+            <a href="/experts-partners/logistics"><span class="icon">🚚</span> Logistics & Supply</a>
+            <a href="/experts-partners/hr"><span class="icon">👥</span> HR & Training</a>
             <a href="/experts-partners/retail"><span class="icon">🏬</span> Retail & Distribution</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- A Platform & Tool -->
     <div class="nav-item">
       <a href="/platforms">A Platform & Tool<span class="chevron">▼</span></a>
-      <div class="dropdown-submenu one-column">
-        <div style="font-weight: bold; font-size: 1.1em; text-align: center; margin-bottom: 15px;">
-          Find the right tools and platforms to power your business
-        </div>
+      <div class="dropdown-submenu">
+        <div class="header-title">Find the right tools and platforms to power your business</div>
         <div class="column">
           <a href="/platforms/sales"><span class="icon">🛒</span> Sales & E-commerce</a>
           <a href="/platforms/productivity"><span class="icon">📅</span> Productivity Tools</a>
@@ -344,13 +235,10 @@
       </div>
     </div>
 
-    <!-- Brands & Products -->
     <div class="nav-item">
       <a href="/brands-products">Brands & Products<span class="chevron">▼</span></a>
-      <div class="dropdown-submenu one-column">
-        <div style="font-weight: bold; font-size: 1.1em; text-align: center; margin-bottom: 15px;">
-          Connect with brands & source the right products for your business
-        </div>
+      <div class="dropdown-submenu">
+        <div class="header-title">Connect with brands & source the right products for your business</div>
         <div class="column">
           <a href="/brands-products/food"><span class="icon">🍱</span> Food & Beverages</a>
           <a href="/brands-products/fashion"><span class="icon">👕</span> Fashion & Apparel</a>
@@ -362,7 +250,6 @@
 
   </nav>
 
-  <!-- User Actions -->
   <div class="user-actions">
     <div class="nav-links2">
       <div class="nav-item">
@@ -377,4 +264,3 @@
     </div>
   </div>
 </div>
-
