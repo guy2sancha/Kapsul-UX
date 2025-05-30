@@ -34,7 +34,9 @@
     gap: 20px;
   }
 
-  #customHeader {
+ /* Ajout au CSS existant */
+
+#customHeader {
     position: fixed;
     top: 36px;
     left: 0;
@@ -43,10 +45,18 @@
     align-items: center;
     justify-content: space-between;
     padding: 15px 2%;
-    background-color: #001d20;
-    border-bottom: 1px solid #001d20;
+    background-color: rgba(0, 29, 32, 0); /* Transparent au départ */
+    border-bottom: 1px solid transparent;  /* Transparent initialement */
     z-index: 1000;
-  }
+    transition: background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
+}
+
+#customHeader.scrolled {
+    background-color: #0B2C2D; /* Couleur après scroll */
+    border-bottom: 1px solid #0B2C2D;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Ajoute une ombre légère */
+}
+
 
   .logo-container {
     flex: 1;
@@ -280,7 +290,7 @@
 
 <div id="kapsul-ticker-bar">
   <div class="ticker-inner">
-    <div id="time-tokyo" style="font-style: italic;">What are you looking for yourself?:</div>
+    <div id="time-tokyo" style="font-style: italic;">What are you looking for today:</div>
     <div class="toggle-mode">
       <span class="mode-label" style="margin-right: 20px; font-style: italic; text-decoration: underline;">I am:</span>
       <a href="/business" class="mode-option left" id="labelImport" style="text-decoration: none; margin-right: 10px;">A Business</a>
