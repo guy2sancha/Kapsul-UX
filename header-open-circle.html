@@ -166,7 +166,7 @@
 
 .mode-option {
   min-width: 50px;
-      color: #aaa;
+      color: #000;
   text-align: center;
   opacity: 0.6;
   transition: opacity 0.3s, color 0.3s;
@@ -258,24 +258,33 @@
   color: #333333; /* Text color */
 }
 
+    .toggle-mode a:hover {
+    text-decoration: underline;
+  }
+  .mode-option-active {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
 
 
 </style>
 
 <div id="kapsul-ticker-bar">
   <div class="ticker-inner">
-    <div id="time-tokyo">I'm searching for:</div>
+    <div id="time-tokyo" style="font-style: italic;">I'm searching for:</div>
     <div class="toggle-mode">
-      <span class="mode-label">I am:</span> <!-- Ajout du label -->
-      <span class="mode-option left" id="labelImport">A Business</span>
+      <span class="mode-label" style="margin-right: 20px; font-style: italic;">I am:</span>
+      <a href="#" class="mode-option left" id="labelImport" style="text-decoration: none; margin-right: 10px;">A Business</a>
       <label class="kapsul-switch">
         <input type="checkbox" id="modeToggle" checked>
         <span class="slider"></span>
       </label>
-      <span class="mode-option-active right" id="labelExport">An Individual</span>
+      <a href="#" class="mode-option-active right" id="labelExport" style="text-decoration: underline; margin-left: 10px;">An Individual</a>
     </div>
   </div>
 </div>
+
 
 <div id="customHeader">
   <div class="logo-container">
