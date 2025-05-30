@@ -34,6 +34,19 @@
     gap: 20px;
   }
 
+    .mini-tag {
+        background: #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 0px 5px;
+    border-radius: 999px;
+    width: 25%;
+    margin-bottom: 16px;
+    display: inline-block;
+    text-align: center;
+  }
+
  /* Ajout au CSS existant */
 
 #customHeader {
@@ -314,26 +327,29 @@
 
    <div class="nav-item">
   <a href="/services">Experts & Services<span class="chevron">▼</span></a>
-  <div class="dropdown-submenu two-columns">
-    <div class="column">
-<p class="category-title"><b><u><i>Professional</i></u></b></p>
-      <a href="#"><span class="icon">📖</span> Accounting & Legal</a>
-      <a href="#"><span class="icon">💼</span> Agencies & Consulting</a>
-      <a href="#"><span class="icon">🖥️</span> IT & Development</a>
-      <a href="#"><span class="icon">📢</span> Marketing & Media</a>
+  <div class="dropdown-submenu">
+                                         <div class="mini-tag">Pick an Industry</div>
 
+        <div class="columns">
+          <div class="column">
+            <a href="/experts-partners/fashion"><span class="icon">👕</span> Fashion & Textile</a>
+            <a href="/experts-partners/fnb"><span class="icon">🍱</span> Food & Beverage</a>
+            <a href="/experts-partners/legal"><span class="icon">⚖️</span> Legal & Compliance</a>
+            <a href="/experts-partners/accounting"><span class="icon">📖</span> Accounting & Finance</a>
+            <a href="/experts-partners/beauty"><span class="icon">💄</span> Beauty & Wellness</a>
+          </div>
+          <div class="column">
+            <a href="/experts-partners/it"><span class="icon">🖥️</span> IT & Digital</a>
+            <a href="/experts-partners/marketing"><span class="icon">📢</span> Marketing & Media</a>
+            <a href="/experts-partners/logistics"><span class="icon">🚚</span> Logistics & Supply</a>
+            <a href="/experts-partners/hr"><span class="icon">👥</span> HR & Training</a>
+            <a href="/experts-partners/retail"><span class="icon">🏬</span> Retail & Distribution</a>
+          </div>
+        </div>
+                <div class="header-title">Find someone locally who can help you grow your business</div>
+      </div>
     </div>
-    <div class="column">
-<p class="category-title"><b><u><i>Personal</i></u></b></p>
-      <a href="#"><span class="icon">💆</span> Beauty & Wellness</a>
-      <a href="#"><span class="icon">🏋️</span> Fitness & Sport</a>
-      <a href="#"><span class="icon">🏡</span> Home & Pet Care</a>
-      <a href="#"><span class="icon">✨</span> Experiences</a>
-      <a href="#"><span class="icon">🎓</span> Learning & Tutoring</a>
-      <a href="#"><span class="icon">✈️</span> Travel Services</a>
-    </div>
-  </div>
-</div>
+
 
 <div class="nav-item">
       <a href="/spaces">Places & Community<span class="chevron">▼</span></a>
