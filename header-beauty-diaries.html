@@ -1,39 +1,4 @@
 <style>
-
- .ticker-selectors {
-  position: relative;
-  display: inline-block;
-  width: 120px; /* Ajuste la largeur à tes besoins */
-}
-
-#languageSelector {
-  width: 100%;
-  border: none;
-  background-color: transparent;
-  font-weight: 500;
-  appearance: none;              /* Supprime la flèche native */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding: 8px 30px 8px 8px;     /* Espace à droite pour le chevron */
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  color: #000;
-  cursor: pointer;
-  outline: none; 
-margin-left: 30px;
-}
-
-.ticker-selectors::after {
-  content: "▼";                  /* Flèche custom */
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;          /* Clics passent à travers */
-  font-size: 12px;
-  color: #000;
-}
-
   
   a {
     color: #000;
@@ -366,15 +331,17 @@ margin-left: 30px;
   </nav>
    
 <div class="user-actions">
-    <div class="nav-links2">
-       <a href="/services">View Beauty Map</a>
-  <div class="nav-item">
-    <a href="/events">ENG<span class="chevron">▼</span></a>
-    <div class="dropdown-submenu one-column">
-      <div class="column">
-                <a href="/events/circle"><span class="icon">🇫🇷</span>French</a>
+  <div class="nav-links2">
+    <a href="/services">View Beauty Map</a>
+    <div class="nav-item">
+      <a href="/events">ENG<span class="chevron">▼</span></a>
+      <div class="dropdown-submenu one-column">
+        <div class="column">
+          <a href="/events/circle"><span class="icon">🇫🇷</span> French</a>
+        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
