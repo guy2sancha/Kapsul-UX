@@ -1,18 +1,39 @@
 <style>
 
-  #languageSelector {
-  border: none;             /* Supprime la bordure */
-  background-color: transparent; /* Fond transparent */
-  font-weight: 500;         /* Texte en font-weight 500 */
-  appearance: none;         /* Supprime les styles par défaut (optionnel) */
-  -webkit-appearance: none; /* Pour Safari */
-  -moz-appearance: none;    /* Pour Firefox */
-  padding: 4px 8px;         /* Optionnel : ajuster l'espacement */
-  cursor: pointer;          /* Curseur pour l'interaction */
-  font-family: 'Jost', sans-serif; /* Correspondance avec ton design */
-  font-size: 14px;          /* Taille de texte pour correspondre au style */
-  color: #000;              /* Couleur du texte */
+  /* Conteneur pour le select */
+.ticker-selectors {
+  position: relative;
+  display: inline-block;
 }
+
+/* Le select lui-même */
+#languageSelector {
+  border: none;
+  background-color: transparent;
+  font-weight: 500;
+  appearance: none;            /* Supprime la flèche native */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 4px 30px 4px 8px;   /* Ajoute de l'espace à droite pour la flèche */
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  color: #000;
+  cursor: pointer;
+}
+
+/* Pseudo-élément pour le chevron */
+.ticker-selectors::after {
+  content: "▼";                /* Symbole flèche vers le bas */
+  position: absolute;
+  right: 10px;                 /* Positionne la flèche à droite */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;        /* La flèche ne bloque pas les clics */
+  font-size: 12px;             /* Taille du chevron */
+  color: #000;                 /* Couleur du chevron */
+}
+
+  
   a {
     color: #000;
     text-decoration: none;
@@ -344,12 +365,13 @@
   </nav>
     <div class="user-actions">
       <div class="nav-item">
-  <a href="/services">MAP</a>
+  <a href="/services">View Beauty Map</a>
 </div>
       <div class="ticker-selectors">
-    <select id="languageSelector">
-      <option value="en">EN</option>
-    </select>
-  </div>
+  <select id="languageSelector">
+    <option value="EN">EN</option>
+    <option value="FR">FR</option>
+  </select>
+</div>
         </div>
 
