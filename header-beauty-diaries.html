@@ -1,36 +1,37 @@
 <style>
 
-  /* Conteneur pour le select */
-.ticker-selectors {
+ .ticker-selectors {
   position: relative;
   display: inline-block;
+  width: 120px; /* Ajuste la largeur à tes besoins */
 }
 
-/* Le select lui-même */
 #languageSelector {
+  width: 100%;
   border: none;
   background-color: transparent;
   font-weight: 500;
-  appearance: none;            /* Supprime la flèche native */
+  appearance: none;              /* Supprime la flèche native */
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 4px 30px 4px 8px;   /* Ajoute de l'espace à droite pour la flèche */
+  padding: 8px 30px 8px 8px;     /* Espace à droite pour le chevron */
   font-family: 'Jost', sans-serif;
   font-size: 14px;
   color: #000;
   cursor: pointer;
+  outline: none; 
+margin-left: 30px;
 }
 
-/* Pseudo-élément pour le chevron */
 .ticker-selectors::after {
-  content: "▼";                /* Symbole flèche vers le bas */
+  content: "▼";                  /* Flèche custom */
   position: absolute;
-  right: 10px;                 /* Positionne la flèche à droite */
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none;        /* La flèche ne bloque pas les clics */
-  font-size: 12px;             /* Taille du chevron */
-  color: #000;                 /* Couleur du chevron */
+  pointer-events: none;          /* Clics passent à travers */
+  font-size: 12px;
+  color: #000;
 }
 
   
