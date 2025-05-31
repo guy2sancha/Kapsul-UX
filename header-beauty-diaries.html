@@ -1,4 +1,29 @@
 <style>
+
+  /* Met "View Beauty Map" et "ENG" côte à côte */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espace entre les deux */
+  position: absolute;
+  right: 60px;
+}
+
+/* Réduit la largeur du dropdown ENG et l'ouvre à gauche */
+.nav-item .one-column {
+  min-width: 150px;         /* Réduit la largeur du menu déroulant */
+  right: 0;                 /* Aligne à droite par défaut */
+  left: auto;               /* Supprime alignement à gauche */
+  transform: translateX(50%); /* Décale le menu vers la gauche */
+}
+
+/* Assure que le dropdown s'affiche à gauche du bouton */
+.nav-item:hover > .one-column {
+  left: auto;               /* Pas besoin de gauche */
+  right: 0;                 /* Fixe à droite */
+  transform: translateX(50%); /* Décale à gauche */
+}
+
   
   a {
     color: #000;
@@ -343,5 +368,5 @@
     </div>
   </div>
 </div>
-</div>
+
 
