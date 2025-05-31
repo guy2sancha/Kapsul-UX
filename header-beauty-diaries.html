@@ -1,246 +1,252 @@
 <style>
+  a {
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
+  }
+  
+  #kapsul-ticker-bar {
+    background: #fff;
+    color: #000;
+    font-family: 'jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
 
-    #customHeader {
-        position: fixed;
-  top: 47px; /* pour laisser de l’espace pour la barre ticker */
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 2%;
-        background-color: #fff;
-        border-bottom: 1px solid #ddd;
-        z-index: 1000;
-    }
-    .logo-container {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-    }
-    .logo-container img {
-        height: 80px;
-    }
-    .nav-links {
-        display: flex;
-        gap: 0;
-        font-size: 16px;
-        position: absolute;
-        left: 50px;
-    }
-    .nav-links a {
-        text-decoration: none;
-        color: #333;
-        font-size: 14px;
-        font-weight: 400;
-        padding: 10px 15px;
-        display: flex;
-        align-items: center;
-        transition: transform 0.3s ease;
-    }
-    .nav-links a:hover {
-        transform: scale(1.05);
-        color: #014225;
-    }
-    .nav-links a.active-tab {
-        font-weight: bold;
-        color: #014225;
-    }
-    .nav-item {
-        position: relative;
-    }
+  .ticker-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    gap: 20px;
+  }
 
+  #customHeader {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 2%;
+    border-bottom: 1px solid #001d20;
+    z-index: 1000;
+  }
 
-    #announcementBar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #000;
-  color: #FFF;
-  font-weight: 500;
-  padding: 12px 20px;
-  text-align: center;
-  font-size: 15px;
-  z-index: 1001; /* au-dessus du header */
-  transition: all 0.3s ease;
+  .logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo-container img {
+    height: 80px;
+  }
+
+  .nav-links {
+    display: flex;
+    font-size: 16px;
+    position: absolute;
+    left: 15px;
+  }
+
+  .nav-links a, .nav-links2 a {
+    text-decoration: none;
+    color: #fffff0;
+    font-weight: 300;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links a:hover, .nav-links2 a:hover {
+    color: #f93d3a;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .chevron {
+    font-size: 10px;
+    margin-left: 4px;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-item:hover .chevron {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-submenu {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    position: absolute;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    min-width: 600px;
+    color: #000;
+  }
+
+  .nav-item:hover > .dropdown-submenu {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .dropdown-submenu .header-title {
+    font-weight: 700;
+    font-style: italic;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 30px;
+    color: #000;
 }
 
-#announcementBar span {
-  display: inline-block;
-}
+  .dropdown-submenu .columns {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+  }
 
-#closeAnnouncement {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  cursor: pointer;
-}
+  .dropdown-submenu .column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 
+  .dropdown-submenu .column + .column {
+    border-left: 2px solid #e0e0e0;
+    padding-left: 25px;
+  }
 
-    /* =====================
-       Effet d'animation (optionnel)
-       ===================== */
-    @keyframes fadeInOut {
-        0%,
-        100% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0.5;
-        }
-    }
+  .dropdown-submenu a {
+    font-size: 14px;
+    padding: 6px 0;
+    text-decoration: none;
+    color: #111;
+    transition: color 0.3s;
+  }
 
-    /* =====================
-       Zone de droite (user-actions)
-       ===================== */
-    .user-actions {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        position: absolute;
-        right: 60px;
-    }
-    .icon-size {
-        font-size: 22px;
-        margin-bottom: 3px;
-    }
-    .cart-container a {
-        text-decoration: none;
-        color: #333;
-        transition: color 0.3s ease;
-    }
-    .cart-container a:hover {
-        color: #411e01;
-    }
+  .dropdown-submenu a:hover {
+    color: #f93d3a;
+  }
 
-    /* =====================
-       Profil utilisateur (menu déroulant)
-       ===================== */
-    .profile-container {
-        position: relative;
-    }
-    .profile-button {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        padding: 5px;
-    }
-    .profile-button i {
-        font-size: 20px;
-        color: #333;
-    }
-    .profile-button:hover i {
-        color: #411e01;
-    }
+  .icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 16px;
+  }
 
-    .dropdown-menu {
-        position: absolute;
-        left: -100px;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        display: none;
-        flex-direction: column;
-        padding: 10px 0;
-    }
-    .dropdown-menu a {
-        text-decoration: none;
-        color: #333;
-        padding: 10px 15px;
-        display: block;
-        font-size: 14px;
-        transition: background 0.2s;
-    }
-    .dropdown-menu a:hover {
-        background: #f0f0f0;
-    }
-    .dropdown-menu.show {
-        display: flex;
-    }
+  .user-actions {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 60px;
+  }
 
-    /* =====================
-       Sélecteurs (langue, devise)
-       ===================== */
-    #languageSelector,
-    #currencySelector {
-        padding: 5px 8px;
-        border: 1px solid #000000;
-        font-size: 14px;
-        background-color: #fff;
-        cursor: pointer;
-    }
+  .toggle-mode {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    font-size: 13px;
+    color: #000;
+    margin-left: auto;
+  }
 
-    /* =====================
-       Modales
-       ===================== */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 2000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-    .modal-content {
-        background: #fff;
-        padding: 30px;
-        text-align: center;
-        width: 400px;
-    }
-    .modal-button {
-        position: relative;
-        display: inline-block;
-        padding: 15px 30px;
-        font-size: 18px;
-        color: #000;
-        margin: 5px;
-        border: 2px solid #000;
-        text-decoration: none;
-        overflow: hidden;
-        transition: color 0.3s ease-in-out, background-color 0.9s;
-        z-index: 1;
-    }
-    .modal-button::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #0920c5;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s ease-in-out;
-        z-index: -1;
-    }
-    .modal-button:hover {
-        color: #fff;
-        background-color: #0920c5;
-        text-decoration: none;
-    }
-    .modal-button:hover::after {
-        transform: scaleX(1);
-    }
+  label {
+    display: inline-block;
+    margin-bottom: 0px !important;
+  }
 
-    /* =====================
-       Lottie Logo
-       ===================== */
-    #lottieLogo {
-        cursor: pointer;
-    }
+  .mode-option {
+    min-width: 50px;
+    color: #000;
+    text-align: center;
+    opacity: 0.6;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .mode-option-active {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .kapsul-switch {
+    position: relative;
+    width: 46px;
+    height: 24px;
+    display: inline-block;
+  }
+
+  .kapsul-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .kapsul-switch .slider {
+    background-color: #fff;
+    border: 1px solid #191919;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.4s;
+  }
+
+  .kapsul-switch .slider:before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    background-color: #f93d3a;
+    border-radius: 50%;
+    left: 3px;
+    bottom: 2px;
+    transition: transform 0.4s;
+  }
+
+  .kapsul-switch input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+
+  .mini-tag {
+        background: #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 0px 5px;
+    border-radius: 999px;
+    width: 25%;
+    margin-bottom: 16px;
+    display: inline-block;
+    text-align: center;
+  }
 </style>
 
 <div id="announcementBar">
