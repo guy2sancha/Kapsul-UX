@@ -1,4 +1,5 @@
 <style>
+/* HEADER FIXE */
 #mobileHeader {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -39,7 +40,7 @@
   color: #fff;
 }
 
-/* Overlay */
+/* OVERLAY & SLIDING MENU */
 #mobileOverlay {
   display: none;
   position: fixed;
@@ -71,7 +72,7 @@
   color: #001d20;
 }
 
-/* Menu items */
+/* CATEGORIES */
 .menu-category {
   cursor: pointer;
   padding: 12px;
@@ -80,12 +81,25 @@
   font-weight: bold;
   border-radius: 6px;
   color: #001d20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .menu-category:hover {
   background-color: #e6e6e6;
 }
 
+.menu-category .chevron {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.menu-category.open .chevron {
+  transform: rotate(180deg);
+}
+
+/* SUBMENU */
 .submenu {
   display: none;
   padding-left: 10px;
@@ -113,8 +127,20 @@
 .submenu a:hover {
   background-color: #f0f0f0;
 }
+
+/* LIEN BAS */
+.mobile-footer-link {
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #001d20;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+}
 </style>
 
+<!-- HEADER -->
 <div id="mobileHeader">
   <div class="mobile-left">
     <div class="mobile-select">
@@ -126,7 +152,9 @@
 
   <div class="mobile-center">
     <div class="mobile-logo">
-      <a href="/"><img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo"></a>
+      <a href="/">
+        <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
+      </a>
     </div>
   </div>
 
@@ -135,12 +163,15 @@
   </div>
 </div>
 
+<!-- OVERLAY + MENU -->
 <div id="mobileOverlay" onclick="closeMobileMenu()"></div>
 
 <div id="mobileMenu">
-  <h3>Navigation</h3>
+  <h3>I'm looking for</h3>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">📌 Services & Experts</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">
+    🤝 Services & Experts <span class="chevron">▼</span>
+  </div>
   <div class="submenu">
     <a href="/experts-partners/healthcare"><span>🏥</span>Healthcare & Medical</a>
     <a href="/experts-partners/finance"><span>💳</span>Finance & Insurance</a>
@@ -151,7 +182,9 @@
     <a href="/experts-partners/childcare"><span>👶</span>Childcare</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">📍 Places & Community</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">
+    📍 Places & Community <span class="chevron">▼</span>
+  </div>
   <div class="submenu">
     <a href="#"><span>🛍️</span>Shops</a>
     <a href="#"><span>🍽️</span>Restaurants</a>
@@ -163,7 +196,9 @@
     <a href="#"><span>🖼️</span>Arts & Gallery</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">🛍️ Products & Brands</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">
+    🛍️ Products & Brands <span class="chevron">▼</span>
+  </div>
   <div class="submenu">
     <a href="/home-decor"><span>🏠</span>Home & Decor</a>
     <a href="/food-drink"><span>🍱</span>Food & Drink</a>
@@ -176,7 +211,9 @@
     <a href="/pets"><span>🐾</span>Pets</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">📱 Apps & Platforms</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">
+    📱 Apps & Platforms <span class="chevron">▼</span>
+  </div>
   <div class="submenu">
     <a href="#"><span>🚇</span>Transport</a>
     <a href="#"><span>🏠</span>Housing</a>
@@ -188,14 +225,10 @@
     <a href="#"><span>💬</span>Language</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">🎉 Events</div>
-  <div class="submenu">
-    <a href="/events/circle"><span>🍸</span>Get in the Circle</a>
-    <a href="/events/popups"><span>🛍️</span>Popups</a>
-    <a href="/events/other"><span>💡</span>Workshops</a>
-  </div>
+  <a href="/business" class="mobile-footer-link">👔 I'm a business</a>
 </div>
 
+<!-- JS -->
 <script>
 function toggleMobileMenu() {
   document.getElementById("mobileMenu").classList.toggle("open");
