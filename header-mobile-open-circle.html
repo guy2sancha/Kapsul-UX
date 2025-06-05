@@ -1,9 +1,7 @@
 <style>
 #mobileHeader {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -22,16 +20,17 @@
 .mobile-center { justify-content: center; }
 .mobile-right { justify-content: flex-end; }
 
-.mobile-logo img { height: 50px; }
+.mobile-logo img {
+  height: 40px;
+}
 
 .mobile-select select {
   padding: 5px;
-  border: 1px solid #333;
   border-radius: 5px;
   font-size: 14px;
   background-color: #F6F4EF;
   color: #000;
-  cursor: pointer;
+  border: 1px solid #ccc;
 }
 
 .hamburger {
@@ -40,6 +39,7 @@
   color: #fff;
 }
 
+/* Overlay */
 #mobileOverlay {
   display: none;
   position: fixed;
@@ -51,8 +51,8 @@
 #mobileMenu {
   position: fixed;
   top: 0;
-  right: -250px;
-  width: 250px;
+  right: -280px;
+  width: 260px;
   height: 100%;
   background-color: #F6F4EF;
   box-shadow: -2px 0 5px rgba(0,0,0,0.3);
@@ -65,41 +65,55 @@
 #mobileMenu.open { right: 0; }
 #mobileOverlay.show { display: block; }
 
-#mobileMenu h3 { margin-top: 0; }
+#mobileMenu h3 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #001d20;
+}
 
+/* Menu items */
 .menu-category {
   cursor: pointer;
-  padding: 10px;
+  padding: 12px;
   background-color: #fff;
-  margin-top: 5px;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  border-radius: 6px;
+  color: #001d20;
 }
 
 .menu-category:hover {
-  background-color: #e0e0e0;
+  background-color: #e6e6e6;
 }
 
 .submenu {
   display: none;
-  padding-left: 15px;
-}
-
-.submenu a {
-  display: block;
-  padding: 8px 0;
-  color: #333;
-  text-decoration: none;
-}
-
-.submenu a:hover {
-  background-color: #f9f9f9;
+  padding-left: 10px;
 }
 
 .menu-category.open + .submenu {
   display: block;
 }
+
+.submenu a {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.submenu a span {
+  margin-right: 8px;
+  width: 20px;
+  text-align: center;
+}
+
+.submenu a:hover {
+  background-color: #f0f0f0;
+}
 </style>
-</head>
-<body>
 
 <div id="mobileHeader">
   <div class="mobile-left">
@@ -112,9 +126,7 @@
 
   <div class="mobile-center">
     <div class="mobile-logo">
-      <a href="/">
-        <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
-      </a>
+      <a href="/"><img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo"></a>
     </div>
   </div>
 
@@ -126,72 +138,80 @@
 <div id="mobileOverlay" onclick="closeMobileMenu()"></div>
 
 <div id="mobileMenu">
-  <h3>Menu</h3>
+  <h3>Navigation</h3>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Brands ▼</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">📌 Services & Experts</div>
   <div class="submenu">
-    <a href="/cookware">🍳 Cookware</a>
-    <a href="/everyday-carry">👝 Everyday Carry</a>
-    <a href="/flower">🌸 Flower</a>
-    <a href="/bicycle">🚲 Bicycle</a>
-    <a href="/hair-care">💇‍♀️ Hair Care</a>
-    <a href="/swimsuit">👙 Swimsuit</a>
-    <a href="/furniture">🛋️ Furniture</a>
-    <a href="/jewelry">💍 Jewelry</a>
-    <a href="/fitness">🏋️‍♀️ Fitness</a>
-    <a href="/luggage">🧳 Luggage</a>
-    <a href="/beauty">💄 Beauty</a>
-    <a href="/lifestyle">🧘‍♂️ Lifestyle</a>
-    <a href="/health-wellness">🍏 Health & Wellness</a>
-    <a href="/personal-care">🧴 Personal Care</a>
-    <a href="/pet">🐶 Pet</a>
-    <a href="/beverage">🥤 Beverage</a>
-    <a href="/kids">🧒 Kids</a>
-    <a href="/home">🏠 Home</a>
-    <a href="/apparel">👗 Apparel</a>
-    <a href="/food">🍔 Food</a>
+    <a href="/experts-partners/healthcare"><span>🏥</span>Healthcare & Medical</a>
+    <a href="/experts-partners/finance"><span>💳</span>Finance & Insurance</a>
+    <a href="/experts-partners/legal"><span>⚖️</span>Legal & Visa</a>
+    <a href="/experts-partners/beauty"><span>💆</span>Beauty & Wellness</a>
+    <a href="/experts-partners/fitness"><span>🏋️</span>Fitness</a>
+    <a href="/experts-partners/home"><span>🏠</span>Home</a>
+    <a href="/experts-partners/childcare"><span>👶</span>Childcare</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Tools ▼</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">📍 Places & Community</div>
   <div class="submenu">
-    <a href="#">📅 Work & Productivity</a>
-    <a href="#">💻 Development</a>
-    <a href="#">🎨 Design</a>
-    <a href="#">💳 Finance</a>
-    <a href="#">🌐 Marketing</a>
-    <a href="#">💬 Community</a>
-    <a href="#">🤖 AI</a>
-    <a href="#">🏋️ Health</a>
-    <a href="#">✈️ Travel</a>
-    <a href="#">📄 Platforms</a>
+    <a href="#"><span>🛍️</span>Shops</a>
+    <a href="#"><span>🍽️</span>Restaurants</a>
+    <a href="#"><span>🍻</span>Bars</a>
+    <a href="#"><span>☕️</span>Cafés</a>
+    <a href="#"><span>🏨</span>Hotels & Ryokans</a>
+    <a href="#"><span>📅</span>Coworking</a>
+    <a href="#"><span>🏋️</span>Gyms</a>
+    <a href="#"><span>🖼️</span>Arts & Gallery</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Spaces ▼</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">🛍️ Products & Brands</div>
   <div class="submenu">
-    <a href="#">🛍️ Shops</a>
-    <a href="#">📅 Coworking</a>
-    <a href="#">🍽️ Restaurants</a>
-    <a href="#">🍻 Bars</a>
-    <a href="#">☕️ Cafés</a>
-    <a href="#">🖼️ Gallery & Arts</a>
-    <a href="#">🏋️ Gyms</a>
-    <a href="#">🎦 Salons</a>
+    <a href="/home-decor"><span>🏠</span>Home & Decor</a>
+    <a href="/food-drink"><span>🍱</span>Food & Drink</a>
+    <a href="/alcohol"><span>🍶</span>Alcohol</a>
+    <a href="/beauty-wellness"><span>💄</span>Beauty</a>
+    <a href="/jewelry"><span>💍</span>Jewelry</a>
+    <a href="/fashion"><span>👕</span>Fashion</a>
+    <a href="/kids-baby"><span>👶</span>Kids & Baby</a>
+    <a href="/paper-gifts"><span>📄</span>Gifts & Paper</a>
+    <a href="/pets"><span>🐾</span>Pets</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Services ▼</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">📱 Apps & Platforms</div>
   <div class="submenu">
-    <a href="#">📖 Legal & Accounting</a>
-    <a href="#">🏋️ Wellness</a>
-    <a href="#">🏫 Education</a>
-    <a href="#">🏠 Relocation</a>
-    <a href="#">💼 Pro Services</a>
-    <a href="#">🫌 Lifestyle</a>
+    <a href="#"><span>🚇</span>Transport</a>
+    <a href="#"><span>🏠</span>Housing</a>
+    <a href="#"><span>💳</span>Payments</a>
+    <a href="#"><span>🏥</span>Health</a>
+    <a href="#"><span>🛍️</span>Shopping</a>
+    <a href="#"><span>🍜</span>Food Delivery</a>
+    <a href="#"><span>🇯🇵</span>Living in Japan</a>
+    <a href="#"><span>💬</span>Language</a>
   </div>
 
-  <div class="menu-category" onclick="toggleSubmenu(this)">Events ▼</div>
+  <div class="menu-category" onclick="toggleSubmenu(this)">🎉 Events</div>
   <div class="submenu">
-    <a href="/events/circle">🍸 Get in the Circle #1</a>
-    <a href="/events/popups">🛍️ Popups</a>
-    <a href="/events/other">💡 Workshops & Talks</a>
+    <a href="/events/circle"><span>🍸</span>Get in the Circle</a>
+    <a href="/events/popups"><span>🛍️</span>Popups</a>
+    <a href="/events/other"><span>💡</span>Workshops</a>
   </div>
 </div>
+
+<script>
+function toggleMobileMenu() {
+  document.getElementById("mobileMenu").classList.toggle("open");
+  document.getElementById("mobileOverlay").classList.toggle("show");
+}
+
+function closeMobileMenu() {
+  document.getElementById("mobileMenu").classList.remove("open");
+  document.getElementById("mobileOverlay").classList.remove("show");
+}
+
+function toggleSubmenu(el) {
+  el.classList.toggle("open");
+  const next = el.nextElementSibling;
+  if (next && next.classList.contains("submenu")) {
+    next.style.display = next.style.display === "block" ? "none" : "block";
+  }
+}
+</script>
