@@ -325,6 +325,65 @@
   vertical-align: middle;
 }
 
+/* Contributor card layout */
+.contributor-highlight-title {
+  font-style: italic;
+  font-size: 14px;
+  padding: 0 0 10px 8px;
+  color: #333;
+}
+
+.contributor-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 8px;
+}
+
+.contributor-card {
+  position: relative;
+  width: 180px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.contributor-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contributor-card .overlay-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* CTA at the bottom */
+.view-all-contributors {
+  display: block;
+  margin: 12px 0 0 8px;
+  font-size: 13px;
+  font-style: italic;
+  text-decoration: none;
+  color: #000;
+}
+
+.view-all-contributors:hover {
+  text-decoration: underline;
+}
 
 
 
@@ -422,41 +481,46 @@
 </div>
 
 <div class="nav-item">
-  <a href="/contributors">Contributors<span class="chevron">▼</span></a>
-  <div class="dropdown-submenu">
-    <div class="header-title">Spotlight on Local Voices</div>
-    <div class="columns">
-      <div class="column" style="flex-direction: row; flex-wrap: wrap; gap: 12px; justify-content: space-between;">
-        <!-- Featured contributor cards -->
-        <a href="/contributors/takashi" style="width: 30%;">
-          <img src="https://kapsul-studios.b-cdn.net/IMG_3006.JPG" style="width: 100%; border-radius: 12px;">
-          <div style="font-size: 12px; margin-top: 4px;">Takashi / Mie Sake Picks</div>
-        </a>
-        <a href="/contributors/emi" style="width: 30%;">
-          <img src="/images/contributors/emi.jpg" style="width: 100%; border-radius: 12px;">
-          <div style="font-size: 12px; margin-top: 4px;">Emi / Tokyo Wellness</div>
-        </a>
-        <a href="/contributors/daniel" style="width: 30%;">
-          <img src="/images/contributors/daniel.jpg" style="width: 100%; border-radius: 12px;">
-          <div style="font-size: 12px; margin-top: 4px;">Daniel / Craft Café Tours</div>
-        </a>
-        <a href="/contributors/yuki" style="width: 30%;">
-          <img src="/images/contributors/yuki.jpg" style="width: 100%; border-radius: 12px;">
-          <div style="font-size: 12px; margin-top: 4px;">Yuki / Family Life Picks</div>
-        </a>
-        <a href="/contributors/sophie" style="width: 30%;">
-          <img src="/images/contributors/sophie.jpg" style="width: 100%; border-radius: 12px;">
-          <div style="font-size: 12px; margin-top: 4px;">Sophie / Osaka Boutiques</div>
-        </a>
-        <a href="/contributors/hiroshi" style="width: 30%;">
-          <img src="/images/contributors/hiroshi.jpg" style="width: 100%; border-radius: 12px;">
-          <div style="font-size: 12px; margin-top: 4px;">Hiroshi / Outdoor Hikes</div>
-        </a>
-      </div>
+  <a href="#">Contributors<span class="chevron">▼</span></a>
+  <div class="dropdown-submenu one-column">
+    <div class="contributor-highlight-title">Spotlight on Local Voices</div>
+    <div class="contributor-grid">
+      
+      <a href="/contributor/takashi" class="contributor-card">
+        <img src="https://kapsul-studios.b-cdn.net/IMG_3006.JPG" alt="Takashi">
+        <div class="overlay-text">Takashi / Mie<br>Sake Picks</div>
+      </a>
+
+      <a href="/contributor/emi" class="contributor-card">
+        <img src="https://via.placeholder.com/200x120" alt="Emi">
+        <div class="overlay-text">Emi / Tokyo<br>Wellness</div>
+      </a>
+
+      <a href="/contributor/daniel" class="contributor-card">
+        <img src="https://via.placeholder.com/200x120" alt="Daniel">
+        <div class="overlay-text">Daniel / Craft<br>Café Tours</div>
+      </a>
+
+      <a href="/contributor/yuki" class="contributor-card">
+        <img src="https://via.placeholder.com/200x120" alt="Yuki">
+        <div class="overlay-text">Yuki / Family<br>Life Picks</div>
+      </a>
+
+      <a href="/contributor/sophie" class="contributor-card">
+        <img src="https://via.placeholder.com/200x120" alt="Sophie">
+        <div class="overlay-text">Sophie / Osaka<br>Boutiques</div>
+      </a>
+
+      <a href="/contributor/hiroshi" class="contributor-card">
+        <img src="https://via.placeholder.com/200x120" alt="Hiroshi">
+        <div class="overlay-text">Hiroshi / Outdoor<br>Hikes</div>
+      </a>
     </div>
-    <div class="mini-tag"><a href="/contributors" style="text-decoration: underline; color: #000;">→ Discover all contributors</a></div>
+
+    <a href="/contributors" class="view-all-contributors">→ Discover All Contributors</a>
   </div>
 </div>
+
 
 
    
