@@ -325,29 +325,21 @@
   vertical-align: middle;
 }
 
-/* Contributor card layout */
-.contributor-highlight-title {
-  font-style: italic;
-  font-size: 14px;
-  padding: 0 0 10px 8px;
-  color: #333;
-}
-
 .contributor-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   padding: 10px 8px;
 }
 
 .contributor-card {
   position: relative;
-  width: 180px;
+  width: 100%;
   height: 120px;
   border-radius: 12px;
   overflow: hidden;
-  cursor: pointer;
   text-decoration: none;
+  display: block;
 }
 
 .contributor-card img {
@@ -363,13 +355,14 @@
   left: 0;
   padding: 10px;
   width: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
   color: #fff;
   font-size: 13px;
   font-weight: 500;
   line-height: 1.3em;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
+
 
 /* CTA at the bottom */
 .view-all-contributors {
