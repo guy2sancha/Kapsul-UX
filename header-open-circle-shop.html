@@ -1,0 +1,479 @@
+<style>
+
+  a {
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
+}
+  
+  /* General layout */
+  #kapsul-ticker-bar {
+    background: #fff;
+    color: #000;
+    font-family: 'jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
+
+  .ticker-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    gap: 20px;
+  }
+
+    .mini-tag {
+            background: #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 0px 5px;
+    border-radius: 999px;
+    width: auto;
+    margin-top: 30px;
+    display: inline-block;
+    text-align: center;
+}
+
+ /* Ajout au CSS existant */
+
+#customHeader {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 2%;
+    border-bottom: 1px solid transparent;  /* Transparent initialement */
+    z-index: 1000;
+  transition: top 0.4s ease, background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
+}
+
+#customHeader.scrolled {
+    background-color: #001d21; /* Couleur après scroll */
+    border-bottom: 1px solid #001d21;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Ajoute une ombre légère */
+}
+
+
+  .logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+  }
+
+  .logo-container img {
+    height: 80px;
+  }
+
+  .nav-links {
+    display: flex;
+        font-size: 16px;
+    position: absolute;
+    left: 15px;
+    background: #012b31;
+    border-radius: 15px;
+    padding: 5px;
+  }
+
+  .nav-links a,
+  .nav-links2 a {
+    text-decoration: none;
+    color: #fffff0;
+    font-weight: 500;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links2 a:hover {
+    color: #FF395C;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .chevron {
+    font-size: 10px;
+    margin-left: 4px;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-item:hover .chevron {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-submenu {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    position: absolute;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 600px;
+    color: #000;
+}
+
+.nav-item:hover > .dropdown-submenu {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-submenu .header-title {
+    font-weight: 300;
+    font-style: italic;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 30px;
+    color: #000;
+}
+
+.dropdown-submenu .columns {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.dropdown-submenu .column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dropdown-submenu .column + .column {
+    border-left: 2px solid #e0e0e0;
+    padding-left: 25px;
+}
+
+.dropdown-submenu a {
+    font-size: 14px;
+    padding: 0px 0;
+    text-decoration: none;
+    color: #111;
+    transition: color 0.3s;
+}
+
+.dropdown-submenu a:hover {
+    color: #f93d3a;
+}
+
+.icon {
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+}
+
+  .user-actions {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 60px;
+  }
+
+  .toggle-mode {
+  display: none;
+  align-items: center;
+  gap: 0px;
+  font-size: 13px;
+  color: #000;
+  margin-left: auto; /* pousse à droite */
+}
+
+    label {
+    display: inline-block;
+    margin-bottom: 0px!important;
+}
+
+
+.mode-option {
+  min-width: 50px;
+      color: #174e3d;
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.mode-option.active {
+  color: #fff;
+  opacity: 1;
+}
+
+.kapsul-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.kapsul-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.kapsul-switch .slider {
+    background-color: #fff;
+    border: 1px solid #191919;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+
+.kapsul-switch .slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  background-color: #f93d3a;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 2px;
+  transition: transform 0.4s;
+}
+
+.kapsul-switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+  .dropdown-submenu .column + .column {
+  border-left: 1px solid #e0e0e0; /* Ligne fine grise */
+  padding-left: 20px; /* Un peu d'espace pour ne pas coller le texte à la bordure */
+}
+
+  #languageSelector,
+    #currencySelector {
+            padding: 5px 8px;
+    border: 1px solid #001d20;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #001d20;
+    cursor: pointer;
+    color: #fffff0;
+    }
+
+  .nav-links2 .dropdown-submenu.one-column {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  gap: 10px;
+}
+
+.nav-links2 .dropdown-submenu.one-column .column {
+  width: 100%;
+  padding: 0;
+  border-left: none;
+}
+
+  .category-title {
+  font-weight: bold;
+  text-decoration: underline;
+  font-style: italic;
+  font-size: 0.8em; /* Adjust font size */
+  margin-bottom: 10px; /* Add spacing below */
+  color: #333333; /* Text color */
+}
+
+    .toggle-mode a:hover {
+    text-decoration: underline;
+  }
+  .mode-option-active {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .soon::after {
+  content: "Soon";
+  font-size: 10px;
+  font-weight: 500;
+  background: #BEBBFF;
+  color: #000;
+  padding: 2px 6px;
+  margin-left: 6px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.contributor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 10px 8px;
+}
+
+.contributor-card {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contributor-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+  .contributor-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contributor-card .overlay-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+
+/* CTA at the bottom */
+.view-all-contributors {
+  display: block;
+  margin: 12px 0 0 8px;
+  font-size: 13px;
+  font-style: italic;
+  text-decoration: none;
+  color: #000;
+}
+
+.view-all-contributors:hover {
+  text-decoration: underline;
+}
+
+
+
+</style>
+
+<div id="kapsul-ticker-bar">
+  <div class="ticker-inner">
+    <div id="time-tokyo" style="font-style: italic;">🔍 What are you looking for today:</div>
+    <div class="toggle-mode">
+      <span class="mode-label" style="margin-right: 20px; font-style: italic; text-decoration: underline;">I am:</span>
+      <a href="/business" class="mode-option left" id="labelImport" style="text-decoration: none; margin-right: 10px;">A Business</a>
+      <label class="kapsul-switch">
+        <input type="checkbox" id="modeToggle" checked>
+        <span class="slider"></span>
+      </label>
+      <a href="/" class="mode-option-active right" id="labelExport" style="text-decoration: underline; margin-left: 10px;">An Individual</a>
+    </div>
+  </div>
+</div>
+
+
+<div id="customHeader">
+  <div class="logo-container">
+    <a href="/">
+      <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo" />
+    </a>
+  </div>
+
+ <nav class="nav-links">
+<div class="nav-item">
+  <a href="">Products<span class="chevron">▼</span></a>
+  <div class="dropdown-submenu">
+    <div class="columns">
+      <div class="column">
+        <a href="/brands/home-decor"><span class="icon">🏠</span> Home & Decor</a>
+        <a href="/brands/food-drink"><span class="icon">🍱</span> Food & Drink</a>
+        <a href="/brands/alcohol"><span class="icon">🍶</span> Alcohol</a>
+        <a href="/brands/beauty-wellness"><span class="icon">💄</span> Beauty & Wellness</a>
+        <a href="/brands/jewelry"><span class="icon">💍</span> Jewelry</a>
+      </div>
+      <div class="column">
+        <a href="/brands/fashion"><span class="icon">👕</span> Fashion</a>
+        <a href="/brands/kids-baby"><span class="icon">👶</span> Kids & Baby</a>
+        <a href="/brands/paper-gifts"><span class="icon">📄</span> Stationery & Gifts</a>
+        <a href="/brands/pets"><span class="icon">🐾</span> Pets</a>
+      </div>
+    </div>
+    <div class="mini-tag">We're always on the hunt for new gems.</div>
+  </div>
+</div>
+
+
+<div class="nav-item">
+  <a href="#">Contributors<span class="chevron">▼</span></a>
+  <div class="dropdown-submenu one-column">
+    <div class="contributor-highlight-title">Spotlight on Local Voices</div>
+    <div class="contributor-grid">
+      
+      <a href="/contributor/geoffrey" class="contributor-card">
+        <img src="https://kapsul-studios.b-cdn.net/IMG_3006.JPG" alt="Takashi">
+        <div class="overlay-text">Japan Gems<br>By Geoffrey</div>
+      </a>
+
+      <a href="/contributor/sakura" class="contributor-card">
+        <img src="https://kapsul-studios.b-cdn.net/Kapsul%20Studios2.webp" alt="Emi">
+        <div class="overlay-text">Nippon Made<br>By Sakura</div>
+      </a>
+
+
+    <a href="/contributors" class="view-all-contributors">→ Discover All Contributors</a>
+  </div>
+</div>
+
+<!-- Cart -->
+  <div class="nav-item">
+    <a href="/cart">🛒 Cart</a>
+  </div>
+
+  <!-- Currency Selector -->
+  <div class="nav-item currency-toggle">
+    <a href="#" onclick="toggleCurrencyMenu()">💱 Currency</a>
+    <div class="dropdown-submenu one-column" id="currency-options" style="display:none;">
+      <a href="#" onclick="setCurrency('JPY')">¥ JPY</a>
+      <a href="#" onclick="setCurrency('EUR')">€ EUR</a>
+      <a href="#" onclick="setCurrency('USD')">$ USD</a>
+    </div>
+  </div>
+</nav>
+
+   
+
+  </nav>
