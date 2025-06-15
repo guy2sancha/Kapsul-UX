@@ -464,13 +464,16 @@
 
     <!-- Currency -->
     <div class="nav-item">
-      <a href="#" onclick="toggleCurrencyMenu()">💱 Currency</a>
-      <div class="dropdown-submenu one-column" id="currency-options" style="display: none;">
-        <a href="#" onclick="setCurrency('JPY')">¥ JPY</a>
-        <a href="#" onclick="setCurrency('EUR')">€ EUR</a>
-        <a href="#" onclick="setCurrency('USD')">$ USD</a>
-      </div>
+  <a href="#">Currency<span class="chevron">▼</span></a>
+  <div class="dropdown-submenu one-column">
+    <div class="column">
+      <a href="#" onclick="setCurrency('JPY')">¥ JPY</a>
+      <a href="#" onclick="setCurrency('EUR')">€ EUR</a>
+      <a href="#" onclick="setCurrency('USD')">$ USD</a>
     </div>
+  </div>
+</div>
+
 
   </nav>
 </div>
