@@ -1,5 +1,29 @@
 <style>
 
+  .curator-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.outline-btn {
+  border: 2px solid black;
+  background-color: transparent;
+  color: black;
+  padding: 6px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.outline-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+
   a {
     color: #000;
     text-decoration: none;
@@ -392,7 +416,10 @@
 
 <div id="kapsul-ticker-bar">
   <div class="ticker-inner">
-    <div id="time-tokyo" style="font-style: italic;">What are you looking for today:</div>
+<div class="curator-buttons">
+  <a href="/become-a-curator" class="outline-btn">Become a Curator</a>
+  <a href="/submit-business" class="outline-btn">List a Business</a>
+</div>
     <div class="toggle-mode">
       <span class="mode-label" style="margin-right: 20px; font-style: italic; text-decoration: underline;"></span>
       <a href="/business" class="mode-option left" id="labelImport" style="text-decoration: none; margin-right: 10px;">Shop</a>
