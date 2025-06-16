@@ -287,8 +287,9 @@
 }
 
 .kapsul-switch input:checked + .slider:before {
-  transform: translateX(22px);
+  transform: translateX(22px); /* Va vers la droite quand Shop est activé */
 }
+
 
   .dropdown-submenu .column + .column {
   border-left: 1px solid #e0e0e0; /* Ligne fine grise */
@@ -422,14 +423,13 @@
   <a href="/submit-business" class="outline-btn">List a Business</a>
 </div>
     <div class="toggle-mode">
-      <span class="mode-label" style="margin-right: 20px; font-style: italic; text-decoration: underline;"></span>
-     <a href="/" class="mode-option-active left" id="labelExport">Discover</a>
-<label class="kapsul-switch">
-  <input type="checkbox" id="modeToggle" checked>
-  <span class="slider"></span>
-</label>
-<a href="/business" class="mode-option right" id="labelImport">Shop</a>
-    </div>
+  <a href="/" class="mode-option-active left" id="labelExport">Discover</a>
+  <label class="kapsul-switch">
+    <input type="checkbox" id="modeToggle">
+    <span class="slider"></span>
+  </label>
+  <a href="/business" class="mode-option right" id="labelImport">Shop</a>
+</div>
   </div>
 </div>
 
