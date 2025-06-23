@@ -521,26 +521,8 @@ a {
   <div class="nav-links2">
     <a href="/map">About</a>
 
-    <div class="profile-container">
-      <button class="profile-button" onclick="toggleMenu(event)">
-        <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
-        <i class="fa-solid fa-bars icon-size"></i>
-      </button>
-      <div class="dropdown-menu" id="profileMenu">
-        <div id="loggedOutMenu">
-          <a href="/sign-in">Login</a>
-          <a href="/register">Sign Up</a>
-        </div>
-        <div id="loggedInMenu" style="display: none;">
-          <a href="/favorites">My Favorites</a>
-          <a href="/my-qrcode">My QR Code</a>
-          <a href="/" onclick="logoutUser()">Log-out</a>
-        </div>
-      </div>
-    </div> <!-- Fin profile-container -->
-
     <div class="cart-container">
-      <a href="#" onclick="showModal('cartModal', event)">
+      <a href="/cart" onclick="showModal('cartModal', event)">
         <i class="fa-solid fa-cart-shopping icon-size"></i>
       </a>
     </div> <!-- Fin cart-container -->
