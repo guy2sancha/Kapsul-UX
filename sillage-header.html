@@ -1,0 +1,570 @@
+ <style>
+/* =====================
+   Styles globaux
+===================== */
+a {
+  color: #000;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+/* =====================
+   Bandeau supérieur (Ticker)
+===================== */
+#kapsul-ticker-bar {
+  background: #fff;
+  color: #000;
+  font-family: 'jost', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.ticker-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.mini-tag {
+  background: #D4AF37;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 0 5px;
+  border-radius: 999px;
+  margin-top: 30px;
+  display: inline-block;
+  text-align: center;
+}
+
+/* =====================
+   Header principal
+===================== */
+#customHeader {
+  position: fixed;
+  top: 36px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 2%;
+  border-bottom: 1px solid transparent;
+  z-index: 1000;
+  transition: background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
+}
+
+#customHeader.scrolled {
+  background-color: #0B2C2D;
+  border-bottom: 1px solid #0B2C2D;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logo-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.logo-container img {
+  height: 80px;
+}
+
+/* =====================
+   Navigation (gauche)
+===================== */
+.nav-links {
+  display: flex;
+      font-size: 16px;
+    position: absolute;
+    left: 15px;
+    background: #17233b;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.nav-links a {
+  color: #fffff0;
+  font-weight: 500;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #D4AF37;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.chevron {
+  font-size: 10px;
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover .chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown-submenu {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  position: absolute;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 600px;
+  color: #000;
+}
+
+.nav-item:hover > .dropdown-submenu {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-submenu .columns {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+}
+
+.dropdown-submenu .column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dropdown-submenu .column + .column {
+  border-left: 1px solid #e0e0e0;
+  padding-left: 20px;
+}
+
+.dropdown-submenu a {
+  font-size: 14px;
+  padding: 6px 0;
+  color: #111;
+  transition: color 0.3s;
+}
+
+.dropdown-submenu a:hover {
+  color: #D4AF37;
+}
+
+.category-title {
+  font-weight: bold;
+  text-decoration: underline;
+  font-style: italic;
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* =====================
+   Zone droite (user-actions)
+===================== */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  right: 20px;
+}
+
+.user-actions a {
+  color: #fffff0;  /* Blanc comme à gauche */
+  font-weight: 500;
+  padding: 0px 0px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.user-actions a:hover {
+  color: #D4AF37;  /* Doré au survol */
+}
+
+.user-actions .nav-links2 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-size {
+  font-size: 22px;
+  margin-bottom: 3px;
+}
+
+.cart-container a {
+  text-decoration: none;
+  color: #fffff0;
+  transition: color 0.3s ease;
+}
+
+.cart-container a:hover {
+  color: #D4AF37;
+}
+
+.profile-container {
+  position: relative;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.profile-button i {
+  font-size: 20px;
+  color: #fffff0;
+}
+
+.profile-button:hover i {
+  color: #D4AF37;
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: -100px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #333;
+  padding: 0px 0px;
+  display: block;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.dropdown-menu a:hover {
+  background: #f0f0f0;
+}
+
+.dropdown-menu.show {
+  display: flex;
+}
+
+/* =====================
+   Dropdown ENG (single column)
+===================== */
+/* Pour forcer le dropdown à s'aligner parfaitement sous le bouton ENG */
+.nav-item {
+  position: relative;  /* Position relative pour que le dropdown se base dessus */
+}
+
+.nav-item .one-column {
+  position: absolute;  /* Position absolue pour le dropdown */
+  top: 100%;           /* Juste en dessous du bouton */
+    left: -0px;
+  right: auto;
+  transform: none;     /* Pas de translation */
+  min-width: 80px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item:hover > .one-column {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.dropdown-submenu a.always-black {
+  color: #111 !important;
+}
+
+.dropdown-submenu a.always-black:hover {
+  color: #111 !important;
+}
+
+
+.toggle-mode {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    font-size: 13px;
+    color: #000;
+    margin-left: auto;
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: 0px !important;
+  }
+
+  .mode-option {
+    min-width: 50px;
+    color: #000;
+    text-align: center;
+    opacity: 0.6;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .mode-option-active {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .kapsul-switch {
+    position: relative;
+    width: 46px;
+    height: 24px;
+    display: inline-block;
+  }
+
+  .kapsul-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .kapsul-switch .slider {
+    background-color: #fff;
+    border: 1px solid #191919;
+    border-radius: 24px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    cursor: pointer;
+    transition: background-color 0.4s;
+  }
+
+  .kapsul-switch .slider:before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    background-color: #f93d3a;
+    border-radius: 50%;
+    left: 3px;
+    bottom: 2px;
+    transition: transform 0.4s;
+  }
+
+  .kapsul-switch input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+
+  </style>
+</head>
+<body>
+
+<div id="kapsul-ticker-bar">
+  <div class="ticker-inner">
+    <div id="time-tokyo" style="font-style: italic;">Over 2,000 bottles available</div>
+    <div class="toggle-mode">
+    <a href="/map">I'm a professional</a>
+    </div>
+  </div>
+</div>
+
+<div id="customHeader">
+  <div class="logo-container">
+    <a href="/"><img src="https://sillage.b-cdn.net/KAPSUL%201200x400%20(19).png" alt="Logo Harmony" /></a>
+  </div>
+
+  <nav class="nav-links">
+      
+       <div class="nav-item">
+      <a href="#">All <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Domaines</div>
+            <a href="#">Olivier Leflaive</a>
+            <a href="#">Albert Bichot</a>
+            <a href="#">Clos de Tart</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Appellations</div>
+            <a href="#">Beaune</a>
+            <a href="#">Chablis</a>
+            <a href="#">Corton</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Classements</div>
+            <a href="#">Grand Cru</a>
+            <a href="#">1er Cru</a>
+            <a href="#">Village</a>
+          </div>
+        </div>
+        <div class="mini-tag">Découvrez nos meilleures sélections</div>
+      </div>
+    </div>
+      
+      <div class="nav-item">
+      <a href="#">Bordeaux <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Domaines</div>
+            <a href="#">Olivier Leflaive</a>
+            <a href="#">Albert Bichot</a>
+            <a href="#">Clos de Tart</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Appellations</div>
+            <a href="#">Beaune</a>
+            <a href="#">Chablis</a>
+            <a href="#">Corton</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Classements</div>
+            <a href="#">Grand Cru</a>
+            <a href="#">1er Cru</a>
+            <a href="#">Village</a>
+          </div>
+        </div>
+        <div class="mini-tag">Découvrez nos meilleures sélections</div>
+      </div>
+    </div>
+    
+    <div class="nav-item">
+      <a href="#">Bourgogne <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Domaines</div>
+            <a href="#">Olivier Leflaive</a>
+            <a href="#">Albert Bichot</a>
+            <a href="#">Clos de Tart</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Appellations</div>
+            <a href="#">Beaune</a>
+            <a href="#">Chablis</a>
+            <a href="#">Corton</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Classements</div>
+            <a href="#">Grand Cru</a>
+            <a href="#">1er Cru</a>
+            <a href="#">Village</a>
+          </div>
+        </div>
+        <div class="mini-tag">Découvrez nos meilleures sélections</div>
+      </div>
+    </div>
+    
+    <div class="nav-item">
+      <a href="#">Champagne <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Marques</div>
+            <a href="#">Bollinger</a>
+            <a href="#">Dom Pérignon</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Formats</div>
+            <a href="#">Demi-bouteille</a>
+            <a href="#">Jéroboam</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Types</div>
+            <a href="#">Brut</a>
+            <a href="#">Rosé</a>
+          </div>
+        </div>
+        <div class="mini-tag">Célébrez avec nos Champagnes</div>
+      </div>
+    </div>
+    
+  </nav>
+
+  <!-- Zone user-actions -->
+<div class="user-actions">
+  <div class="nav-links2">
+    <a href="/map">About</a>
+
+    <div class="profile-container">
+      <button class="profile-button" onclick="toggleMenu(event)">
+        <i id="profileIcon" class="fa-solid fa-user icon-size"></i>
+        <i class="fa-solid fa-bars icon-size"></i>
+      </button>
+      <div class="dropdown-menu" id="profileMenu">
+        <div id="loggedOutMenu">
+          <a href="/sign-in">Login</a>
+          <a href="/register">Sign Up</a>
+        </div>
+        <div id="loggedInMenu" style="display: none;">
+          <a href="/favorites">My Favorites</a>
+          <a href="/my-qrcode">My QR Code</a>
+          <a href="/" onclick="logoutUser()">Log-out</a>
+        </div>
+      </div>
+    </div> <!-- Fin profile-container -->
+
+    <div class="cart-container">
+      <a href="#" onclick="showModal('cartModal', event)">
+        <i class="fa-solid fa-cart-shopping icon-size"></i>
+      </a>
+    </div> <!-- Fin cart-container -->
+
+    <!-- Déplacement du menu ENG après cart-container -->
+    <div class="nav-item">
+      <a href="/events">日本語<span class="chevron">▼</span></a>
+      <div class="dropdown-submenu one-column">
+        <div class="column">
+          <a href="/events/circle" class="always-black">
+            <span class="icon">EN - ¥
+          </a>
+        </div> <!-- Fin column -->
+      </div> <!-- Fin dropdown-submenu -->
+    </div> <!-- Fin nav-item -->
+
+  </div> <!-- Fin nav-links2 -->
+</div> <!-- Fin user-actions -->
+
+<!-- Modale panier -->
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <h2>Please Login or Signup</h2>
+    <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
+    <div class="modal-actions">
+      <a href="/sign-in" class="modal-button">Login</a>
+      <a href="/register" class="modal-button">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+
