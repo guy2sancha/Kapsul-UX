@@ -1,4 +1,3 @@
-<script>
   // Initialisation globale pour Softr
   window.initializeLocalCartSystem = function () {
     console.log("🛒 Initialisation du panier local...");
@@ -138,4 +137,3 @@
 
   // Démarre
   document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
-</script>
