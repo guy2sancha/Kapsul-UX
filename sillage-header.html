@@ -1,4 +1,28 @@
  <style>
+
+  .curator-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.outline-btn {
+    border: 1px solid black;
+    background-color: transparent;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.outline-btn:hover {
+  background-color: black;
+  color: white;
+}
+
 /* =====================
    Styles globaux
 ===================== */
@@ -390,6 +414,10 @@ a {
 
 <div id="kapsul-ticker-bar">
   <div class="ticker-inner">
+   <div class="curator-buttons">
+  <a href="/become-a-curator" class="outline-btn">Become a Curator</a>
+  <a href="/become-ambassador" class="outline-btn">Be an Ambassador</a>
+</div>
     <div id="time-tokyo" style="font-style: italic;">Over 2,000 bottles available</div>
     <div class="toggle-mode">
     <a href="/map">I'm a professional</a>
