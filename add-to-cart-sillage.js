@@ -38,7 +38,7 @@ function openLocalCartModal(button, productID, maxQuantity) {
             alert(`Quantité invalide.`);
             return;
         }
-        addToLocalCart(productID, quantity);
+        addToLocalCart(button, productID, quantity);
         button.textContent = "Ajouté";
         button.disabled = true;
         button.classList.add("in-cart");
@@ -50,15 +50,36 @@ function openLocalCartModal(button, productID, maxQuantity) {
     });
 }
 
-function addToLocalCart(productID, quantity) {
+function addToLocalCart(button, productID, quantity) {
     let cart = JSON.parse(localStorage.getItem("localCart")) || {};
+
+    // Récupération des infos depuis les attributs data-*
+    const name = button.getAttribute("data-name") || "";
+    const price = button.getAttribute("data-price") || "";
+    const image = button.getAttribute("data-image") || "";
+    const size = button.getAttribute("data-size") || "";
+    const condition = button.getAttribute("data-condition") || "";
+    const seller = button.getAttribute("data-sold-by") || "";
+    const freeShipping = button.getAttribute("data-free-shipping") === "true";
+
     if (cart[productID]) {
-        cart[productID] += quantity;
+        cart[productID].quantity += quantity;
     } else {
-        cart[productID] = quantity;
+        cart[productID] = {
+            id: productID,
+            name: name,
+            price: price,
+            image: image,
+            size: size,
+            condition: condition,
+            seller: seller,
+            freeShipping: freeShipping,
+            quantity: quantity
+        };
     }
+
     localStorage.setItem("localCart", JSON.stringify(cart));
-    console.log("🛒 Nouveau panier:", cart);
+    console.log("🛒 Panier mis à jour :", cart);
 }
 
 // Initialisation
