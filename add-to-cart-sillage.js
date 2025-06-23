@@ -10,29 +10,60 @@ window.initializeLocalCartSystem = function () {
 
   buttons.forEach(button => {
     const productID = button.getAttribute("data-product-id");
+    const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
-    if (!productID) return;
-
-    // Vérifie si une priorité de 15 minutes est active
     if (window.isOfferReserved(productID)) {
       window.markOfferAsAdded(productID);
+      return;
     }
 
     if (!button.dataset.listenerAdded) {
       console.log("🎯 Attaching click handler to:", productID);
       button.addEventListener("click", (event) => {
         event.preventDefault();
-        window.addToLocalCart(button, productID);
-        window.markOfferAsAdded(productID);
-        alert("⏳ You have priority to buy this product for the next 15 minutes");
+        window.openLocalCartModal(button, productID, maxQuantity);
       });
       button.dataset.listenerAdded = "true";
     }
   });
 };
 
-// Ajoute au panier local
-window.addToLocalCart = function (button, productID) {
+window.openLocalCartModal = function (button, productID, maxQuantity) {
+  const existingModal = document.getElementById("cart-modal");
+  if (existingModal) existingModal.remove();
+
+  const modalHTML = `
+    <div id="cart-modal" class="cart-modal-overlay">
+      <div class="cart-modal-content">
+        <h2>Ajouter au panier</h2>
+        <p>📦 Quantité dispo : ${maxQuantity}<br>🆔 Produit : ${productID}</p>
+        <label for="cart-quantity">Quantité (max ${maxQuantity}) :</label>
+        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1">
+        <button id="submit-cart" class="confirm">Confirmer</button>
+        <button id="close-cart" class="cancel">Annuler</button>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+  document.getElementById("submit-cart").addEventListener("click", () => {
+    const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
+    if (quantity < 1 || quantity > maxQuantity) {
+      alert(`Quantité invalide.`);
+      return;
+    }
+    window.addToLocalCart(button, productID, quantity);
+    window.markOfferAsAdded(productID);
+    document.getElementById("cart-modal").remove();
+  });
+
+  document.getElementById("close-cart").addEventListener("click", () => {
+    document.getElementById("cart-modal").remove();
+  });
+};
+
+window.addToLocalCart = function (button, productID, quantity) {
   let cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
   const name = button.getAttribute("data-name") || "";
@@ -52,40 +83,39 @@ window.addToLocalCart = function (button, productID) {
     condition,
     seller,
     freeShipping,
-    quantity: 1,
-    addedAt: Date.now() // ⏱️ 15min priority
+    quantity,
+    addedAt: Date.now()
   };
 
   localStorage.setItem("localCart", JSON.stringify(cart));
-  console.log("✅ Panier mis à jour :", cart);
+  console.log("🛒 Panier mis à jour :", cart);
 };
 
-// Vérifie si l'offre est dans la fenêtre de priorité
 window.isOfferReserved = function (productID) {
   const cart = JSON.parse(localStorage.getItem("localCart")) || {};
   const entry = cart[productID];
   if (!entry) return false;
 
   const elapsed = Date.now() - entry.addedAt;
-  return elapsed < 15 * 60 * 1000; // < 15 minutes
+  return elapsed < 15 * 60 * 1000; // 15 min
 };
 
-// UI feedback (change bouton)
 window.markOfferAsAdded = function (productID) {
   const buttons = document.querySelectorAll(`[data-product-id='${productID}']`);
   buttons.forEach(btn => {
     btn.textContent = "Ajouté";
+    btn.disabled = true;
     btn.classList.add("in-cart");
     btn.title = "Réservé 15 minutes";
   });
 };
 
-// DOM observer pour Softr
+// Observer + Timeout
 function waitAndObserveCartButtons() {
-  window.initializeLocalCartSystem(); // 1ère init
+  window.initializeLocalCartSystem(); // init
 
   const observer = new MutationObserver(() => {
-    window.initializeLocalCartSystem(); // recheck DOM
+    window.initializeLocalCartSystem(); // relance après modif du DOM
   });
 
   observer.observe(document.body, {
@@ -99,5 +129,5 @@ function waitAndObserveCartButtons() {
   }, 1500);
 }
 
-// Ready
+// DOM ready
 document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
