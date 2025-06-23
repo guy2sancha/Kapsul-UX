@@ -12,6 +12,11 @@ window.initializeLocalCartSystem = function () {
     const productID = button.getAttribute("data-product-id");
     const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
+    if (window.isOfferReserved(productID)) {
+      window.markOfferAsAdded(productID);
+      return;
+    }
+
     if (!button.dataset.listenerAdded) {
       console.log("🎯 Attaching click handler to:", productID);
       button.addEventListener("click", (event) => {
@@ -49,9 +54,7 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
       return;
     }
     window.addToLocalCart(button, productID, quantity);
-    button.textContent = "Ajouté";
-    button.disabled = true;
-    button.classList.add("in-cart");
+    window.markOfferAsAdded(productID);
     document.getElementById("cart-modal").remove();
   });
 
@@ -71,24 +74,40 @@ window.addToLocalCart = function (button, productID, quantity) {
   const seller = button.getAttribute("data-sold-by") || "";
   const freeShipping = button.getAttribute("data-free-shipping") === "true";
 
-  if (cart[productID]) {
-    cart[productID].quantity += quantity;
-  } else {
-    cart[productID] = {
-      id: productID,
-      name,
-      price,
-      image,
-      size,
-      condition,
-      seller,
-      freeShipping,
-      quantity
-    };
-  }
+  cart[productID] = {
+    id: productID,
+    name,
+    price,
+    image,
+    size,
+    condition,
+    seller,
+    freeShipping,
+    quantity,
+    addedAt: Date.now()
+  };
 
   localStorage.setItem("localCart", JSON.stringify(cart));
   console.log("🛒 Panier mis à jour :", cart);
+};
+
+window.isOfferReserved = function (productID) {
+  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
+  const entry = cart[productID];
+  if (!entry) return false;
+
+  const elapsed = Date.now() - entry.addedAt;
+  return elapsed < 15 * 60 * 1000; // 15 min
+};
+
+window.markOfferAsAdded = function (productID) {
+  const buttons = document.querySelectorAll(`[data-product-id='${productID}']`);
+  buttons.forEach(btn => {
+    btn.textContent = "Ajouté";
+    btn.disabled = true;
+    btn.classList.add("in-cart");
+    btn.title = "Réservé 15 minutes";
+  });
 };
 
 // Observer + Timeout
