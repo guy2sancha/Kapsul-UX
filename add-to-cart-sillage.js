@@ -1,9 +1,8 @@
-// 🧠 Initialisation du système
-function initializeLocalCartSystem() {
+// Expose globalement pour Softr
+window.initializeLocalCartSystem = function () {
   console.log("🛒 Initialisation du panier local...");
 
   const buttons = document.querySelectorAll(".custom-add-to-cart-button");
-
   if (!buttons.length) {
     console.log("⚠️ Aucun bouton détecté, attente du DOM via observer...");
     return;
@@ -13,7 +12,6 @@ function initializeLocalCartSystem() {
     const productID = button.getAttribute("data-product-id");
     const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
-    // Empêche de redéfinir plusieurs fois
     if (!button.dataset.listenerAdded) {
       console.log("🎯 Attaching click handler to:", productID);
       button.addEventListener("click", (event) => {
@@ -23,35 +21,9 @@ function initializeLocalCartSystem() {
       button.dataset.listenerAdded = "true";
     }
   });
-}
-
-// 📦 Ajouter au panier (stocké localement)
-window.addToLocalCart = function(button, productID, quantity) {
-  let cart = JSON.parse(localStorage.getItem("localCart")) || {};
-
-  const name = button.getAttribute("data-name") || "";
-  const price = button.getAttribute("data-price") || "";
-  const image = button.getAttribute("data-image") || "";
-  const size = button.getAttribute("data-size") || "";
-  const condition = button.getAttribute("data-condition") || "";
-  const seller = button.getAttribute("data-sold-by") || "";
-  const freeShipping = button.getAttribute("data-free-shipping") === "true";
-
-  if (cart[productID]) {
-    cart[productID].quantity += quantity;
-  } else {
-    cart[productID] = {
-      id: productID,
-      name, price, image, size, condition, seller, freeShipping, quantity
-    };
-  }
-
-  localStorage.setItem("localCart", JSON.stringify(cart));
-  console.log("🛒 Panier mis à jour :", cart);
 };
 
-// 🪟 Ouvrir la modale d'ajout au panier
-window.openLocalCartModal = function(button, productID, maxQuantity) {
+window.openLocalCartModal = function (button, productID, maxQuantity) {
   const existingModal = document.getElementById("cart-modal");
   if (existingModal) existingModal.remove();
 
@@ -67,12 +39,13 @@ window.openLocalCartModal = function(button, productID, maxQuantity) {
       </div>
     </div>
   `;
+
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
   document.getElementById("submit-cart").addEventListener("click", () => {
     const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
     if (quantity < 1 || quantity > maxQuantity) {
-      alert("Quantité invalide.");
+      alert(`Quantité invalide.`);
       return;
     }
     window.addToLocalCart(button, productID, quantity);
@@ -87,12 +60,43 @@ window.openLocalCartModal = function(button, productID, maxQuantity) {
   });
 };
 
-// 🔁 MutationObserver + Timeout pour gérer DOM dynamique Softr
+window.addToLocalCart = function (button, productID, quantity) {
+  let cart = JSON.parse(localStorage.getItem("localCart")) || {};
+
+  const name = button.getAttribute("data-name") || "";
+  const price = button.getAttribute("data-price") || "";
+  const image = button.getAttribute("data-image") || "";
+  const size = button.getAttribute("data-size") || "";
+  const condition = button.getAttribute("data-condition") || "";
+  const seller = button.getAttribute("data-sold-by") || "";
+  const freeShipping = button.getAttribute("data-free-shipping") === "true";
+
+  if (cart[productID]) {
+    cart[productID].quantity += quantity;
+  } else {
+    cart[productID] = {
+      id: productID,
+      name,
+      price,
+      image,
+      size,
+      condition,
+      seller,
+      freeShipping,
+      quantity
+    };
+  }
+
+  localStorage.setItem("localCart", JSON.stringify(cart));
+  console.log("🛒 Panier mis à jour :", cart);
+};
+
+// Observer + Timeout
 function waitAndObserveCartButtons() {
-  initializeLocalCartSystem(); // première tentative immédiate
+  window.initializeLocalCartSystem(); // init
 
   const observer = new MutationObserver(() => {
-    initializeLocalCartSystem(); // re-scan à chaque mutation
+    window.initializeLocalCartSystem(); // relance après modif du DOM
   });
 
   observer.observe(document.body, {
@@ -100,12 +104,11 @@ function waitAndObserveCartButtons() {
     subtree: true,
   });
 
-  // Sécurité : relance après 1,5s
   setTimeout(() => {
     console.log("⏳ Relance forcée après timeout...");
-    initializeLocalCartSystem();
+    window.initializeLocalCartSystem();
   }, 1500);
 }
 
-// 📌 Lance tout au chargement de la page
+// DOM ready
 document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
