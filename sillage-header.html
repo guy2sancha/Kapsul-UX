@@ -126,19 +126,22 @@ a {
 }
 
 .dropdown-submenu {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  pointer-events: none;
   position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100vw; /* full screen width */
   background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 40px 60px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   z-index: 1000;
-  min-width: 600px;
-  color: #000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+
+
 
 .nav-item:hover > .dropdown-submenu {
   display: flex;
@@ -149,9 +152,11 @@ a {
 }
 
 .dropdown-submenu .columns {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 equally spaced columns */
   gap: 30px;
+  width: 100%;
+  max-width: 1600px;
 }
 
 .dropdown-submenu .column {
@@ -412,80 +417,40 @@ a {
        <div class="nav-item">
       <a href="#">All <span class="chevron">▼</span></a>
       <div class="dropdown-submenu">
-        <div class="columns">
-          <div class="column">
-            <div class="category-title">Domaines</div>
-            <a href="#">Olivier Leflaive</a>
-            <a href="#">Albert Bichot</a>
-            <a href="#">Clos de Tart</a>
-          </div>
-          <div class="column">
-            <div class="category-title">Appellations</div>
-            <a href="#">Beaune</a>
-            <a href="#">Chablis</a>
-            <a href="#">Corton</a>
-          </div>
-          <div class="column">
-            <div class="category-title">Classements</div>
-            <a href="#">Grand Cru</a>
-            <a href="#">1er Cru</a>
-            <a href="#">Village</a>
-          </div>
-        </div>
-        <div class="mini-tag">Découvrez nos meilleures sélections</div>
-      </div>
+  <div class="columns">
+    <div class="column">
+      <div class="category-title">Régions</div>
+      <a href="#">Bordeaux</a>
+      <a href="#">Bourgogne</a>
+      ...
     </div>
-      
-      <div class="nav-item">
-      <a href="#">Bordeaux <span class="chevron">▼</span></a>
-      <div class="dropdown-submenu">
-        <div class="columns">
-          <div class="column">
-            <div class="category-title">Domaines</div>
-            <a href="#">Olivier Leflaive</a>
-            <a href="#">Albert Bichot</a>
-            <a href="#">Clos de Tart</a>
-          </div>
-          <div class="column">
-            <div class="category-title">Appellations</div>
-            <a href="#">Beaune</a>
-            <a href="#">Chablis</a>
-            <a href="#">Corton</a>
-          </div>
-          <div class="column">
-            <div class="category-title">Classements</div>
-            <a href="#">Grand Cru</a>
-            <a href="#">1er Cru</a>
-            <a href="#">Village</a>
-          </div>
-        </div>
-        <div class="mini-tag">Découvrez nos meilleures sélections</div>
-      </div>
+    <div class="column">
+      <div class="category-title">Appellations</div>
+      <a href="#">Saint-Émilion</a>
+      <a href="#">Chablis</a>
     </div>
-    
-    <div class="nav-item">
-      <a href="#">Bourgogne <span class="chevron">▼</span></a>
-      <div class="dropdown-submenu">
-        <div class="columns">
-          <div class="column">
-            <div class="category-title">Domaines</div>
-            <a href="#">Olivier Leflaive</a>
-            <a href="#">Albert Bichot</a>
-            <a href="#">Clos de Tart</a>
-          </div>
-          <div class="column">
-            <div class="category-title">Appellations</div>
-            <a href="#">Beaune</a>
-            <a href="#">Chablis</a>
-            <a href="#">Corton</a>
-          </div>
-          <div class="column">
-            <div class="category-title">Classements</div>
-            <a href="#">Grand Cru</a>
-            <a href="#">1er Cru</a>
-            <a href="#">Village</a>
-          </div>
-        </div>
+    <div class="column">
+      <div class="category-title">Formats</div>
+      <a href="#">Magnum</a>
+      <a href="#">Jéroboam</a>
+    </div>
+    <div class="column">
+      <div class="category-title">Couleurs</div>
+      <a href="#">Rouge</a>
+      <a href="#">Blanc</a>
+    </div>
+    <div class="column">
+      <div class="category-title">Prix</div>
+      <a href="#">Moins de 20€</a>
+      <a href="#">20€ - 50€</a>
+    </div>
+    <div class="column">
+      <div class="category-title">Sélections</div>
+      <a href="#">Bio</a>
+      <a href="#">Millésimes rares</a>
+    </div>
+  </div>
+</div>
         <div class="mini-tag">Découvrez nos meilleures sélections</div>
       </div>
     </div>
