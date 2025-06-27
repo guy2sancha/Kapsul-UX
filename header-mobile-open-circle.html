@@ -1,5 +1,4 @@
 <style>
-/* HEADER FIXE */
 #mobileHeader {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -11,27 +10,17 @@
   z-index: 1000;
 }
 
-.mobile-left, .mobile-center, .mobile-right {
+.mobile-left, .mobile-right {
   flex: 1;
   display: flex;
   align-items: center;
 }
 
 .mobile-left { justify-content: flex-start; }
-.mobile-center { justify-content: center; }
 .mobile-right { justify-content: flex-end; }
 
 .mobile-logo img {
   height: 40px;
-}
-
-.mobile-select select {
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #F6F4EF;
-  color: #000;
-  border: 1px solid #ccc;
 }
 
 .hamburger {
@@ -40,7 +29,6 @@
   color: #fff;
 }
 
-/* OVERLAY & SLIDING MENU */
 #mobileOverlay {
   display: none;
   position: fixed;
@@ -72,7 +60,6 @@
   color: #001d20;
 }
 
-/* CATEGORIES */
 .menu-category {
   cursor: pointer;
   padding: 10px;
@@ -99,7 +86,6 @@
   transform: rotate(180deg);
 }
 
-/* SUBMENU */
 .submenu {
   display: none;
   padding-left: 10px;
@@ -132,7 +118,6 @@
   margin-left: auto;
 }
 
-/* LIEN BAS */
 .mobile-footer-link {
   margin-top: 60px;
   font-size: 14px;
@@ -147,14 +132,6 @@
 <!-- HEADER -->
 <div id="mobileHeader">
   <div class="mobile-left">
-    <div class="mobile-select">
-      <select id="languageSelector">
-        <option value="en">EN</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="mobile-center">
     <div class="mobile-logo">
       <a href="/">
         <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
@@ -174,37 +151,7 @@
   <h3>I'm looking for</h3>
 
   <div class="menu-category" onclick="toggleSubmenu(this)">
-    🤝 Services & Experts <span class="chevron">▼</span>
-  </div>
-  <div class="submenu">
-    <a href="/experts-partners/healthcare"><span>🏥</span>Healthcare & Medical</a>
-    <a href="/experts-partners/finance"><span>💳</span>Finance & Insurance</a>
-    <a href="/experts-partners/legal"><span>⚖️</span>Legal & Visa</a>
-    <a href="/experts-partners/beauty"><span>💆</span>Beauty & Wellness</a>
-    <a href="/experts-partners/fitness"><span>🏋️</span>Fitness</a>
-    <a href="/experts-partners/home"><span>🏠</span>Home</a>
-    <a href="/experts-partners/childcare"><span>👶</span>Childcare</a>
-    <a href="/experts-partners/pets"><span>🐾</span> Pets Services</a>
-    <a href="/experts-partners/learning"><span>🎓</span> Learning & Tutoring</a>
-    <a href="/experts-partners/experiences"><span>👋</span> Local Experiences & People</a>
-  </div>
-
-  <div class="menu-category" onclick="toggleSubmenu(this)">
-    📍 Places & Community <span class="chevron">▼</span>
-  </div>
-  <div class="submenu">
-    <a href="#"><span>🛍️</span>Shops <span class="soon-badge">Soon</span></a>
-    <a href="/places/restaurants"><span>🍽️</span>Restaurants</a>
-    <a href="#"><span>🍻</span>Bars <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>☕️</span>Cafés <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🏨</span>Hotels & Ryokans <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>📅</span>Coworking <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🏋️</span>Gyms <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🖼️</span>Arts & Gallery <span class="soon-badge">Soon</span></a>
-  </div>
-
-  <div class="menu-category" onclick="toggleSubmenu(this)">
-    🛍️ Products & Brands <span class="chevron">▼</span>
+    Brands <span class="chevron">▼</span>
   </div>
   <div class="submenu">
     <a href="#"><span>🏠</span>Home & Decor <span class="soon-badge">Soon</span></a>
@@ -219,23 +166,25 @@
   </div>
 
   <div class="menu-category" onclick="toggleSubmenu(this)">
-    📱 Apps & Platforms <span class="chevron">▼</span>
+    Curators <span class="chevron">▼</span>
   </div>
   <div class="submenu">
-    <a href="#"><span>🚇</span>Transport <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🏠</span>Housing <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>💳</span>Payments <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🏥</span>Health <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🛍️</span>Shopping <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🍜</span>Food Delivery <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>🇯🇵</span>Living in Japan <span class="soon-badge">Soon</span></a>
-    <a href="#"><span>💬</span>Language <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>🏠</span>Home & Decor <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>🍱</span>Food & Drink <span class="soon-badge">Soon</span></a>
+    <a href="/alcohol"><span>🍶</span>Alcohol</a>
+    <a href="#"><span>💄</span>Beauty <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>💍</span>Jewelry <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>👕</span>Fashion <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>👶</span>Kids & Baby <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>📄</span>Gifts & Paper <span class="soon-badge">Soon</span></a>
+    <a href="#"><span>🐾</span>Pets <span class="soon-badge">Soon</span></a>
   </div>
+  <a href="/business" class="mobile-footer-link">Become a Curator</a>
+  <a href="/business" class="mobile-footer-link">Become a Curator</a>
 
-  <a href="/business" class="mobile-footer-link">👔 I'm a business</a>
+  <a href="/business" class="mobile-footer-link">Be an Ambassador</a>
 </div>
 
-<!-- JS -->
 <script>
 function toggleMobileMenu() {
   document.getElementById("mobileMenu").classList.toggle("open");
