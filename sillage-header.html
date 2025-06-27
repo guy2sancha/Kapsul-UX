@@ -129,7 +129,6 @@
       transform: translateY(10px);
       transition: opacity 0.2s ease, transform 0.2s ease;
       pointer-events: none;
-      position: absolute;
       background-color: #fff;
       padding: 30px;
       border-radius: 12px;
@@ -138,6 +137,10 @@
       width: 100vw;
       left: 0;
       right: 0;
+     position: fixed;
+  top: 116px; /* 36px ticker + 80px header */
+  left: 0;
+  width: 100vw;
     }
 
     .nav-item:hover > .dropdown-submenu {
