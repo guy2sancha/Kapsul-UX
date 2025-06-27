@@ -1,399 +1,321 @@
  <style>
-/* =====================
-   Styles globaux
-===================== */
-a {
-  color: #000;
-  text-decoration: none;
-  background-color: transparent;
-}
+    /* =====================
+       Styles globaux
+    ===================== */
+    a {
+      color: #000;
+      text-decoration: none;
+      background-color: transparent;
+    }
 
-  .toggle-mode a {
-  color: grey !important;
-}
+    .toggle-mode a {
+      color: grey !important;
+    }
 
+    /* =====================
+       Bandeau supérieur (Ticker)
+    ===================== */
+    #kapsul-ticker-bar {
+      background: #000;
+      color: #fff;
+      font-family: 'jost', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+    }
 
-/* =====================
-   Bandeau supérieur (Ticker)
-===================== */
-#kapsul-ticker-bar {
-  background: #000;
-  color: #fff;
-  font-family: 'jost', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-}
+    .ticker-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+    }
 
-.ticker-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: 20px;
-}
+    .mini-tag {
+      background: #D4AF37;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 300;
+      padding: 0 5px;
+      border-radius: 999px;
+      margin-top: 30px;
+      display: inline-block;
+      text-align: center;
+    }
 
-.mini-tag {
-  background: #D4AF37;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 300;
-  padding: 0 5px;
-  border-radius: 999px;
-  margin-top: 30px;
-  display: inline-block;
-  text-align: center;
-}
+    /* =====================
+       Header principal
+    ===================== */
+    #customHeader {
+      position: fixed;
+      top: 36px;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 2%;
+      border-bottom: 1px solid transparent;
+      z-index: 1000;
+      transition: background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
+    }
 
-/* =====================
-   Header principal
-===================== */
-#customHeader {
-  position: fixed;
-  top: 36px;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 2%;
-  border-bottom: 1px solid transparent;
-  z-index: 1000;
-  transition: background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
-}
+    #customHeader.scrolled {
+      background-color: #081326;
+      border-bottom: 1px solid #081326;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-#customHeader.scrolled {
-  background-color: #081326;
-  border-bottom: 1px solid #081326;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+    .logo-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
 
-.logo-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
+    .logo-container img {
+      height: 80px;
+    }
 
-.logo-container img {
-  height: 80px;
-}
-
-/* =====================
-   Navigation (gauche)
-===================== */
-.nav-links {
-  display: flex;
+    /* =====================
+       Navigation (gauche)
+    ===================== */
+    .nav-links {
+      display: flex;
       font-size: 16px;
-    position: absolute;
-    left: 15px;
-    background: #17233b;
-    border-radius: 15px;
-    padding: 5px;
-}
+      position: absolute;
+      left: 15px;
+      background: #17233b;
+      border-radius: 15px;
+      padding: 5px;
+    }
 
-.nav-links a {
-  color: #fffff0;
-  font-weight: 500;
-  padding: 10px 15px;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s ease;
-}
+    .nav-links a {
+      color: #fffff0;
+      font-weight: 500;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
 
-.nav-links a:hover {
-  color: #D4AF37;
-}
+    .nav-links a:hover {
+      color: #D4AF37;
+    }
 
-.nav-item {
-  position: relative;
-}
+    .nav-item {
+      position: relative;
+    }
 
-.chevron {
-  font-size: 10px;
-  margin-left: 4px;
-  transition: transform 0.3s ease;
-}
+    .chevron {
+      font-size: 10px;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
 
-.nav-item:hover .chevron {
-  transform: rotate(180deg);
-}
+    .nav-item:hover .chevron {
+      transform: rotate(180deg);
+    }
 
-.dropdown-submenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100vw; /* full screen width */
-  background-color: #fff;
-  padding: 40px 60px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  z-index: 1000;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
+    .dropdown-submenu {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+      position: absolute;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      width: 100vw;
+      left: 0;
+      right: 0;
+    }
 
+    .nav-item:hover > .dropdown-submenu {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
 
+    .dropdown-submenu .columns {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 30px;
+      width: 100%;
+    }
 
+    .dropdown-submenu .column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-.nav-item:hover > .dropdown-submenu {
-  display: flex;
-  flex-direction: column;
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+    .dropdown-submenu .column + .column {
+      border-left: 1px solid #e0e0e0;
+      padding-left: 20px;
+    }
 
-.dropdown-submenu .columns {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 equally spaced columns */
-  gap: 30px;
-  width: 100%;
-  max-width: 1600px;
-}
+    .dropdown-submenu a {
+      font-size: 14px;
+      padding: 6px 0;
+      color: #111;
+      transition: color 0.3s;
+    }
 
-.dropdown-submenu .column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+    .dropdown-submenu a:hover {
+      color: #D4AF37;
+    }
 
-.dropdown-submenu .column + .column {
-  border-left: 1px solid #e0e0e0;
-  padding-left: 20px;
-}
+    .category-title {
+      font-weight: bold;
+      text-decoration: underline;
+      font-style: italic;
+      font-size: 0.8em;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-.dropdown-submenu a {
-  font-size: 14px;
-  padding: 6px 0;
-  color: #111;
-  transition: color 0.3s;
-}
+    /* Zone droite (user-actions) */
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: absolute;
+      right: 20px;
+    }
 
-.dropdown-submenu a:hover {
-  color: #D4AF37;
-}
+    .user-actions a {
+      color: #fffff0;
+      font-weight: 500;
+      padding: 0px 0px;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
 
-.category-title {
-  font-weight: bold;
-  text-decoration: underline;
-  font-style: italic;
-  font-size: 0.8em;
-  margin-bottom: 10px;
-  color: #333;
-}
+    .user-actions a:hover {
+      color: #D4AF37;
+    }
 
-/* =====================
-   Zone droite (user-actions)
-===================== */
-.user-actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  position: absolute;
-  right: 20px;
-}
+    .user-actions .nav-links2 {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-.user-actions a {
-  color: #fffff0;  /* Blanc comme à gauche */
-  font-weight: 500;
-  padding: 0px 0px;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s ease;
-}
+    .icon-size {
+      font-size: 22px;
+      margin-bottom: 3px;
+    }
 
-.user-actions a:hover {
-  color: #D4AF37;  /* Doré au survol */
-}
+    .cart-container a {
+      text-decoration: none;
+      color: #fffff0;
+      transition: color 0.3s ease;
+    }
 
-.user-actions .nav-links2 {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+    .cart-container a:hover {
+      color: #D4AF37;
+    }
 
-.icon-size {
-  font-size: 22px;
-  margin-bottom: 3px;
-}
+    .profile-container {
+      position: relative;
+    }
 
-.cart-container a {
-  text-decoration: none;
-  color: #fffff0;
-  transition: color 0.3s ease;
-}
+    .profile-button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 5px;
+    }
 
-.cart-container a:hover {
-  color: #D4AF37;
-}
+    .profile-button i {
+      font-size: 20px;
+      color: #fffff0;
+    }
 
-.profile-container {
-  position: relative;
-}
+    .profile-button:hover i {
+      color: #D4AF37;
+    }
 
-.profile-button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 5px;
-}
+    .dropdown-menu {
+      position: absolute;
+      left: -100px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      flex-direction: column;
+      padding: 10px 0;
+    }
 
-.profile-button i {
-  font-size: 20px;
-  color: #fffff0;
-}
+    .dropdown-menu a {
+      text-decoration: none;
+      color: #333;
+      padding: 0px 0px;
+      display: block;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
 
-.profile-button:hover i {
-  color: #D4AF37;
-}
+    .dropdown-menu a:hover {
+      background: #f0f0f0;
+    }
 
-.dropdown-menu {
-  position: absolute;
-  left: -100px;
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: none;
-  flex-direction: column;
-  padding: 10px 0;
-}
+    .dropdown-menu.show {
+      display: flex;
+    }
 
-.dropdown-menu a {
-  text-decoration: none;
-  color: #333;
-  padding: 0px 0px;
-  display: block;
-  font-size: 14px;
-  transition: background 0.2s;
-}
+    .nav-item .one-column {
+      position: absolute;
+      top: 100%;
+      left: -0px;
+      right: auto;
+      transform: none;
+      min-width: 80px;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
 
-.dropdown-menu a:hover {
-  background: #f0f0f0;
-}
+    .nav-item:hover > .one-column {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-.dropdown-menu.show {
-  display: flex;
-}
+    .dropdown-submenu a.always-black {
+      color: #111 !important;
+    }
 
-/* =====================
-   Dropdown ENG (single column)
-===================== */
-/* Pour forcer le dropdown à s'aligner parfaitement sous le bouton ENG */
-.nav-item {
-  position: relative;  /* Position relative pour que le dropdown se base dessus */
-}
+    .dropdown-submenu a.always-black:hover {
+      color: #111 !important;
+    }
 
-.nav-item .one-column {
-  position: absolute;  /* Position absolue pour le dropdown */
-  top: 100%;           /* Juste en dessous du bouton */
-    left: -0px;
-  right: auto;
-  transform: none;     /* Pas de translation */
-  min-width: 80px;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #fff;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.nav-item:hover > .one-column {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-
-.dropdown-submenu a.always-black {
-  color: #111 !important;
-}
-
-.dropdown-submenu a.always-black:hover {
-  color: #111 !important;
-}
-
-
-.toggle-mode {
-    display: flex;
-    align-items: center;
-    gap: 0px;
-    font-size: 13px;
-    color: #fff !important;
-    margin-left: auto;
-  }
-
-  label {
-    display: inline-block;
-    margin-bottom: 0px !important;
-  }
-
-  .mode-option {
-    min-width: 50px;
-    color: #fff;
-    text-align: center;
-    opacity: 0.6;
-    transition: opacity 0.3s, color 0.3s;
-  }
-
-  .mode-option-active {
-    text-decoration: underline;
-    font-weight: bold;
-  }
-
-  .kapsul-switch {
-    position: relative;
-    width: 46px;
-    height: 24px;
-    display: inline-block;
-  }
-
-  .kapsul-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .kapsul-switch .slider {
-    background-color: #fff;
-    border: 1px solid #191919;
-    border-radius: 24px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    cursor: pointer;
-    transition: background-color 0.4s;
-  }
-
-  .kapsul-switch .slider:before {
-    content: "";
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    background-color: #f93d3a;
-    border-radius: 50%;
-    left: 3px;
-    bottom: 2px;
-    transition: transform 0.4s;
-  }
-
-  .kapsul-switch input:checked + .slider:before {
-    transform: translateX(22px);
-  }
-
+    .toggle-mode {
+      display: flex;
+      align-items: center;
+      gap: 0px;
+      font-size: 13px;
+      color: #fff !important;
+      margin-left: auto;
+    }
   </style>
 </head>
 <body>
@@ -417,40 +339,80 @@ a {
        <div class="nav-item">
       <a href="#">All <span class="chevron">▼</span></a>
       <div class="dropdown-submenu">
-  <div class="columns">
-    <div class="column">
-      <div class="category-title">Régions</div>
-      <a href="#">Bordeaux</a>
-      <a href="#">Bourgogne</a>
-      ...
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Domaines</div>
+            <a href="#">Olivier Leflaive</a>
+            <a href="#">Albert Bichot</a>
+            <a href="#">Clos de Tart</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Appellations</div>
+            <a href="#">Beaune</a>
+            <a href="#">Chablis</a>
+            <a href="#">Corton</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Classements</div>
+            <a href="#">Grand Cru</a>
+            <a href="#">1er Cru</a>
+            <a href="#">Village</a>
+          </div>
+        </div>
+        <div class="mini-tag">Découvrez nos meilleures sélections</div>
+      </div>
     </div>
-    <div class="column">
-      <div class="category-title">Appellations</div>
-      <a href="#">Saint-Émilion</a>
-      <a href="#">Chablis</a>
+      
+      <div class="nav-item">
+      <a href="#">Bordeaux <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Domaines</div>
+            <a href="#">Olivier Leflaive</a>
+            <a href="#">Albert Bichot</a>
+            <a href="#">Clos de Tart</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Appellations</div>
+            <a href="#">Beaune</a>
+            <a href="#">Chablis</a>
+            <a href="#">Corton</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Classements</div>
+            <a href="#">Grand Cru</a>
+            <a href="#">1er Cru</a>
+            <a href="#">Village</a>
+          </div>
+        </div>
+        <div class="mini-tag">Découvrez nos meilleures sélections</div>
+      </div>
     </div>
-    <div class="column">
-      <div class="category-title">Formats</div>
-      <a href="#">Magnum</a>
-      <a href="#">Jéroboam</a>
-    </div>
-    <div class="column">
-      <div class="category-title">Couleurs</div>
-      <a href="#">Rouge</a>
-      <a href="#">Blanc</a>
-    </div>
-    <div class="column">
-      <div class="category-title">Prix</div>
-      <a href="#">Moins de 20€</a>
-      <a href="#">20€ - 50€</a>
-    </div>
-    <div class="column">
-      <div class="category-title">Sélections</div>
-      <a href="#">Bio</a>
-      <a href="#">Millésimes rares</a>
-    </div>
-  </div>
-</div>
+    
+    <div class="nav-item">
+      <a href="#">Bourgogne <span class="chevron">▼</span></a>
+      <div class="dropdown-submenu">
+        <div class="columns">
+          <div class="column">
+            <div class="category-title">Domaines</div>
+            <a href="#">Olivier Leflaive</a>
+            <a href="#">Albert Bichot</a>
+            <a href="#">Clos de Tart</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Appellations</div>
+            <a href="#">Beaune</a>
+            <a href="#">Chablis</a>
+            <a href="#">Corton</a>
+          </div>
+          <div class="column">
+            <div class="category-title">Classements</div>
+            <a href="#">Grand Cru</a>
+            <a href="#">1er Cru</a>
+            <a href="#">Village</a>
+          </div>
+        </div>
         <div class="mini-tag">Découvrez nos meilleures sélections</div>
       </div>
     </div>
