@@ -1,19 +1,27 @@
-// Expose globally for Softr
+// Global exposure for Softr
 window.initializeLocalCartSystem = function () {
   console.log("🛒 Initializing local cart system...");
 
   const buttons = document.querySelectorAll(".custom-add-to-cart-button");
   if (!buttons.length) {
-    console.log("⚠️ No buttons found, waiting for DOM via observer...");
+    console.log("⚠️ No buttons found. Waiting for DOM via observer...");
     return;
   }
+
+  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
   buttons.forEach(button => {
     const productID = button.getAttribute("data-product-id");
     const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
+    // Reflect state from localStorage
+    if (cart[productID]) {
+      button.textContent = "In your cart";
+      button.classList.add("in-cart");
+    }
+
+    // Only attach event listener once
     if (!button.dataset.listenerAdded) {
-      console.log("🎯 Attaching click handler to:", productID);
       button.addEventListener("click", (event) => {
         event.preventDefault();
         window.openLocalCartModal(button, productID, maxQuantity);
@@ -28,13 +36,13 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
   if (existingModal) existingModal.remove();
 
   const cart = JSON.parse(localStorage.getItem("localCart")) || {};
-  const alreadyInCart = cart[productID] ? true : false;
-  const currentQuantity = alreadyInCart ? cart[productID].quantity : 1;
+  const isInCart = cart[productID] ? true : false;
+  const currentQuantity = isInCart ? cart[productID].quantity : 1;
 
   const modalHTML = `
     <div id="cart-modal" class="cart-modal-overlay">
       <div class="cart-modal-content">
-        <h2>${alreadyInCart ? "Update Quantity" : "Add to Cart"}</h2>
+        <h2>${isInCart ? "Update Quantity" : "Add to Cart"}</h2>
         <p>📦 Available quantity: ${maxQuantity}<br>🆔 Product ID: ${productID}</p>
         <label for="cart-quantity">Quantity (max ${maxQuantity}):</label>
         <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="${currentQuantity}">
@@ -55,8 +63,6 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
       return;
     }
     window.addToLocalCart(button, productID, quantity);
-    button.textContent = "In Cart";
-    button.classList.add("in-cart");
     document.getElementById("cart-modal").remove();
   });
 
@@ -90,14 +96,18 @@ window.addToLocalCart = function (button, productID, quantity) {
 
   localStorage.setItem("localCart", JSON.stringify(cart));
   console.log("🛒 Cart updated:", cart);
+
+  // Update button UI
+  button.textContent = "In your cart";
+  button.classList.add("in-cart");
 };
 
-// Auto init on DOM + DOM observer + fallback timeout
+// Auto-init and DOM observer
 function waitAndObserveCartButtons() {
-  window.initializeLocalCartSystem(); // Initial run
+  window.initializeLocalCartSystem();
 
   const observer = new MutationObserver(() => {
-    window.initializeLocalCartSystem(); // Run again if DOM changes
+    window.initializeLocalCartSystem();
   });
 
   observer.observe(document.body, {
@@ -106,10 +116,9 @@ function waitAndObserveCartButtons() {
   });
 
   setTimeout(() => {
-    console.log("⏳ Forcing re-init after timeout...");
+    console.log("⏳ Forced re-initialization after timeout...");
     window.initializeLocalCartSystem();
   }, 1500);
 }
 
-// When DOM is ready
 document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
