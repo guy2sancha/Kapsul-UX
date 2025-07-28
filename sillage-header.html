@@ -1,22 +1,20 @@
- <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kapsul Header with Country Selector</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    .curator-buttons {
-  display: flex;
-  gap: 12px;
-}
     a {
       color: #000;
       text-decoration: none;
       background-color: transparent;
     }
 
-    .toggle-mode a {
-      color: grey !important;
-    }
-
-    /* =====================
-       Bandeau supérieur (Ticker)
-    ===================== */
     #kapsul-ticker-bar {
       background: #071426;
       color: #fff;
@@ -25,7 +23,8 @@
       font-weight: 500;
       padding: 10px 20px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
       position: fixed;
       top: 0;
       left: 0;
@@ -33,29 +32,25 @@
       z-index: 9999;
     }
 
-    .ticker-inner {
+    .curator-buttons {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      gap: 20px;
+      gap: 12px;
     }
 
-    .mini-tag {
-      background: #D4AF37;
-      color: #fff;
+    .country-selector select {
+      background-color: transparent;
+      border: 1px solid #fff;
+      color: #fffff0;
+      padding: 6px 10px;
       font-size: 14px;
-      font-weight: 300;
-      padding: 0 5px;
-      border-radius: 999px;
-      margin-top: 30px;
-      display: none;
-      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
-    /* =====================
-       Header principal
-    ===================== */
+    .country-selector select option {
+      color: #111;
+    }
+
     #customHeader {
       position: fixed;
       top: 36px;
@@ -86,9 +81,6 @@
       height: 80px;
     }
 
-    /* =====================
-       Navigation (gauche)
-    ===================== */
     .nav-links {
       display: flex;
       font-size: 16px;
@@ -112,85 +104,6 @@
       color: #D4AF37;
     }
 
-    .nav-item {
-      position: relative;
-    }
-
-    .chevron {
-      font-size: 10px;
-      margin-left: 4px;
-      transition: transform 0.3s ease;
-    }
-
-    .nav-item:hover .chevron {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-submenu {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      pointer-events: none;
-      background-color: #fff;
-      padding: 30px;
-         padding-top: 50px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  z-index: 999;
-      width: 100vw;
-      left: 0;
-      right: 0;
-     position: fixed;
-  left: 0;
-  width: 100vw;
-    }
-
-    .nav-item:hover > .dropdown-submenu {
-      display: flex;
-      flex-direction: column;
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .dropdown-submenu .columns {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 30px;
-      width: 100%;
-    }
-
-    .dropdown-submenu .column {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-    }
-
-    .dropdown-submenu .column + .column {
-      border-left: 1px solid #e0e0e0;
-      padding-left: 20px;
-    }
-
-    .dropdown-submenu a {
-      font-size: 12px;
-      padding: 6px 0;
-      color: #111;
-      transition: color 0.3s;
-    }
-
-    .dropdown-submenu a:hover {
-      color: #D4AF37;
-    }
-
-    .category-title {
-      font-weight: bold;
-      text-decoration: underline;
-      font-style: italic;
-      font-size: 0.8em;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    /* Zone droite (user-actions) */
     .user-actions {
       display: flex;
       align-items: center;
@@ -202,7 +115,6 @@
     .user-actions a {
       color: #fffff0;
       font-weight: 500;
-      padding: 0px 0px;
       display: flex;
       align-items: center;
       transition: color 0.3s ease;
@@ -210,12 +122,6 @@
 
     .user-actions a:hover {
       color: #D4AF37;
-    }
-
-    .user-actions .nav-links2 {
-      display: flex;
-      align-items: center;
-      gap: 15px;
     }
 
     .icon-size {
@@ -233,370 +139,86 @@
       color: #D4AF37;
     }
 
-    .profile-container {
-      position: relative;
-    }
-
-    .profile-button {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      padding: 5px;
-    }
-
-    .profile-button i {
-      font-size: 20px;
-      color: #fffff0;
-    }
-
-    .profile-button:hover i {
-      color: #D4AF37;
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      left: -100px;
-      background: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .modal {
       display: none;
-      flex-direction: column;
-      padding: 10px 0;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
-    .dropdown-menu a {
-      text-decoration: none;
-      color: #333;
-      padding: 0px 0px;
-      display: block;
-      font-size: 14px;
-      transition: background 0.2s;
-    }
-
-    .dropdown-menu a:hover {
-      background: #f0f0f0;
-    }
-
-    .dropdown-menu.show {
-      display: flex;
-    }
-
-    .nav-item .one-column {
-      position: absolute;
-      top: 100%;
-      left: -0px;
-      right: auto;
-      transform: none;
-      min-width: 80px;
-      padding: 10px;
-      border-radius: 8px;
+    .modal-content {
       background-color: #fff;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
     }
 
-    .nav-item:hover > .one-column {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .dropdown-submenu a.always-black {
-      color: #111 !important;
-    }
-
-    .dropdown-submenu a.always-black:hover {
-      color: #111 !important;
-    }
-
-    .toggle-mode {
-      display: flex;
-      align-items: center;
-      gap: 0px;
-      font-size: 13px;
-      color: #fff !important;
-      margin-left: auto;
+    .modal-actions a {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #081326;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-
-<div id="kapsul-ticker-bar">
-  <div class="ticker-inner">
-<div class="curator-buttons">
-<a href="#" id="triggerNewsletterModal" class="outline-btn">Subscribe to our weekly newsletter</a>
-</div>
-    <div class="toggle-mode">
-  <a href="/" class="mode-option-active left" id="labelExport">Discover</a>
-  <label class="kapsul-switch">
-    <input type="checkbox" id="modeToggle">
-    <span class="slider"></span>
-  </label>
-  <a href="/business" class="mode-option right" id="labelImport">Shop</a>
-</div>
-  </div>
-</div>
-
-<div id="customHeader">
-  <div class="logo-container">
-    <a href="/"><img src="https://sillage.b-cdn.net/KAPSUL%201200x400%20(19).png" alt="Logo Harmony" /></a>
-  </div>
-
- <nav class="nav-links">
-
-  <!-- Menu ALL -->
-  <div class="nav-item">
-    <a href="#">All <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <div class="columns">
-        <div class="column">
-          <div class="category-title">生産地から探す</div>
-        <a href="/bordeaux">ボルドー</a>
-<a href="/bourgogne">ブルゴーニュ</a>
-<a href="/rhone">ローヌ</a>
-<a href="/champagne">シャンパーニュ</a>
-<a href="/loire">ロワール</a>
-<a href="/languedoc">ラングドック</a>
-<a href="/roussillon">ルーション</a>
-<a href="/alsace">アルザス</a>
-<a href="/jura">ジュラ</a>
-<a href="/beaujolais">ボジョレー</a>
-<a href="/provence">プロヴァンス</a>
-<a href="/corse">コルス</a>
-<a href="/savoie">サヴォワ</a>
-<a href="/sud-ouest">南西地方</a>
-        </div>
-        <div class="column">
-          <div class="category-title">色・タイプから探す</div>
-          <a href="/red-wine">赤ワイン</a>
-<a href="/white-wine">白ワイン</a>
-<a href="/sparkling-wine">スパークリングワイン</a>
-<a href="/rose-wine">ロゼワイン</a>
-<a href="/orange-wine">オレンジワイン</a>
-<a href="/sweet-wine">甘口ワイン</a>
-
-        </div>  
-        <div class="column">
-          <div class="category-title">サイズ</div>
-          <a href="/format/demi-bouteille">ハーフボトル</a>
-<a href="/format/bouteille">ボトル</a>
-<a href="/format/magnum">マグナム 1.5L</a>
-<a href="/format/double-magnum">ダブルマグナム 3L</a>
-
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Magnum</a>
-          <a href="#">Bouteille</a>
-          <a href="#">Jéroboam</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Couleurs</div>
-          <a href="#">Rouge</a>
-          <a href="#">Blanc</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Offres</div>
-          <a href="#">Nouveautés</a>
-          <a href="#">Promotions</a>
-          <a href="#">Cadeaux</a>
-        </div>
-      </div>
-      <div class="mini-tag">Découvrez nos meilleures sélections</div>
+  <div id="kapsul-ticker-bar">
+    <div class="curator-buttons">
+      <a href="#" id="triggerNewsletterModal" class="outline-btn">Subscribe to our weekly newsletter</a>
+    </div>
+    <div class="country-selector">
+      <select onchange="window.location.href=this.value">
+        <option value="/ja">🇯🇵 Japon – JPY</option>
+        <option value="/fr">🇫🇷 France – EUR</option>
+        <option value="/en">🇺🇸 USA – USD</option>
+        <option value="/en-gb">🇬🇧 UK – GBP</option>
+        <option value="/de">🇩🇪 Allemagne – EUR</option>
+      </select>
     </div>
   </div>
 
-  <!-- Menu BORDEAUX -->
-  <div class="nav-item">
-  <a href="#">Bordeaux <span class="chevron">▼</span></a>
-  <div class="dropdown-submenu">
-    <div class="columns">
-      
-      <div class="column">
-        <div class="category-title">Châteaux</div>
-        <a href="#">Château Margaux</a>
-        <a href="#">Château Latour</a>
-        <a href="#">Château Lafite</a>
-
-        <div class="category-title" style="margin-top: 20px;">Primeurs</div>
-        <a href="#">2021 en prévente</a>
-        <a href="#">Grands noms</a>
-        <a href="#">Petits prix</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Appellations</div>
-        <a href="#">Saint-Émilion</a>
-        <a href="#">Pauillac</a>
-        <a href="#">Pessac-Léognan</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Classements</div>
-        <a href="#">1er Grand Cru</a>
-        <a href="#">2e Cru</a>
-        <a href="#">Cru Bourgeois</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Millésimes</div>
-        <a href="#">2015</a>
-        <a href="#">2018</a>
-        <a href="#">2020</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Formats</div>
-        <a href="#">Bouteille</a>
-        <a href="#">Magnum</a>
-        <a href="#">Impériale</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Sélections</div>
-        <a href="#">Bio</a>
-        <a href="#">Sans soufre</a>
-        <a href="#">Caisse bois</a>
-      </div>
-
+  <div id="customHeader">
+    <div class="logo-container">
+      <a href="/"><img src="https://sillage.b-cdn.net/KAPSUL%201200x400%20(19).png" alt="Logo Harmony"></a>
     </div>
-    <div class="mini-tag">Découvrez nos meilleures sélections</div>
-  </div>
-</div>
 
-  <!-- Menu BOURGOGNE -->
-  <div class="nav-item">
-    <a href="#">Bourgogne <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <div class="columns">
-        <div class="column">
-          <div class="category-title">Domaines</div>
-          <a href="#">Domaine Leroy</a>
-          <a href="#">Domaine Faiveley</a>
-          <a href="#">Domaine Roumier</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Appellations</div>
-          <a href="#">Meursault</a>
-          <a href="#">Puligny-Montrachet</a>
-          <a href="#">Nuits-Saint-Georges</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Classements</div>
-          <a href="#">Grand Cru</a>
-          <a href="#">1er Cru</a>
-          <a href="#">Village</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Couleurs</div>
-          <a href="#">Rouge</a>
-          <a href="#">Blanc</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Bouteille</a>
-          <a href="#">Magnum</a>
-          <a href="#">Demi-bouteille</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Par type</div>
-          <a href="#">Élevé en fût</a>
-          <a href="#">Sans soufre</a>
-          <a href="#">Vieux millésimes</a>
-        </div>
+    <nav class="nav-links">
+      <a href="#">All</a>
+      <a href="#">Bordeaux</a>
+      <a href="#">Bourgogne</a>
+      <a href="#">Champagne</a>
+    </nav>
+
+    <div class="user-actions">
+      <a href="/map">About</a>
+      <div class="cart-container">
+        <a href="/cart" onclick="showModal('cartModal', event)">
+          <i class="fa-solid fa-cart-shopping icon-size"></i>
+        </a>
       </div>
-      <div class="mini-tag">Découvrez nos meilleures sélections</div>
     </div>
   </div>
 
-  <!-- Menu CHAMPAGNE -->
-  <div class="nav-item">
-    <a href="#">Champagne <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <div class="columns">
-        <div class="column">
-          <div class="category-title">Maisons</div>
-          <a href="#">Moët & Chandon</a>
-          <a href="#">Bollinger</a>
-          <a href="#">Ruinart</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Types</div>
-          <a href="#">Brut</a>
-          <a href="#">Extra-Brut</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Demi-bouteille</a>
-          <a href="#">Bouteille</a>
-          <a href="#">Magnum</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Moments</div>
-          <a href="#">Mariage</a>
-          <a href="#">Réception</a>
-          <a href="#">Cadeaux</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Sélections</div>
-          <a href="#">Millésimé</a>
-          <a href="#">Prestige</a>
-          <a href="#">Bio</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Accessoires</div>
-          <a href="#">Seaux</a>
-          <a href="#">Coffrets</a>
-          <a href="#">Verres</a>
-        </div>
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <h2>Please Login or Signup</h2>
+      <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
+      <div class="modal-actions">
+        <a href="/sign-in" class="modal-button">Login</a>
+        <a href="/register" class="modal-button">Sign Up</a>
       </div>
-      <div class="mini-tag">Célébrez avec nos Champagnes</div>
     </div>
   </div>
-
-</nav>
-
-
-  <!-- Zone user-actions -->
-<div class="user-actions">
-  <div class="nav-links2">
-    <a href="/map">About</a>
-
-    <div class="cart-container">
-      <a href="/cart" onclick="showModal('cartModal', event)">
-        <i class="fa-solid fa-cart-shopping icon-size"></i>
-      </a>
-    </div> <!-- Fin cart-container -->
-
-    <!-- Déplacement du menu ENG après cart-container -->
-    <div class="nav-item">
-      <a href="/events">日本語<span class="chevron">▼</span></a>
-      <div class="dropdown-submenu one-column">
-        <div class="column">
-          <a href="/events/circle" class="always-black">
-            <span class="icon">EN - ¥
-          </a>
-        </div> <!-- Fin column -->
-      </div> <!-- Fin dropdown-submenu -->
-    </div> <!-- Fin nav-item -->
-
-  </div> <!-- Fin nav-links2 -->
-</div> <!-- Fin user-actions -->
-
-<!-- Modale panier -->
-<div id="cartModal" class="modal">
-  <div class="modal-content">
-    <h2>Please Login or Signup</h2>
-    <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
-    <div class="modal-actions">
-      <a href="/sign-in" class="modal-button">Login</a>
-      <a href="/register" class="modal-button">Sign Up</a>
-    </div>
-  </div>
-</div>
+</body>
+</html>
