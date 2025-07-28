@@ -1,508 +1,153 @@
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+// Expose globally for Softr
+window.initializeLocalCartSystem = function () {
+  try {
+    console.log("🛒 Initializing local cart system...");
 
-    a {
-      color: #000;
-      text-decoration: none;
-      background-color: transparent;
-    }
+    const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
+    const cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
-    #kapsul-ticker-bar {
-      background: #071426;
-      color: #fff;
-      font-family: 'jost', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 10px 20px;
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-    }
+    buttons.forEach(button => {
+      if (!button || button.dataset.listenerAdded === "true") return;
 
-    .curator-buttons {
-      display: flex;
-      gap: 12px;
-    }
+      const productID = button.getAttribute("data-product-id");
+      if (!productID) return;
 
-    .country-selector select {
-      background-color: transparent;
-      border: 1px solid #fff;
-      color: #fffff0;
-      padding: 6px 10px;
-      font-size: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+      // Met à jour le bouton s'il est déjà dans le panier
+      if (cart[productID]) {
+        button.textContent = "In Cart";
+        button.classList.add("in-cart");
+      }
 
-    .country-selector select option {
-      color: #111;
-    }
+      const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
-    #customHeader {
-      position: fixed;
-      top: 36px;
-      left: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 25px 2%;
-      border-bottom: 1px solid transparent;
-      z-index: 1000;
-      transition: background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
-    }
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.openLocalCartModal(button, productID, maxQuantity);
+      });
 
-    #customHeader.scrolled {
-      background-color: #081326;
-      border-bottom: 1px solid #081326;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+      button.dataset.listenerAdded = "true";
+    });
+  } catch (err) {
+    console.error("❌ Error in initializeLocalCartSystem:", err);
+  }
+};
 
-    .logo-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
+window.openLocalCartModal = function (button, productID, maxQuantity) {
+  const existingModal = document.getElementById("cart-modal");
+  if (existingModal) existingModal.remove();
 
-    .logo-container img {
-      height: 80px;
-    }
+  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
+  const isInCart = cart[productID] !== undefined;
 
-    .nav-links {
-      display: flex;
-      font-size: 16px;
-      position: absolute;
-      left: 3%;
-      background: #17233b;
-      border-radius: 15px;
-      padding: 5px;
-    }
-
-    .nav-links a {
-      color: #fffff0;
-      font-weight: 300;
-      padding: 10px 15px;
-      display: flex;
-      align-items: center;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: #D4AF37;
-    }
-
-    .nav-item {
-      position: relative;
-    }
-
-    .chevron {
-      font-size: 10px;
-      margin-left: 4px;
-      transition: transform 0.3s ease;
-    }
-
-    .nav-item:hover .chevron {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-submenu {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      pointer-events: none;
-      background-color: #fff;
-      padding: 30px 30px 30px 30px;
-      padding-top: 40px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      z-index: 999;
-      width: 94vw;
-      position: fixed;
-      left: 3%;
-      margin-top: 15px;
-    }
-
-    .nav-item:hover > .dropdown-submenu {
-      display: flex;
-      flex-direction: column;
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .dropdown-submenu .columns {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 30px;
-      width: 100%;
-    }
-
-    .dropdown-submenu .column {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-    }
-
-    .dropdown-submenu .column + .column {
-      border-left: 1px solid #e0e0e0;
-      padding-left: 20px;
-    }
-
-    .dropdown-submenu a {
-      font-size: 12px;
-      padding: 6px 0;
-      color: #111;
-      transition: color 0.3s;
-    }
-
-    .dropdown-submenu a:hover {
-      color: #D4AF37;
-    }
-
-    .category-title {
-      font-weight: bold;
-      text-decoration: underline;
-      font-style: italic;
-      font-size: 0.8em;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .mini-tag {
-      background: #D4AF37;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 300;
-      padding: 0 5px;
-      border-radius: 999px;
-      margin-top: 30px;
-      display: none;
-      text-align: center;
-    }
-
-    .user-actions {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      position: absolute;
-      right: 3%;
-    }
-
-    .user-actions a {
-      color: #fffff0;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      transition: color 0.3s ease;
-    }
-
-    .user-actions a:hover {
-      color: #D4AF37;
-    }
-
-    .icon-size {
-      font-size: 22px;
-      margin-bottom: 3px;
-    }
-
-    .cart-container a {
-      text-decoration: none;
-      color: #fffff0;
-      transition: color 0.3s ease;
-    }
-
-    .cart-container a:hover {
-      color: #D4AF37;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .modal-actions a {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      background-color: #081326;
-      color: #fff;
-      border-radius: 4px;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="kapsul-ticker-bar">
-    <div class="country-selector">
-      <select onchange="window.location.href=this.value">
-        <option value="/ja">🇯🇵 日本 – JPY</option>
-        <option value="/fr">🇫🇷 France – EUR</option>
-        <option value="/en">🇺🇸 USA – USD</option>
-      </select>
-    </div>
-  </div>
-
-  <div id="customHeader">
-    <div class="logo-container">
-      <a href="/"><img src="https://sillage.b-cdn.net/KAPSUL%201200x400%20(19).png" alt="Logo Harmony" /></a>
-    </div>
-
-    <nav class="nav-links">
-      <!-- Menu ALL -->
-      <div class="nav-item">
-        <a href="#">All <span class="chevron">▼</span></a>
-        <div class="dropdown-submenu">
-          <div class="columns">
-         <div class="column">
-          <div class="category-title">生産地から探す</div>
-        <a href="/bordeaux">ボルドー</a>
-<a href="/bourgogne">ブルゴーニュ</a>
-<a href="/rhone">ローヌ</a>
-<a href="/champagne">シャンパーニュ</a>
-<a href="/loire">ロワール</a>
-<a href="/languedoc">ラングドック</a>
-<a href="/roussillon">ルーション</a>
-<a href="/alsace">アルザス</a>
-<a href="/jura">ジュラ</a>
-<a href="/beaujolais">ボジョレー</a>
-<a href="/provence">プロヴァンス</a>
-<a href="/corse">コルス</a>
-<a href="/savoie">サヴォワ</a>
-<a href="/sud-ouest">南西地方</a>
+  const modalHTML = `
+    <div id="cart-modal" class="cart-modal-overlay">
+      <div class="cart-modal-content">
+        <h2>Add to Cart</h2>
+        ${isInCart ? `<p style="color: #28a745; font-weight: bold;">✔️ In your cart</p>` : ""}
+        <label for="cart-quantity">Quantity (max ${maxQuantity}):</label>
+        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1">
+        <div class="cart-modal-actions">
+          <button id="submit-cart" class="confirm">Confirm</button>
+          <button id="close-cart" class="cancel">Cancel</button>
         </div>
-        <div class="column">
-          <div class="category-title">色・タイプから探す</div>
-          <a href="/red-wine">赤ワイン</a>
-<a href="/white-wine">白ワイン</a>
-<a href="/sparkling-wine">スパークリングワイン</a>
-<a href="/rose-wine">ロゼワイン</a>
-<a href="/orange-wine">オレンジワイン</a>
-<a href="/sweet-wine">甘口ワイン</a>
-
-        </div>  
-        <div class="column">
-          <div class="category-title">サイズ</div>
-          <a href="/format/demi-bouteille">ハーフボトル</a>
-<a href="/format/bouteille">ボトル</a>
-<a href="/format/magnum">マグナム 1.5L</a>
-<a href="/format/double-magnum">ダブルマグナム 3L</a>
-
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Magnum</a>
-          <a href="#">Bouteille</a>
-          <a href="#">Jéroboam</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Couleurs</div>
-          <a href="#">Rouge</a>
-          <a href="#">Blanc</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Offres</div>
-          <a href="#">Nouveautés</a>
-          <a href="#">Promotions</a>
-          <a href="#">Cadeaux</a>
-        </div>
-          </div>
-          <div class="mini-tag">Découvrez nos meilleures sélections</div>
-        </div>
-      </div>
-
-      <!-- Menu BORDEAUX -->
-      <div class="nav-item">
-        <a href="#">Bordeaux <span class="chevron">▼</span></a>
-        <div class="dropdown-submenu">
-          <div class="columns">
-            <div class="column">
-        <div class="category-title">Châteaux</div>
-        <a href="#">Château Margaux</a>
-        <a href="#">Château Latour</a>
-        <a href="#">Château Lafite</a>
-
-        <div class="category-title" style="margin-top: 20px;">Primeurs</div>
-        <a href="#">2021 en prévente</a>
-        <a href="#">Grands noms</a>
-        <a href="#">Petits prix</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Appellations</div>
-        <a href="#">Saint-Émilion</a>
-        <a href="#">Pauillac</a>
-        <a href="#">Pessac-Léognan</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Classements</div>
-        <a href="#">1er Grand Cru</a>
-        <a href="#">2e Cru</a>
-        <a href="#">Cru Bourgeois</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Millésimes</div>
-        <a href="#">2015</a>
-        <a href="#">2018</a>
-        <a href="#">2020</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Formats</div>
-        <a href="#">Bouteille</a>
-        <a href="#">Magnum</a>
-        <a href="#">Impériale</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Sélections</div>
-        <a href="#">Bio</a>
-        <a href="#">Sans soufre</a>
-        <a href="#">Caisse bois</a>
-      </div>
-          </div>
-          <div class="mini-tag">Découvrez nos meilleures sélections</div>
-        </div>
-      </div>
-
-      <!-- Menu BOURGOGNE -->
-      <div class="nav-item">
-        <a href="#">Bourgogne <span class="chevron">▼</span></a>
-        <div class="dropdown-submenu">
-          <div class="columns">
-           <div class="column">
-          <div class="category-title">Domaines</div>
-          <a href="#">Domaine Leroy</a>
-          <a href="#">Domaine Faiveley</a>
-          <a href="#">Domaine Roumier</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Appellations</div>
-          <a href="#">Meursault</a>
-          <a href="#">Puligny-Montrachet</a>
-          <a href="#">Nuits-Saint-Georges</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Classements</div>
-          <a href="#">Grand Cru</a>
-          <a href="#">1er Cru</a>
-          <a href="#">Village</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Couleurs</div>
-          <a href="#">Rouge</a>
-          <a href="#">Blanc</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Bouteille</a>
-          <a href="#">Magnum</a>
-          <a href="#">Demi-bouteille</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Par type</div>
-          <a href="#">Élevé en fût</a>
-          <a href="#">Sans soufre</a>
-          <a href="#">Vieux millésimes</a>
-        </div>
-          </div>
-          <div class="mini-tag">Découvrez nos meilleures sélections</div>
-        </div>
-      </div>
-
-      <!-- Menu CHAMPAGNE -->
-      <div class="nav-item">
-        <a href="#">Champagne <span class="chevron">▼</span></a>
-        <div class="dropdown-submenu">
-          <div class="columns">
-            <div class="column">
-          <div class="category-title">Maisons</div>
-          <a href="#">Moët & Chandon</a>
-          <a href="#">Bollinger</a>
-          <a href="#">Ruinart</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Types</div>
-          <a href="#">Brut</a>
-          <a href="#">Extra-Brut</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Demi-bouteille</a>
-          <a href="#">Bouteille</a>
-          <a href="#">Magnum</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Moments</div>
-          <a href="#">Mariage</a>
-          <a href="#">Réception</a>
-          <a href="#">Cadeaux</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Sélections</div>
-          <a href="#">Millésimé</a>
-          <a href="#">Prestige</a>
-          <a href="#">Bio</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Accessoires</div>
-          <a href="#">Seaux</a>
-          <a href="#">Coffrets</a>
-          <a href="#">Verres</a>
-        </div>
-          </div>
-          <div class="mini-tag">Célébrez avec nos Champagnes</div>
-        </div>
-      </div>
-    </nav>
-
-    <div class="user-actions">
-      <a href="/map">About</a>
-      <div class="cart-container">
-        <a href="/cart" onclick="showModal('cartModal', event)">
-          <i class="fa-solid fa-cart-shopping icon-size"></i>
-        </a>
       </div>
     </div>
-  </div>
+  `;
 
-  <div id="cartModal" class="modal">
-    <div class="modal-content">
-      <h2>Please Login or Signup</h2>
-      <p>If you want to access Marketplace functionality, please log in to your account or create a new one with Kapsul.</p>
-      <div class="modal-actions">
-        <a href="/sign-in" class="modal-button">Login</a>
-        <a href="/register" class="modal-button">Sign Up</a>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+  document.getElementById("submit-cart").addEventListener("click", () => {
+    const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
+    if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
+      alert("Invalid quantity.");
+      return;
+    }
+
+    window.addToLocalCart(button, productID, quantity);
+
+    const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
+    if (liveButton && liveButton.classList) {
+      liveButton.textContent = "In Cart";
+      liveButton.classList.add("in-cart");
+    }
+
+    document.getElementById("cart-modal")?.remove();
+  });
+
+  document.getElementById("close-cart").addEventListener("click", () => {
+    document.getElementById("cart-modal")?.remove();
+  });
+};
+
+window.addToLocalCart = function (button, productID, quantity) {
+  let cart = JSON.parse(localStorage.getItem("localCart")) || {};
+
+  const name = button.getAttribute("data-name") || "";
+  const price = button.getAttribute("data-price") || "";
+  const image = button.getAttribute("data-image") || "";
+  const size = button.getAttribute("data-size") || "";
+  const condition = button.getAttribute("data-condition") || "";
+  const seller = button.getAttribute("data-sold-by") || "";
+  const freeShipping = button.getAttribute("data-free-shipping") === "true";
+
+  cart[productID] = {
+    id: productID,
+    name,
+    price,
+    image,
+    size,
+    condition,
+    seller,
+    freeShipping,
+    quantity
+  };
+
+  try {
+    localStorage.setItem("localCart", JSON.stringify(cart));
+    console.log("🛒 Cart updated:", cart);
+  } catch (err) {
+    console.error("❌ Failed to write to localStorage:", err);
+  }
+};
+
+// SPA navigation observer
+(function () {
+  let lastUrl = location.href;
+
+  function reinitCartSystem() {
+    console.log("🔁 Checking for cart re-init...");
+    setTimeout(() => {
+      if (window.initializeLocalCartSystem) {
+        window.initializeLocalCartSystem();
+      } else {
+        console.warn("⚠️ initializeLocalCartSystem not available yet.");
+      }
+    }, 600);
+  }
+
+  reinitCartSystem();
+
+  const observer = new MutationObserver(() => {
+    if (location.href !== lastUrl) {
+      lastUrl = location.href;
+      console.log("🌐 URL change detected, re-initializing cart system...");
+      reinitCartSystem();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+// Local DOM observer to wait for delayed button rendering (Softr + Airtable HTML)
+(function observeCartButtons() {
+  const observer = new MutationObserver(() => {
+    window.initializeLocalCartSystem();
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  setTimeout(() => {
+    console.log("⏳ Forcing cart init after timeout...");
+    window.initializeLocalCartSystem();
+  }, 1000);
+})();
