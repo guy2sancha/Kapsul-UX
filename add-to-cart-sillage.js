@@ -111,3 +111,25 @@ function waitAndObserveCartButtons() {
 }
 
 document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
+
+
+(function () {
+  let currentUrl = location.href;
+
+  const observeUrlChange = () => {
+    const observer = new MutationObserver(() => {
+      if (location.href !== currentUrl) {
+        currentUrl = location.href;
+        console.log("🔄 Changement de page détecté, re-init du panier...");
+        setTimeout(() => {
+          window.initializeLocalCartSystem();
+        }, 500); // petit délai pour que le DOM soit prêt
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
+
+  observeUrlChange();
+})();
+
