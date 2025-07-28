@@ -3,7 +3,7 @@ window.initializeLocalCartSystem = function () {
   try {
     console.log("🛒 Initializing local cart system...");
 
-    const buttons = document.querySelectorAll(".custom-add-to-cart-button");
+const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
     if (!buttons.length) {
       console.log("⚠️ No buttons found, waiting for DOM via observer...");
       return;
