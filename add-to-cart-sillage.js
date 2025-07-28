@@ -1,25 +1,35 @@
 // Expose globally for Softr
 window.initializeLocalCartSystem = function () {
-  console.log("🛒 Initializing local cart system...");
+  try {
+    console.log("🛒 Initializing local cart system...");
 
-  const buttons = document.querySelectorAll(".custom-add-to-cart-button");
-  if (!buttons.length) {
-    console.log("⚠️ No buttons found, waiting for DOM via observer...");
-    return;
-  }
+    const buttons = document.querySelectorAll(".custom-add-to-cart-button");
+    if (!buttons.length) {
+      console.log("⚠️ No buttons found, waiting for DOM via observer...");
+      return;
+    }
 
-  buttons.forEach(button => {
-    if (!button || button.dataset.listenerAdded === "true") return;
+    buttons.forEach(button => {
+      if (!button || button.dataset.listenerAdded === "true") return;
 
-    const productID = button.getAttribute("data-product-id");
-    const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
+      const productID = button.getAttribute("data-product-id");
+      if (!productID) {
+        console.warn("⛔ Missing data-product-id on button:", button);
+        return;
+      }
 
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      window.openLocalCartModal(button, productID, maxQuantity);
+      const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
+
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.openLocalCartModal(button, productID, maxQuantity);
+      });
+
+      button.dataset.listenerAdded = "true";
     });
-    button.dataset.listenerAdded = "true";
-  });
+  } catch (err) {
+    console.error("❌ Error in initializeLocalCartSystem:", err);
+  }
 };
 
 window.openLocalCartModal = function (button, productID, maxQuantity) {
@@ -43,27 +53,35 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-  document.getElementById("submit-cart").addEventListener("click", () => {
-    const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
-    if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
-      alert("Invalid quantity.");
-      return;
-    }
+  const quantityInput = document.getElementById("cart-quantity");
+  const submitButton = document.getElementById("submit-cart");
+  const closeButton = document.getElementById("close-cart");
 
-    window.addToLocalCart(button, productID, quantity);
+  if (submitButton) {
+    submitButton.addEventListener("click", () => {
+      const quantity = parseInt(quantityInput.value, 10);
+      if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
+        alert("Invalid quantity.");
+        return;
+      }
 
-    const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
-    if (liveButton && liveButton.classList) {
-      liveButton.textContent = "In Cart";
-      liveButton.classList.add("in-cart");
-    }
+      window.addToLocalCart(button, productID, quantity);
 
-    document.getElementById("cart-modal").remove();
-  });
+      const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
+      if (liveButton && liveButton.classList) {
+        liveButton.textContent = "In Cart";
+        liveButton.classList.add("in-cart");
+      }
 
-  document.getElementById("close-cart").addEventListener("click", () => {
-    document.getElementById("cart-modal").remove();
-  });
+      document.getElementById("cart-modal")?.remove();
+    });
+  }
+
+  if (closeButton) {
+    closeButton.addEventListener("click", () => {
+      document.getElementById("cart-modal")?.remove();
+    });
+  }
 };
 
 window.addToLocalCart = function (button, productID, quantity) {
