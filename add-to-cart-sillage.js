@@ -9,16 +9,16 @@ window.initializeLocalCartSystem = function () {
   }
 
   buttons.forEach(button => {
+    if (!button || button.dataset.listenerAdded === "true") return;
+
     const productID = button.getAttribute("data-product-id");
     const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
-    if (!button.dataset.listenerAdded) {
-      button.addEventListener("click", (event) => {
-        event.preventDefault();
-        window.openLocalCartModal(button, productID, maxQuantity);
-      });
-      button.dataset.listenerAdded = "true";
-    }
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.openLocalCartModal(button, productID, maxQuantity);
+    });
+    button.dataset.listenerAdded = "true";
   });
 };
 
@@ -45,16 +45,19 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
 
   document.getElementById("submit-cart").addEventListener("click", () => {
     const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
-    if (quantity < 1 || quantity > maxQuantity) {
+    if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
       alert("Invalid quantity.");
       return;
     }
 
-    // Always add to localStorage regardless of previous state
     window.addToLocalCart(button, productID, quantity);
 
-    button.textContent = "In Cart";
-    button.classList.add("in-cart");
+    // ✅ sécurisé : on vérifie que button existe et a classList
+    if (button && button.classList) {
+      button.textContent = "In Cart";
+      button.classList.add("in-cart");
+    }
+
     document.getElementById("cart-modal").remove();
   });
 
@@ -74,7 +77,6 @@ window.addToLocalCart = function (button, productID, quantity) {
   const seller = button.getAttribute("data-sold-by") || "";
   const freeShipping = button.getAttribute("data-free-shipping") === "true";
 
-  // Just overwrite or add the entry
   cart[productID] = {
     id: productID,
     name,
@@ -87,49 +89,38 @@ window.addToLocalCart = function (button, productID, quantity) {
     quantity
   };
 
-  localStorage.setItem("localCart", JSON.stringify(cart));
-  console.log("🛒 Cart updated:", cart);
+  try {
+    localStorage.setItem("localCart", JSON.stringify(cart));
+    console.log("🛒 Cart updated:", cart);
+  } catch (err) {
+    console.error("❌ Failed to write to localStorage:", err);
+  }
 };
 
-// DOM ready + observer
-function waitAndObserveCartButtons() {
-  window.initializeLocalCartSystem();
+// Init via SPA-safe listener
+(function () {
+  let lastUrl = location.href;
+
+  function reinitCartSystem() {
+    console.log("🔁 Checking for cart re-init...");
+    setTimeout(() => {
+      if (window.initializeLocalCartSystem) {
+        window.initializeLocalCartSystem();
+      } else {
+        console.warn("⚠️ initializeLocalCartSystem not available yet.");
+      }
+    }, 600);
+  }
+
+  reinitCartSystem();
 
   const observer = new MutationObserver(() => {
-    window.initializeLocalCartSystem();
+    if (location.href !== lastUrl) {
+      lastUrl = location.href;
+      console.log("🌐 URL change detected, re-initializing cart system...");
+      reinitCartSystem();
+    }
   });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
-
-  setTimeout(() => {
-    console.log("⏳ Forcing re-init after timeout...");
-    window.initializeLocalCartSystem();
-  }, 1500);
-}
-
-document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
-
-
-(function () {
-  let currentUrl = location.href;
-
-  const observeUrlChange = () => {
-    const observer = new MutationObserver(() => {
-      if (location.href !== currentUrl) {
-        currentUrl = location.href;
-        console.log("🔄 Changement de page détecté, re-init du panier...");
-        setTimeout(() => {
-          window.initializeLocalCartSystem();
-        }, 500); // petit délai pour que le DOM soit prêt
-      }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-  };
-
-  observeUrlChange();
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
-
