@@ -1,4 +1,8 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
@@ -100,6 +104,93 @@
       color: #D4AF37;
     }
 
+    .nav-item {
+      position: relative;
+    }
+
+    .chevron {
+      font-size: 10px;
+      margin-left: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item:hover .chevron {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-submenu {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+      background-color: #fff;
+      padding: 30px 30px 30px 30px;
+      padding-top: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      width: 100vw;
+      position: fixed;
+      left: 0;
+    }
+
+    .nav-item:hover > .dropdown-submenu {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-submenu .columns {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 30px;
+      width: 100%;
+    }
+
+    .dropdown-submenu .column {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    .dropdown-submenu .column + .column {
+      border-left: 1px solid #e0e0e0;
+      padding-left: 20px;
+    }
+
+    .dropdown-submenu a {
+      font-size: 12px;
+      padding: 6px 0;
+      color: #111;
+      transition: color 0.3s;
+    }
+
+    .dropdown-submenu a:hover {
+      color: #D4AF37;
+    }
+
+    .category-title {
+      font-weight: bold;
+      text-decoration: underline;
+      font-style: italic;
+      font-size: 0.8em;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .mini-tag {
+      background: #D4AF37;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 300;
+      padding: 0 5px;
+      border-radius: 999px;
+      margin-top: 30px;
+      display: none;
+      text-align: center;
+    }
+
     .user-actions {
       display: flex;
       align-items: center;
@@ -179,28 +270,23 @@
         <option value="/de">🇩🇪 Allemagne – EUR</option>
       </select>
     </div>
+    <div class="curator-buttons">
+      <a href="#" id="triggerNewsletterModal" class="outline-btn">Subscribe to our weekly newsletter</a>
+    </div>
   </div>
 
   <div id="customHeader">
     <div class="logo-container">
-      <a href="/"><img src="https://sillage.b-cdn.net/KAPSUL%201200x400%20(19).png" alt="Logo Harmony"></a>
+      <a href="/"><img src="https://sillage.b-cdn.net/KAPSUL%201200x400%20(19).png" alt="Logo Harmony" /></a>
     </div>
 
     <nav class="nav-links">
-      <a href="#">All</a>
-      <a href="#">Bordeaux</a>
-      <a href="#">Bourgogne</a>
-      <a href="#">Champagne</a>
-    </nav>
-
-    <nav class="nav-links">
-
-  <!-- Menu ALL -->
-  <div class="nav-item">
-    <a href="#">All <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <div class="columns">
-        <div class="column">
+      <!-- Menu ALL -->
+      <div class="nav-item">
+        <a href="#">All <span class="chevron">▼</span></a>
+        <div class="dropdown-submenu">
+          <div class="columns">
+         <div class="column">
           <div class="category-title">生産地から探す</div>
         <a href="/bordeaux">ボルドー</a>
 <a href="/bourgogne">ブルゴーニュ</a>
@@ -253,162 +339,44 @@
           <a href="#">Promotions</a>
           <a href="#">Cadeaux</a>
         </div>
-      </div>
-      <div class="mini-tag">Découvrez nos meilleures sélections</div>
-    </div>
-  </div>
-
-  <!-- Menu BORDEAUX -->
-  <div class="nav-item">
-  <a href="#">Bordeaux <span class="chevron">▼</span></a>
-  <div class="dropdown-submenu">
-    <div class="columns">
-      
-      <div class="column">
-        <div class="category-title">Châteaux</div>
-        <a href="#">Château Margaux</a>
-        <a href="#">Château Latour</a>
-        <a href="#">Château Lafite</a>
-
-        <div class="category-title" style="margin-top: 20px;">Primeurs</div>
-        <a href="#">2021 en prévente</a>
-        <a href="#">Grands noms</a>
-        <a href="#">Petits prix</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Appellations</div>
-        <a href="#">Saint-Émilion</a>
-        <a href="#">Pauillac</a>
-        <a href="#">Pessac-Léognan</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Classements</div>
-        <a href="#">1er Grand Cru</a>
-        <a href="#">2e Cru</a>
-        <a href="#">Cru Bourgeois</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Millésimes</div>
-        <a href="#">2015</a>
-        <a href="#">2018</a>
-        <a href="#">2020</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Formats</div>
-        <a href="#">Bouteille</a>
-        <a href="#">Magnum</a>
-        <a href="#">Impériale</a>
-      </div>
-
-      <div class="column">
-        <div class="category-title">Sélections</div>
-        <a href="#">Bio</a>
-        <a href="#">Sans soufre</a>
-        <a href="#">Caisse bois</a>
-      </div>
-
-    </div>
-    <div class="mini-tag">Découvrez nos meilleures sélections</div>
-  </div>
-</div>
-
-  <!-- Menu BOURGOGNE -->
-  <div class="nav-item">
-    <a href="#">Bourgogne <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <div class="columns">
-        <div class="column">
-          <div class="category-title">Domaines</div>
-          <a href="#">Domaine Leroy</a>
-          <a href="#">Domaine Faiveley</a>
-          <a href="#">Domaine Roumier</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Appellations</div>
-          <a href="#">Meursault</a>
-          <a href="#">Puligny-Montrachet</a>
-          <a href="#">Nuits-Saint-Georges</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Classements</div>
-          <a href="#">Grand Cru</a>
-          <a href="#">1er Cru</a>
-          <a href="#">Village</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Couleurs</div>
-          <a href="#">Rouge</a>
-          <a href="#">Blanc</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Bouteille</a>
-          <a href="#">Magnum</a>
-          <a href="#">Demi-bouteille</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Par type</div>
-          <a href="#">Élevé en fût</a>
-          <a href="#">Sans soufre</a>
-          <a href="#">Vieux millésimes</a>
+          </div>
+          <div class="mini-tag">Découvrez nos meilleures sélections</div>
         </div>
       </div>
-      <div class="mini-tag">Découvrez nos meilleures sélections</div>
-    </div>
-  </div>
 
-  <!-- Menu CHAMPAGNE -->
-  <div class="nav-item">
-    <a href="#">Champagne <span class="chevron">▼</span></a>
-    <div class="dropdown-submenu">
-      <div class="columns">
-        <div class="column">
-          <div class="category-title">Maisons</div>
-          <a href="#">Moët & Chandon</a>
-          <a href="#">Bollinger</a>
-          <a href="#">Ruinart</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Types</div>
-          <a href="#">Brut</a>
-          <a href="#">Extra-Brut</a>
-          <a href="#">Rosé</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Formats</div>
-          <a href="#">Demi-bouteille</a>
-          <a href="#">Bouteille</a>
-          <a href="#">Magnum</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Moments</div>
-          <a href="#">Mariage</a>
-          <a href="#">Réception</a>
-          <a href="#">Cadeaux</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Sélections</div>
-          <a href="#">Millésimé</a>
-          <a href="#">Prestige</a>
-          <a href="#">Bio</a>
-        </div>
-        <div class="column">
-          <div class="category-title">Accessoires</div>
-          <a href="#">Seaux</a>
-          <a href="#">Coffrets</a>
-          <a href="#">Verres</a>
+      <!-- Menu BORDEAUX -->
+      <div class="nav-item">
+        <a href="#">Bordeaux <span class="chevron">▼</span></a>
+        <div class="dropdown-submenu">
+          <div class="columns">
+            <!-- ... -->
+          </div>
+          <div class="mini-tag">Découvrez nos meilleures sélections</div>
         </div>
       </div>
-      <div class="mini-tag">Célébrez avec nos Champagnes</div>
-    </div>
-  </div>
 
-</nav>
+      <!-- Menu BOURGOGNE -->
+      <div class="nav-item">
+        <a href="#">Bourgogne <span class="chevron">▼</span></a>
+        <div class="dropdown-submenu">
+          <div class="columns">
+            <!-- ... -->
+          </div>
+          <div class="mini-tag">Découvrez nos meilleures sélections</div>
+        </div>
+      </div>
+
+      <!-- Menu CHAMPAGNE -->
+      <div class="nav-item">
+        <a href="#">Champagne <span class="chevron">▼</span></a>
+        <div class="dropdown-submenu">
+          <div class="columns">
+            <!-- ... -->
+          </div>
+          <div class="mini-tag">Célébrez avec nos Champagnes</div>
+        </div>
+      </div>
+    </nav>
 
     <div class="user-actions">
       <a href="/map">About</a>
