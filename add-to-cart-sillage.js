@@ -52,10 +52,10 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
 
     window.addToLocalCart(button, productID, quantity);
 
-    // ✅ sécurisé : on vérifie que button existe et a classList
-    if (button && button.classList) {
-      button.textContent = "In Cart";
-      button.classList.add("in-cart");
+    const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
+    if (liveButton && liveButton.classList) {
+      liveButton.textContent = "In Cart";
+      liveButton.classList.add("in-cart");
     }
 
     document.getElementById("cart-modal").remove();
@@ -97,7 +97,7 @@ window.addToLocalCart = function (button, productID, quantity) {
   }
 };
 
-// Init via SPA-safe listener
+// SPA navigation observer
 (function () {
   let lastUrl = location.href;
 
@@ -123,4 +123,18 @@ window.addToLocalCart = function (button, productID, quantity) {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+// Local DOM observer to wait for delayed button rendering (Softr + Airtable HTML)
+(function observeCartButtons() {
+  const observer = new MutationObserver(() => {
+    window.initializeLocalCartSystem();
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  setTimeout(() => {
+    console.log("⏳ Forcing cart init after timeout...");
+    window.initializeLocalCartSystem();
+  }, 1000);
 })();
