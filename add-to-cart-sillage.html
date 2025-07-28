@@ -1,154 +1,100 @@
 
 
 <style>
-  .modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-  }
+ /* === CART MODAL OVERLAY === */
+#cart-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
 
-  .modal-content {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    font-family: 'Jost', sans-serif;
-  }
+/* === MODAL BOX === */
+.cart-modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+}
 
-  .modal-content h2 {
-    margin-bottom: 10px;
-    font-size: 24px;
-    font-weight: 600;
-  }
+.cart-modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+}
 
-  .modal-content p {
-    margin-bottom: 20px;
-    font-size: 16px;
-    font-weight: 400;
-  }
+.cart-modal-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 400;
+}
 
-  .modal-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-  }
+.cart-modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
-  .modal-button {
-    flex: 1;
-    padding: 10px 15px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    color: #fff;
-    background-color: #00443F;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-  }
+.cart-modal-content button {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-  .modal-button:hover {
-    background-color: #00675A;
-  }
+/* Confirm and Cancel Buttons */
+.cart-modal-content .confirm {
+  background-color: #0D26FF;
+  color: white;
+}
 
-  /* Option pour afficher la modale avec JS */
-  .modal.show {
-    display: flex;
-  }
+.cart-modal-content .cancel {
+  background-color: #ccc;
+  color: black;
+}
 
-  /* Bouton Add to Cart styling */
-  .custom-add-to-cart-button {
-    width: 50%;
-    background-color: #ffffff;
-    color: #000000;
-    font-family: 'Jost', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 15px;
-    border: 1px solid #000000;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    box-sizing: border-box;
-  }
+/* === ADD TO CART BUTTON === */
+.custom-add-to-cart-button {
+  width: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border: 1px solid #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-sizing: border-box;
+}
 
-  .custom-add-to-cart-button:hover {
-    background-color: #f7f7f7;
-  }
+.custom-add-to-cart-button:hover {
+  background-color: #f7f7f7;
+}
 
-  .custom-add-to-cart-button.in-cart {
-    background-color: #00443F;
-    color: white;
-    border: 1px solid #00443F;
-    cursor: default;
-  }
+.custom-add-to-cart-button.in-cart {
+  background-color: #00443F;
+  color: white;
+  border: 1px solid #00443F;
+  cursor: default;
+}
 
-  .spinner {
-    border: 2px solid transparent;
-    border-top: 2px solid #000000;
-    border-radius: 50%;
-    width: 14px;
-    height: 14px;
-    animation: spin 0.8s linear infinite;
-    display: inline-block;
-    margin-right: 5px;
-  }
+/* Optional disable interaction completely */
+/* .custom-add-to-cart-button.in-cart {
+  pointer-events: none;
+} */
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  #cart-modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-
-  .cart-modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-  }
-
-  .cart-modal-content select, 
-  .cart-modal-content input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-  }
-
-  .cart-modal-content button {
-    width: 100%;
-    padding: 10px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-
-  .cart-modal-content .confirm {
-    background-color: #0D26FF;
-    color: white;
-  }
-
-  .cart-modal-content .cancel {
-    background-color: #ccc;
-    color: black;
-  }
 </style>
