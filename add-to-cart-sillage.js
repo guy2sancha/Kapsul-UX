@@ -1,27 +1,21 @@
-// === INIT CART SYSTEM ===
+// Expose globally for Softr
 window.initializeLocalCartSystem = function () {
   console.log("🛒 Initializing local cart system...");
 
   const buttons = document.querySelectorAll(".custom-add-to-cart-button");
-  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
+  if (!buttons.length) {
+    console.log("⚠️ No buttons found, waiting for DOM via observer...");
+    return;
+  }
 
   buttons.forEach(button => {
     const productID = button.getAttribute("data-product-id");
     const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
-    // Reflect state from localStorage
-    if (cart[productID]) {
-      button.textContent = "In your cart";
-      button.classList.add("in-cart");
-    } else {
-      button.textContent = "Add to Cart";
-      button.classList.remove("in-cart");
-    }
-
-    // Attach click event once
     if (!button.dataset.listenerAdded) {
-      button.addEventListener("click", (e) => {
-        e.preventDefault();
+      console.log("🎯 Attaching click handler to:", productID);
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
         window.openLocalCartModal(button, productID, maxQuantity);
       });
       button.dataset.listenerAdded = "true";
@@ -29,26 +23,24 @@ window.initializeLocalCartSystem = function () {
   });
 };
 
-// === MODAL LOGIC ===
 window.openLocalCartModal = function (button, productID, maxQuantity) {
-  // Remove existing modal
   const existingModal = document.getElementById("cart-modal");
   if (existingModal) existingModal.remove();
 
   const cart = JSON.parse(localStorage.getItem("localCart")) || {};
-  const currentQty = cart[productID]?.quantity || 1;
+  const alreadyInCart = cart[productID] ? true : false;
+  const currentQuantity = alreadyInCart ? cart[productID].quantity : 1;
 
   const modalHTML = `
     <div id="cart-modal" class="cart-modal-overlay">
       <div class="cart-modal-content">
-        <h2>${cart[productID] ? "Update Quantity" : "Add to Cart"}</h2>
-        <p><strong>Available:</strong> ${maxQuantity}</p>
-        <p><strong>Product ID:</strong> ${productID}</p>
+        <h2>${alreadyInCart ? "Update Quantity" : "Add to Cart"}</h2>
+        <p>📦 Available quantity: ${maxQuantity}<br>🆔 Product ID: ${productID}</p>
         <label for="cart-quantity">Quantity (max ${maxQuantity}):</label>
-        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="${currentQty}">
+        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="${currentQuantity}">
         <div class="cart-modal-actions">
-          <button id="submit-cart">Confirm</button>
-          <button id="close-cart">Cancel</button>
+          <button id="submit-cart" class="confirm">Confirm</button>
+          <button id="close-cart" class="cancel">Cancel</button>
         </div>
       </div>
     </div>
@@ -56,24 +48,23 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-  // Confirm
   document.getElementById("submit-cart").addEventListener("click", () => {
-    const qty = parseInt(document.getElementById("cart-quantity").value);
-    if (qty < 1 || qty > maxQuantity) {
-      alert("Invalid quantity");
+    const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
+    if (quantity < 1 || quantity > maxQuantity) {
+      alert("Invalid quantity.");
       return;
     }
-    window.addToLocalCart(button, productID, qty);
+    window.addToLocalCart(button, productID, quantity);
+    button.textContent = "In Cart";
+    button.classList.add("in-cart");
     document.getElementById("cart-modal").remove();
   });
 
-  // Cancel
   document.getElementById("close-cart").addEventListener("click", () => {
     document.getElementById("cart-modal").remove();
   });
 };
 
-// === ADD TO LOCAL STORAGE ===
 window.addToLocalCart = function (button, productID, quantity) {
   let cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
@@ -98,28 +89,27 @@ window.addToLocalCart = function (button, productID, quantity) {
   };
 
   localStorage.setItem("localCart", JSON.stringify(cart));
-
-  // Update UI
-  button.textContent = "In your cart";
-  button.classList.add("in-cart");
-
   console.log("🛒 Cart updated:", cart);
 };
 
-// === OBSERVER + TIMEOUT ===
+// Auto init on DOM + DOM observer + fallback timeout
 function waitAndObserveCartButtons() {
-  window.initializeLocalCartSystem();
+  window.initializeLocalCartSystem(); // Initial run
 
   const observer = new MutationObserver(() => {
-    window.initializeLocalCartSystem();
+    window.initializeLocalCartSystem(); // Run again if DOM changes
   });
 
-  observer.observe(document.body, { childList: true, subtree: true });
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 
   setTimeout(() => {
-    console.log("⏳ Fallback initialization...");
+    console.log("⏳ Forcing re-init after timeout...");
     window.initializeLocalCartSystem();
   }, 1500);
 }
 
+// When DOM is ready
 document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
