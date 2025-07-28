@@ -1,10 +1,10 @@
-// Expose globalement pour Softr
+// Expose globally for Softr
 window.initializeLocalCartSystem = function () {
-  console.log("🛒 Initialisation du panier local...");
+  console.log("🛒 Initializing local cart system...");
 
   const buttons = document.querySelectorAll(".custom-add-to-cart-button");
   if (!buttons.length) {
-    console.log("⚠️ Aucun bouton détecté, attente du DOM via observer...");
+    console.log("⚠️ No buttons found, waiting for DOM via observer...");
     return;
   }
 
@@ -27,15 +27,21 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
   const existingModal = document.getElementById("cart-modal");
   if (existingModal) existingModal.remove();
 
+  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
+  const alreadyInCart = cart[productID] ? true : false;
+  const currentQuantity = alreadyInCart ? cart[productID].quantity : 1;
+
   const modalHTML = `
     <div id="cart-modal" class="cart-modal-overlay">
       <div class="cart-modal-content">
-        <h2>Ajouter au panier</h2>
-        <p>📦 Quantité dispo : ${maxQuantity}<br>🆔 Produit : ${productID}</p>
-        <label for="cart-quantity">Quantité (max ${maxQuantity}) :</label>
-        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1">
-        <button id="submit-cart" class="confirm">Confirmer</button>
-        <button id="close-cart" class="cancel">Annuler</button>
+        <h2>${alreadyInCart ? "Update Quantity" : "Add to Cart"}</h2>
+        <p>📦 Available quantity: ${maxQuantity}<br>🆔 Product ID: ${productID}</p>
+        <label for="cart-quantity">Quantity (max ${maxQuantity}):</label>
+        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="${currentQuantity}">
+        <div class="cart-modal-actions">
+          <button id="submit-cart" class="confirm">Confirm</button>
+          <button id="close-cart" class="cancel">Cancel</button>
+        </div>
       </div>
     </div>
   `;
@@ -45,12 +51,11 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
   document.getElementById("submit-cart").addEventListener("click", () => {
     const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
     if (quantity < 1 || quantity > maxQuantity) {
-      alert(`Quantité invalide.`);
+      alert("Invalid quantity.");
       return;
     }
     window.addToLocalCart(button, productID, quantity);
-    button.textContent = "Ajouté";
-    button.disabled = true;
+    button.textContent = "In Cart";
     button.classList.add("in-cart");
     document.getElementById("cart-modal").remove();
   });
@@ -71,32 +76,28 @@ window.addToLocalCart = function (button, productID, quantity) {
   const seller = button.getAttribute("data-sold-by") || "";
   const freeShipping = button.getAttribute("data-free-shipping") === "true";
 
-  if (cart[productID]) {
-    cart[productID].quantity += quantity;
-  } else {
-    cart[productID] = {
-      id: productID,
-      name,
-      price,
-      image,
-      size,
-      condition,
-      seller,
-      freeShipping,
-      quantity
-    };
-  }
+  cart[productID] = {
+    id: productID,
+    name,
+    price,
+    image,
+    size,
+    condition,
+    seller,
+    freeShipping,
+    quantity
+  };
 
   localStorage.setItem("localCart", JSON.stringify(cart));
-  console.log("🛒 Panier mis à jour :", cart);
+  console.log("🛒 Cart updated:", cart);
 };
 
-// Observer + Timeout
+// Auto init on DOM + DOM observer + fallback timeout
 function waitAndObserveCartButtons() {
-  window.initializeLocalCartSystem(); // init
+  window.initializeLocalCartSystem(); // Initial run
 
   const observer = new MutationObserver(() => {
-    window.initializeLocalCartSystem(); // relance après modif du DOM
+    window.initializeLocalCartSystem(); // Run again if DOM changes
   });
 
   observer.observe(document.body, {
@@ -105,10 +106,10 @@ function waitAndObserveCartButtons() {
   });
 
   setTimeout(() => {
-    console.log("⏳ Relance forcée après timeout...");
+    console.log("⏳ Forcing re-init after timeout...");
     window.initializeLocalCartSystem();
   }, 1500);
 }
 
-// DOM ready
+// When DOM is ready
 document.addEventListener("DOMContentLoaded", waitAndObserveCartButtons);
