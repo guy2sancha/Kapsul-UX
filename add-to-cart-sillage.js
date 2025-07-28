@@ -1,24 +1,24 @@
-// Expose globally for Softr
+// Initialise le système local de panier
 window.initializeLocalCartSystem = function () {
   try {
     console.log("🛒 Initializing local cart system...");
 
-const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
-    if (!buttons.length) {
-      console.log("⚠️ No buttons found, waiting for DOM via observer...");
-      return;
-    }
+    const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
+    const cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
     buttons.forEach(button => {
       if (!button || button.dataset.listenerAdded === "true") return;
 
       const productID = button.getAttribute("data-product-id");
-      if (!productID) {
-        console.warn("⛔ Missing data-product-id on button:", button);
-        return;
-      }
+      if (!productID) return;
 
       const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
+
+      // Marque déjà les produits en panier
+      if (cart[productID]) {
+        button.textContent = "In Cart";
+        button.classList.add("in-cart");
+      }
 
       button.addEventListener("click", (event) => {
         event.preventDefault();
@@ -32,20 +32,28 @@ const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disab
   }
 };
 
+// Ouvre le modal "Add to Cart"
 window.openLocalCartModal = function (button, productID, maxQuantity) {
   const existingModal = document.getElementById("cart-modal");
   if (existingModal) existingModal.remove();
 
+  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
+  const isInCart = !!cart[productID];
+
+  const inCartMessage = isInCart
+    ? `<p style="color: #28a745; font-weight: bold; margin-bottom: 10px;">✔️ In your cart</p>`
+    : "";
+
   const modalHTML = `
-    <div id="cart-modal" class="cart-modal-overlay">
-      <div class="cart-modal-content">
+    <div id="cart-modal" class="cart-modal-overlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+      <div class="cart-modal-content" style="background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center;">
         <h2>Add to Cart</h2>
-        <p>📦 Available quantity: ${maxQuantity}<br>🆔 Product ID: ${productID}</p>
-        <label for="cart-quantity">Quantity (max ${maxQuantity}):</label>
-        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1">
-        <div class="cart-modal-actions">
-          <button id="submit-cart" class="confirm">Confirm</button>
-          <button id="close-cart" class="cancel">Cancel</button>
+        ${inCartMessage}
+        <label for="cart-quantity" style="display: block; margin: 15px 0 5px;">Quantity (max ${maxQuantity}):</label>
+        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1" style="width: 60px; padding: 5px; text-align: center;">
+        <div class="cart-modal-actions" style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+          <button id="submit-cart" class="confirm" style="padding: 10px 20px; background: #081326; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
+          <button id="close-cart" class="cancel" style="padding: 10px 20px; border: 1px solid #ccc; border-radius: 4px; background: white; cursor: pointer;">Cancel</button>
         </div>
       </div>
     </div>
@@ -53,37 +61,30 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-  const quantityInput = document.getElementById("cart-quantity");
-  const submitButton = document.getElementById("submit-cart");
-  const closeButton = document.getElementById("close-cart");
+  document.getElementById("submit-cart").addEventListener("click", () => {
+    const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
+    if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
+      alert("Invalid quantity.");
+      return;
+    }
 
-  if (submitButton) {
-    submitButton.addEventListener("click", () => {
-      const quantity = parseInt(quantityInput.value, 10);
-      if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
-        alert("Invalid quantity.");
-        return;
-      }
+    window.addToLocalCart(button, productID, quantity);
 
-      window.addToLocalCart(button, productID, quantity);
+    const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
+    if (liveButton && liveButton.classList) {
+      liveButton.textContent = "In Cart";
+      liveButton.classList.add("in-cart");
+    }
 
-      const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
-      if (liveButton && liveButton.classList) {
-        liveButton.textContent = "In Cart";
-        liveButton.classList.add("in-cart");
-      }
+    document.getElementById("cart-modal")?.remove();
+  });
 
-      document.getElementById("cart-modal")?.remove();
-    });
-  }
-
-  if (closeButton) {
-    closeButton.addEventListener("click", () => {
-      document.getElementById("cart-modal")?.remove();
-    });
-  }
+  document.getElementById("close-cart").addEventListener("click", () => {
+    document.getElementById("cart-modal")?.remove();
+  });
 };
 
+// Sauvegarde les infos dans le localStorage
 window.addToLocalCart = function (button, productID, quantity) {
   let cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
@@ -115,7 +116,7 @@ window.addToLocalCart = function (button, productID, quantity) {
   }
 };
 
-// SPA navigation observer
+// Réinitialisation sur navigation SPA
 (function () {
   let lastUrl = location.href;
 
@@ -124,8 +125,6 @@ window.addToLocalCart = function (button, productID, quantity) {
     setTimeout(() => {
       if (window.initializeLocalCartSystem) {
         window.initializeLocalCartSystem();
-      } else {
-        console.warn("⚠️ initializeLocalCartSystem not available yet.");
       }
     }, 600);
   }
@@ -143,7 +142,7 @@ window.addToLocalCart = function (button, productID, quantity) {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 
-// Local DOM observer to wait for delayed button rendering (Softr + Airtable HTML)
+// Observation DOM (Softr / Airtable rendering delay)
 (function observeCartButtons() {
   const observer = new MutationObserver(() => {
     window.initializeLocalCartSystem();
