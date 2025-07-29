@@ -41,7 +41,7 @@ window.openLocalCartModal = function (button, productID, maxQuantity) {
   const isInCart = !!cart[productID];
 
   const inCartMessage = isInCart
-    ? `<p style="color: #28a745; font-weight: bold; margin-bottom: 10px;">✔️ In your cart</p>`
+    ? `<p style="color: #081326; font-weight: bold; margin-bottom: 10px;">Already In your cart</p>`
     : "";
 
   const modalHTML = `
