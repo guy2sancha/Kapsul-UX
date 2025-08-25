@@ -1,0 +1,204 @@
+<!-- =========== FOOTER =========== -->
+<footer class="oc-footer">
+  <!-- BARRE BRAND ENORME (optionnelle) -->
+  <div class="oc-footer-masthead">
+    <h2>OPEN CIRCLE</h2>
+  </div>
+
+  <!-- BLOC PRINCIPAL -->
+  <div class="oc-footer-grid">
+    <!-- Col gauche : menu -->
+    <nav class="oc-footer-col">
+      <ul class="oc-footer-menu">
+        <li><a href="#">HOMME</a></li>
+        <li><a href="#">FEMME</a></li>
+        <li><a href="#">OUTDOOR</a></li>
+        <li><a href="#">KIDS</a></li>
+        <li><a href="#">LIFESTYLE</a></li>
+      </ul>
+    </nav>
+
+    <!-- Col centre : newsletter -->
+    <div class="oc-footer-col oc-footer-newsletter">
+      <h3>S'INSCRIRE À LA NEWSLETTER</h3>
+      <form class="oc-news-form" action="#" method="post">
+        <label for="oc-news-email" class="sr-only">Votre e-mail</label>
+        <input id="oc-news-email" name="email" type="email" placeholder="Votre e-mail" required>
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p class="oc-news-note">10% de réduction sur votre première commande</p>
+
+      <div class="oc-social">
+        <a aria-label="Instagram" href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a aria-label="TikTok" href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a aria-label="LinkedIn" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a aria-label="Facebook" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      </div>
+    </div>
+
+    <!-- Col droite : trust / label -->
+    <div class="oc-footer-col oc-footer-trust">
+      <div class="oc-trust-badge">
+        <span class="oc-bcorp">B</span>
+        <div class="oc-bcorp-txt">Certified<br>B Corporation</div>
+      </div>
+      <p class="oc-trust-copy">
+        OpenCircle est un lieu unique,<br>
+        où s’allient marques, design et engagement.
+      </p>
+    </div>
+  </div>
+
+  <!-- RIBBON INFOS & PAIEMENTS -->
+  <div class="oc-footer-bottom">
+    <div class="oc-bottom-left">
+      <button class="oc-locale">FR / €</button>
+      <a href="#">FAQ</a>
+      <a href="#">Boutiques</a>
+      <a href="#">Échanges & Retours</a>
+      <a href="#">CGV</a>
+      <a href="#">Contact</a>
+      <a href="#">Jobs</a>
+      <a href="#">Qui sommes-nous</a>
+      <a href="#">Carte cadeau</a>
+    </div>
+
+    <div class="oc-payments">
+      <i class="fa-brands fa-apple-pay" title="Apple Pay"></i>
+      <i class="fa-brands fa-cc-visa" title="VISA"></i>
+      <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+      <i class="fa-brands fa-cc-amex" title="Amex"></i>
+      <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
+      <!-- Placeholders pour wallets Asie : -->
+      <span class="oc-paypill">WeChat Pay</span>
+      <span class="oc-paypill">Alipay</span>
+    </div>
+  </div>
+
+  <div class="oc-legal">
+    <small>© <span id="oc-year"></span> OpenCircle 株式会社. All rights reserved.</small>
+  </div>
+</footer>
+
+<script>
+  // année auto
+  document.getElementById('oc-year').textContent = new Date().getFullYear();
+</script>
+
+<style>
+/* ====== FOOTER STYLE ====== */
+.oc-footer{
+  background:#fff;
+  color:#000;
+  border:1px solid #000;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:60px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Masthead énorme (peut être retiré si tu veux) */
+.oc-footer-masthead{
+  border-bottom:1px solid #000;
+  padding:28px 0;
+  text-align:center;
+}
+.oc-footer-masthead h2{
+  margin:0;
+  text-transform:uppercase;
+  font-weight:900;
+  letter-spacing:-.03em;
+  line-height:.9;
+  font-size:clamp(42px, 10vw, 120px);
+}
+
+/* Grille principale */
+.oc-footer-grid{
+  display:grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap:0;
+  border-bottom:1px solid #000;
+}
+.oc-footer-col{
+  padding:26px 24px;
+  min-height:180px;
+}
+.oc-footer-col + .oc-footer-col{
+  border-left:1px solid #000;
+}
+
+/* Menu gauche */
+.oc-footer-menu{
+  list-style:none; padding:0; margin:0;
+}
+.oc-footer-menu li{ margin:0 0 12px; }
+.oc-footer-menu a{
+  text-decoration:none; color:#000;
+  font-weight:800; text-transform:uppercase;
+  letter-spacing:.02em;
+}
+
+/* Newsletter centre */
+.oc-footer-newsletter h3{
+  margin:0 0 14px; font-size:16px;
+  text-transform:uppercase; font-weight:800;
+  letter-spacing:.05em;
+}
+.oc-news-form{ display:flex; gap:8px; align-items:center; }
+.oc-news-form input{
+  flex:1; padding:10px 12px; border:1px solid #000; outline:none;
+  font-size:14px; background:#fff; color:#000;
+}
+.oc-news-form button{
+  padding:10px 14px; border:1px solid #000; background:#000; color:#fff;
+  text-transform:uppercase; font-weight:700; letter-spacing:.04em; cursor:pointer;
+}
+.oc-news-form button:hover{ background:#fff; color:#000; }
+.oc-news-note{ margin:10px 0 14px; font-size:12px; }
+
+.oc-social a{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border:1px solid #000; margin-right:8px; color:#000;
+}
+.oc-social a:hover{ background:#000; color:#fff; }
+
+/* Trust / badge droite */
+.oc-footer-trust{ display:flex; flex-direction:column; justify-content:space-between; }
+.oc-trust-badge{ display:flex; align-items:center; gap:10px; }
+.oc-bcorp{
+  width:44px; height:44px; border:2px solid #000; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:20px; line-height:1;
+}
+.oc-bcorp-txt{ font-size:12px; text-transform:uppercase; font-weight:800; line-height:1.1; }
+.oc-trust-copy{ margin:12px 0 0; font-size:13px; line-height:1.4; }
+
+/* Bas de page : liens + paiements */
+.oc-footer-bottom{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:12px; padding:12px 16px; border-bottom:1px solid #000;
+}
+.oc-bottom-left{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+.oc-bottom-left a{ color:#000; text-decoration:none; font-size:13px; }
+.oc-locale{
+  border:1px solid #000; background:#fff; padding:6px 10px; font-size:12px; cursor:pointer;
+}
+
+.oc-payments{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.oc-payments i{ font-size:26px; }
+.oc-paypill{
+  border:1px solid #000; padding:4px 8px; font-size:12px; text-transform:uppercase; font-weight:700;
+}
+
+/* Ligne copyright */
+.oc-legal{ padding:10px 16px; text-align:left; }
+.oc-legal small{ font-size:12px; }
+
+/* Responsive */
+@media (max-width: 980px){
+  .oc-footer-grid{ grid-template-columns: 1fr; }
+  .oc-footer-col + .oc-footer-col{ border-left:none; border-top:1px solid #000; }
+  .oc-footer-masthead h2{ font-size:clamp(36px, 12vw, 90px); }
+  .oc-footer-trust{ gap:16px; }
+}
+</style>
