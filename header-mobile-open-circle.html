@@ -1,192 +1,121 @@
-<style>
-#mobileHeader {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: #081226;
-  border-bottom: 1px solid #001d20;
-  z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-
-}
-
-.mobile-left, .mobile-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.mobile-left { justify-content: flex-start; }
-.mobile-right { justify-content: flex-end; }
-
-.mobile-logo img {
-  height: 40px;
-}
-
-.hamburger {
-  font-size: 24px;
-  cursor: pointer;
-  color: #fff;
-}
-
-#mobileOverlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 1999;
-}
-
-#mobileMenu {
-  position: fixed;
-  top: 0;
-  right: -280px;
-  width: 260px;
-  height: 100%;
-  background-color: #F6F4EF;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-  transition: right 0.3s ease;
-  z-index: 2000;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-#mobileMenu.open { right: 0; }
-#mobileOverlay.show { display: block; }
-
-#mobileMenu h3 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #001d20;
-}
-
-.menu-category {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #fff;
-  margin: 20px 0 5px;
-  font-weight: 300;
-  border-radius: 6px;
-  color: #001d20;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.menu-category:hover {
-  background-color: #e6e6e6;
-}
-
-.menu-category .chevron {
-  font-size: 10px;
-  transition: transform 0.3s ease;
-}
-
-.menu-category.open .chevron {
-  transform: rotate(180deg);
-}
-
-.submenu {
-  display: none;
-  padding-left: 10px;
-}
-
-.menu-category.open + .submenu {
-  display: block;
-}
-
-.submenu a {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  justify-content: space-between;
-}
-
-.submenu a span {
-  margin-right: 8px;
-  width: 20px;
-  text-align: center;
-}
-
-.submenu a .soon-badge {
-  color: #BEBBFF;
-  font-size: 11px;
-  font-weight: bold;
-  margin-left: auto;
-}
-
-.mobile-footer-link {
-  margin-top: 60px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #001d20;
-  text-align: center;
-  display: block;
-  text-decoration: none;
-}
-</style>
-
-<!-- HEADER -->
+<!-- ===== HEADER MOBILE LUXURY ===== -->
 <div id="mobileHeader">
-  <div class="mobile-left">
-    <div class="mobile-logo">
-      <a href="/">
-        <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
-      </a>
-    </div>
+  <div class="mobile-bar">
+    <a href="/" class="mobile-logo">
+      <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
+    </a>
+    <button id="burgerMenu" aria-label="Open menu">☰</button>
   </div>
 
-  <div class="mobile-right">
-    <span class="hamburger" onclick="toggleMobileMenu()">☰</span>
+  <!-- Drawer -->
+  <div id="mobileDrawer">
+    <button class="close-btn">✕</button>
+    <nav class="mobile-nav">
+      <a href="/brands" class="main-link">Discover Brands</a>
+
+      <!-- Accordions -->
+      <div class="accordion">
+        <button class="accordion-btn">Categories</button>
+        <div class="accordion-panel">
+          <a href="/brands/fashion">Fashion</a>
+          <a href="/brands/beauty-wellness">Beauty & Wellness</a>
+          <a href="/brands/jewelry">Jewelry</a>
+          <a href="/brands/home-decor">Home & Decor</a>
+          <a href="/brands/food-drink">Food & Drink</a>
+          <a href="/brands/alcohol">Alcohol</a>
+          <a href="/brands/paper-gifts">Stationery & Gifts</a>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-btn">Collections</button>
+        <div class="accordion-panel">
+          <a href="/collections/made-in-japan">Made in Japan</a>
+          <a href="/collections/denim">Denim</a>
+          <a href="/collections/minimal">Minimal</a>
+          <a href="/collections/travel">Travel Essentials</a>
+          <a href="/collections/new">New Arrivals</a>
+        </div>
+      </div>
+
+      <!-- Other links -->
+      <a href="/experiences">Local Experiences</a>
+      <a href="/proxy">Circle Shopping</a>
+      <a href="/stories">Brand Stories</a>
+    </nav>
   </div>
 </div>
 
-<!-- OVERLAY + MENU -->
-<div id="mobileOverlay" onclick="closeMobileMenu()"></div>
-
-<div id="mobileMenu">
-  <div class="menu-category" onclick="toggleSubmenu(this)">
-    All the Brands <span class="chevron">▼</span>
-  </div>
-  <div class="submenu">
-        <a href="https://www.opencircle.jp/brands/fashion">Fashion </a>
-        <a href="https://www.opencircle.jp/brands/beauty-wellness">Beauty & Wellness</a>
-    <a href="https://www.opencircle.jp/brands/jewelry">Jewelry </a>
-    <a href="https://www.opencircle.jp/brands/home-decor">Home & Decor </a>
-    <a href="https://www.opencircle.jp/brands/food-drink">Food & Drink </a>
-    <a href="https://www.opencircle.jp/brands/alcohol">Alcohol</a>
-    <a href="https://www.opencircle.jp/brands/paper-gifts">Stationery & Gifts </a>
-  </div>
-
-  <a href="/experiences" class="mobile-footer-link">Local Experiences</a>
-
-  <a href="/proxy" class="mobile-footer-link">Circle Shopping</a>
-
-    <a href="/stories" class="mobile-footer-link">Brand Stories</a>
-
-</div>
-
-<script>
-function toggleMobileMenu() {
-  document.getElementById("mobileMenu").classList.toggle("open");
-  document.getElementById("mobileOverlay").classList.toggle("show");
+<style>
+/* ===== Show only on mobile ===== */
+#mobileHeader { display:none; }
+@media (max-width: 900px){
+  #customHeader, #kapsul-ticker-bar { display:none; }
+  #mobileHeader { display:block; }
 }
 
-function closeMobileMenu() {
-  document.getElementById("mobileMenu").classList.remove("open");
-  document.getElementById("mobileOverlay").classList.remove("show");
+/* ===== Top Bar ===== */
+.mobile-bar{
+  background:#0b1428;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.mobile-logo img{ height:42px; }
+#burgerMenu{ font-size:26px; color:#fff; background:none; border:none; cursor:pointer; }
+
+/* ===== Drawer Luxury ===== */
+#mobileDrawer{
+  position:fixed; top:0; left:-100%; width:80%; height:100vh;
+  background:#0f172a; color:#fff;
+  transition:left .4s ease; z-index:2000; padding:24px;
+  display:flex; flex-direction:column;
+}
+#mobileDrawer.open{ left:0; }
+.close-btn{
+  font-size:26px; border:none; background:none; color:#fff;
+  align-self:flex-end; cursor:pointer; margin-bottom:30px;
 }
 
-function toggleSubmenu(el) {
-  el.classList.toggle("open");
-  const next = el.nextElementSibling;
-  if (next && next.classList.contains("submenu")) {
-    next.style.display = next.style.display === "block" ? "none" : "block";
-  }
+/* ===== Nav Links ===== */
+.mobile-nav{ display:flex; flex-direction:column; gap:32px; font-family:'Libre Caslon Text', serif; }
+.mobile-nav > a{ /* seulement les liens directs */
+  font-size:18px; font-weight:600;
+  color:#f5f5f5; text-decoration:none;
+  border-bottom:1px solid #fff;
+  padding-bottom:8px;
+  transition:color .3s ease;
 }
-</script>
+.mobile-nav > a:hover{ color:#BC012C; }
+
+.mobile-nav .main-link{
+  font-size:20px;
+  font-weight:600;
+}
+
+/* ===== Accordions Luxury ===== */
+.accordion-btn{
+  width:100%; text-align:left; background:none; border:none;
+  font-size:18px; font-weight:500; font-family:'Libre Caslon Text', serif;
+  padding:8px 0; color:#f0f0f0; cursor:pointer;
+  display:flex; justify-content:space-between; align-items:center;
+  border-bottom:1px solid rgba(255,255,255,0.12); /* séparation discrète */
+}
+.accordion-btn::after{
+  content:"+"; font-size:16px; transition:transform .3s;
+}
+.accordion.open .accordion-btn::after{ transform:rotate(45deg); }
+
+/* Panel (⚠️ pas de border ici) */
+.accordion-panel{
+  display:none; flex-direction:column;
+  margin-left:10px; gap:10px; padding:12px 0;
+  border:none; /* suppression totale */
+}
+.accordion.open .accordion-panel{ display:flex; }
+.accordion-panel a{
+  font-size:15px; font-weight:300; color:#ccc;
+  text-decoration:none; border:none; /* aucun border */
+}
+.accordion-panel a:hover{ color:#fff; }
+</style>
