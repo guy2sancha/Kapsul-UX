@@ -1,15 +1,24 @@
+// Script-Header-mobile.js
+(function () {
+  function initMobileHeader() {
+    const burger = document.getElementById("burgerMenu");
+    const drawer = document.getElementById("mobileDrawer");
+    const closeBtn = drawer ? drawer.querySelector(".close-btn") : null;
 
-const burger=document.getElementById("burgerMenu");
-const drawer=document.getElementById("mobileDrawer");
-const closeBtn=drawer.querySelector(".close-btn");
+    if (!burger || !drawer || !closeBtn) return false; // HTML pas encore là
 
-burger.onclick=()=>drawer.classList.add("open");
-closeBtn.onclick=()=>drawer.classList.remove("open");
+    // évite les doublons si ré-initialisé
+    burger.onclick = () => drawer.classList.add("open");
+    closeBtn.onclick = () => drawer.classList.remove("open");
 
-// accordions
-document.querySelectorAll(".accordion-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const acc=btn.parentElement;
-    acc.classList.toggle("open");
-  });
-});
+    drawer.querySelectorAll(".accordion-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("open");
+      });
+    });
+    return true;
+  }
+
+  // expose sur window
+  window.initMobileHeader = initMobileHeader;
+})();
