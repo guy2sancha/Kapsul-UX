@@ -48,7 +48,19 @@
   .nav-links a:hover, .nav-links2 a:hover{ color:#BC012C; }
 
   .nav-item{ position:relative; }
-  .chevron{ font-size:10px; margin-left:4px; transition:transform .3s ease; }
+  /* ===== HEADER CHEVRON ANIM ===== */
+.chevron-nav {
+  display:inline-block;
+  font-size:10px;
+  margin-left:4px;
+  transition:transform .3s ease, color .3s ease;
+}
+
+.nav-item:hover .chevron-nav {
+  transform:rotate(180deg) translateY(2px);
+  color:#BC012C; /* joli accent rouge au hover */
+}
+
   .nav-item:hover .chevron{ transform:rotate(180deg); }
 
   /* ===== DROPDOWN BASE ===== */
@@ -178,7 +190,7 @@
   <nav class="nav-links">
     <!-- Discover Brands (MEGA 3 colonnes) -->
     <div class="nav-item">
-      <a href="">Discover Brands<span class="chevron">▼</span></a>
+      <a href="">Discover Brands<span class="chevron-nav">▼</span></a>
       <div class="dropdown-submenu mega-3">
         <div class="mega-grid">
 
