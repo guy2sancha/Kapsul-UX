@@ -1,0 +1,53 @@
+/* =========================================================
+   Base / Reset
+   ======================================================= */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* =========================================================
+   Layout
+   ======================================================= */
+#topbar-root {
+  position: relative !important;
+}
+
+#sidebar-root {
+  border: 1px solid #000;
+  top: 0 !important;
+  min-height: 100vh;   /* au moins la hauteur de l’écran */
+  height: 100%;        /* prendra la hauteur si le parent est à 100% */
+}
+
+.spr-content-root {
+  background-color: #f2f3f4 !important;
+}
+
+/* =========================================================
+   Navigation (classes générées par Softr)
+   ======================================================= */
+/* État actif : transparent */
+.b-c774ebe ._55fd019_vnohg2s[data-active="true"] {
+  background-color: transparent !important;
+}
+
+/* Hovers unifiés : fond blanc */
+.b-c774ebe ._55fd019_vnohg2s[data-active="true"]:hover,
+._55fd019_vnohg2s._55fd019_vnohg2r._55fd019_vnohg2t.softr-nav-link:hover,
+._55fd019_vnohg2v._55fd019_vnohg2r.softr-nav-category:hover {
+  background-color: #fff !important;
+}
+
+/* =========================================================
+   Spacing
+   ======================================================= */
+[data-testid="sidebar"] ul[class*="vnoh"] {
+  gap: 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .b-2d331db .f4fdce7_vnohg2p {
+    gap: 30px;
+  }
+}
