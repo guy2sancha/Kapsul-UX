@@ -42,15 +42,9 @@ html, body {
 /* =========================================================
    Spacing
    ======================================================= */
-[data-testid="sidebar"] ul[class*="vnoh"] {
-  gap: 30px;
+#sidebar-root ul > li:nth-child(5) > button {
+  margin-bottom: 20px;
 }
-
-ul._99f90d7_vnohg2z[data-state="open"] {
-  margin-top: 20px;
-}
-
-
 
 @media screen and (min-width: 768px) {
   .b-2d331db .f4fdce7_vnohg2p {
