@@ -46,9 +46,10 @@ html, body {
   gap: 30px;
 }
 
-ul._99f90d7_vnohg2z[data-state="open"] {
+[id^="9"] {
   margin-top: 20px;
 }
+
 
 
 
