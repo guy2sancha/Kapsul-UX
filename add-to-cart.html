@@ -1,248 +1,286 @@
-/* =========================
-   Modal & Cart Modal — Polished Styles
-   (drop-in: garde tes classes actuelles)
-========================= */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal + Cart Modal</title>
+  <style>
+    /* =========================
+       Modal & Cart Modal — Polished Styles
+       ========================= */
 
-/* Design tokens */
-:root{
-  --oc-font: 'Jost', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --oc-ink: #0b0b0b;
-  --oc-muted: #5c6675;
-  --oc-primary: #00443F;
-  --oc-primary-ink: #ffffff;
-  --oc-primary-strong: #00675A;
-  --oc-accent: #0D26FF;
-  --oc-border: #e5e7eb;
-  --oc-bg: #ffffff;
-  --oc-backdrop: rgba(10, 16, 24, .55);
-  --oc-radius: 14px;
-  --oc-shadow: 0 24px 60px rgba(0,0,0,.25), 0 6px 20px rgba(0,0,0,.10);
-  --oc-transition: 220ms cubic-bezier(.2,.7,.2,1);
-}
+    :root{
+      --oc-font: 'Jost', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --oc-ink: #0b0b0b;
+      --oc-muted: #5c6675;
+      --oc-primary: #00443F;
+      --oc-primary-ink: #ffffff;
+      --oc-primary-strong: #00675A;
+      --oc-accent: #0D26FF;
+      --oc-border: #e5e7eb;
+      --oc-bg: #ffffff;
+      --oc-backdrop: rgba(10, 16, 24, .55);
+      --oc-radius: 14px;
+      --oc-shadow: 0 24px 60px rgba(0,0,0,.25), 0 6px 20px rgba(0,0,0,.10);
+      --oc-transition: 220ms cubic-bezier(.2,.7,.2,1);
+    }
 
-/* Base reset for both modals */
-.modal,
-#cart-modal{
-  position: fixed;
-  inset: 0;
-  display: none;              /* hidden by default */
-  justify-content: center;
-  align-items: center;
-  padding: 24px;              /* safe space on small screens */
-  background: var(--oc-backdrop);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 10000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--oc-transition);
-}
+    /* Base reset for both modals */
+    .modal,
+    #cart-modal{
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      background: var(--oc-backdrop);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--oc-transition);
+    }
 
-/* Show states */
-.modal.show,
-#cart-modal.show{
-  display: flex;
-  opacity: 1;
-  pointer-events: auto;
-}
+    /* Show states */
+    .modal.show,
+    #cart-modal.show{
+      display: flex;
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-/* Dialog shells */
-.modal-content,
-.cart-modal-content{
-  width: min(92vw, 440px);
-  max-height: min(86vh, 760px);
-  overflow: auto;
-  background: var(--oc-bg);
-  color: var(--oc-ink);
-  border-radius: var(--oc-radius);
-  border: 1px solid var(--oc-border);
-  box-shadow: var(--oc-shadow);
-  font-family: var(--oc-font);
-  padding: 24px 22px 20px;
-  transform: translateY(8px) scale(.98);
-  transition: transform var(--oc-transition), box-shadow var(--oc-transition);
-}
+    /* Dialog shells */
+    .modal-content,
+    .cart-modal-content{
+      width: min(92vw, 440px);
+      max-height: min(86vh, 760px);
+      overflow: auto;
+      background: var(--oc-bg);
+      color: var(--oc-ink);
+      border-radius: var(--oc-radius);
+      border: 1px solid var(--oc-border);
+      box-shadow: var(--oc-shadow);
+      font-family: var(--oc-font);
+      padding: 24px 22px 20px;
+      transform: translateY(8px) scale(.98);
+      transition: transform var(--oc-transition), box-shadow var(--oc-transition);
+    }
 
-/* Lift-in effect when visible */
-.modal.show .modal-content,
-#cart-modal.show .cart-modal-content{
-  transform: translateY(0) scale(1);
-}
+    .modal.show .modal-content,
+    #cart-modal.show .cart-modal-content{
+      transform: translateY(0) scale(1);
+    }
 
-/* Headings & text */
-.modal-content h2,
-.cart-modal-content h2{
-  margin: 0 0 8px;
-  font-size: clamp(20px, 2.2vw, 26px);
-  font-weight: 800;
-  letter-spacing: .01em;
-}
+    /* Headings & text */
+    .modal-content h2,
+    .cart-modal-content h2{
+      margin: 0 0 8px;
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
 
-.modal-content p,
-.cart-modal-content p{
-  margin: 0 0 16px;
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--oc-muted);
-}
+    .modal-content p,
+    .cart-modal-content p{
+      margin: 0 0 16px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--oc-muted);
+    }
 
-/* Actions row */
-.modal-actions{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 10px;
-}
+    /* Actions row */
+    .modal-actions{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
 
-/* Buttons — unified baseline */
-.modal-button,
-.cart-modal-content button,
-.custom-add-to-cart-button{
-  appearance: none;
-  -webkit-appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px 14px;
-  font-family: var(--oc-font);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  border-radius: 10px;
-  border: 1px solid #0000; /* reset, overridden below */
-  cursor: pointer;
-  transition: transform var(--oc-transition), box-shadow var(--oc-transition), background-color var(--oc-transition), color var(--oc-transition), border-color var(--oc-transition), opacity var(--oc-transition);
-}
+    /* Buttons — unified */
+    .modal-button,
+    .cart-modal-content button,
+    .custom-add-to-cart-button{
+      appearance: none;
+      -webkit-appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--oc-font);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 10px;
+      border: 1px solid #0000;
+      cursor: pointer;
+      transition: transform var(--oc-transition), box-shadow var(--oc-transition), background-color var(--oc-transition), color var(--oc-transition), border-color var(--oc-transition), opacity var(--oc-transition);
+    }
 
-/* Primary (green) */
-.modal-button,
-.custom-add-to-cart-button.in-cart,
-.cart-modal-content .confirm{
-  background-color: var(--oc-primary);
-  color: var(--oc-primary-ink);
-  border-color: var(--oc-primary);
-  box-shadow: 0 8px 18px rgba(0,0,0,.12);
-}
-.modal-button:hover,
-.custom-add-to-cart-button.in-cart:hover,
-.cart-modal-content .confirm:hover{
-  background-color: var(--oc-primary-strong);
-  border-color: var(--oc-primary-strong);
-  transform: translateY(-1px);
-}
+    /* Primary (green) */
+    .modal-button,
+    .custom-add-to-cart-button.in-cart,
+    .cart-modal-content .confirm{
+      background-color: var(--oc-primary);
+      color: var(--oc-primary-ink);
+      border-color: var(--oc-primary);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    }
+    .modal-button:hover,
+    .custom-add-to-cart-button.in-cart:hover,
+    .cart-modal-content .confirm:hover{
+      background-color: var(--oc-primary-strong);
+      border-color: var(--oc-primary-strong);
+      transform: translateY(-1px);
+    }
 
-/* Ghost / secondary */
-.cart-modal-content .cancel{
-  background: #f3f4f6;
-  color: var(--oc-ink);
-  border: 1px solid var(--oc-border);
-}
-.cart-modal-content .cancel:hover{
-  background: #eceef2;
-  transform: translateY(-1px);
-}
+    /* Ghost / secondary */
+    .cart-modal-content .cancel{
+      background: #f3f4f6;
+      color: var(--oc-ink);
+      border: 1px solid var(--oc-border);
+    }
+    .cart-modal-content .cancel:hover{
+      background: #eceef2;
+      transform: translateY(-1px);
+    }
 
-/* “Add to cart” (outline) */
-.custom-add-to-cart-button{
-  width: 50%;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  border-radius: 10px;
-}
-.custom-add-to-cart-button:hover{
-  background-color: #f7f7f7;
-}
-.custom-add-to-cart-button.in-cart{
-  cursor: default;
-}
+    /* Add to cart (outline) */
+    .custom-add-to-cart-button{
+      width: 50%;
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #000;
+      border-radius: 10px;
+    }
+    .custom-add-to-cart-button:hover{
+      background-color: #f7f7f7;
+    }
+    .custom-add-to-cart-button.in-cart{
+      cursor: default;
+    }
 
-/* Selects & inputs (cart modal) */
-.cart-modal-content select,
-.cart-modal-content input{
-  width: 100%;
-  padding: 12px 12px;
-  margin-top: 6px;
-  border-radius: 10px;
-  border: 1px solid var(--oc-border);
-  font-family: var(--oc-font);
-  font-size: 14px;
-  transition: border-color var(--oc-transition), box-shadow var(--oc-transition);
-}
-.cart-modal-content select:focus,
-.cart-modal-content input:focus{
-  outline: none;
-  border-color: var(--oc-accent);
-  box-shadow: 0 0 0 3px rgba(13,38,255,.15);
-}
+    /* Inputs */
+    .cart-modal-content select,
+    .cart-modal-content input{
+      width: 100%;
+      padding: 12px 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid var(--oc-border);
+      font-family: var(--oc-font);
+      font-size: 14px;
+      transition: border-color var(--oc-transition), box-shadow var(--oc-transition);
+    }
+    .cart-modal-content select:focus,
+    .cart-modal-content input:focus{
+      outline: none;
+      border-color: var(--oc-accent);
+      box-shadow: 0 0 0 3px rgba(13,38,255,.15);
+    }
 
-/* Spinner aligns with text */
-.spinner{
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  border-radius: 50%;
-  animation: oc-spin .8s linear infinite;
-}
-@keyframes oc-spin{
-  to{ transform: rotate(360deg); }
-}
+    /* Spinner */
+    .spinner{
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      border-radius: 50%;
+      animation: oc-spin .8s linear infinite;
+    }
+    @keyframes oc-spin{ to{ transform: rotate(360deg); } }
 
-/* Optional close icon support if present */
-.modal-close,
-.cart-close{
-  position: sticky;
-  top: -8px;
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px; height: 34px;
-  border-radius: 8px;
-  background: #fff;
-  border: 1px solid var(--oc-border);
-  color: var(--oc-ink);
-  cursor: pointer;
-  transition: background-color var(--oc-transition), transform var(--oc-transition), box-shadow var(--oc-transition);
-}
-.modal-close:hover,
-.cart-close:hover{ transform: translateY(-1px); background: #f8fafc; }
+    /* Optional close icon */
+    .modal-close,
+    .cart-close{
+      position: sticky;
+      top: -8px;
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--oc-border);
+      color: var(--oc-ink);
+      cursor: pointer;
+      transition: background-color var(--oc-transition), transform var(--oc-transition), box-shadow var(--oc-transition);
+    }
+    .modal-close:hover,
+    .cart-close:hover{ transform: translateY(-1px); background: #f8fafc; }
 
-/* Focus visible (accessibility) */
-.modal-button:focus-visible,
-.custom-add-to-cart-button:focus-visible,
-.cart-modal-content .confirm:focus-visible,
-.cart-modal-content .cancel:focus-visible,
-.cart-modal-content select:focus-visible,
-.cart-modal-content input:focus-visible,
-.modal-close:focus-visible,
-.cart-close:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(13,38,255,.28);
-}
+    /* Focus visible */
+    .modal-button:focus-visible,
+    .custom-add-to-cart-button:focus-visible,
+    .cart-modal-content .confirm:focus-visible,
+    .cart-modal-content .cancel:focus-visible,
+    .cart-modal-content select:focus-visible,
+    .cart-modal-content input:focus-visible,
+    .modal-close:focus-visible,
+    .cart-close:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(13,38,255,.28);
+    }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .modal,
-  #cart-modal,
-  .modal-content,
-  .cart-modal-content,
-  .modal-button,
-  .custom-add-to-cart-button{ transition: none !important; }
-}
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .modal,
+      #cart-modal,
+      .modal-content,
+      .cart-modal-content,
+      .modal-button,
+      .custom-add-to-cart-button{ transition: none !important; }
+    }
 
-/* Responsive tweaks */
-@media (max-width: 560px){
-  .modal-content,
-  .cart-modal-content{
-    width: 96vw;
-    padding: 20px 16px 16px;
-    border-radius: 12px;
-  }
-  .modal-actions{ grid-template-columns: 1fr; }
-  .custom-add-to-cart-button{ width: 100%; }
-}
+    /* Responsive tweaks */
+    @media (max-width: 560px){
+      .modal-content,
+      .cart-modal-content{
+        width: 96vw;
+        padding: 20px 16px 16px;
+        border-radius: 12px;
+      }
+      .modal-actions{ grid-template-columns: 1fr; }
+      .custom-add-to-cart-button{ width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Example Modal -->
+  <div class="modal" id="info-modal">
+    <div class="modal-content">
+      <h2>Confirm action</h2>
+      <p>Are you sure you want to add this item?</p>
+      <div class="modal-actions">
+        <button class="modal-button">Yes</button>
+        <button class="modal-button" style="background:#ccc;color:#000;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example Cart Modal -->
+  <div id="cart-modal">
+    <div class="cart-modal-content">
+      <h2>Cart Options</h2>
+      <p>Choose your preferences before checkout.</p>
+      <select>
+        <option>Size M</option>
+        <option>Size L</option>
+      </select>
+      <input type="text" placeholder="Enter coupon code">
+      <button class="confirm">Confirm</button>
+      <button class="cancel">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Example add to cart button -->
+  <button class="custom-add-to-cart-button">Add to Cart</button>
+
+</body>
+</html>
