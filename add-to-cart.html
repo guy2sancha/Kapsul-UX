@@ -1,286 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modal + Cart Modal</title>
-  <style>
-    /* =========================
-       Modal & Cart Modal — Polished Styles
-       ========================= */
+<!-- Exemple bouton -->
+<button 
+  class="custom-add-to-cart-button"
+  data-product-id="rec6RuPz8zgA77WMV"
+  data-quantity="S, M, L"
+  data-name="Kimono Jacket"
+  data-price="18000"
+  data-image="https://example.com/img.jpg"
+  data-sold-by="Tokyo Craft"
+>
+  Add to Cart
+</button>
 
-    :root{
-      --oc-font: 'Jost', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      --oc-ink: #0b0b0b;
-      --oc-muted: #5c6675;
-      --oc-primary: #00443F;
-      --oc-primary-ink: #ffffff;
-      --oc-primary-strong: #00675A;
-      --oc-accent: #0D26FF;
-      --oc-border: #e5e7eb;
-      --oc-bg: #ffffff;
-      --oc-backdrop: rgba(10, 16, 24, .55);
-      --oc-radius: 14px;
-      --oc-shadow: 0 24px 60px rgba(0,0,0,.25), 0 6px 20px rgba(0,0,0,.10);
-      --oc-transition: 220ms cubic-bezier(.2,.7,.2,1);
-    }
+<!-- ================== CSS ================== -->
+<style>
+/* Bouton Add to Cart */
+.custom-add-to-cart-button {
+  width: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border: 1px solid #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-sizing: border-box;
+}
+.custom-add-to-cart-button:hover { background:#f7f7f7; }
+.custom-add-to-cart-button.in-cart {
+  background:#00443F; color:#fff; border:1px solid #00443F; cursor:default;
+}
 
-    /* Base reset for both modals */
-    .modal,
-    #cart-modal{
-      position: fixed;
-      inset: 0;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      background: var(--oc-backdrop);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 10000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--oc-transition);
-    }
+/* Modal overlay */
+.cart-modal-overlay {
+  position: fixed; inset:0;
+  display:none; opacity:0; pointer-events:none;
+  justify-content:center; align-items:center;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(4px);
+  z-index:9999;
+  transition: opacity 200ms ease;
+}
+.cart-modal-overlay.show { display:flex; opacity:1; pointer-events:auto; }
 
-    /* Show states */
-    .modal.show,
-    #cart-modal.show{
-      display: flex;
-      opacity: 1;
-      pointer-events: auto;
-    }
+/* Modal content */
+.cart-modal-content {
+  width:min(92vw,440px);
+  background:#fff; color:#081326;
+  border-radius:12px; padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25),0 6px 20px rgba(0,0,0,.10);
+  text-align:center; position:relative;
+}
+.cart-modal-content h2 { margin-top:0; font-size:20px; font-weight:700; }
+.cart-in-cart-msg { color:#c03629; font-weight:700; margin-bottom:10px; }
 
-    /* Dialog shells */
-    .modal-content,
-    .cart-modal-content{
-      width: min(92vw, 440px);
-      max-height: min(86vh, 760px);
-      overflow: auto;
-      background: var(--oc-bg);
-      color: var(--oc-ink);
-      border-radius: var(--oc-radius);
-      border: 1px solid var(--oc-border);
-      box-shadow: var(--oc-shadow);
-      font-family: var(--oc-font);
-      padding: 24px 22px 20px;
-      transform: translateY(8px) scale(.98);
-      transition: transform var(--oc-transition), box-shadow var(--oc-transition);
-    }
+/* Inputs */
+.cart-modal-content label { display:block; margin:10px 0 5px; font-weight:600; }
+.cart-modal-content input,
+.cart-modal-content select {
+  width:100%; padding:10px;
+  border:1px solid #ccc; border-radius:6px;
+  font-size:14px;
+}
 
-    .modal.show .modal-content,
-    #cart-modal.show .cart-modal-content{
-      transform: translateY(0) scale(1);
-    }
+/* Actions */
+.cart-modal-actions { display:flex; gap:10px; margin-top:20px; }
+.cart-modal-actions .confirm {
+  flex:1; background:#081326; color:#fff; border:0; border-radius:6px; padding:12px; font-weight:700; cursor:pointer;
+}
+.cart-modal-actions .cancel {
+  flex:1; background:#f3f4f6; color:#081326; border:1px solid #ccc; border-radius:6px; padding:12px; font-weight:700; cursor:pointer;
+}
 
-    /* Headings & text */
-    .modal-content h2,
-    .cart-modal-content h2{
-      margin: 0 0 8px;
-      font-size: clamp(20px, 2.2vw, 26px);
-      font-weight: 800;
-      letter-spacing: .01em;
-    }
-
-    .modal-content p,
-    .cart-modal-content p{
-      margin: 0 0 16px;
-      font-size: 15px;
-      line-height: 1.55;
-      color: var(--oc-muted);
-    }
-
-    /* Actions row */
-    .modal-actions{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    /* Buttons — unified */
-    .modal-button,
-    .cart-modal-content button,
-    .custom-add-to-cart-button{
-      appearance: none;
-      -webkit-appearance: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 12px 14px;
-      font-family: var(--oc-font);
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      border-radius: 10px;
-      border: 1px solid #0000;
-      cursor: pointer;
-      transition: transform var(--oc-transition), box-shadow var(--oc-transition), background-color var(--oc-transition), color var(--oc-transition), border-color var(--oc-transition), opacity var(--oc-transition);
-    }
-
-    /* Primary (green) */
-    .modal-button,
-    .custom-add-to-cart-button.in-cart,
-    .cart-modal-content .confirm{
-      background-color: var(--oc-primary);
-      color: var(--oc-primary-ink);
-      border-color: var(--oc-primary);
-      box-shadow: 0 8px 18px rgba(0,0,0,.12);
-    }
-    .modal-button:hover,
-    .custom-add-to-cart-button.in-cart:hover,
-    .cart-modal-content .confirm:hover{
-      background-color: var(--oc-primary-strong);
-      border-color: var(--oc-primary-strong);
-      transform: translateY(-1px);
-    }
-
-    /* Ghost / secondary */
-    .cart-modal-content .cancel{
-      background: #f3f4f6;
-      color: var(--oc-ink);
-      border: 1px solid var(--oc-border);
-    }
-    .cart-modal-content .cancel:hover{
-      background: #eceef2;
-      transform: translateY(-1px);
-    }
-
-    /* Add to cart (outline) */
-    .custom-add-to-cart-button{
-      width: 50%;
-      background-color: #fff;
-      color: #000;
-      border: 1px solid #000;
-      border-radius: 10px;
-    }
-    .custom-add-to-cart-button:hover{
-      background-color: #f7f7f7;
-    }
-    .custom-add-to-cart-button.in-cart{
-      cursor: default;
-    }
-
-    /* Inputs */
-    .cart-modal-content select,
-    .cart-modal-content input{
-      width: 100%;
-      padding: 12px 12px;
-      margin-top: 6px;
-      border-radius: 10px;
-      border: 1px solid var(--oc-border);
-      font-family: var(--oc-font);
-      font-size: 14px;
-      transition: border-color var(--oc-transition), box-shadow var(--oc-transition);
-    }
-    .cart-modal-content select:focus,
-    .cart-modal-content input:focus{
-      outline: none;
-      border-color: var(--oc-accent);
-      box-shadow: 0 0 0 3px rgba(13,38,255,.15);
-    }
-
-    /* Spinner */
-    .spinner{
-      width: 16px;
-      height: 16px;
-      border: 2px solid transparent;
-      border-top: 2px solid currentColor;
-      border-right: 2px solid currentColor;
-      border-radius: 50%;
-      animation: oc-spin .8s linear infinite;
-    }
-    @keyframes oc-spin{ to{ transform: rotate(360deg); } }
-
-    /* Optional close icon */
-    .modal-close,
-    .cart-close{
-      position: sticky;
-      top: -8px;
-      margin-left: auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px; height: 34px;
-      border-radius: 8px;
-      background: #fff;
-      border: 1px solid var(--oc-border);
-      color: var(--oc-ink);
-      cursor: pointer;
-      transition: background-color var(--oc-transition), transform var(--oc-transition), box-shadow var(--oc-transition);
-    }
-    .modal-close:hover,
-    .cart-close:hover{ transform: translateY(-1px); background: #f8fafc; }
-
-    /* Focus visible */
-    .modal-button:focus-visible,
-    .custom-add-to-cart-button:focus-visible,
-    .cart-modal-content .confirm:focus-visible,
-    .cart-modal-content .cancel:focus-visible,
-    .cart-modal-content select:focus-visible,
-    .cart-modal-content input:focus-visible,
-    .modal-close:focus-visible,
-    .cart-close:focus-visible{
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(13,38,255,.28);
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .modal,
-      #cart-modal,
-      .modal-content,
-      .cart-modal-content,
-      .modal-button,
-      .custom-add-to-cart-button{ transition: none !important; }
-    }
-
-    /* Responsive tweaks */
-    @media (max-width: 560px){
-      .modal-content,
-      .cart-modal-content{
-        width: 96vw;
-        padding: 20px 16px 16px;
-        border-radius: 12px;
-      }
-      .modal-actions{ grid-template-columns: 1fr; }
-      .custom-add-to-cart-button{ width: 100%; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Example Modal -->
-  <div class="modal" id="info-modal">
-    <div class="modal-content">
-      <h2>Confirm action</h2>
-      <p>Are you sure you want to add this item?</p>
-      <div class="modal-actions">
-        <button class="modal-button">Yes</button>
-        <button class="modal-button" style="background:#ccc;color:#000;">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Example Cart Modal -->
-  <div id="cart-modal">
-    <div class="cart-modal-content">
-      <h2>Cart Options</h2>
-      <p>Choose your preferences before checkout.</p>
-      <select>
-        <option>Size M</option>
-        <option>Size L</option>
-      </select>
-      <input type="text" placeholder="Enter coupon code">
-      <button class="confirm">Confirm</button>
-      <button class="cancel">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Example add to cart button -->
-  <button class="custom-add-to-cart-button">Add to Cart</button>
-
-</body>
-</html>
+/* Close */
+.cart-close {
+  position:absolute; top:10px; right:10px;
+  background:#fff; border:1px solid #ccc;
+  border-radius:6px; width:32px; height:32px;
+  font-size:18px; cursor:pointer;
+}
+</style>
