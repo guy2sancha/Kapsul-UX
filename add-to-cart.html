@@ -1,19 +1,82 @@
-<!-- Exemple bouton -->
-<button 
-  class="custom-add-to-cart-button"
-  data-product-id="rec6RuPz8zgA77WMV"
-  data-quantity="S, M, L"
-  data-name="Kimono Jacket"
-  data-price="18000"
-  data-image="https://example.com/img.jpg"
-  data-sold-by="Tokyo Craft"
->
-  Add to Cart
-</button>
-
-<!-- ================== CSS ================== -->
 <style>
-/* Bouton Add to Cart */
+
+/* === CART MODAL OVERLAY === */
+#cart-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* === MODAL BOX === */
+.cart-modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.cart-modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #081326;
+}
+
+.cart-modal-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #444;
+}
+
+.cart-modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  text-align: center;
+}
+
+.cart-modal-content button {
+  width: 100%;
+  padding: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Confirm and Cancel Buttons */
+.cart-modal-content .confirm {
+  background-color: #081326;
+  color: white;
+}
+.cart-modal-content .confirm:hover {
+  background-color: #0D26FF;
+}
+
+.cart-modal-content .cancel {
+  background-color: #eee;
+  color: #333;
+}
+.cart-modal-content .cancel:hover {
+  background-color: #ddd;
+}
+
+/* === ADD TO CART BUTTON === */
 .custom-add-to-cart-button {
   width: 50%;
   background-color: #ffffff;
@@ -28,57 +91,15 @@
   text-align: center;
   box-sizing: border-box;
 }
-.custom-add-to-cart-button:hover { background:#f7f7f7; }
+
+.custom-add-to-cart-button:hover {
+  background-color: #f7f7f7;
+}
+
 .custom-add-to-cart-button.in-cart {
-  background:#00443F; color:#fff; border:1px solid #00443F; cursor:default;
-}
-
-/* Modal overlay */
-.cart-modal-overlay {
-  position: fixed; inset:0;
-  display:none; opacity:0; pointer-events:none;
-  justify-content:center; align-items:center;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(4px);
-  z-index:9999;
-  transition: opacity 200ms ease;
-}
-.cart-modal-overlay.show { display:flex; opacity:1; pointer-events:auto; }
-
-/* Modal content */
-.cart-modal-content {
-  width:min(92vw,440px);
-  background:#fff; color:#081326;
-  border-radius:12px; padding:24px;
-  box-shadow:0 20px 60px rgba(0,0,0,.25),0 6px 20px rgba(0,0,0,.10);
-  text-align:center; position:relative;
-}
-.cart-modal-content h2 { margin-top:0; font-size:20px; font-weight:700; }
-.cart-in-cart-msg { color:#c03629; font-weight:700; margin-bottom:10px; }
-
-/* Inputs */
-.cart-modal-content label { display:block; margin:10px 0 5px; font-weight:600; }
-.cart-modal-content input,
-.cart-modal-content select {
-  width:100%; padding:10px;
-  border:1px solid #ccc; border-radius:6px;
-  font-size:14px;
-}
-
-/* Actions */
-.cart-modal-actions { display:flex; gap:10px; margin-top:20px; }
-.cart-modal-actions .confirm {
-  flex:1; background:#081326; color:#fff; border:0; border-radius:6px; padding:12px; font-weight:700; cursor:pointer;
-}
-.cart-modal-actions .cancel {
-  flex:1; background:#f3f4f6; color:#081326; border:1px solid #ccc; border-radius:6px; padding:12px; font-weight:700; cursor:pointer;
-}
-
-/* Close */
-.cart-close {
-  position:absolute; top:10px; right:10px;
-  background:#fff; border:1px solid #ccc;
-  border-radius:6px; width:32px; height:32px;
-  font-size:18px; cursor:pointer;
+  background-color: #081326;
+  color: white;
+  border: 1px solid #081326;
+  cursor: default;
 }
 </style>
