@@ -1,493 +1,134 @@
-<style>
 
-  .nav-links i {
-    padding-top: 12px;
-  font-size: 15px; /* ajuste si nécessaire */
-  display: inline-block;
-}
-
-
-  a {
-    color: #000;
-    text-decoration: none;
-    background-color: transparent;
-}
-  
-  /* General layout */
-  #kapsul-ticker-bar {
-    background: #fff;
-    color: #000;
-    font-family: 'jost', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: center;
-    border-bottom: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-  }
-
-  .ticker-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    white-space: nowrap;
-    gap: 20px;
-  }
-
-    .mini-tag {
-            background: #000;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 300;
-    padding: 0px 5px;
-    border-radius: 999px;
-    width: auto;
-    margin-top: 30px;
-    display: inline-block;
-    text-align: center;
-}
-
- /* Ajout au CSS existant */
-
-#customHeader {
-    position: fixed;
-    top: 36px;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 2%;
-    border-bottom: 1px solid transparent;  /* Transparent initialement */
-    z-index: 1000;
-  transition: top 0.4s ease, background-color 0.4s ease, border-bottom 0.4s ease, box-shadow 0.4s ease;
-}
-
-#customHeader.scrolled {
-    background-color: #001d21; /* Couleur après scroll */
-    border-bottom: 1px solid #001d21;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Ajoute une ombre légère */
-}
-
-
-  .logo-container {
-    flex: 1;
-    display: flex;
-    justify-content: right;
-  }
-
-  .logo-container img {
-    height: 80px;
-  }
-
-  .nav-links {
-    display: flex;
-        font-size: 16px;
-    position: absolute;
-    left: 15px;
-    background: #012b31;
-    border-radius: 15px;
-    padding: 5px;
-  }
-
-  .nav-links a,
-  .nav-links2 a {
-    text-decoration: none;
-    color: #fffff0;
-    font-weight: 500;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    transition: transform 0.3s ease;
-  }
-
-  .nav-links a:hover,
-  .nav-links2 a:hover {
-    color: #FF395C;
-  }
-
-  .nav-item {
-    position: relative;
-  }
-
-  .chevron {
-    font-size: 10px;
-    margin-left: 4px;
-    transition: transform 0.3s ease;
-  }
-
-  .nav-item:hover .chevron {
-    transform: rotate(180deg);
-  }
-
-  .dropdown-submenu {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    pointer-events: none;
-    position: absolute;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    min-width: 600px;
-    color: #000;
-}
-
-.nav-item:hover > .dropdown-submenu {
-    display: flex;
-    flex-direction: column;
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.dropdown-submenu .header-title {
-    font-weight: 300;
-    font-style: italic;
-    font-size: 14px;
-    text-align: left;
-    margin-top: 30px;
-    color: #000;
-}
-
-.dropdown-submenu .columns {
-    display: flex;
-    justify-content: space-around;
-    gap: 30px;
-}
-
-.dropdown-submenu .column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.dropdown-submenu .column + .column {
-    border-left: 2px solid #e0e0e0;
-    padding-left: 25px;
-}
-
-.dropdown-submenu a {
-    font-size: 14px;
-    padding: 0px 0;
-    text-decoration: none;
-    color: #111;
-    transition: color 0.3s;
-}
-
-.dropdown-submenu a:hover {
-    color: #f93d3a;
-}
-
-.icon {
-    margin-right: 8px;
-    width: 20px;
-    text-align: center;
-}
-
-  .user-actions {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    right: 60px;
-  }
-
-  .toggle-mode {
-  display: none;
-  align-items: center;
-  gap: 0px;
-  font-size: 13px;
-  color: #000;
-  margin-left: auto; /* pousse à droite */
-}
-
-    label {
-    display: inline-block;
-    margin-bottom: 0px!important;
-}
-
-
-.mode-option {
-  min-width: 50px;
-      color: #174e3d;
-  text-align: center;
-  opacity: 0.6;
-  transition: opacity 0.3s, color 0.3s;
-}
-
-.mode-option.active {
-  color: #fff;
-  opacity: 1;
-}
-
-.kapsul-switch {
-  position: relative;
-  width: 46px;
-  height: 24px;
-  display: inline-block;
-}
-
-.kapsul-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.kapsul-switch .slider {
-    background-color: #fff;
-    border: 1px solid #191919;
-    border-radius: 24px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    cursor: pointer;
-    transition: background-color 0.4s;
-}
-
-
-.kapsul-switch .slider:before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  background-color: #f93d3a;
-  border-radius: 50%;
-  left: 3px;
-  bottom: 2px;
-  transition: transform 0.4s;
-}
-
-.kapsul-switch input:checked + .slider:before {
-  transform: translateX(22px);
-}
-
-  .dropdown-submenu .column + .column {
-  border-left: 1px solid #e0e0e0; /* Ligne fine grise */
-  padding-left: 20px; /* Un peu d'espace pour ne pas coller le texte à la bordure */
-}
-
-  #languageSelector,
-    #currencySelector {
-            padding: 5px 8px;
-    border: 1px solid #001d20;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #001d20;
-    cursor: pointer;
-    color: #fffff0;
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/9e6c6c4f5a.js" crossorigin="anonymous"></script>
+  <style>
+    :root{
+      --bg:#fff;
+      --ink:#000;
+      --gold:#bc012c;
+      --card:#ffffff;
+      --shadow:0 10px 30px rgba(0,0,0,.2);
     }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    a{color:inherit;text-decoration:none}
 
-  .nav-links2 .dropdown-submenu.one-column {
-  display: flex;
-  flex-direction: column;
-  max-width: 200px;
-  gap: 10px;
-}
+    /* Header */
+    .hdr{position:fixed;left:0;right:0;top:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:10px 20px;background:var(--bg);border-bottom:1px solid var(--ink);}
 
-.nav-links2 .dropdown-submenu.one-column .column {
-  width: 100%;
-  padding: 0;
-  border-left: none;
-}
+    .hdr .bar{width:100%;max-width:1400px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
 
-  .category-title {
-  font-weight: bold;
-  text-decoration: underline;
-  font-style: italic;
-  font-size: 0.8em; /* Adjust font size */
-  margin-bottom: 10px; /* Add spacing below */
-  color: #333333; /* Text color */
-}
+    /* Left nav */
+    .nav{display:flex;gap:8px;color:var(--ink)}
+    .nav > .item{position:relative}
+    .nav > .item > a{display:flex;align-items:center;gap:6px;padding:8px 12px;font-size:14px;font-weight:400;border-radius:10px}
+    .nav > .item > a:hover{color:var(--gold)}
 
-    .toggle-mode a:hover {
-    text-decoration: underline;
-  }
-  .mode-option-active {
-    text-decoration: underline;
-    font-weight: bold;
-  }
+    /* Center logo */
+    .logo{display:flex;justify-content:center}
+    .logo img{height:64px;display:block}
 
-  .soon::after {
-  content: "Soon";
-  font-size: 10px;
-  font-weight: 500;
-  background: #BEBBFF;
-  color: #000;
-  padding: 2px 6px;
-  margin-left: 6px;
-  border-radius: 999px;
-  text-transform: uppercase;
-  display: inline-block;
-  vertical-align: middle;
-}
+    /* Right actions */
+    .actions{display:flex;justify-content:flex-end;gap:18px;color:var(--ink);align-items:center}
+    .actions a{font-weight:500}
+    .actions a:hover{color:var(--gold)}
 
-.contributor-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 10px 8px;
-}
+    /* Compact country selector */
+    .country-selector{position:relative}
+    .country-selector select{appearance:none;background:transparent;border:1px solid var(--ink);color:var(--ink);padding:6px 6px 6px 28px;border-radius:8px;cursor:pointer;font-size:12px}
+    .country-selector option{color:#111}
+    .country-selector::before{content:"\f57d";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--ink);font-size:14px}
 
-.contributor-card {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  border-radius: 12px;
-  overflow: hidden;
-  text-decoration: none;
-  display: block;
-  transform: scale(1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    /* Mega menu */
+    .mega{position:fixed;left:3%;right:3%;top:60px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:28px;display:none;opacity:0;transform:translateY(8px);transition:.2s ease;z-index:9997}
+    .item:hover .mega, .item:focus-within .mega{display:block;opacity:1;transform:translateY(0)}
+    .mega .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;align-items:start}
+    .mega .col{display:flex;flex-direction:column;gap:8px}
+    .ttl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;margin-bottom:6px}
+    .mega a{color:#111;font-size:13px;padding:4px 0}
+    .mega a:hover{color:#000}
+    .new-card{overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .new-card img{width:100%;height:250px;object-fit:cover;border-radius:0px;margin-bottom:8px}
 
-.contributor-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+    /* Responsive */
+    @media (max-width:1100px){
+      .mega{left:2%;right:2%}
+      .mega .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:880px){
+      .nav{display:none}
+      .logo img{height:52px}
+    }
+  </style>
 
-  .contributor-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.contributor-card .overlay-text {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 10px;
-  width: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.3em;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-
-/* CTA at the bottom */
-.view-all-contributors {
-  display: block;
-  margin: 12px 0 0 8px;
-  font-size: 13px;
-  font-style: italic;
-  text-decoration: none;
-  color: #000;
-}
-
-.view-all-contributors:hover {
-  text-decoration: underline;
-}
-
-
-
-</style>
-
-<div id="kapsul-ticker-bar">
-  <div class="ticker-inner">
-    <div id="time-tokyo" style="font-style: italic;">🔍 What are you looking for today:</div>
-    <div class="toggle-mode">
-      <span class="mode-label" style="margin-right: 20px; font-style: italic; text-decoration: underline;">I am:</span>
-      <a href="/business" class="mode-option left" id="labelImport" style="text-decoration: none; margin-right: 10px;">A Business</a>
-      <label class="kapsul-switch">
-        <input type="checkbox" id="modeToggle" checked>
-        <span class="slider"></span>
-      </label>
-      <a href="/" class="mode-option-active right" id="labelExport" style="text-decoration: underline; margin-left: 10px;">An Individual</a>
-    </div>
-  </div>
-</div>
-
-
-<div id="customHeader">
-  <div class="logo-container">
-    <a href="/shop">
-      <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo" />
-    </a>
-  </div>
-
-  <nav class="nav-links">
-
-    <!-- Products -->
-    <div class="nav-item">
-      <a href="#">Products<span class="chevron">▼</span></a>
-      <div class="dropdown-submenu">
-        <div class="columns">
-          <div class="column">
-            <a href="/brands/home-decor"><span class="icon">🏠</span> Home & Decor</a>
-            <a href="/brands/food-drink"><span class="icon">🍱</span> Food & Drink</a>
-            <a href="/brands/alcohol"><span class="icon">🍶</span> Alcohol</a>
-            <a href="/brands/beauty-wellness"><span class="icon">💄</span> Beauty & Wellness</a>
-            <a href="/brands/jewelry"><span class="icon">💍</span> Jewelry</a>
-          </div>
-          <div class="column">
-            <a href="/brands/fashion"><span class="icon">👕</span> Fashion</a>
-            <a href="/brands/kids-baby"><span class="icon">👶</span> Kids & Baby</a>
-            <a href="/brands/paper-gifts"><span class="icon">📄</span> Stationery & Gifts</a>
-            <a href="/brands/pets"><span class="icon">🐾</span> Pets</a>
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="bar">
+      <!-- LEFT NAV -->
+      <nav class="nav" aria-label="Primary">
+        <div class="item">
+          <a href="#">Women <span style="font-size:10px">▾</span></a>
+          <div class="mega">
+            <div class="grid">
+              <div class="new-card">
+                <img src="https://www.centrecommercial.cc/modules/pm_advancedtopmenu/column_icons/18-fr.jpg" alt="New arrivals" />
+                <div class="ttl">Nouveautés</div>
+              </div>
+              <div class="col">
+                <div class="ttl">Vêtements</div>
+                <a href="#">T-shirts</a>
+                <a href="#">Chemises</a>
+                <a href="/marketplace/women/bottoms">Pantalons</a>
+                <a href="#">Robes & Jupes</a>
+                <a href="#">Vestes & Manteaux</a>
+              </div>
+              <div class="col">
+                <div class="ttl">Chaussures</div>
+                <a href="#">Sneakers</a>
+                <a href="#">Bottes</a>
+                <a href="#">Sandales</a>
+              </div>
+              <div class="col">
+                <div class="ttl">Accessoires</div>
+                <a href="#">Sacs</a>
+                <a href="#">Bijoux</a>
+                <a href="#">Chapeaux</a>
+              </div>
+              <div class="col">
+                <div class="ttl">Collections</div>
+                <a href="#">Made in Japan</a>
+                <a href="#">Denim</a>
+                <a href="#">Minimal</a>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="mini-tag">We're always on the hunt for new gems.</div>
+        <div class="item"><a href="#">Men</a></div>
+        <div class="item"><a href="#">Kids</a></div>
+        <div class="item"><a href="#">Beauty</a></div>
+        <div class="item"><a href="#">Lifestyle</a></div>
+      </nav>
+
+      <!-- CENTER LOGO -->
+      <div class="logo">
+        <a href="/shop"><img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(1).svg" alt="OpenCircle" /></a>
       </div>
-    </div>
 
-      <!-- Cart -->
-    <div class="nav-item">
-      <a href="/cart">Ranking</a>
-    </div>
-
-    <!-- Contributors -->
-    <div class="nav-item">
-      <a href="#">Contributors<span class="chevron">▼</span></a>
-      <div class="dropdown-submenu one-column">
-        <div class="contributor-highlight-title">Spotlight on Local Voices</div>
-        <div class="contributor-grid">
-          <a href="/contributor/geoffrey" class="contributor-card">
-            <img src="https://kapsul-studios.b-cdn.net/IMG_3006.JPG" alt="Geoffrey" />
-            <div class="overlay-text">Japan Gems<br>By Geoffrey</div>
-          </a>
-          <a href="/contributor/sakura" class="contributor-card">
-            <img src="https://kapsul-studios.b-cdn.net/Kapsul%20Studios2.webp" alt="Sakura" />
-            <div class="overlay-text">Nippon Made<br>By Sakura</div>
-          </a>
+      <!-- RIGHT ACTIONS -->
+      <div class="actions">
+   
+        <a href="https://opencircle.jp" target="_blank" rel="noreferrer">Directory</a>
+        <a href="/account" title="Account"><i class="fa-regular fa-user"></i></a>
+        <a href="/cart" title="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+             <div class="country-selector">
+          <select onchange="location.href=this.value">
+            <option value="/" selected>Global – ¥</option>
+            <option value="/ja">Japan – ¥</option>
+            <option value="/fr">France – €</option>
+            <option value="/en">USA – $</option>
+          </select>
         </div>
-        <a href="/contributors" class="view-all-contributors">→ Discover All Contributors</a>
       </div>
     </div>
-
-    <!-- Cart -->
-   <div class="nav-item">
-  <a href="/cart"><i class="fa-solid fa-cart-shopping fa-2xs"></i></a>
-</div>
-
-
-    <!-- Currency -->
-    <div class="nav-item">
-<a href="#"><span id="currency-symbol">¥</span><span class="chevron">▼</span></a>
-  <div class="dropdown-submenu one-column">
-    <div class="column">
-      <a href="#" onclick="setCurrency('JPY')">¥ JPY</a>
-      <a href="#" onclick="setCurrency('EUR')">€ EUR</a>
-      <a href="#" onclick="setCurrency('USD')">$ USD</a>
-    </div>
-  </div>
-</div>
-
-
-  </nav>
-</div>
-
