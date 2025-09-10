@@ -1,127 +1,187 @@
-function showModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add("show");
-    } else {
-        console.error(`❌ Modale ${modalId} introuvable.`);
-    }
-}
+// ============================================================
+// LOCAL CART SYSTEM
+// ============================================================
 
-function initializeCartSystem() {
-    console.log("🛒 Initialisation du système de panier...");
+// Initialise le système local de panier
+window.initializeLocalCartSystem = function () {
+  try {
+    console.log("🛒 Initializing local cart system...");
 
-    const buttons = document.querySelectorAll(".custom-add-to-cart-button");
-    const API_URL = "https://kapsul-cart-backend-production.up.railway.app"; 
-    const userToken = localStorage.getItem("userToken");
-
-    console.log("🔍 Vérification du token utilisateur:", userToken ? "✅ Présent" : "❌ Absent");
+    const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
+    const cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
     buttons.forEach(button => {
-        const productID = button.getAttribute("data-product-id");
-        const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
+      if (!button || button.dataset.listenerAdded === "true") return;
 
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
+      const productID = button.getAttribute("data-product-id");
+      if (!productID) return;
 
-            if (!userToken) {
-                console.log("❌ Aucun utilisateur connecté, affichage de la modale de login...");
-                showModal('cartModal');
-                return;
-            }
+      const maxQuantity = button.getAttribute("data-quantity") || 1;
 
-            openCartModal(button, productID, maxQuantity);
-        });
+      // Marque déjà les produits en panier
+      if (cart[productID]) {
+        button.textContent = "In Cart";
+        button.classList.add("in-cart");
+      }
+
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.openLocalCartModal(button, productID, maxQuantity);
+      });
+
+      button.dataset.listenerAdded = "true";
     });
-}
+  } catch (err) {
+    console.error("❌ Error in initializeLocalCartSystem:", err);
+  }
+};
 
-function openCartModal(button, productID, maxQuantity) {
-    console.log(`🛍 Ouverture du modal pour : ${productID}, quantité max : ${maxQuantity}`);
+// Ouvre le modal "Add to Cart"
+window.openLocalCartModal = function (button, productID, quantityOrSizes) {
+  const existingModal = document.getElementById("cart-modal");
+  if (existingModal) existingModal.remove();
 
-    const existingModal = document.getElementById("cart-modal");
-    if (existingModal) existingModal.remove();
+  const cart = JSON.parse(localStorage.getItem("localCart")) || {};
+  const isInCart = !!cart[productID];
 
-    const modalHTML = `
-      <div id="cart-modal" class="cart-modal-overlay">
-        <div class="cart-modal-content">
-          <h2>Réserver votre produit</h2>
-          <p>📦 Quantité disponible : ${maxQuantity}<br>🔑 Product ID : ${productID}</p>
-          <label for="cart-quantity">Quantité (max ${maxQuantity}) :</label>
-          <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1">
-          <button id="submit-cart" class="confirm">Confirmer</button>
-          <button id="close-cart" class="cancel">Annuler</button>
+  const inCartMessage = isInCart
+    ? `<p class="cart-in-cart-msg">Already in your cart</p>`
+    : "";
+
+  let inputField = "";
+
+  // Vérifie si c'est une liste (tailles) ou un nombre
+  if (isNaN(quantityOrSizes)) {
+    const options = quantityOrSizes
+      .split(",")
+      .map(v => `<option value="${v.trim()}">${v.trim()}</option>`)
+      .join("");
+    inputField = `
+      <label for="cart-size">Choose Size:</label>
+      <select id="cart-size">${options}</select>
+    `;
+  } else {
+    inputField = `
+      <label for="cart-quantity">Quantity (max ${quantityOrSizes}):</label>
+      <input type="number" id="cart-quantity" min="1" max="${quantityOrSizes}" value="1">
+    `;
+  }
+
+  const modalHTML = `
+    <div id="cart-modal" class="cart-modal-overlay">
+      <div class="cart-modal-content">
+        <h2>Add to Cart</h2>
+        ${inCartMessage}
+        ${inputField}
+        <div class="cart-modal-actions">
+          <button id="submit-cart" class="confirm">Confirm</button>
+          <button id="close-cart" class="cancel">Cancel</button>
         </div>
       </div>
-    `;
-    document.body.insertAdjacentHTML("beforeend", modalHTML);
+    </div>
+  `;
 
-    document.getElementById("submit-cart").addEventListener("click", () => {
-        const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
-        if (quantity > maxQuantity || quantity < 1) {
-            alert(`Veuillez sélectionner une quantité entre 1 et ${maxQuantity}`);
-            return;
-        }
-        addToCart(button, productID, quantity);
-    });
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-    document.getElementById("close-cart").addEventListener("click", () => {
-        document.getElementById("cart-modal").remove();
-    });
-}
+  document.getElementById("submit-cart").addEventListener("click", () => {
+    let chosenValue;
 
-async function addToCart(button, productID, quantity) {
-    const API_URL = "https://kapsul-cart-backend-production.up.railway.app";
-    const userToken = localStorage.getItem("userToken");
-
-    console.log(`➕ Ajout au panier : ${productID}, quantité : ${quantity}`);
-    button.disabled = true;
-    button.innerHTML = `<span class="spinner"></span> Adding...`;
-
-    try {
-        const response = await fetch(`${API_URL}/cart/add`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${userToken}`
-            },
-            body: JSON.stringify({
-                userToken: userToken,
-                productID: productID,
-                quantity: quantity
-            })
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            console.log("✅ Produit ajouté au panier !");
-            button.textContent = "In Cart";
-            button.classList.add("in-cart");
-            button.disabled = true;
-            document.getElementById("cart-modal").remove();
-            alert("Produit ajouté avec succès !");
-        } else {
-            throw new Error(result.message || "Erreur lors de l'ajout.");
-        }
-    } catch (error) {
-        console.error("❌ Erreur:", error);
-        alert(error.message);
-        button.innerHTML = "Add to Cart";
-        button.disabled = false;
+    if (isNaN(quantityOrSizes)) {
+      chosenValue = document.getElementById("cart-size").value;
+    } else {
+      const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
+      if (isNaN(quantity) || quantity < 1 || quantity > parseInt(quantityOrSizes, 10)) {
+        alert("Invalid quantity.");
+        return;
+      }
+      chosenValue = quantity;
     }
-}
 
-// Initialisation après chargement
-document.addEventListener("DOMContentLoaded", initializeCartSystem);
+    window.addToLocalCart(button, productID, chosenValue);
 
-// Observateur DOM pour surveiller les ajouts dynamiques
-const observer = new MutationObserver(() => {
-    console.log("🔄 DOM modifié, réinitialisation du système panier...");
-    initializeCartSystem();
-});
-observer.observe(document.body, { childList: true, subtree: true });
+    const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
+    if (liveButton && liveButton.classList) {
+      liveButton.textContent = "In Cart";
+      liveButton.classList.add("in-cart");
+    }
 
-// Gestion de la navigation (back/forward)
-window.addEventListener("popstate", () => {
-    console.log("🔄 Navigation détectée, réinitialisation...");
-    initializeCartSystem();
-});
+    document.getElementById("cart-modal")?.remove();
+  });
+
+  document.getElementById("close-cart").addEventListener("click", () => {
+    document.getElementById("cart-modal")?.remove();
+  });
+};
+
+// Sauvegarde les infos dans le localStorage
+window.addToLocalCart = function (button, productID, chosenValue) {
+  let cart = JSON.parse(localStorage.getItem("localCart")) || {};
+
+  const name = button.getAttribute("data-name") || "";
+  const price = button.getAttribute("data-price") || "";
+  const image = button.getAttribute("data-image") || "";
+  const size = isNaN(button.getAttribute("data-quantity")) ? chosenValue : "";
+  const condition = button.getAttribute("data-condition") || "";
+  const seller = button.getAttribute("data-sold-by") || "";
+  const freeShipping = button.getAttribute("data-free-shipping") === "true";
+  const quantity = !isNaN(button.getAttribute("data-quantity")) ? chosenValue : 1;
+
+  cart[productID] = {
+    id: productID,
+    name,
+    price,
+    image,
+    size,
+    condition,
+    seller,
+    freeShipping,
+    quantity
+  };
+
+  try {
+    localStorage.setItem("localCart", JSON.stringify(cart));
+    console.log("🛒 Cart updated:", cart);
+  } catch (err) {
+    console.error("❌ Failed to write to localStorage:", err);
+  }
+};
+
+// Réinitialisation sur navigation SPA
+(function () {
+  let lastUrl = location.href;
+
+  function reinitCartSystem() {
+    console.log("🔁 Checking for cart re-init...");
+    setTimeout(() => {
+      if (window.initializeLocalCartSystem) {
+        window.initializeLocalCartSystem();
+      }
+    }, 600);
+  }
+
+  reinitCartSystem();
+
+  const observer = new MutationObserver(() => {
+    if (location.href !== lastUrl) {
+      lastUrl = location.href;
+      console.log("🌐 URL change detected, re-initializing cart system...");
+      reinitCartSystem();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+// Observation DOM (Softr / Airtable rendering delay)
+(function observeCartButtons() {
+  const observer = new MutationObserver(() => {
+    window.initializeLocalCartSystem();
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  setTimeout(() => {
+    console.log("⏳ Forcing cart init after timeout...");
+    window.initializeLocalCartSystem();
+  }, 1000);
+})();
