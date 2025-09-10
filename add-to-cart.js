@@ -5,9 +5,6 @@
    - Works with dynamic DOM (Softr/Airtable)
    ============================================================ */
 
-/* ---------------------------
-   Utilities
---------------------------- */
 function getCart() {
   try {
     return JSON.parse(localStorage.getItem("localCart")) || {};
@@ -23,7 +20,6 @@ function setCart(cart) {
   }
 }
 
-/** Build a stable key so a same product can exist with different sizes */
 function cartKey(productID, size) {
   const s = (size || "").trim();
   return s ? `${productID}::${s}` : productID;
@@ -34,13 +30,12 @@ function parseQuantityOrSizes(val) {
   if (val == null) return { type: "qty", max: 1 };
   const str = String(val).trim();
 
-  // If it contains a non-digit (and commas), treat as sizes
   if (isNaN(str)) {
     const sizes = str
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean);
-    return { type: "sizes", sizes, max: 10 }; // default max per add when using sizes
+    return { type: "sizes", sizes, max: 99 }; // plus de limite forcée à 10
   }
 
   const max = parseInt(str, 10);
@@ -50,17 +45,13 @@ function parseQuantityOrSizes(val) {
 /* ---------------------------
    Core: open modal
 --------------------------- */
-window.openLocalCartModal = function openLocalCartModal(button, productID, quantityOrSizes) {
-  // Remove existing modal if any
+window.openLocalCartModal = function (button, productID, quantityOrSizes) {
   document.getElementById("cart-modal")?.remove();
 
   const parsed = parseQuantityOrSizes(quantityOrSizes);
   const cart = getCart();
-
-  // If an item exists (any size), show a small note
   const already = Object.keys(cart).some((k) => k.startsWith(productID));
 
-  // Build fields
   const sizeField =
     parsed.type === "sizes"
       ? (() => {
@@ -80,7 +71,6 @@ window.openLocalCartModal = function openLocalCartModal(button, productID, quant
     <input type="number" id="cart-quantity" class="cart-input" min="1" max="${qtyMax}" value="1">
   `;
 
-  // Modal HTML structure (no inline layout except minimal fallback)
   const modalHTML = `
     <div id="cart-modal" aria-modal="true" role="dialog">
       <div class="cart-modal-content" role="document">
@@ -97,30 +87,23 @@ window.openLocalCartModal = function openLocalCartModal(button, productID, quant
   `;
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
-
-  // Minimal fallback style if your CSS isn't loaded (keeps you safe)
   ensureMinimalModalStyle();
 
   const modal = document.getElementById("cart-modal");
-  const closeBtn = modal.querySelector(".cart-close");
-  const cancelBtn = modal.querySelector("#close-cart");
-  const submitBtn = modal.querySelector("#submit-cart");
-
-  function closeModal() {
+  const closeModal = () => {
     modal.remove();
     document.removeEventListener("keydown", escHandler);
-  }
-  function escHandler(e) {
-    if (e.key === "Escape") closeModal();
-  }
+  };
+  const escHandler = (e) => e.key === "Escape" && closeModal();
+
   document.addEventListener("keydown", escHandler);
-  closeBtn.addEventListener("click", closeModal);
-  cancelBtn.addEventListener("click", closeModal);
+  modal.querySelector(".cart-close").addEventListener("click", closeModal);
+  modal.querySelector("#close-cart").addEventListener("click", closeModal);
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
   });
 
-  submitBtn.addEventListener("click", () => {
+  modal.querySelector("#submit-cart").addEventListener("click", () => {
     const qty = parseInt(document.getElementById("cart-quantity").value, 10);
     if (!Number.isFinite(qty) || qty < 1 || qty > qtyMax) {
       alert("Invalid quantity.");
@@ -134,13 +117,11 @@ window.openLocalCartModal = function openLocalCartModal(button, productID, quant
         alert("Please choose a size.");
         return;
       }
-      // Store the chosen size back on the button so it’s captured in attributes too
       button.setAttribute("data-size", chosenSize);
     }
 
     window.addToLocalCart(button, productID, qty, chosenSize);
 
-    // Reflect on the live button (same productID, any size)
     const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
     if (liveButton) {
       liveButton.textContent = "In Cart";
@@ -152,16 +133,14 @@ window.openLocalCartModal = function openLocalCartModal(button, productID, quant
 };
 
 /* ---------------------------
-   Core: write into localStorage
+   Save to localStorage
 --------------------------- */
-window.addToLocalCart = function addToLocalCart(button, productID, quantity, chosenSize = "") {
+window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
   const cart = getCart();
 
-  // Read attributes from the button (Airtable-fed)
   const name = button.getAttribute("data-name") || "";
-  const price = button.getAttribute("data-price") || ""; // keep as string; parse price later if needed
+  const price = button.getAttribute("data-price") || "";
   const image = button.getAttribute("data-image") || "";
-  // priority to chosenSize when present
   const size = chosenSize || button.getAttribute("data-size") || "";
   const condition = button.getAttribute("data-condition") || "";
   const seller = button.getAttribute("data-sold-by") || "";
@@ -170,13 +149,11 @@ window.addToLocalCart = function addToLocalCart(button, productID, quantity, cho
   const key = cartKey(productID, size);
 
   if (cart[key]) {
-    // If same key (same product + same size), bump quantity but clamp to a sane max (99)
-    const nextQty = Math.min((cart[key].quantity || 0) + quantity, 99);
-    cart[key].quantity = nextQty;
+    cart[key].quantity = Math.min((cart[key].quantity || 0) + quantity, 99);
   } else {
     cart[key] = {
-      id: key,             // unique per product+size
-      base_id: productID,  // original product id
+      id: key,
+      base_id: productID,
       name,
       price,
       image,
@@ -184,7 +161,7 @@ window.addToLocalCart = function addToLocalCart(button, productID, quantity, cho
       condition,
       seller,
       freeShipping,
-      quantity
+      quantity,
     };
   }
 
@@ -192,9 +169,9 @@ window.addToLocalCart = function addToLocalCart(button, productID, quantity, cho
 };
 
 /* ---------------------------
-   Init & observers (SPA/Dynamic)
+   Init
 --------------------------- */
-window.initializeLocalCartSystem = function initializeLocalCartSystem() {
+window.initializeLocalCartSystem = function () {
   const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
   const cart = getCart();
 
@@ -204,10 +181,9 @@ window.initializeLocalCartSystem = function initializeLocalCartSystem() {
     const productID = button.getAttribute("data-product-id");
     if (!productID) return;
 
-    const qAttr = button.getAttribute("data-quantity"); // may be "3" or "S, M, L"
+    const qAttr = button.getAttribute("data-quantity");
     const parsed = parseQuantityOrSizes(qAttr);
 
-    // If any variant of this product is in the cart, show "In Cart"
     const inCart = Object.keys(cart).some((k) => k.startsWith(productID));
     if (inCart) {
       button.textContent = "In Cart";
@@ -223,16 +199,12 @@ window.initializeLocalCartSystem = function initializeLocalCartSystem() {
   });
 };
 
-// Run once + watch DOM & URL changes
 (function bootstrapCart() {
-  // Initial (delay for Softr/Airtable rendering)
   setTimeout(() => window.initializeLocalCartSystem(), 400);
 
-  // Re-init on DOM changes
   const domObs = new MutationObserver(() => window.initializeLocalCartSystem());
   domObs.observe(document.body, { childList: true, subtree: true });
 
-  // Re-init on SPA URL changes
   let lastUrl = location.href;
   const urlObs = new MutationObserver(() => {
     if (location.href !== lastUrl) {
@@ -243,11 +215,6 @@ window.initializeLocalCartSystem = function initializeLocalCartSystem() {
   urlObs.observe(document.body, { childList: true, subtree: true });
 })();
 
-/* ---------------------------
-   Minimal fallback style (optional but safe)
-   If your CSS is already loaded for #cart-modal & .cart-modal-content,
-   you can remove this function.
---------------------------- */
 function ensureMinimalModalStyle() {
   if (document.getElementById("cart-modal-fallback-style")) return;
   const style = document.createElement("style");
