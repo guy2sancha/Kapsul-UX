@@ -1,7 +1,3 @@
-// ============================
-//  CART SYSTEM (LocalStorage)
-// ============================
-
 // Initialise le système local de panier
 window.initializeLocalCartSystem = function () {
   try {
@@ -16,18 +12,17 @@ window.initializeLocalCartSystem = function () {
       const productID = button.getAttribute("data-product-id");
       if (!productID) return;
 
-      const quantityOrSizes = button.getAttribute("data-quantity") || "1";
+      const maxQuantity = parseInt(button.getAttribute("data-quantity")) || 1;
 
-      // Si déjà dans le panier → on marque le bouton
+      // Marquer déjà les produits en panier
       if (cart[productID]) {
         button.textContent = "In Cart";
         button.classList.add("in-cart");
       }
 
-      // Click → ouvre le modal
       button.addEventListener("click", (event) => {
         event.preventDefault();
-        window.openLocalCartModal(button, productID, quantityOrSizes);
+        window.openLocalCartModal(button, productID, maxQuantity);
       });
 
       button.dataset.listenerAdded = "true";
@@ -38,74 +33,41 @@ window.initializeLocalCartSystem = function () {
 };
 
 // Ouvre le modal "Add to Cart"
-window.openLocalCartModal = function (button, productID, quantityOrSizes) {
-  // Supprime ancien modal si existe
-  document.getElementById("cart-modal")?.remove();
+window.openLocalCartModal = function (button, productID, maxQuantity) {
+  const existingModal = document.getElementById("cart-modal");
+  if (existingModal) existingModal.remove();
 
   const cart = JSON.parse(localStorage.getItem("localCart")) || {};
   const isInCart = !!cart[productID];
 
   const inCartMessage = isInCart
-    ? `<p class="cart-in-cart-msg">Already in your cart</p>`
+    ? `<p style="color: #081326; font-weight: bold; margin-bottom: 10px;">Already in your cart</p>`
     : "";
 
-  // Si data-quantity est une liste → tailles
-  let inputField = "";
-  if (isNaN(quantityOrSizes)) {
-    const options = String(quantityOrSizes)
-      .split(",")
-      .map(v => `<option value="${v.trim()}">${v.trim()}</option>`)
-      .join("");
-    inputField = `
-      <label for="cart-size">Choose Size:</label>
-      <select id="cart-size">${options}</select>
-    `;
-  } else {
-    const maxQ = parseInt(quantityOrSizes, 10) || 1;
-    inputField = `
-      <label for="cart-quantity">Quantity (max ${maxQ}):</label>
-      <input type="number" id="cart-quantity" min="1" max="${maxQ}" value="1">
-    `;
-  }
-
   const modalHTML = `
-    <div id="cart-modal" class="cart-modal-overlay" aria-modal="true" role="dialog">
-      <div class="cart-modal-content" role="document">
-        <button class="cart-close" type="button" aria-label="Close">×</button>
+    <div id="cart-modal">
+      <div class="cart-modal-content">
         <h2>Add to Cart</h2>
         ${inCartMessage}
-        ${inputField}
-        <div class="cart-modal-actions">
-          <button id="submit-cart" class="confirm">Confirm</button>
-          <button id="close-cart" class="cancel">Cancel</button>
-        </div>
+        <label for="cart-quantity">Quantity (max ${maxQuantity}):</label>
+        <input type="number" id="cart-quantity" min="1" max="${maxQuantity}" value="1">
+        <button id="submit-cart" class="confirm">Confirm</button>
+        <button id="close-cart" class="cancel">Cancel</button>
       </div>
     </div>
   `;
 
   document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-  const modal = document.getElementById("cart-modal");
-
-  requestAnimationFrame(() => modal.classList.add("show"));
-
-  // Confirm
+  // Actions
   document.getElementById("submit-cart").addEventListener("click", () => {
-    let chosenValue;
-
-    if (isNaN(quantityOrSizes)) {
-      chosenValue = document.getElementById("cart-size").value;
-    } else {
-      const maxQ = parseInt(quantityOrSizes, 10) || 1;
-      const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
-      if (isNaN(quantity) || quantity < 1 || quantity > maxQ) {
-        alert("Invalid quantity.");
-        return;
-      }
-      chosenValue = quantity;
+    const quantity = parseInt(document.getElementById("cart-quantity").value, 10);
+    if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
+      alert("Invalid quantity.");
+      return;
     }
 
-    window.addToLocalCart(button, productID, chosenValue);
+    window.addToLocalCart(button, productID, quantity);
 
     const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
     if (liveButton) {
@@ -113,39 +75,25 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
       liveButton.classList.add("in-cart");
     }
 
-    closeModal();
+    document.getElementById("cart-modal")?.remove();
   });
 
-  // Cancel / Close
-  function closeModal() {
-    modal.classList.remove("show");
-    setTimeout(() => modal.remove(), 200);
-  }
-  document.getElementById("close-cart").addEventListener("click", closeModal);
-  modal.querySelector(".cart-close")?.addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-
-  // Escape key
-  document.addEventListener("keydown", function esc(e) {
-    if (e.key === "Escape") {
-      closeModal();
-      document.removeEventListener("keydown", esc);
-    }
+  document.getElementById("close-cart").addEventListener("click", () => {
+    document.getElementById("cart-modal")?.remove();
   });
 };
 
 // Sauvegarde dans localStorage
-window.addToLocalCart = function (button, productID, chosenValue) {
+window.addToLocalCart = function (button, productID, quantity) {
   let cart = JSON.parse(localStorage.getItem("localCart")) || {};
 
   const name = button.getAttribute("data-name") || "";
   const price = button.getAttribute("data-price") || "";
   const image = button.getAttribute("data-image") || "";
-  const size = isNaN(chosenValue) ? chosenValue : (button.getAttribute("data-size") || "");
+  const size = button.getAttribute("data-size") || "";
   const condition = button.getAttribute("data-condition") || "";
   const seller = button.getAttribute("data-sold-by") || "";
   const freeShipping = button.getAttribute("data-free-shipping") === "true";
-  const quantity = isNaN(chosenValue) ? 1 : chosenValue;
 
   cart[productID] = {
     id: productID,
@@ -167,13 +115,17 @@ window.addToLocalCart = function (button, productID, chosenValue) {
   }
 };
 
-// Auto-init (SPA + Softr delay)
+// Réinitialisation sur navigation SPA
 (function () {
   let lastUrl = location.href;
 
   function reinitCartSystem() {
-    console.log("🔁 Reinit cart system...");
-    setTimeout(() => window.initializeLocalCartSystem(), 500);
+    console.log("🔁 Checking for cart re-init...");
+    setTimeout(() => {
+      if (window.initializeLocalCartSystem) {
+        window.initializeLocalCartSystem();
+      }
+    }, 600);
   }
 
   reinitCartSystem();
@@ -181,13 +133,24 @@ window.addToLocalCart = function (button, productID, chosenValue) {
   const observer = new MutationObserver(() => {
     if (location.href !== lastUrl) {
       lastUrl = location.href;
+      console.log("🌐 URL change detected, re-initializing cart system...");
       reinitCartSystem();
     }
   });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+// Observation DOM (Softr / Airtable rendering delay)
+(function observeCartButtons() {
+  const observer = new MutationObserver(() => {
+    window.initializeLocalCartSystem();
+  });
+
   observer.observe(document.body, { childList: true, subtree: true });
 
-  const btnObserver = new MutationObserver(() => window.initializeLocalCartSystem());
-  btnObserver.observe(document.body, { childList: true, subtree: true });
-
-  setTimeout(() => window.initializeLocalCartSystem(), 1000);
+  setTimeout(() => {
+    console.log("⏳ Forcing cart init after timeout...");
+    window.initializeLocalCartSystem();
+  }, 1000);
 })();
