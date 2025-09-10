@@ -206,3 +206,155 @@ function ensureMinimalModalStyle() {
   `;
   document.head.appendChild(style);
 }
+
+
+/* =========================================================
+   Cart UI feedback (toast + drawer) — plug & play
+   Usage: window.CartUI.MODE = 'toast' | 'drawer'
+          → appelé automatiquement depuis addToLocalCart()
+========================================================= */
+(function(){
+  // Choisis ton mode ici:
+  window.CartUI = window.CartUI || {};
+  CartUI.MODE = CartUI.MODE || 'toast'; // 'toast' ou 'drawer'
+
+  // -- Montage des containers uniques
+  function mountOnce(){
+    if (document.getElementById('oc-toast')) return;
+
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
+      <!-- TOAST -->
+      <div id="oc-toast" aria-live="polite" aria-atomic="true">
+        <div class="oc-toast-card">
+          <div class="oc-toast-img" id="oc-toast-img" aria-hidden="true"></div>
+          <div class="oc-toast-text">
+            <strong id="oc-toast-title">Added to cart</strong>
+            <span id="oc-toast-sub">Product was added successfully.</span>
+          </div>
+          <a href="/cart" class="oc-toast-cta">View cart</a>
+          <button class="oc-toast-x" id="oc-toast-close" aria-label="Close">×</button>
+        </div>
+      </div>
+
+      <!-- DRAWER -->
+      <div id="oc-drawer" aria-hidden="true">
+        <div class="oc-drawer-backdrop" id="oc-drawer-close"></div>
+        <aside class="oc-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="oc-drawer-title">
+          <header class="oc-drawer-head">
+            <h3 id="oc-drawer-title">Added to your cart</h3>
+            <button class="oc-drawer-x" id="oc-drawer-x" aria-label="Close">×</button>
+          </header>
+          <div class="oc-drawer-body" id="oc-drawer-body"></div>
+          <footer class="oc-drawer-foot">
+            <div class="oc-drawer-row"><span>Subtotal</span><strong id="oc-drawer-sub">¥0</strong></div>
+            <a href="/cart" class="oc-drawer-cta">Checkout</a>
+          </footer>
+        </aside>
+      </div>
+    `;
+    document.body.appendChild(wrap);
+
+    // close handlers
+    document.getElementById('oc-toast-close').addEventListener('click', hideToast);
+    document.getElementById('oc-drawer-close').addEventListener('click', closeDrawer);
+    document.getElementById('oc-drawer-x').addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ hideToast(); closeDrawer(); }});
+  }
+
+  // -- Helpers
+  function formatJPY(n){
+    try{ return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY'}).format(n||0); }
+    catch{ return '¥' + (n||0).toLocaleString('ja-JP'); }
+  }
+  function parseJPY(v){
+    if (typeof v === 'number' && isFinite(v)) return v;
+    const n = String(v||'').replace(/[^\d.-]/g,'');
+    const f = parseFloat(n);
+    return isFinite(f) ? f : 0;
+  }
+  function getCart(){
+    try{ return JSON.parse(localStorage.getItem('localCart')) || {}; }
+    catch{ return {}; }
+  }
+
+  // -- Toast API
+  let toastTimer;
+  function showToast({name,image}){
+    mountOnce();
+    const el = document.getElementById('oc-toast');
+    const img = document.getElementById('oc-toast-img');
+    const title = document.getElementById('oc-toast-title');
+    const sub = document.getElementById('oc-toast-sub');
+
+    title.textContent = 'Product added to your cart';
+    sub.textContent = name ? name : 'Added successfully';
+    img.style.backgroundImage = image ? `url("${image}")` : 'none';
+
+    clearTimeout(toastTimer);
+    el.classList.add('show');
+    toastTimer = setTimeout(hideToast, 3200);
+  }
+  function hideToast(){
+    const el = document.getElementById('oc-toast');
+    el && el.classList.remove('show');
+  }
+
+  // -- Drawer API
+  function openDrawer({highlightId}={}){
+    mountOnce();
+    const drawer = document.getElementById('oc-drawer');
+    const body = document.getElementById('oc-drawer-body');
+    const subEl = document.getElementById('oc-drawer-sub');
+
+    // Build from cart
+    const items = Object.values(getCart());
+    let subtotal = 0;
+    body.innerHTML = items.map(it=>{
+      const unit = parseJPY(it.price);
+      const line = unit * (parseInt(it.quantity,10) || 1);
+      subtotal += line;
+      const hl = highlightId && it.id === highlightId ? ' data-hl="1"' : '';
+      return `
+        <div class="oc-dl"${hl}>
+          <img src="${it.image||''}" alt="" class="oc-dl-img">
+          <div class="oc-dl-meta">
+            <strong class="oc-dl-title">${it.name||''}</strong>
+            <div class="oc-dl-sub">
+              ${it.size ? `<span class="oc-dl-chip">Size: ${it.size}</span>` : ``}
+              ${it.seller ? `<span class="oc-dl-chip">${it.seller}</span>` : ``}
+            </div>
+            <div class="oc-dl-row">
+              <span>Qty: ${it.quantity||1}</span>
+              <strong>${formatJPY(line)}</strong>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    subEl.textContent = formatJPY(subtotal);
+
+    drawer.setAttribute('aria-hidden','false');
+    requestAnimationFrame(()=> drawer.classList.add('open'));
+  }
+  function closeDrawer(){
+    const drawer = document.getElementById('oc-drawer');
+    if(!drawer) return;
+    drawer.classList.remove('open');
+    setTimeout(()=> drawer.setAttribute('aria-hidden','true'), 200);
+  }
+
+  // -- Hook appelé depuis addToLocalCart()
+  CartUI.onAdded = function({id,name,image}){
+    if (CartUI.MODE === 'drawer') {
+      openDrawer({highlightId:id});
+    } else {
+      showToast({name,image});
+    }
+  };
+
+  // Expose pour tests
+  CartUI.showToast = showToast;
+  CartUI.openDrawer = openDrawer;
+  CartUI.closeDrawer = closeDrawer;
+})();
