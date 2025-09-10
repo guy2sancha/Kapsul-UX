@@ -358,3 +358,36 @@ function ensureMinimalModalStyle() {
   CartUI.openDrawer = openDrawer;
   CartUI.closeDrawer = closeDrawer;
 })();
+
+
+window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
+  const cart = getCart();
+
+  const name = button.getAttribute("data-name") || "";
+  const price = button.getAttribute("data-price") || "";
+  const image = button.getAttribute("data-image") || "";
+  const size = chosenSize || button.getAttribute("data-size") || "";
+  const condition = button.getAttribute("data-condition") || "";
+  const seller = button.getAttribute("data-sold-by") || "";
+  const freeShipping = button.getAttribute("data-free-shipping") === "true";
+
+  const key = cartKey(productID, size);
+  if (cart[key]) {
+    cart[key].quantity = Math.min((cart[key].quantity || 0) + quantity, 999);
+  } else {
+    cart[key] = {
+      id: key,
+      base_id: productID,
+      name, price, image, size, condition, seller, freeShipping,
+      quantity
+    };
+  }
+  setCart(cart);
+
+  // 👇 feedback automatique (toast ou drawer selon CartUI.MODE)
+  if (window.CartUI && typeof window.CartUI.onAdded === 'function') {
+    const added = cart[key];
+    window.CartUI.onAdded({ id: added?.id || productID, name, image });
+  }
+};
+
