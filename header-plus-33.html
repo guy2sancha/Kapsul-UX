@@ -11,7 +11,7 @@
 
   /* ===== TICKER ===== */
   #kapsul-ticker-bar{
-    background:#000; color:#000; font-family:'jost',sans-serif;
+    background:#0037b5; color:#000; font-family:'jost',sans-serif;
     font-size:14px; font-weight:500; padding:10px 20px; display:flex; justify-content:center;
     border-bottom:0; position:fixed; top:0; left:0; right:0; z-index:9999;
   }
@@ -32,7 +32,7 @@
     transition:top .4s ease, background-color .4s ease, border-bottom .4s ease, box-shadow .4s ease;
   }
   #customHeader.scrolled{
-    background-color:#000; border-bottom:1px solid #000; box-shadow:0 2px 4px rgba(0,0,0,.2);
+    background-color:#0037b5; border-bottom:1px solid #000; box-shadow:0 2px 4px rgba(0,0,0,.2);
   }
 
   .logo-container{ flex:1; display:flex; justify-content:right; }
@@ -43,7 +43,7 @@
     position:absolute; left:64px; background:#161616; padding:5px; border-radius: 100px; 
   }
   .nav-links a, .nav-links2 a{
-    color:#fffff0; font-weight:500; padding:10px 15px; display:flex; align-items:center; transition:transform .3s ease, color .2s ease;
+    color:#0e4bd4; font-weight:500; padding:10px 15px; display:flex; align-items:center; transition:transform .3s ease, color .2s ease;
   }
   .nav-links a:hover, .nav-links2 a:hover{ color:#BC012C; }
 
@@ -118,13 +118,6 @@
   <div class="ticker-inner">
     <div class="curator-buttons">
       <a href="#newsletter" class="outline-btn">月刊ニュースレターを購読する</a>
-    </div>
-    <div class="toggle-mode">
-      <a href="/" class="mode-option-active left" id="labelExport">発見する</a>
-      <label class="kapsul-switch">
-        <input type="checkbox" id="modeToggle"><span class="slider"></span>
-      </label>
-      <a href="/business" class="mode-option right" id="labelImport">ショッピング</a>
     </div>
   </div>
 </div>
