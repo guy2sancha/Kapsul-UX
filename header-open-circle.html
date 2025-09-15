@@ -1,198 +1,32 @@
-<style>
-  .curator-buttons { display:flex; gap:12px; }
-  .outline-btn{
-    border:1px solid #fff; background:transparent; color:#fff;
-    padding:4px 8px; border-radius:10px; font-size:10px; font-weight:400;
-    text-transform:uppercase; text-decoration:none; transition:.3s ease;
-  }
-  .outline-btn:hover{ background:grey; color:#fff; }
-
-  a{ color:#000; text-decoration:none; background:transparent; }
-
-  /* ===== TICKER ===== */
-  #kapsul-ticker-bar{
-    background:#000; color:#000; font-family:'jost',sans-serif;
-    font-size:14px; font-weight:500; padding:10px 20px; display:flex; justify-content:center;
-    border-bottom:0; position:fixed; top:0; left:0; right:0; z-index:9999;
-  }
-  .ticker-inner{
-    display:flex; flex-direction:row-reverse; justify-content:space-between; align-items:center;
-    width:98%; white-space:nowrap; gap:20px;
-  }
-
-  .mini-tag{
-    background:#000; color:#fff; font-size:14px; font-weight:300; padding:0 5px;
-    border-radius:999px; width:auto; margin-top:30px; display:inline-block; text-align:center;
-  }
-
-  /* ===== HEADER (desktop) ===== */
-  #customHeader{
-    position:fixed; top:36px; left:0; right:0; display:flex; align-items:center; justify-content:space-between;
-    padding:15px 2%; border-bottom:1px solid transparent; z-index:1000;
-    transition:top .4s ease, background-color .4s ease, border-bottom .4s ease, box-shadow .4s ease;
-  }
-  #customHeader.scrolled{
-    background-color:#000; border-bottom:1px solid #000; box-shadow:0 2px 4px rgba(0,0,0,.2);
-  }
-
-  .logo-container{ flex:1; display:flex; justify-content:right; }
-  .logo-container img{ height:80px; }
-
-  .nav-links{
-    display:flex; font-family:'Libre Caslon Text',serif; font-size:16px;
-    position:absolute; left:64px; background:#161616; padding:5px; border-radius: 100px; 
-  }
-  .nav-links a, .nav-links2 a{
-    color:#fffff0; font-weight:500; padding:10px 15px; display:flex; align-items:center; transition:transform .3s ease, color .2s ease;
-  }
-  .nav-links a:hover, .nav-links2 a:hover{ color:#BC012C; }
-
-  .nav-item{ position:relative; }
-  /* ===== HEADER CHEVRON ANIM ===== */
-.chevron-nav {
-  display:inline-block;
-  font-size:10px;
-  margin-left:4px;
-  transition:transform .3s ease, color .3s ease;
-}
-
-.nav-item:hover .chevron-nav {
-  transform:rotate(180deg) translateY(2px);
-  color:#BC012C; /* joli accent rouge au hover */
-}
-
-  /* ===== DROPDOWN BASE ===== */
-  .dropdown-submenu{
-    opacity:0; transform:translateY(10px); transition:opacity .2s ease, transform .2s ease;
-    pointer-events:none; position:absolute; background:#fff; padding:30px; border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,.2); z-index:1000; min-width:600px; color:#000;
-  }
-  .nav-item:hover > .dropdown-submenu{
-    display:flex; flex-direction:column; opacity:1; transform:translateY(0); pointer-events:auto;
-  }
-
-  .dropdown-submenu .header-title{
-    font-weight:300; font-style:italic; font-size:14px; text-align:left; margin-top:30px; color:#000;
-  }
-  .dropdown-submenu .columns{ display:flex; justify-content:space-around; gap:30px; }
-  .dropdown-submenu .column{ flex:1; display:flex; flex-direction:column; gap:12px; }
-  .dropdown-submenu .column + .column{ border-left:2px solid #e0e0e0; padding-left:25px; }
-  .dropdown-submenu a{ font-size:14px; color:#111; transition:color .3s; }
-  .dropdown-submenu a:hover{ color:#f93d3a; }
-  .icon{ margin-right:8px; width:20px; text-align:center; }
-
-  .user-actions{ display:flex; align-items:center; position:absolute; right:60px; }
-
-  .toggle-mode{ display:none; align-items:center; gap:5px; font-size:13px; color:#000; }
-  label{ display:inline-block; margin-bottom:0!important; }
-  .mode-option{ min-width:50px; color:#174e3d; text-align:center; opacity:.6; transition:opacity .3s, color .3s; }
-  .mode-option.active{ color:#fff; opacity:1; }
-
-  .kapsul-switch{ position:relative; width:46px; height:24px; display:inline-block; }
-  .kapsul-switch input{ opacity:0; width:0; height:0; }
-  .kapsul-switch .slider{
-    background:#fff; border:1px solid #191919; border-radius:24px; position:absolute; inset:0; cursor:pointer; transition:background-color .4s;
-  }
-  .kapsul-switch .slider:before{
-    content:""; position:absolute; height:18px; width:18px; background:#FF395C; border-radius:50%; left:3px; bottom:2px; transition:transform .4s;
-  }
-  .kapsul-switch input:checked + .slider:before{ transform:translateX(22px); }
-
-  .dropdown-submenu .column + .column{ border-left:1px solid #e0e0e0; padding-left:20px; }
-  #languageSelector, #currencySelector{
-    padding:5px 8px; border:1px solid #001d20; font-size:16px; font-weight:600; background:#001d20; cursor:pointer; color:#fffff0;
-  }
-
-  .nav-links2 .dropdown-submenu.one-column{ display:flex; flex-direction:column; max-width:200px; gap:10px; }
-  .nav-links2 .dropdown-submenu.one-column .column{ width:100%; padding:0; border-left:none; }
-
-  .category-title{ font-weight:bold; text-decoration:underline; font-style:italic; font-size:.8em; margin-bottom:10px; color:#333; }
-  .toggle-mode a:hover{ text-decoration:underline; }
-  .mode-option-active{ font-weight:bold; }
-
-  .soon::after{
-    content:"Soon"; font-size:10px; font-weight:500; background:#BEBBFF; color:#000; padding:2px 6px; margin-left:6px; border-radius:999px; text-transform:uppercase; display:inline-block; vertical-align:middle;
-  }
-
-  .contributor-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:10px 8px; }
-  .contributor-card{ position:relative; width:100%; height:120px; border-radius:12px; overflow:hidden; text-decoration:none; display:block; transform:scale(1); transition:transform .3s ease, box-shadow .3s ease; }
-  .contributor-card img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .contributor-card:hover{ transform:scale(1.05); box-shadow:0 6px 20px rgba(0,0,0,.15); }
-  .contributor-card .overlay-text{
-    position:absolute; bottom:0; left:0; padding:10px; width:100%;
-    background:linear-gradient(to top, rgba(0,0,0,.55), transparent); color:#fff; font-size:13px; font-weight:500; line-height:1.3em; text-shadow:0 1px 2px rgba(0,0,0,.5);
-  }
-  .view-all-contributors{ display:block; margin:12px 0 0 8px; font-size:13px; font-style:italic; color:#000; }
-  .view-all-contributors:hover{ text-decoration:underline; }
-
-  /* ======= NOUVEAU: mega menu 3 colonnes ======= */
-  .dropdown-submenu.mega-3{ min-width:1100px; padding:24px; padding-top: 50px; }
-  .dropdown-submenu.mega-3 .mega-grid{
-    display:grid; grid-template-columns:1fr 1fr 1fr; gap:70px; align-items:start;
-  }
-  /* Col 1 — Brand of the Month */
-  .mega-brandcard{
-    overflow:hidden;
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .mega-brand-media{ aspect-ratio:4/5; overflow:hidden; display:block; }
-  .mega-brand-media img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .mega-brand-meta{ padding:14px; color:#111; }
-  .mega-badge{
-    display:inline-block; background:#BC012C; color:#fff; font-size:10px; letter-spacing:.06em; text-transform:uppercase;
-    padding:4px 8px; margin-bottom:8px;
-  }
-  .mega-brand-title{ margin:0 0 2px 0; font-weight:800; font-size:16px; }
-  .mega-brand-sub{ margin:0 0 10px 0; font-size:12px; color:#666; }
-  .mega-brand-cta{
-    display:inline-block; font-size:12px; font-weight:700; text-transform:uppercase;
-    border:1px solid #000; padding:6px 10px; color:#000; background:#fff;
-  }
-  .mega-brand-cta:hover{ background:#000; color:#fff; }
-
-  /* Cols 2-3 — lists */
-  .mega-col{ display:flex; flex-direction:column; gap:25px; }
-  .mega-head{
-    font-weight:900; text-transform:uppercase; letter-spacing:.04em; font-size:12px; color:#000;
-    border-bottom:1px solid #eee; padding-bottom:6px;
-  }
-  a.mega-link{ color:#111; font-size:14px; padding:4px 0; }
-  a.mega-link:hover{ color:#BC012C; }
-
-  @media (max-width:1100px){ .dropdown-submenu.mega-3{ min-width:min(92vw,900px); } }
-  @media (max-width:900px){ .dropdown-submenu.mega-3 .mega-grid{ grid-template-columns:1fr; } }
-</style>
-
-<!-- ===== TICKER ===== -->
+<!-- ================== TICKER ================== -->
 <div id="kapsul-ticker-bar">
   <div class="ticker-inner">
     <div class="curator-buttons">
-      <a href="#newsletter" class="outline-btn">Abonnez-vous à notre newsletter mensuelle</a>
+      <a href="#newsletter" class="outline-btn">Abonnez-vous à notre newsletter</a>
     </div>
     <div class="toggle-mode">
       <a href="/" class="mode-option-active left" id="labelExport">Découvrir</a>
       <label class="kapsul-switch">
         <input type="checkbox" id="modeToggle"><span class="slider"></span>
       </label>
-      <a href="/business" class="mode-option right" id="labelImport">Boutique</a>
+      <a href="/marketplace" class="mode-option right" id="labelImport">Boutique</a>
     </div>
   </div>
 </div>
 
-<!-- ===== HEADER ===== -->
+<!-- ================== HEADER ================== -->
 <div id="customHeader">
   <div class="logo-container">
     <a href="/"><img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Logo Kapsul" /></a>
   </div>
 
   <nav class="nav-links">
-    <!-- Découvrir les marques (MEGA 3 colonnes) -->
+    <!-- MEGA : Découvrir des marques -->
     <div class="nav-item">
-      <a href="">Découvrir Des Marques<span class="chevron-nav">▼</span></a>
+      <a href="#">Découvrir des marques <span class="chevron-nav">▼</span></a>
       <div class="dropdown-submenu mega-3">
         <div class="mega-grid">
-
-          <!-- Col 1 : Marque du mois -->
+          <!-- Col 1 -->
           <div class="mega-brandcard">
             <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z" class="mega-brand-media" aria-label="Marque du mois">
               <img src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp" alt="Aperçu de la marque du mois">
@@ -204,34 +38,157 @@
             </div>
           </div>
 
-          <!-- Col 2 : Catégories -->
+          <!-- Col 2 -->
           <div class="mega-col">
             <div class="mega-head">Catégories</div>
             <a class="mega-link" href="/brands/fashion">Mode</a>
-            <a class="mega-link" href="/brands/beauty-wellness">Beauté &amp; Bien-être</a>
+            <a class="mega-link" href="/brands/beauty-wellness">Beauté & Bien-être</a>
             <a class="mega-link" href="/brands/jewelry">Bijoux</a>
-            <a class="mega-link" href="/brands/home-decor">Maison &amp; Artisanat</a>
-            <a class="mega-link" href="/brands/food-drink">Gastronomie &amp; Boissons</a>
+            <a class="mega-link" href="/brands/home-decor">Maison & Artisanat</a>
+            <a class="mega-link" href="/brands/food-drink">Gastronomie & Boissons</a>
             <a class="mega-link" href="/brands/alcohol">Alcools</a>
-            <a class="mega-link" href="/brands/paper-gifts">Papeterie &amp; Cadeaux</a>
+            <a class="mega-link" href="/brands/paper-gifts">Papeterie & Cadeaux</a>
           </div>
 
-          <!-- Col 3 : Collections -->
+          <!-- Col 3 -->
           <div class="mega-col">
             <div class="mega-head">Collections</div>
             <a class="mega-link" href="/made-in-japan">Made in Japan</a>
             <a class="mega-link" href="/denim">Denim</a>
             <a class="mega-link" href="/sustainable">Durable</a>
-            <a class="mega-link" href="/women-owned">Marques fondées par des femmes</a>
+            <a class="mega-link" href="/women-owned">Fondées par des femmes</a>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Autres items -->
-    <div class="nav-item"><a href="/experiences">Classement</a></div>
-    <div class="nav-item"><a href="/marketplace">Shopping</a></div>
+    <!-- ONE-COLUMN : Classement -->
+    <div class="nav-item">
+      <a href="/experiences">Classement <span class="chevron-nav">▼</span></a>
+      <div class="dropdown-submenu simple">
+        <a class="ph-item" href="/experiences?range=month">
+          <div class="ph-ico" aria-hidden="true">
+            <!-- svg chart -->
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18"/><rect x="6.5" y="12" width="3" height="6" rx="0.8" fill="#111"/>
+              <rect x="11" y="9" width="3" height="9" rx="0.8" fill="#111"/>
+              <rect x="15.5" y="6" width="3" height="12" rx="0.8" fill="#111"/>
+            </svg>
+          </div>
+          <div class="ph-text">
+            <div class="ph-title">Ce mois-ci</div>
+            <div class="ph-sub">Les marques les plus plébiscitées sur les 30 derniers jours.</div>
+          </div>
+        </a>
+        <a class="ph-item" href="/experiences?range=all">
+          <div class="ph-ico" aria-hidden="true">
+            <!-- svg trophy -->
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 21h8M12 17v4M5 4h14v2a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5V4z"/>
+              <path d="M5 6H4a3 3 0 0 0 3 3M19 6h1a3 3 0 0 1-3 3"/>
+            </svg>
+          </div>
+          <div class="ph-text">
+            <div class="ph-title">Tout le temps</div>
+            <div class="ph-sub">Hall of Fame : favoris historiques, par votes et ventes cumulés.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Journal (lien simple) -->
     <div class="nav-item"><a href="/stories">Journal</a></div>
+
+    <!-- ONE-COLUMN : Communauté -->
+    <div class="nav-item">
+      <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
+      <div class="dropdown-submenu simple">
+        <a class="ph-item" href="/community/curators">
+          <div class="ph-ico" aria-hidden="true">
+            <!-- svg japan/map pin -->
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z"/>
+              <circle cx="12" cy="11" r="2.5"/>
+            </svg>
+          </div>
+          <div class="ph-text">
+            <div class="ph-title">Devenir Curator</div>
+            <div class="ph-sub">Repérez des marques au Japon et soyez rémunéré pour vos sélections.</div>
+          </div>
+        </a>
+        <a class="ph-item" href="/community/ciclers">
+          <div class="ph-ico" aria-hidden="true">
+            <!-- svg chat bubble -->
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a8 8 0 1 1-3.2-6.4L21 4l-.6 3.3A7.9 7.9 0 0 1 21 12z"/>
+            </svg>
+          </div>
+          <div class="ph-text">
+            <div class="ph-title">Devenir Ciclér</div>
+            <div class="ph-sub">Donnez votre avis, testez en avant-première, gagnez des récompenses.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Shopping -->
+    <div class="nav-item"><a href="/marketplace">Shopping</a></div>
   </nav>
 </div>
+
+<!-- ================== STYLES ================== -->
+<style>
+  .curator-buttons{display:flex;gap:12px}
+  .outline-btn{border:1px solid #fff;background:transparent;color:#fff;padding:4px 8px;border-radius:10px;font-size:10px;font-weight:400;text-transform:uppercase;text-decoration:none;transition:.3s}
+  .outline-btn:hover{background:grey;color:#fff}
+  a{color:#000;text-decoration:none;background:transparent}
+
+  /* Ticker */
+  #kapsul-ticker-bar{background:#000;color:#000;font-family:'jost',sans-serif;font-size:14px;font-weight:500;padding:10px 20px;display:flex;justify-content:center;position:fixed;top:0;left:0;right:0;z-index:9999}
+  .ticker-inner{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;width:98%;white-space:nowrap;gap:20px}
+
+  /* Header */
+  #customHeader{position:fixed;top:36px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:15px 2%;border-bottom:1px solid transparent;z-index:1000;transition:.4s}
+  #customHeader.scrolled{background:#000;border-bottom:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+  .logo-container{flex:1;display:flex;justify-content:right}
+  .logo-container img{height:80px}
+
+  .nav-links{display:flex;font-family:'Libre Caslon Text',serif;font-size:16px;position:absolute;left:64px;background:#161616;padding:5px;border-radius:100px}
+  .nav-links a{color:#fffff0;font-weight:500;padding:10px 15px;display:flex;align-items:center;transition:transform .3s,color .2s}
+  .nav-links a:hover{color:#BC012C}
+  .nav-item{position:relative}
+  .chevron-nav{display:inline-block;font-size:10px;margin-left:4px;transition:transform .3s,color .3s}
+  .nav-item:hover .chevron-nav{transform:rotate(180deg) translateY(2px);color:#BC012C}
+
+  /* Dropdown base */
+  .dropdown-submenu{opacity:0;transform:translateY(10px);transition:opacity .2s,transform .2s;pointer-events:none;position:absolute;background:#fff;padding:30px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.2);z-index:1000;min-width:600px;color:#000}
+  .nav-item:hover>.dropdown-submenu{display:flex;opacity:1;transform:translateY(0);pointer-events:auto}
+
+  /* Mega */
+  .dropdown-submenu.mega-3{min-width:1100px;padding:24px;padding-top:50px}
+  .dropdown-submenu.mega-3 .mega-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:70px;align-items:start}
+  .mega-brandcard{overflow:hidden;transition:transform .18s,box-shadow .18s}
+  .mega-brand-media{aspect-ratio:4/5;overflow:hidden;display:block}
+  .mega-brand-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .mega-brand-meta{padding:14px;color:#111}
+  .mega-badge{display:inline-block;background:#BC012C;color:#fff;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;margin-bottom:8px}
+  .mega-brand-title{margin:0 0 2px 0;font-weight:800;font-size:16px}
+  .mega-brand-sub{margin:0 0 10px 0;font-size:12px;color:#666}
+  .mega-col{display:flex;flex-direction:column;gap:25px}
+  .mega-head{font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:12px;color:#000;border-bottom:1px solid #eee;padding-bottom:6px}
+  a.mega-link{color:#111;font-size:14px;padding:4px 0}
+  a.mega-link:hover{color:#BC012C}
+
+  /* One-column (Product Hunt style) */
+  .dropdown-submenu.simple{min-width:360px;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .ph-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;text-decoration:none;transition:background .15s}
+  .ph-item:hover{background:#f7f7f7}
+  .ph-ico{flex:0 0 40px;height:40px;border-radius:10px;display:grid;place-items:center;background:#fff;border:1px solid #eee}
+  .ph-text{display:flex;flex-direction:column;gap:2px}
+  .ph-title{font-weight:700;color:#111;line-height:1.1}
+  .ph-sub{color:#6b7280;font-size:13px;line-height:1.35}
+
+  /* Responsive */
+  @media (max-width:1100px){.dropdown-submenu.mega-3{min-width:min(92vw,900px)}}
+  @media (max-width:900px){.dropdown-submenu.mega-3 .mega-grid{grid-template-columns:1fr}}
+</style>
