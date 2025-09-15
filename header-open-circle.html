@@ -66,7 +66,7 @@
     <div class="nav-item">
       <a href="/experiences">Classement <span class="chevron-nav">▼</span></a>
       <div class="dropdown-submenu simple">
-        <a class="ph-item" href="/experiences?range=month">
+        <a class="ph-item" href="/ranking-month">
           <div class="ph-ico" aria-hidden="true">
             <!-- svg chart -->
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -80,7 +80,7 @@
             <div class="ph-sub">Les marques les plus plébiscitées sur les 30 derniers jours.</div>
           </div>
         </a>
-        <a class="ph-item" href="/experiences?range=all">
+        <a class="ph-item" href="/ranking-all">
           <div class="ph-ico" aria-hidden="true">
             <!-- svg trophy -->
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -99,12 +99,11 @@
     <!-- Journal (lien simple) -->
     <div class="nav-item"><a href="/stories">Journal</a></div>
 
-     <!-- Shopping -->
-    <div class="nav-item"><a href="/marketplace">Shopping</a></div>
-  </nav>
-</div>
 
-    <!-- ONE-COLUMN : Communauté -->
+    <!-- Shopping -->
+    <div class="nav-item"><a href="/marketplace">Shopping</a></div>
+
+<!-- ONE-COLUMN : Communauté -->
     <div class="nav-item">
       <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
       <div class="dropdown-submenu simple">
@@ -135,7 +134,9 @@
         </a>
       </div>
     </div>
-
+    
+  </nav>
+</div>
 
 <!-- ================== STYLES ================== -->
 <style>
@@ -180,7 +181,7 @@
   a.mega-link{color:#111;font-size:14px;padding:4px 0}
   a.mega-link:hover{color:#BC012C}
 
-  /* One-column*/
+  /* One-column (Product Hunt style) */
   .dropdown-submenu.simple{min-width:360px;padding:14px;display:flex;flex-direction:column;gap:10px}
   .ph-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;text-decoration:none;transition:background .15s}
   .ph-item:hover{background:#f7f7f7}
