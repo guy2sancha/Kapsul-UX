@@ -1,134 +1,286 @@
+<!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/9e6c6c4f5a.js" crossorigin="anonymous"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/9e6c6c4f5a.js" crossorigin="anonymous"></script>
-  <style>
-    :root{
-      --bg:#fff;
-      --ink:#000;
-      --gold:#bc012c;
-      --card:#ffffff;
-      --shadow:0 10px 30px rgba(0,0,0,.2);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    a{color:inherit;text-decoration:none}
+<style>
+  :root{
+    --bg:#fff;
+    --ink:#000;
+    --gold:#bc012c;
+    --card:#ffffff;
+    --shadow:0 10px 30px rgba(0,0,0,.2);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  a{color:inherit;text-decoration:none}
 
-    /* Header */
-    .hdr{position:fixed;left:0;right:0;top:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:10px 20px;background:var(--bg);border-bottom:1px solid var(--ink);}
+  /* Header */
+  .hdr{position:fixed;left:0;right:0;top:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:10px 20px;background:var(--bg);border-bottom:1px solid var(--ink);}
+  .hdr .bar{width:100%;max-width:1400px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
 
-    .hdr .bar{width:100%;max-width:1400px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+  /* Left nav */
+  .nav{display:flex;gap:8px;color:var(--ink)}
+  .nav > .item{position:relative}
+  .nav > .item > a{display:flex;align-items:center;gap:6px;padding:8px 12px;font-size:14px;font-weight:400;border-radius:10px}
+  .nav > .item > a:hover{color:var(--gold)}
 
-    /* Left nav */
-    .nav{display:flex;gap:8px;color:var(--ink)}
-    .nav > .item{position:relative}
-    .nav > .item > a{display:flex;align-items:center;gap:6px;padding:8px 12px;font-size:14px;font-weight:400;border-radius:10px}
-    .nav > .item > a:hover{color:var(--gold)}
+  /* Center logo */
+  .logo{display:flex;justify-content:center}
+  .logo img{height:64px;display:block}
 
-    /* Center logo */
-    .logo{display:flex;justify-content:center}
-    .logo img{height:64px;display:block}
+  /* Right actions */
+  .actions{display:flex;justify-content:flex-end;gap:18px;color:var(--ink);align-items:center}
+  .actions a{font-weight:500}
+  .actions a:hover{color:var(--gold)}
 
-    /* Right actions */
-    .actions{display:flex;justify-content:flex-end;gap:18px;color:var(--ink);align-items:center}
-    .actions a{font-weight:500}
-    .actions a:hover{color:var(--gold)}
+  /* Compact country selector */
+  .country-selector{position:relative}
+  .country-selector select{appearance:none;background:transparent;border:1px solid var(--ink);color:var(--ink);padding:6px 6px 6px 28px;border-radius:8px;cursor:pointer;font-size:12px}
+  .country-selector option{color:#111}
+  .country-selector::before{content:"\f57d";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--ink);font-size:14px}
 
-    /* Compact country selector */
-    .country-selector{position:relative}
-    .country-selector select{appearance:none;background:transparent;border:1px solid var(--ink);color:var(--ink);padding:6px 6px 6px 28px;border-radius:8px;cursor:pointer;font-size:12px}
-    .country-selector option{color:#111}
-    .country-selector::before{content:"\f57d";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--ink);font-size:14px}
+  /* Mega menu */
+  .mega{position:fixed;left:3%;right:3%;top:60px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:28px;display:none;opacity:0;transform:translateY(8px);transition:.2s ease;z-index:9997}
+  .item:hover .mega, .item:focus-within .mega{display:block;opacity:1;transform:translateY(0)}
+  .mega .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;align-items:start}
+  .mega .col{display:flex;flex-direction:column;gap:8px}
+  .ttl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;margin-bottom:6px}
+  .mega a{color:#111;font-size:13px;padding:4px 0}
+  .mega a:hover{color:#000}
+  .new-card{overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .new-card img{width:100%;height:250px;object-fit:cover;border-radius:0px;margin-bottom:8px}
 
-    /* Mega menu */
-    .mega{position:fixed;left:3%;right:3%;top:60px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:28px;display:none;opacity:0;transform:translateY(8px);transition:.2s ease;z-index:9997}
-    .item:hover .mega, .item:focus-within .mega{display:block;opacity:1;transform:translateY(0)}
-    .mega .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;align-items:start}
-    .mega .col{display:flex;flex-direction:column;gap:8px}
-    .ttl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#333;margin-bottom:6px}
-    .mega a{color:#111;font-size:13px;padding:4px 0}
-    .mega a:hover{color:#000}
-    .new-card{overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-    .new-card img{width:100%;height:250px;object-fit:cover;border-radius:0px;margin-bottom:8px}
+  /* Responsive */
+  @media (max-width:1100px){
+    .mega{left:2%;right:2%}
+    .mega .grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:880px){
+    .nav{display:none}
+    .logo img{height:52px}
+  }
+</style>
 
-    /* Responsive */
-    @media (max-width:1100px){
-      .mega{left:2%;right:2%}
-      .mega .grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width:880px){
-      .nav{display:none}
-      .logo img{height:52px}
-    }
-  </style>
-
-  <!-- HEADER -->
-  <header class="hdr">
-    <div class="bar">
-      <!-- LEFT NAV -->
-      <nav class="nav" aria-label="Primary">
-        <div class="item">
-          <a href="#">Women <span style="font-size:10px">▾</span></a>
-          <div class="mega">
-            <div class="grid">
-              <div class="new-card">
-                <img src="https://www.centrecommercial.cc/modules/pm_advancedtopmenu/column_icons/18-fr.jpg" alt="New arrivals" />
-                <div class="ttl">New Arrivals</div>
-              </div>
-              <div class="col">
-                <div class="ttl">Clothing</div>
-                <a href="#">T-shirts</a>
-                <a href="#">Shirts</a>
-                <a href="/marketplace/women/bottoms">Bottoms</a>
-                <a href="#">Dresses & Skirts</a>
-                <a href="#">Jackets & Coats</a>
-              </div>
-              <div class="col">
-                <div class="ttl">Shoes</div>
-                <a href="#">Sneakers</a>
-                <a href="#">Boots</a>
-                <a href="#">Sandals</a>
-              </div>
-              <div class="col">
-                <div class="ttl">Accessories</div>
-                <a href="#">Bags</a>
-                <a href="#">Jewelry</a>
-                <a href="#">Hats</a>
-              </div>
-              <div class="col">
-                <div class="ttl">Collections</div>
-                <a href="#">Made in Japan</a>
-                <a href="#">Denim</a>
-                <a href="#">Sustainable</a>
-              </div>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="bar">
+    <!-- LEFT NAV -->
+    <nav class="nav" aria-label="Navigation principale">
+      <!-- FEMME -->
+      <div class="item">
+        <a href="/marketplace/women">Femme <span style="font-size:10px">▾</span></a>
+        <div class="mega">
+          <div class="grid">
+            <div class="new-card">
+              <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=1200&auto=format&fit=crop" alt="Nouveautés Femme" />
+              <div class="ttl">Nouveautés</div>
+            </div>
+            <div class="col">
+              <div class="ttl">Vêtements</div>
+              <a href="/marketplace/women/tops">T-shirts & Tops</a>
+              <a href="/marketplace/women/shirts">Chemises</a>
+              <a href="/marketplace/women/bottoms">Bas</a>
+              <a href="/marketplace/women/dresses">Robes & Jupes</a>
+              <a href="/marketplace/women/outerwear">Vestes & Manteaux</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Chaussures</div>
+              <a href="/marketplace/women/sneakers">Baskets</a>
+              <a href="/marketplace/women/boots">Bottes</a>
+              <a href="/marketplace/women/sandals">Sandales</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Accessoires</div>
+              <a href="/marketplace/women/bags">Sacs</a>
+              <a href="/marketplace/women/jewelry">Bijoux</a>
+              <a href="/marketplace/women/hats">Chapeaux</a>
+              <a href="/marketplace/women/socks">Chaussettes</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Collections</div>
+              <a href="/collections/women/made-in-japan">Fabriqué au Japon</a>
+              <a href="/collections/women/denim">Denim</a>
+              <a href="/collections/women/sustainable">Durable</a>
+              <a href="/collections/women/new">Sélections de l’éditeur</a>
             </div>
           </div>
         </div>
-        <div class="item"><a href="#">Men</a></div>
-        <div class="item"><a href="#">Kids</a></div>
-        <div class="item"><a href="#">Beauty</a></div>
-        <div class="item"><a href="#">Lifestyle</a></div>
-      </nav>
-
-      <!-- CENTER LOGO -->
-      <div class="logo">
-        <a href="/shop"><img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(1).svg" alt="OpenCircle" /></a>
       </div>
 
-      <!-- RIGHT ACTIONS -->
-      <div class="actions">
-   
-        <a href="https://opencircle.jp" target="_blank" rel="noreferrer">Directory</a>
-        <a href="/account" title="Account"><i class="fa-regular fa-user"></i></a>
-        <a href="/cart" title="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
-             <div class="country-selector">
-          <select onchange="location.href=this.value">
-            <option value="/" selected>Global – ¥</option>
-            <option value="/ja">Japan – ¥</option>
-            <option value="/fr">France – €</option>
-            <option value="/en">USA – $</option>
-          </select>
+      <!-- HOMME -->
+      <div class="item">
+        <a href="/marketplace/men">Homme <span style="font-size:10px">▾</span></a>
+        <div class="mega">
+          <div class="grid">
+            <div class="new-card">
+              <img src="https://images.unsplash.com/photo-1520975922284-5f1d63b6b3d5?w=1200&auto=format&fit=crop" alt="Nouveautés Homme" />
+              <div class="ttl">Nouveautés</div>
+            </div>
+            <div class="col">
+              <div class="ttl">Vêtements</div>
+              <a href="/marketplace/men/tees">T-shirts & Maille</a>
+              <a href="/marketplace/men/shirts">Chemises</a>
+              <a href="/marketplace/men/pants">Pantalons</a>
+              <a href="/marketplace/men/outerwear">Manteaux & Vestes</a>
+              <a href="/marketplace/men/setsu">Workwear</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Chaussures</div>
+              <a href="/marketplace/men/sneakers">Baskets</a>
+              <a href="/marketplace/men/boots">Bottes</a>
+              <a href="/marketplace/men/derbies">Derbies</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Accessoires</div>
+              <a href="/marketplace/men/bags">Sacs</a>
+              <a href="/marketplace/men/caps">Casquettes & Chapeaux</a>
+              <a href="/marketplace/men/belts">Ceintures</a>
+              <a href="/marketplace/men/wallets">Portefeuilles</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Collections</div>
+              <a href="/collections/men/made-in-japan">Fabriqué au Japon</a>
+              <a href="/collections/men/denim">Denim selvedge</a>
+              <a href="/collections/men/workwear">Workwear moderne</a>
+              <a href="/collections/men/sustainable">Durable</a>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- ENFANTS -->
+      <div class="item">
+        <a href="/marketplace/kids">Enfants <span style="font-size:10px">▾</span></a>
+        <div class="mega">
+          <div class="grid">
+            <div class="new-card">
+              <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1200&auto=format&fit=crop" alt="Nouveautés Enfants" />
+              <div class="ttl">Nouveautés</div>
+            </div>
+            <div class="col">
+              <div class="ttl">Bébé (0–24 mois)</div>
+              <a href="/marketplace/kids/baby-bodysuits">Bodies</a>
+              <a href="/marketplace/kids/baby-sets">Ensembles</a>
+              <a href="/marketplace/kids/baby-accessories">Accessoires</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Filles</div>
+              <a href="/marketplace/kids/girls-tops">Hauts</a>
+              <a href="/marketplace/kids/girls-dresses">Robes & Jupes</a>
+              <a href="/marketplace/kids/girls-outerwear">Manteaux</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Garçons</div>
+              <a href="/marketplace/kids/boys-tops">Hauts</a>
+              <a href="/marketplace/kids/boys-bottoms">Bas</a>
+              <a href="/marketplace/kids/boys-outerwear">Manteaux</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Collections</div>
+              <a href="/collections/kids/made-in-japan">Fabriqué au Japon</a>
+              <a href="/collections/kids/organic">Coton bio</a>
+              <a href="/collections/kids/cute-prints">Imprimés mignons</a>
+              <a href="/collections/kids/back-to-school">Rentrée</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEAUTÉ -->
+      <div class="item">
+        <a href="/marketplace/beauty">Beauté <span style="font-size:10px">▾</span></a>
+        <div class="mega">
+          <div class="grid">
+            <div class="new-card">
+              <img src="https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=1200&auto=format&fit=crop" alt="Nouveautés Beauté" />
+              <div class="ttl">Nouveautés</div>
+            </div>
+            <div class="col">
+              <div class="ttl">Soin</div>
+              <a href="/marketplace/beauty/cleansers">Nettoyants</a>
+              <a href="/marketplace/beauty/toners">Toniques</a>
+              <a href="/marketplace/beauty/serums">Sérums</a>
+              <a href="/marketplace/beauty/moisturizers">Hydratants</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Maquillage</div>
+              <a href="/marketplace/beauty/lips">Lèvres</a>
+              <a href="/marketplace/beauty/eyes">Yeux</a>
+              <a href="/marketplace/beauty/face">Teint</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Cheveux & Corps</div>
+              <a href="/marketplace/beauty/haircare">Soins cheveux</a>
+              <a href="/marketplace/beauty/bodycare">Soins corps</a>
+              <a href="/marketplace/beauty/fragrance">Parfums</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Collections</div>
+              <a href="/collections/beauty/j-beauty">J-Beauty</a>
+              <a href="/collections/beauty/clean">Clean Beauty</a>
+              <a href="/collections/beauty/sensitive">Peaux sensibles</a>
+              <a href="/collections/beauty/gift-sets">Coffrets cadeaux</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIFESTYLE -->
+      <div class="item">
+        <a href="/marketplace/lifestyle">Lifestyle <span style="font-size:10px">▾</span></a>
+        <div class="mega">
+          <div class="grid">
+            <div class="new-card">
+              <img src="https://images.unsplash.com/photo-1523419409543-3177e785e2d3?w=1200&auto=format&fit=crop" alt="Nouveautés Lifestyle" />
+              <div class="ttl">Nouveautés</div>
+            </div>
+            <div class="col">
+              <div class="ttl">Maison</div>
+              <a href="/marketplace/lifestyle/home-decor">Décoration</a>
+              <a href="/marketplace/lifestyle/tableware">Art de la table</a>
+              <a href="/marketplace/lifestyle/textiles">Textiles</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Cuisine & Thé</div>
+              <a href="/marketplace/lifestyle/kitchen">Ustensiles</a>
+              <a href="/marketplace/lifestyle/tea-coffee">Thé & Café</a>
+              <a href="/marketplace/lifestyle/bento">Bento</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Papeterie & Tech</div>
+              <a href="/marketplace/lifestyle/stationery">Papeterie</a>
+              <a href="/marketplace/lifestyle/desk">Bureau & Organisation</a>
+              <a href="/marketplace/lifestyle/tech">Accessoires tech</a>
+            </div>
+            <div class="col">
+              <div class="ttl">Collections</div>
+              <a href="/collections/lifestyle/minimal">Minimalisme</a>
+              <a href="/collections/lifestyle/sustainable">Durable</a>
+              <a href="/collections/lifestyle/travel">Voyage</a>
+              <a href="/collections/lifestyle/tea-rituals">Rituels du thé</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CENTER LOGO -->
+    <div class="logo">
+      <a href="/marketplace"><img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(4).svg" alt="OpenCircle" /></a>
     </div>
+
+    <!-- RIGHT ACTIONS -->
+    <div class="actions">
+      <a href="https://opencircle.jp" target="_blank" rel="noreferrer">Annuaire</a>
+      <a href="/account" title="Compte" aria-label="Compte"><i class="fa-regular fa-user"></i></a>
+      <a href="/cart" title="Panier" aria-label="Panier"><i class="fa-solid fa-cart-shopping"></i></a>
+      <div class="country-selector" aria-label="Sélecteur de pays">
+        <select onchange="location.href=this.value" aria-label="Pays et devise">
+          <option value="/fr">France – €</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
