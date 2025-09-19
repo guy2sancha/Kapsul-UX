@@ -1,0 +1,167 @@
+<!-- ===================== NEWSLETTER / EDITORIAL PANEL ===================== -->
+<section id="newsletter" class="oc-news">
+  <div class="oc-news__media" aria-hidden="true"></div>
+  <div class="oc-news__overlay" aria-hidden="true"></div>
+
+  <div class="oc-news__content">
+    <span class="oc-news__badge">La sélection du mois</span>
+    <h2 class="oc-news__title">Notre meilleur du Japon, dans votre mailbox.</h2>
+    <p class="oc-news__text">
+      Chaque mois, notre équipe partage un regard privilégié sur les créateurs japonais : nouvelles marques à suivre, rencontre avec des créateurs et produits choisies avec soin.
+    </p>
+    <p class="oc-news__text">
+            Une newsletter pensée pour les esprit curieux…
+    </p>
+
+    <div class="oc-news__cta">
+      <a href="#" class="btn btn--solid" id="openModal">S’inscrire</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= MODAL ============================= -->
+<div id="signupModal" class="oc-modal" style="display:none;">
+  <div class="oc-modal__card" role="dialog" aria-modal="true" aria-labelledby="oc-modal-title">
+    <button id="closeModal" class="oc-modal__close" aria-label="Fermer">×</button>
+
+    <div class="oc-modal__head">
+      <span class="oc-modal__pill">Rejoindre le Circle</span>
+      <h3 id="oc-modal-title">Votre rendez-vous Nippon mensuel</h3>
+      <p class="oc-modal__sub">
+        Un condensé du meilleur d'Open Circle — directement dans votre boîte mail.
+      </p>
+    </div>
+
+    <form class="oc-form" id="newsletterForm" novalidate>
+      <input type="text" id="firstName" placeholder="Prénom" class="oc-input" autocomplete="given-name">
+      <input type="text" id="lastName"  placeholder="Nom"  class="oc-input" autocomplete="family-name">
+      <input type="email" id="email" placeholder="Adresse e-mail" required class="oc-input" autocomplete="email">
+
+      <button id="submitSignup" class="btn btn--solid btn--full" type="submit">S’inscrire</button>
+      <p class="oc-legal">
+        En vous inscrivant, vous acceptez de recevoir les emails d’Open Circle. 
+        Vous pouvez vous désinscrire à tout moment.
+      </p>
+    </form>
+  </div>
+</div>
+
+
+<!-- ============================= STYLES ============================= -->
+<style>
+:root{
+  --ink:#000; --bg:#fff; --accent:#bc012c;
+  --ui: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  --serif: "Libre Caslon Text", serif;
+}
+
+/* ===== Panel newsletter ===== */
+.oc-news{
+  position:relative;
+  border:1px solid var(--ink);
+  background:var(--bg);
+  max-width:94%;
+  margin:60px auto;
+  min-height:360px;
+  overflow:hidden;
+}
+.oc-news__media{
+  position:absolute; inset:0;
+  background:url('https://open-circle.b-cdn.net/Homepage%20%26%20Static%20images%20Videos/Pitti%20Imagine%20Uomo%20Dec%209%202022%20(1).webp')
+           center/cover no-repeat;
+  z-index:0;
+}
+.oc-news__overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 45%, rgba(0,0,0,0) 75%);
+  z-index:1;
+  border-right:1px solid var(--ink);
+}
+.oc-news__content{
+  position:relative; z-index:2;
+  width:min(720px, 92%);
+  padding:38px 40px 42px;
+  color:#fff;
+}
+.oc-news__badge{
+  display:inline-block; background:var(--accent); color:#fff;
+  font:700 12px/1 var(--ui); letter-spacing:.06em; text-transform:uppercase;
+  padding:6px 12px; margin-bottom:14px;
+}
+.oc-news__title{
+  margin:0 0 12px 0; font-family:var(--serif); font-weight:700;
+  font-size:clamp(24px, 4.2vw, 36px); color:#fff;
+}
+.oc-news__text{
+  margin:0 0 10px 0; font:400 16px/1.65 var(--ui); color:#f2f2f2; max-width:46ch;
+}
+.oc-news__cta{ margin-top:18px; }
+
+/* ===== Buttons ===== */
+.btn{
+  display:inline-block; padding:12px 22px; text-transform:uppercase;
+  letter-spacing:.04em; font-weight:700; font-family:var(--ui);
+  text-decoration:none; border:1px solid var(--ink);
+  background:#fff; color:#000; transition:all .18s ease;
+}
+.btn:hover{ background:#000; color:#fff; }
+.btn--solid{ background:#000; color:#fff; }
+.btn--solid:hover{ background:#fff; color:#000; }
+.btn--full{ width:100%; }
+
+/* ===== Modal (mobile-friendly) ===== */
+.oc-modal{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,.55); z-index:9999; padding:14px;
+}
+.oc-modal__card{
+  width:min(720px, 96%);
+  max-height:88dvh;                  /* ✅ limite la hauteur sur mobile */
+  overflow:auto; -webkit-overflow-scrolling:touch;
+  background:#fff; border:1px solid var(--ink);
+  padding:22px 18px; position:relative;
+}
+.oc-modal__close{
+  position:absolute; top:6px; right:8px;
+  background:#fff; border:1px solid var(--ink);
+  width:30px; height:30px; line-height:26px; text-align:center;
+  cursor:pointer; font-size:20px;
+}
+.oc-modal__head h3{
+  margin:10px 0 6px 0; font-family:var(--serif);
+  font-size:24px; font-weight:700; color:#000;
+}
+.oc-modal__sub{ margin:0 0 14px 0; color:#333; font:400 15px/1.6 var(--ui); }
+.oc-modal__pill{
+  display:inline-block; background:var(--accent); color:#fff;
+  font:700 11px/1 var(--ui); letter-spacing:.08em; text-transform:uppercase;
+  padding:5px 10px;
+}
+
+/* ===== Form ===== */
+.oc-form{ margin-top:6px; }
+.oc-input{
+  width:100%; padding:12px 12px; border:1px solid var(--ink); outline:none;
+  margin:0 0 10px 0; font-family:var(--ui); font-size:16px; /* 16px: évite le zoom iOS */
+}
+#country{ max-height:48px; }
+.oc-label{ display:block; margin:10px 0 8px; font-weight:600; color:#000; font-family:var(--ui); }
+.oc-label span{ font-weight:400; font-style:italic; }
+.oc-checks{ display:flex; flex-wrap:wrap; gap:12px 18px; margin-bottom:14px; font-family:var(--ui); }
+.oc-legal{ margin-top:10px; color:#666; font:400 12px/1.5 var(--ui); }
+
+/* ===== Responsive ===== */
+@media (max-width:900px){
+  .oc-news{ min-height:420px; }
+  .oc-news__content{ width:92%; padding:24px 18px; }
+  .oc-news__overlay{
+    background:linear-gradient(0deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 60%, rgba(0,0,0,0) 100%);
+  }
+  .oc-modal__head h3{ font-size:20px; }
+  .oc-modal__sub{ font-size:14px; }
+  .oc-legal{ font-size:11px; }
+}
+
+/* Lock scroll when modal opened */
+.has-modal, .has-modal body{ overflow:hidden; height:100%; }
+</style>
