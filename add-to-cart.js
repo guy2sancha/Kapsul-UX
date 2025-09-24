@@ -151,7 +151,7 @@ window.initializeLocalCartSystem = function () {
 
     // Marquer “In Cart” si déjà présent (peu importe la taille)
     const inCart = Object.keys(cart).some((k) => k.startsWith(productID));
-    if (inCart) { button.textContent = "Déjà dans votre panier"; button.classList.add("in-cart"); }
+    if (inCart) { button.textContent = "✔︎ Déjà dans votre panier"; button.classList.add("in-cart"); }
 
     button.addEventListener("click", (e) => {
       e.preventDefault();
