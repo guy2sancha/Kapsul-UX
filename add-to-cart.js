@@ -1,11 +1,9 @@
 <script>
 /* ============================================================
    ADD-TO-CART (LocalStorage) — Vanilla JS
-   - FR + corrections mineures
-   - "max" non affiché, seulement en validation
-   - Bouton Annuler sans bordure (via fallback CSS)
-   - Compat Softr/Airtable (DOM dynamique)
-=========================================================== */
+   - Français + Prix en €
+   - Boutons dynamiques (Softr/Airtable)
+   ============================================================ */
 
 function getCart() {
   try { return JSON.parse(localStorage.getItem("localCart")) || {}; }
@@ -13,7 +11,7 @@ function getCart() {
 }
 function setCart(cart) {
   try { localStorage.setItem("localCart", JSON.stringify(cart)); }
-  catch (e) { console.error("Failed to write localCart:", e); }
+  catch (e) { console.error("Échec de l’écriture du localCart:", e); }
 }
 function cartKey(productID, size) {
   const s = (size || "").trim();
@@ -33,7 +31,7 @@ function parseQuantityOrSizes(val) {
 }
 
 /* ---------------------------
-   Open modal
+   Modal
 --------------------------- */
 window.openLocalCartModal = function (button, productID, quantityOrSizes) {
   document.getElementById("cart-modal")?.remove();
@@ -52,7 +50,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
       })()
     : "";
 
-  const qtyMax = parsed.max; // pas affiché dans l’UI, juste appliqué en validation
+  const qtyMax = parsed.max;
   const qtyField = `
     <label for="cart-quantity" class="cart-label">Quantité</label>
     <input type="number" id="cart-quantity" class="cart-input" min="1" ${Number.isFinite(qtyMax) ? `max="${qtyMax}"` : ""} value="1">
@@ -73,7 +71,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
     </div>
   `;
   document.body.insertAdjacentHTML("beforeend", modalHTML);
-  ensureMinimalModalStyle(); // styles fallback (inclut cancel sans bordure)
+  ensureMinimalModalStyle();
 
   const modal = document.getElementById("cart-modal");
   const closeModal = () => { modal.remove(); document.removeEventListener("keydown", escHandler); };
@@ -87,7 +85,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
   modal.querySelector("#submit-cart").addEventListener("click", () => {
     const qty = parseInt(document.getElementById("cart-quantity").value, 10);
     if (!Number.isFinite(qty) || qty < 1 || (Number.isFinite(qtyMax) && qty > qtyMax)) {
-      alert("Quantité invalide."); // pas d’affichage de la valeur max
+      alert("Quantité invalide.");
       return;
     }
     let chosenSize = "";
@@ -107,7 +105,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
 };
 
 /* ---------------------------
-   Save to localStorage
+   LocalStorage Save
 --------------------------- */
 window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
   const cart = getCart();
@@ -132,10 +130,15 @@ window.addToLocalCart = function (button, productID, quantity, chosenSize = "") 
     };
   }
   setCart(cart);
+
+  if (window.CartUI && typeof window.CartUI.onAdded === 'function') {
+    const added = cart[key];
+    window.CartUI.onAdded({ id: added?.id || productID, name, image });
+  }
 };
 
 /* ---------------------------
-   Init (buttons + observers)
+   Init
 --------------------------- */
 window.initializeLocalCartSystem = function () {
   const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
@@ -150,9 +153,8 @@ window.initializeLocalCartSystem = function () {
     const qAttr = button.getAttribute("data-quantity");
     const parsed = parseQuantityOrSizes(qAttr);
 
-    // Marquer “Déjà dans votre panier” si déjà présent (peu importe la taille)
     const inCart = Object.keys(cart).some((k) => k.startsWith(productID));
-    if (inCart) { button.textContent = "✔︎ Déjà dans votre panier"; button.classList.add("in-cart"); }
+    if (inCart) { button.textContent = "✔︎ Déjà dans le panier"; button.classList.add("in-cart"); }
 
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -163,7 +165,6 @@ window.initializeLocalCartSystem = function () {
   });
 };
 
-// Boot + observers (DOM + SPA URL)
 (function bootstrapCart() {
   setTimeout(() => window.initializeLocalCartSystem(), 400);
 
@@ -181,8 +182,7 @@ window.initializeLocalCartSystem = function () {
 })();
 
 /* ---------------------------
-   Fallback styles (if your CSS isn't loaded)
-   - Cancel button without border
+   Styles minimal modal
 --------------------------- */
 function ensureMinimalModalStyle() {
   if (document.getElementById("cart-modal-fallback-style")) return;
@@ -203,36 +203,26 @@ function ensureMinimalModalStyle() {
     #cart-modal .cart-input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; text-align: center; }
     #cart-modal .confirm { width: 100%; margin-top: 14px; padding: 12px; border: 0; border-radius: 8px; background: #081326; color: #fff; font-weight: 800; cursor: pointer; }
     #cart-modal .cancel  { width: 100%; margin-top: 10px; padding: 12px; border: 0; border-radius: 8px; background: #f3f4f6; color: #0b1428; font-weight: 700; cursor: pointer; }
-    #cart-modal .cart-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: 0px solid #e5e7eb; background: #fff; border-radius: 8px; cursor: pointer; font-size: 18px; }
+    #cart-modal .cart-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; background: #fff; border-radius: 8px; cursor: pointer; font-size: 18px; border:0; }
   `;
   document.head.appendChild(style);
 }
 
-
 /* =========================================================
-   Cart UI feedback (toast + drawer) — FR + € (IMPORTANT)
-   NOTE: on garde les NOMS parseJPY/formatJPY pour compat,
-         mais on les fait fonctionner en EUROS.
+   Cart UI feedback (toast + drawer) — Français + €
 ========================================================= */
 (function(){
-  // Choisis ton mode ici:
   window.CartUI = window.CartUI || {};
-  CartUI.MODE = CartUI.MODE || 'toast'; // 'toast' ou 'drawer'
+  CartUI.MODE = CartUI.MODE || 'toast';
 
-  // -- PATCH EUR: on remplace l’implémentation de JPY par EUR,
-  //    en CONSERVANT les noms formatJPY/parseJPY.
-  function formatJPY(n){
-    try{
-      return new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR' }).format(n||0);
-    }catch{
-      return (n||0).toLocaleString('fr-FR') + ' €';
-    }
+  function formatEUR(n){
+    try{ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n||0); }
+    catch{ return (n||0).toLocaleString('fr-FR') + ' €'; }
   }
-  function parseJPY(v){
+  function parseEUR(v){
     if (typeof v === 'number' && isFinite(v)) return v;
-    // tolère 1 234,56 / 1,234.56 / "12 €"
-    const s = String(v||'').replace(/[^\d,.-]/g,'').replace(',', '.');
-    const f = parseFloat(s);
+    const n = String(v||'').replace(/[^\d.-]/g,'');
+    const f = parseFloat(n);
     return isFinite(f) ? f : 0;
   }
   function getCart(){
@@ -240,10 +230,9 @@ function ensureMinimalModalStyle() {
     catch{ return {}; }
   }
 
-  // -- Montage des containers uniques
+  // -- Mount containers
   function mountOnce(){
     if (document.getElementById('oc-toast')) return;
-
     const wrap = document.createElement('div');
     wrap.innerHTML = `
       <!-- TOAST -->
@@ -277,14 +266,13 @@ function ensureMinimalModalStyle() {
     `;
     document.body.appendChild(wrap);
 
-    // close handlers
     document.getElementById('oc-toast-close').addEventListener('click', hideToast);
     document.getElementById('oc-drawer-close').addEventListener('click', closeDrawer);
     document.getElementById('oc-drawer-x').addEventListener('click', closeDrawer);
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ hideToast(); closeDrawer(); }});
   }
 
-  // -- Toast API
+  // -- Toast
   let toastTimer;
   function showToast({name,image}){
     mountOnce();
@@ -293,7 +281,7 @@ function ensureMinimalModalStyle() {
     const title = document.getElementById('oc-toast-title');
     const sub = document.getElementById('oc-toast-sub');
 
-    title.textContent = 'Produit ajouté à votre panier';
+    title.textContent = 'Produit ajouté au panier';
     sub.textContent = name ? name : 'Ajouté avec succès';
     img.style.backgroundImage = image ? `url("${image}")` : 'none';
 
@@ -306,18 +294,17 @@ function ensureMinimalModalStyle() {
     el && el.classList.remove('show');
   }
 
-  // -- Drawer API
+  // -- Drawer
   function openDrawer({highlightId}={}){
     mountOnce();
     const drawer = document.getElementById('oc-drawer');
     const body = document.getElementById('oc-drawer-body');
     const subEl = document.getElementById('oc-drawer-sub');
 
-    // Build from cart
     const items = Object.values(getCart());
     let subtotal = 0;
     body.innerHTML = items.map(it=>{
-      const unit = parseJPY(it.price);                     // ← now parses € safely
+      const unit = parseEUR(it.price);
       const line = unit * (parseInt(it.quantity,10) || 1);
       subtotal += line;
       const hl = highlightId && it.id === highlightId ? ' data-hl="1"' : '';
@@ -331,14 +318,14 @@ function ensureMinimalModalStyle() {
               ${it.seller ? `<span class="oc-dl-chip">${it.seller}</span>` : ``}
             </div>
             <div class="oc-dl-row">
-              <span>Qté : ${it.quantity||1}</span>
-              <strong>${formatJPY(line)}</strong>          <!-- ← formatted in € -->
+              <span>Qté: ${it.quantity||1}</span>
+              <strong>${formatEUR(line)}</strong>
             </div>
           </div>
         </div>
       `;
     }).join('');
-    subEl.textContent = formatJPY(subtotal);               // ← subtotal en €
+    subEl.textContent = formatEUR(subtotal);
 
     drawer.setAttribute('aria-hidden','false');
     requestAnimationFrame(()=> drawer.classList.add('open'));
@@ -350,7 +337,6 @@ function ensureMinimalModalStyle() {
     setTimeout(()=> drawer.setAttribute('aria-hidden','true'), 200);
   }
 
-  // -- Hook appelé depuis addToLocalCart()
   CartUI.onAdded = function({id,name,image}){
     if (CartUI.MODE === 'drawer') {
       openDrawer({highlightId:id});
@@ -359,7 +345,6 @@ function ensureMinimalModalStyle() {
     }
   };
 
-  // Expose pour tests
   CartUI.showToast = showToast;
   CartUI.openDrawer = openDrawer;
   CartUI.closeDrawer = closeDrawer;
