@@ -151,7 +151,7 @@ window.initializeLocalCartSystem = function () {
 
     // Marquer “In Cart” si déjà présent (peu importe la taille)
     const inCart = Object.keys(cart).some((k) => k.startsWith(productID));
-    if (inCart) { button.textContent = "In Cart"; button.classList.add("in-cart"); }
+    if (inCart) { button.textContent = "Déjà dans votre panier"; button.classList.add("in-cart"); }
 
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -229,10 +229,10 @@ function ensureMinimalModalStyle() {
         <div class="oc-toast-card">
           <div class="oc-toast-img" id="oc-toast-img" aria-hidden="true"></div>
           <div class="oc-toast-text">
-            <strong id="oc-toast-title">Added to cart</strong>
-            <span id="oc-toast-sub">Product was added successfully.</span>
+            <strong id="oc-toast-title">Ajouté au panier</strong>
+            <span id="oc-toast-sub">Produit ajouté avec succès.</span>
           </div>
-          <a href="/cart" class="oc-toast-cta">View cart</a>
+          <a href="/cart" class="oc-toast-cta">Voir le panier</a>
           <button class="oc-toast-x" id="oc-toast-close" aria-label="Close">×</button>
         </div>
       </div>
@@ -242,7 +242,7 @@ function ensureMinimalModalStyle() {
         <div class="oc-drawer-backdrop" id="oc-drawer-close"></div>
         <aside class="oc-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="oc-drawer-title">
           <header class="oc-drawer-head">
-            <h3 id="oc-drawer-title">Added to your cart</h3>
+            <h3 id="oc-drawer-title">Ajouté au panier</h3>
             <button class="oc-drawer-x" id="oc-drawer-x" aria-label="Close">×</button>
           </header>
           <div class="oc-drawer-body" id="oc-drawer-body"></div>
