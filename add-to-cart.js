@@ -53,7 +53,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
 
   const qtyMax = parsed.max; // pas affiché dans l’UI, juste appliqué en validation
   const qtyField = `
-    <label for="cart-quantity" class="cart-label">Quantity</label>
+    <label for="cart-quantity" class="cart-label">Quantité</label>
     <input type="number" id="cart-quantity" class="cart-input" min="1" ${Number.isFinite(qtyMax) ? `max="${qtyMax}"` : ""} value="1">
   `;
 
