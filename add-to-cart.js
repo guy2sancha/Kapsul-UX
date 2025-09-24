@@ -99,7 +99,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
     window.addToLocalCart(button, productID, qty, chosenSize);
 
     const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
-    if (liveButton) { liveButton.textContent = "Dans le panier"; liveButton.classList.add("in-cart"); }
+    if (liveButton) { liveButton.textContent = "✔︎ Déjà dans votre panier"; liveButton.classList.add("in-cart"); }
 
     closeModal();
   });
