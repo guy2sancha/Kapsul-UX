@@ -263,16 +263,27 @@ function ensureMinimalModalStyle() {
   }
 
   // -- Helpers
-  function formatJPY(n){
-    try{ return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY'}).format(n||0); }
-    catch{ return '€' + (n||0).toLocaleString('ja-JP'); }
+function formatJPY(n){
+  try{
+    return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })
+      .format(n || 0);
+  }catch{
+    return (n || 0).toLocaleString('fr-FR') + ' €';
   }
-  function parseJPY(v){
-    if (typeof v === 'number' && isFinite(v)) return v;
-    const n = String(v||'').replace(/[^\d.-]/g,'');
-    const f = parseFloat(n);
-    return isFinite(f) ? f : 0;
-  }
+}
+
+function parseJPY(v){
+  // Accepte "1 234,56 €", "1,234.56", "1234.56", etc.
+  if (typeof v === 'number' && isFinite(v)) return v;
+  const s = String(v || '')
+    .replace(/\s/g, '')          // espaces fines/insécables
+    .replace('€','')             // symbole €
+    .replace(/\./g, '')          // séparateur milliers éventuel
+    .replace(',', '.');          // décimales FR -> point
+  const f = parseFloat(s);
+  return isFinite(f) ? f : 0;
+}
+
   function getCart(){
     try{ return JSON.parse(localStorage.getItem('localCart')) || {}; }
     catch{ return {}; }
