@@ -370,6 +370,15 @@ function parseJPY(v){
   CartUI.closeDrawer = closeDrawer;
 })();
 
+function parseNum(v) {
+  if (typeof v === 'number') return v;
+  if (v == null) return 0;
+  const s = String(v).trim().replace(/\s/g,'').replace('€','').replace(',', '.');
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
+
 
 window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
   const cart = getCart();
@@ -382,22 +391,42 @@ window.addToLocalCart = function (button, productID, quantity, chosenSize = "") 
   const seller = button.getAttribute("data-sold-by") || "";
   const freeShipping = button.getAttribute("data-free-shipping") === "true";
 
+  // NEW: logistique depuis data-attributes
+  const weightKg = parseNum(button.getAttribute("data-weight-kg")); // NEW
+  const L = parseNum(button.getAttribute("data-l-cm"));             // NEW
+  const W = parseNum(button.getAttribute("data-w-cm"));             // NEW
+  const H = parseNum(button.getAttribute("data-h-cm"));             // NEW
+  const fragile = (button.getAttribute("data-fragile") === "true"); // NEW
+  const lithium = (button.getAttribute("data-lithium") === "true"); // NEW
+
   const key = cartKey(productID, size);
   if (cart[key]) {
     cart[key].quantity = Math.min((cart[key].quantity || 0) + quantity, 999);
+
+    // NEW: mets à jour/complète les champs logistiques si présents
+    if (weightKg) cart[key].weightKg = weightKg;
+    if (L) cart[key].L = L;
+    if (W) cart[key].W = W;
+    if (H) cart[key].H = H;
+    cart[key].fragile = !!fragile;
+    cart[key].lithium = !!lithium;
+
   } else {
     cart[key] = {
       id: key,
       base_id: productID,
       name, price, image, size, condition, seller, freeShipping,
-      quantity
+      quantity,
+      // NEW: on stocke les valeurs logistiques
+      weightKg, L, W, H, fragile, lithium
     };
   }
   setCart(cart);
 
-  // 👇 feedback automatique (toast ou drawer selon CartUI.MODE)
+  // feedback UI (inchangé)
   if (window.CartUI && typeof window.CartUI.onAdded === 'function') {
     const added = cart[key];
     window.CartUI.onAdded({ id: added?.id || productID, name, image });
   }
 };
+
