@@ -61,13 +61,13 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
     <div id="cart-modal" aria-modal="true" role="dialog">
       <div class="cart-modal-content" role="document">
         <button type="button" class="cart-close" aria-label="Close">×</button>
-        <h2 class="cart-title">Add to cart</h2>
-        <p class="cart-sub">Choose your size and quantity</p>
-        ${already ? `<p class="cart-note">Already in your cart</p>` : ""}
+        <h2 class="cart-title">Ajouter au panier</h2>
+<p class="cart-sub">Choisissez votre produit et la quantité</p>
+        ${already ? `<p class="cart-note">Ce produit est dans votre panier</p>` : ""}
         ${sizeField}
         ${qtyField}
-        <button id="submit-cart" class="confirm">Confirm</button>
-        <button id="close-cart" class="cancel">Cancel</button>
+        <button id="submit-cart" class="confirm">Confirmer</button>
+        <button id="close-cart" class="cancel">Annuler</button>
       </div>
     </div>
   `;
