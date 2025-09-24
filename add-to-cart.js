@@ -86,20 +86,20 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
   modal.querySelector("#submit-cart").addEventListener("click", () => {
     const qty = parseInt(document.getElementById("cart-quantity").value, 10);
     if (!Number.isFinite(qty) || qty < 1 || (Number.isFinite(qtyMax) && qty > qtyMax)) {
-      alert("Invalid quantity."); // pas d’affichage de la valeur max
+      alert("Quantité Invalide"); // pas d’affichage de la valeur max
       return;
     }
     let chosenSize = "";
     if (parsed.type === "sizes") {
       chosenSize = (document.getElementById("cart-size")?.value || "").trim();
-      if (!chosenSize) { alert("Please choose a size."); return; }
+      if (!chosenSize) { alert("Choisissez votre produit"); return; }
       button.setAttribute("data-size", chosenSize);
     }
 
     window.addToLocalCart(button, productID, qty, chosenSize);
 
     const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
-    if (liveButton) { liveButton.textContent = "In Cart"; liveButton.classList.add("in-cart"); }
+    if (liveButton) { liveButton.textContent = "Dans le panier"; liveButton.classList.add("in-cart"); }
 
     closeModal();
   });
@@ -247,7 +247,7 @@ function ensureMinimalModalStyle() {
           </header>
           <div class="oc-drawer-body" id="oc-drawer-body"></div>
           <footer class="oc-drawer-foot">
-            <div class="oc-drawer-row"><span>Subtotal</span><strong id="oc-drawer-sub">¥0</strong></div>
+            <div class="oc-drawer-row"><span>Sous-total</span><strong id="oc-drawer-sub">€0</strong></div>
             <a href="/cart" class="oc-drawer-cta">Checkout</a>
           </footer>
         </aside>
@@ -287,8 +287,8 @@ function ensureMinimalModalStyle() {
     const title = document.getElementById('oc-toast-title');
     const sub = document.getElementById('oc-toast-sub');
 
-    title.textContent = 'Product added to your cart';
-    sub.textContent = name ? name : 'Added successfully';
+    title.textContent = 'Produit ajouté à votre panier';
+    sub.textContent = name ? name : 'Ajouté avec succès';
     img.style.backgroundImage = image ? `url("${image}")` : 'none';
 
     clearTimeout(toastTimer);
@@ -325,7 +325,7 @@ function ensureMinimalModalStyle() {
               ${it.seller ? `<span class="oc-dl-chip">${it.seller}</span>` : ``}
             </div>
             <div class="oc-dl-row">
-              <span>Qty: ${it.quantity||1}</span>
+              <span>Qté: ${it.quantity||1}</span>
               <strong>${formatJPY(line)}</strong>
             </div>
           </div>
