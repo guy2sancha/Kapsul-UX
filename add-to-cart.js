@@ -45,7 +45,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
     ? (() => {
         const opts = parsed.sizes.map(s => `<option value="${s}">${s}</option>`).join("");
         return `
-          <label for="cart-size" class="cart-label">Size</label>
+          <label for="cart-size" class="cart-label">Taille</label>
           <select id="cart-size" class="cart-input">${opts}</select>
         `;
       })()
@@ -265,7 +265,7 @@ function ensureMinimalModalStyle() {
   // -- Helpers
   function formatJPY(n){
     try{ return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY'}).format(n||0); }
-    catch{ return '¥' + (n||0).toLocaleString('ja-JP'); }
+    catch{ return '€' + (n||0).toLocaleString('ja-JP'); }
   }
   function parseJPY(v){
     if (typeof v === 'number' && isFinite(v)) return v;
