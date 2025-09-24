@@ -1,11 +1,9 @@
-<script>
 /* ============================================================
-   ADD-TO-CART (LocalStorage) — Vanilla JS (FR + EUR)
-   - Tous les libellés en français
-   - Sous-total affiché en € (EUR)
-   - Pas d'affichage du "max" dans l'UI
-   - Bouton Annuler sans bordure (fallback CSS inclus)
-   - Compatible DOM dynamique (Softr/Airtable)
+   ADD-TO-CART (LocalStorage) — Vanilla JS
+   - No "max" text in modal label
+   - Cancel button without border
+   - Sizes list OR numeric quantity
+   - Works with dynamic DOM (Softr/Airtable)
    ============================================================ */
 
 function getCart() {
@@ -27,14 +25,14 @@ function parseQuantityOrSizes(val) {
   const str = String(val).trim();
   if (isNaN(str)) {
     const sizes = str.split(",").map(s => s.trim()).filter(Boolean);
-    return { type: "sizes", sizes, max: 99 }; // limite soft à 99
+    return { type: "sizes", sizes, max: 99 }; // plus d’affichage, mais on limite à 99 par sécurité
   }
   const max = parseInt(str, 10);
   return { type: "qty", max: Number.isFinite(max) && max > 0 ? max : 1 };
 }
 
 /* ---------------------------
-   Ouvrir la modale
+   Open modal
 --------------------------- */
 window.openLocalCartModal = function (button, productID, quantityOrSizes) {
   document.getElementById("cart-modal")?.remove();
@@ -47,25 +45,25 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
     ? (() => {
         const opts = parsed.sizes.map(s => `<option value="${s}">${s}</option>`).join("");
         return `
-          <label for="cart-size" class="cart-label">Taille</label>
+          <label for="cart-size" class="cart-label">Size</label>
           <select id="cart-size" class="cart-input">${opts}</select>
         `;
       })()
     : "";
 
-  const qtyMax = parsed.max; // utilisé uniquement en validation
+  const qtyMax = parsed.max; // pas affiché dans l’UI, juste appliqué en validation
   const qtyField = `
-    <label for="cart-quantity" class="cart-label">Quantité</label>
+    <label for="cart-quantity" class="cart-label">Quantity</label>
     <input type="number" id="cart-quantity" class="cart-input" min="1" ${Number.isFinite(qtyMax) ? `max="${qtyMax}"` : ""} value="1">
   `;
 
   const modalHTML = `
     <div id="cart-modal" aria-modal="true" role="dialog">
       <div class="cart-modal-content" role="document">
-        <button type="button" class="cart-close" aria-label="Fermer">×</button>
+        <button type="button" class="cart-close" aria-label="Close">×</button>
         <h2 class="cart-title">Ajouter au panier</h2>
-        <p class="cart-sub">Choisissez votre produit et la quantité</p>
-        ${already ? `<p class="cart-note">Ce produit est déjà dans votre panier</p>` : ""}
+<p class="cart-sub">Choisissez votre produit et la quantité</p>
+        ${already ? `<p class="cart-note">Ce produit est dans votre panier</p>` : ""}
         ${sizeField}
         ${qtyField}
         <button id="submit-cart" class="confirm">Confirmer</button>
@@ -88,27 +86,27 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
   modal.querySelector("#submit-cart").addEventListener("click", () => {
     const qty = parseInt(document.getElementById("cart-quantity").value, 10);
     if (!Number.isFinite(qty) || qty < 1 || (Number.isFinite(qtyMax) && qty > qtyMax)) {
-      alert("Quantité invalide.");
+      alert("Invalid quantity."); // pas d’affichage de la valeur max
       return;
     }
     let chosenSize = "";
     if (parsed.type === "sizes") {
       chosenSize = (document.getElementById("cart-size")?.value || "").trim();
-      if (!chosenSize) { alert("Veuillez choisir une taille."); return; }
+      if (!chosenSize) { alert("Please choose a size."); return; }
       button.setAttribute("data-size", chosenSize);
     }
 
     window.addToLocalCart(button, productID, qty, chosenSize);
 
     const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
-    if (liveButton) { liveButton.textContent = "Dans le panier"; liveButton.classList.add("in-cart"); }
+    if (liveButton) { liveButton.textContent = "In Cart"; liveButton.classList.add("in-cart"); }
 
     closeModal();
   });
 };
 
 /* ---------------------------
-   Sauvegarde localStorage
+   Save to localStorage
 --------------------------- */
 window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
   const cart = getCart();
@@ -133,16 +131,10 @@ window.addToLocalCart = function (button, productID, quantity, chosenSize = "") 
     };
   }
   setCart(cart);
-
-  // Feedback (toast ou tiroir)
-  if (window.CartUI && typeof window.CartUI.onAdded === 'function') {
-    const added = cart[key];
-    window.CartUI.onAdded({ id: added?.id || productID, name, image });
-  }
 };
 
 /* ---------------------------
-   Init (boutons + observers)
+   Init (buttons + observers)
 --------------------------- */
 window.initializeLocalCartSystem = function () {
   const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
@@ -157,7 +149,7 @@ window.initializeLocalCartSystem = function () {
     const qAttr = button.getAttribute("data-quantity");
     const parsed = parseQuantityOrSizes(qAttr);
 
-    // Marquer “Déjà dans votre panier” si présent (peu importe la taille)
+    // Marquer “In Cart” si déjà présent (peu importe la taille)
     const inCart = Object.keys(cart).some((k) => k.startsWith(productID));
     if (inCart) { button.textContent = "✔︎ Déjà dans votre panier"; button.classList.add("in-cart"); }
 
@@ -188,7 +180,8 @@ window.initializeLocalCartSystem = function () {
 })();
 
 /* ---------------------------
-   Fallback styles (si ton CSS global ne charge pas)
+   Fallback styles (if your CSS isn't loaded)
+   - Cancel button without border
 --------------------------- */
 function ensureMinimalModalStyle() {
   if (document.getElementById("cart-modal-fallback-style")) return;
@@ -209,22 +202,23 @@ function ensureMinimalModalStyle() {
     #cart-modal .cart-input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; text-align: center; }
     #cart-modal .confirm { width: 100%; margin-top: 14px; padding: 12px; border: 0; border-radius: 8px; background: #081326; color: #fff; font-weight: 800; cursor: pointer; }
     #cart-modal .cancel  { width: 100%; margin-top: 10px; padding: 12px; border: 0; border-radius: 8px; background: #f3f4f6; color: #0b1428; font-weight: 700; cursor: pointer; }
-    #cart-modal .cart-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: 0; background: #fff; border-radius: 8px; cursor: pointer; font-size: 18px; }
+    #cart-modal .cart-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: 0px solid #e5e7eb; background: #fff; border-radius: 8px; cursor: pointer; font-size: 18px; }
   `;
   document.head.appendChild(style);
 }
 
 
 /* =========================================================
-   Cart UI feedback (toast + drawer) — FR + EUR
+   Cart UI feedback (toast + drawer) — plug & play
    Usage: window.CartUI.MODE = 'toast' | 'drawer'
+          → appelé automatiquement depuis addToLocalCart()
 ========================================================= */
 (function(){
-  // Choisir le mode par défaut :
+  // Choisis ton mode ici:
   window.CartUI = window.CartUI || {};
   CartUI.MODE = CartUI.MODE || 'toast'; // 'toast' ou 'drawer'
 
-  // -- Montage unique des containers
+  // -- Montage des containers uniques
   function mountOnce(){
     if (document.getElementById('oc-toast')) return;
 
@@ -239,7 +233,7 @@ function ensureMinimalModalStyle() {
             <span id="oc-toast-sub">Produit ajouté avec succès.</span>
           </div>
           <a href="/cart" class="oc-toast-cta">Voir le panier</a>
-          <button class="oc-toast-x" id="oc-toast-close" aria-label="Fermer">×</button>
+          <button class="oc-toast-x" id="oc-toast-close" aria-label="Close">×</button>
         </div>
       </div>
 
@@ -249,42 +243,37 @@ function ensureMinimalModalStyle() {
         <aside class="oc-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="oc-drawer-title">
           <header class="oc-drawer-head">
             <h3 id="oc-drawer-title">Ajouté au panier</h3>
-            <button class="oc-drawer-x" id="oc-drawer-x" aria-label="Fermer">×</button>
+            <button class="oc-drawer-x" id="oc-drawer-x" aria-label="Close">×</button>
           </header>
           <div class="oc-drawer-body" id="oc-drawer-body"></div>
           <footer class="oc-drawer-foot">
-            <div class="oc-drawer-row"><span>Sous-total</span><strong id="oc-drawer-sub">0 €</strong></div>
-            <a href="/cart" class="oc-drawer-cta">Passer au paiement</a>
+            <div class="oc-drawer-row"><span>Subtotal</span><strong id="oc-drawer-sub">¥0</strong></div>
+            <a href="/cart" class="oc-drawer-cta">Checkout</a>
           </footer>
         </aside>
       </div>
     `;
     document.body.appendChild(wrap);
 
-    // handlers fermeture
+    // close handlers
     document.getElementById('oc-toast-close').addEventListener('click', hideToast);
     document.getElementById('oc-drawer-close').addEventListener('click', closeDrawer);
     document.getElementById('oc-drawer-x').addEventListener('click', closeDrawer);
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ hideToast(); closeDrawer(); }});
   }
 
-  // -- Helpers EUR
-  function formatEUR(n){
-    try{ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n||0); }
-    catch{ return (n||0).toLocaleString('fr-FR') + ' €'; }
+  // -- Helpers
+  function formatJPY(n){
+    try{ return new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY'}).format(n||0); }
+    catch{ return '¥' + (n||0).toLocaleString('ja-JP'); }
   }
-  // Tolère "12,34 €" ou "12.34€"
-  function parseEUR(v){
+  function parseJPY(v){
     if (typeof v === 'number' && isFinite(v)) return v;
-    const s = String(v||'').trim()
-      .replace(/\s/g,'')
-      .replace('€','')
-      .replace(/\./g,'')       // milliers
-      .replace(',', '.');      // décimales
-    const f = parseFloat(s);
+    const n = String(v||'').replace(/[^\d.-]/g,'');
+    const f = parseFloat(n);
     return isFinite(f) ? f : 0;
   }
-  function getCartLS(){
+  function getCart(){
     try{ return JSON.parse(localStorage.getItem('localCart')) || {}; }
     catch{ return {}; }
   }
@@ -298,8 +287,8 @@ function ensureMinimalModalStyle() {
     const title = document.getElementById('oc-toast-title');
     const sub = document.getElementById('oc-toast-sub');
 
-    title.textContent = 'Produit ajouté à votre panier';
-    sub.textContent = name ? name : 'Ajouté avec succès';
+    title.textContent = 'Product added to your cart';
+    sub.textContent = name ? name : 'Added successfully';
     img.style.backgroundImage = image ? `url("${image}")` : 'none';
 
     clearTimeout(toastTimer);
@@ -318,11 +307,11 @@ function ensureMinimalModalStyle() {
     const body = document.getElementById('oc-drawer-body');
     const subEl = document.getElementById('oc-drawer-sub');
 
-    // Build depuis le panier
-    const items = Object.values(getCartLS());
+    // Build from cart
+    const items = Object.values(getCart());
     let subtotal = 0;
     body.innerHTML = items.map(it=>{
-      const unit = parseEUR(it.price);
+      const unit = parseJPY(it.price);
       const line = unit * (parseInt(it.quantity,10) || 1);
       subtotal += line;
       const hl = highlightId && it.id === highlightId ? ' data-hl="1"' : '';
@@ -332,18 +321,18 @@ function ensureMinimalModalStyle() {
           <div class="oc-dl-meta">
             <strong class="oc-dl-title">${it.name||''}</strong>
             <div class="oc-dl-sub">
-              ${it.size ? `<span class="oc-dl-chip">Taille : ${it.size}</span>` : ``}
+              ${it.size ? `<span class="oc-dl-chip">Size: ${it.size}</span>` : ``}
               ${it.seller ? `<span class="oc-dl-chip">${it.seller}</span>` : ``}
             </div>
             <div class="oc-dl-row">
-              <span>Qté : ${it.quantity||1}</span>
-              <strong>${formatEUR(line)}</strong>
+              <span>Qty: ${it.quantity||1}</span>
+              <strong>${formatJPY(line)}</strong>
             </div>
           </div>
         </div>
       `;
     }).join('');
-    subEl.textContent = formatEUR(subtotal);
+    subEl.textContent = formatJPY(subtotal);
 
     drawer.setAttribute('aria-hidden','false');
     requestAnimationFrame(()=> drawer.classList.add('open'));
@@ -369,4 +358,35 @@ function ensureMinimalModalStyle() {
   CartUI.openDrawer = openDrawer;
   CartUI.closeDrawer = closeDrawer;
 })();
-</script>
+
+
+window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
+  const cart = getCart();
+
+  const name = button.getAttribute("data-name") || "";
+  const price = button.getAttribute("data-price") || "";
+  const image = button.getAttribute("data-image") || "";
+  const size = chosenSize || button.getAttribute("data-size") || "";
+  const condition = button.getAttribute("data-condition") || "";
+  const seller = button.getAttribute("data-sold-by") || "";
+  const freeShipping = button.getAttribute("data-free-shipping") === "true";
+
+  const key = cartKey(productID, size);
+  if (cart[key]) {
+    cart[key].quantity = Math.min((cart[key].quantity || 0) + quantity, 999);
+  } else {
+    cart[key] = {
+      id: key,
+      base_id: productID,
+      name, price, image, size, condition, seller, freeShipping,
+      quantity
+    };
+  }
+  setCart(cart);
+
+  // 👇 feedback automatique (toast ou drawer selon CartUI.MODE)
+  if (window.CartUI && typeof window.CartUI.onAdded === 'function') {
+    const added = cart[key];
+    window.CartUI.onAdded({ id: added?.id || productID, name, image });
+  }
+};
