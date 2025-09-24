@@ -1,3 +1,4 @@
+<script>
 /* ============================================================
    ADD-TO-CART (LocalStorage) — Vanilla JS
    - No "max" text in modal label
@@ -62,7 +63,7 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
       <div class="cart-modal-content" role="document">
         <button type="button" class="cart-close" aria-label="Close">×</button>
         <h2 class="cart-title">Ajouter au panier</h2>
-<p class="cart-sub">Choisissez votre produit et la quantité</p>
+        <p class="cart-sub">Choisissez votre produit et la quantité</p>
         ${already ? `<p class="cart-note">Ce produit est dans votre panier</p>` : ""}
         ${sizeField}
         ${qtyField}
@@ -103,34 +104,6 @@ window.openLocalCartModal = function (button, productID, quantityOrSizes) {
 
     closeModal();
   });
-};
-
-/* ---------------------------
-   Save to localStorage
---------------------------- */
-window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
-  const cart = getCart();
-
-  const name = button.getAttribute("data-name") || "";
-  const price = button.getAttribute("data-price") || "";
-  const image = button.getAttribute("data-image") || "";
-  const size = chosenSize || button.getAttribute("data-size") || "";
-  const condition = button.getAttribute("data-condition") || "";
-  const seller = button.getAttribute("data-sold-by") || "";
-  const freeShipping = button.getAttribute("data-free-shipping") === "true";
-
-  const key = cartKey(productID, size);
-  if (cart[key]) {
-    cart[key].quantity = Math.min((cart[key].quantity || 0) + quantity, 999);
-  } else {
-    cart[key] = {
-      id: key,
-      base_id: productID,
-      name, price, image, size, condition, seller, freeShipping,
-      quantity
-    };
-  }
-  setCart(cart);
 };
 
 /* ---------------------------
@@ -263,26 +236,26 @@ function ensureMinimalModalStyle() {
   }
 
   // -- Helpers
-function formatJPY(n){
-  try{
-    return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })
-      .format(n || 0);
-  }catch{
-    return (n || 0).toLocaleString('fr-FR') + ' €';
+  function formatJPY(n){
+    try{
+      return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })
+        .format(n || 0);
+    }catch{
+      return (n || 0).toLocaleString('fr-FR') + ' €';
+    }
   }
-}
 
-function parseJPY(v){
-  // Accepte "1 234,56 €", "1,234.56", "1234.56", etc.
-  if (typeof v === 'number' && isFinite(v)) return v;
-  const s = String(v || '')
-    .replace(/\s/g, '')          // espaces fines/insécables
-    .replace('€','')             // symbole €
-    .replace(/\./g, '')          // séparateur milliers éventuel
-    .replace(',', '.');          // décimales FR -> point
-  const f = parseFloat(s);
-  return isFinite(f) ? f : 0;
-}
+  function parseJPY(v){
+    // Accepte "1 234,56 €", "1,234.56", "1234.56", etc.
+    if (typeof v === 'number' && isFinite(v)) return v;
+    const s = String(v || '')
+      .replace(/\s/g, '')          // espaces fines/insécables
+      .replace('€','')             // symbole €
+      .replace(/\./g, '')          // séparateur milliers éventuel
+      .replace(',', '.');          // décimales FR -> point
+    const f = parseFloat(s);
+    return isFinite(f) ? f : 0;
+  }
 
   function getCart(){
     try{ return JSON.parse(localStorage.getItem('localCart')) || {}; }
@@ -370,7 +343,37 @@ function parseJPY(v){
   CartUI.closeDrawer = closeDrawer;
 })();
 
+/* =================================================================
+   Helpers pour lire des data-* en nombre / bool (logistique)
+================================================================= */
+function toNumber(v, dflt = 0){
+  if (typeof v === 'number' && isFinite(v)) return v;
+  const s = String(v ?? '').trim().replace(',', '.');
+  const f = parseFloat(s);
+  return isFinite(f) ? f : dflt;
+}
+function readNumAttr(el, ...names){
+  for (const n of names){
+    const v = el.getAttribute(n);
+    if (v != null && String(v).trim() !== '') return toNumber(v, 0);
+  }
+  return 0;
+}
+function readBoolAttr(el, ...names){
+  for (const n of names){
+    const v = el.getAttribute(n);
+    if (v != null){
+      const s = String(v).trim().toLowerCase();
+      return s === 'true' || s === '1' || s === 'yes';
+    }
+  }
+  return false;
+}
 
+/* ---------------------------
+   Save to localStorage (MODIFIÉ)
+   - capture poids/dimensions/flags (fragile, lithium)
+--------------------------- */
 window.addToLocalCart = function (button, productID, quantity, chosenSize = "") {
   const cart = getCart();
 
@@ -382,15 +385,32 @@ window.addToLocalCart = function (button, productID, quantity, chosenSize = "") 
   const seller = button.getAttribute("data-sold-by") || "";
   const freeShipping = button.getAttribute("data-free-shipping") === "true";
 
+  // NOUVEAU : champs logistiques depuis data-* (avec fallback)
+  const weightKg = readNumAttr(button, "data-weight-kg", "data-weight");
+  const L = readNumAttr(button, "data-l-cm", "data-length");
+  const W = readNumAttr(button, "data-w-cm", "data-width");
+  const H = readNumAttr(button, "data-h-cm", "data-height");
+  const fragile = readBoolAttr(button, "data-fragile");
+  const lithium = readBoolAttr(button, "data-lithium");
+
   const key = cartKey(productID, size);
   if (cart[key]) {
     cart[key].quantity = Math.min((cart[key].quantity || 0) + quantity, 999);
+    // Met à jour les champs logistiques si fournis
+    if (weightKg) cart[key].weightKg = weightKg;
+    if (L) cart[key].L = L;
+    if (W) cart[key].W = W;
+    if (H) cart[key].H = H;
+    if (button.hasAttribute("data-fragile")) cart[key].fragile = fragile;
+    if (button.hasAttribute("data-lithium")) cart[key].lithium = lithium;
   } else {
     cart[key] = {
       id: key,
       base_id: productID,
       name, price, image, size, condition, seller, freeShipping,
-      quantity
+      quantity,
+      // Logistique stockée dès la création
+      weightKg, L, W, H, fragile, lithium
     };
   }
   setCart(cart);
@@ -401,3 +421,4 @@ window.addToLocalCart = function (button, productID, quantity, chosenSize = "") 
     window.CartUI.onAdded({ id: added?.id || productID, name, image });
   }
 };
+</script>
