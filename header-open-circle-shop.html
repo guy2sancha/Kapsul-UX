@@ -77,6 +77,16 @@
     position:absolute; left:8px; top:50%; transform:translateY(-50%); color:var(--ink); font-size:14px
   }
 
+  .cart-badge{
+  position:absolute; top:-6px; right:-10px;
+  min-width:18px; height:18px; padding:0 6px;
+  background:var(--acc); color:#fff; border-radius:999px;
+  font-size:11px; line-height:18px; font-weight:800; text-align:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+.cart-badge[hidden]{ display:none }
+
+
   /* ===== Mega menu ===== */
   .mega{
     position:fixed; left:3%; right:3%;
@@ -301,7 +311,10 @@
 
     <!-- RIGHT ACTIONS -->
     <div class="actions">
-      <a href="/cart" title="Panier" aria-label="Panier"><i class="fa-solid fa-cart-shopping"></i></a>
+      <a href="/cart" class="cart-link" title="Panier" aria-label="Panier" style="position:relative">
+  <i class="fa-solid fa-cart-shopping"></i>
+  <span id="cart-badge" class="cart-badge" hidden></span>
+</a>
       <div class="country-selector" aria-label="Sélecteur de pays">
         <select onchange="location.href=this.value" aria-label="Pays et devise">
           <option value="/fr">France – €</option>
