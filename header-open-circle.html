@@ -65,42 +65,37 @@
     <div class="nav-item"><a href="/stories">Journal</a></div>
 
 <!-- ONE-COLUMN : Communauté -->
-    <div class="nav-item">
-      <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
-      <div class="dropdown-submenu simple">
-        <a class="ph-item" href="/community/curators">
-          <div class="ph-ico" aria-hidden="true">
-            <!-- svg japan/map pin -->
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z"/>
-              <circle cx="12" cy="11" r="2.5"/>
-            </svg>
-          </div>
-          <div class="ph-text">
-            <div class="ph-title">Devenir Curator</div>
-            <div class="ph-sub">Partagez des marques Japonaise et soyez rémunéré pour vos sélections.</div>
-          </div>
-        </a>
-        <a class="ph-item" href="/community/circlers">
-          <div class="ph-ico" aria-hidden="true">
-            <!-- svg chat bubble -->
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#111" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12a8 8 0 1 1-3.2-6.4L21 4l-.6 3.3A7.9 7.9 0 0 1 21 12z"/>
-            </svg>
-          </div>
-          <div class="ph-text">
-            <div class="ph-title">Devenir Circler</div>
-            <div class="ph-sub">Donnez votre avis. Aidez les marques. Gagnez des récompenses.</div>
-          </div>
-        </a>
+<div class="nav-item">
+  <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
+  <div class="dropdown-submenu simple">
+    <a class="ph-item" href="/community/curators">
+      <div class="ph-ico" aria-hidden="true">👀</div>
+      <div class="ph-text">
+        <div class="ph-title">Devenir Curator</div>
+        <div class="ph-sub">Partagez des marques japonaises et soyez rémunéré pour vos sélections.</div>
       </div>
-    </div>
+    </a>
+    <a class="ph-item" href="/community/circlers">
+      <div class="ph-ico" aria-hidden="true">⭕️</div>
+      <div class="ph-text">
+        <div class="ph-title">Devenir Circler</div>
+        <div class="ph-sub">Donnez votre avis. Aidez les marques. Gagnez des récompenses.</div>
+      </div>
+    </a>
+  </div>
+</div>
+
     
   </nav>
 </div>
 
 <!-- ================== STYLES ================== -->
 <style>
+.ph-ico {
+  font-size: 20px; /* ou 22px si tu veux bien centré */
+  line-height: 1;
+}
+  
   .curator-buttons{display:flex;gap:12px}
   .outline-btn{border:1px solid #fff;background:transparent;color:#fff;padding:4px 8px;border-radius:10px;font-size:10px;font-weight:400;text-transform:uppercase;text-decoration:none;transition:.3s}
   .outline-btn:hover{background:grey;color:#fff}
