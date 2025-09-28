@@ -131,6 +131,13 @@
 .tee-option:hover .tee-chevron,
 .tee-option:focus .tee-chevron{ color:#111; transform:translateX(2px); }
 
+  /* Neutralize hover red for tee-option links */
+.tee-option:hover .tee-text strong,
+.tee-option:hover .tee-text small {
+  color: inherit !important;
+}
+
+
 
   @media (max-width:900px){
     .dropdown-submenu.mega-3 .mega-grid,
