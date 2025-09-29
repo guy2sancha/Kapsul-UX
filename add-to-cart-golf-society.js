@@ -229,7 +229,7 @@ function ensureMinimalModalStyle() {
           <div class="oc-drawer-body" id="oc-drawer-body"></div>
           <footer class="oc-drawer-foot">
             <div class="oc-drawer-row"><span>Items</span><strong id="oc-drawer-sub">0</strong></div>
-            <a href="/request" class="oc-drawer-cta">Open selection</a>
+            <a href="/cart" class="oc-drawer-cta">View selection</a>
           </footer>
         </aside>
       </div>`;
