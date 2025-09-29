@@ -1,0 +1,157 @@
+<style>
+
+/* === CART MODAL OVERLAY === */
+#cart-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* === MODAL BOX === */
+.cart-modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.cart-modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #081326;
+}
+
+.cart-modal-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #444;
+}
+
+.cart-modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  text-align: center;
+}
+
+.cart-modal-content button {
+  width: 100%;
+  padding: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Confirm and Cancel Buttons */
+.cart-modal-content .confirm {
+  background-color: #081326;
+  color: white;
+}
+.cart-modal-content .confirm:hover {
+  background-color: #0D26FF;
+}
+
+.cart-modal-content .cancel {
+  background-color: #eee;
+  color: #333;
+}
+.cart-modal-content .cancel:hover {
+  background-color: #ddd;
+}
+
+/* === ADD TO CART BUTTON === */
+.custom-add-to-cart-button {
+  width: 100%;
+  margin-top: 60px;
+  background-color: #bc002d;
+  color: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border: 1px solid #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .custom-add-to-cart-button {
+    width: 60%;
+    margin-top: 20px;
+  }
+}
+
+
+.custom-add-to-cart-button:hover {
+  background-color: #000;
+}
+
+.custom-add-to-cart-button.in-cart {
+  background-color: #081326;
+  color: white;
+  border: 1px solid #081326;
+  cursor: default;
+}
+
+</style>
+
+<style>
+/* ===== Toast ===== */
+#oc-toast{position:fixed;left:0;right:0;bottom:-140px;display:flex;justify-content:center;pointer-events:none;transition:bottom .25s ease;z-index:10000}
+#oc-toast.show{bottom:18px}
+#oc-toast .oc-toast-card{pointer-events:auto;display:grid;grid-template-columns:56px 1fr auto 32px;gap:12px;align-items:center;background:#0b1428;color:#fff;border-radius:14px;padding:12px 12px 12px 12px;box-shadow:0 15px 40px rgba(0,0,0,.28);width:min(94vw,680px)}
+#oc-toast .oc-toast-img{width:56px;height:56px;border-radius:10px;background:#fff;background-size:cover;background-position:center}
+#oc-toast .oc-toast-text{min-width:0}
+#oc-toast strong{font-weight:900;display:block}
+#oc-toast span{opacity:.85;font-size:.92rem}
+#oc-toast .oc-toast-cta{background:#fff;color:#0b1428;text-decoration:none;font-weight:900;padding:10px 12px;border-radius:10px;white-space:nowrap}
+#oc-toast .oc-toast-x{width:32px;height:32px;border:0;background:transparent;color:#fff;font-size:20px;cursor:pointer}
+
+/* ===== Drawer ===== */
+#oc-drawer{position:fixed;inset:0;z-index:10000;display:block;pointer-events:none}
+#oc-drawer[aria-hidden="true"]{display:block}
+#oc-drawer.open{pointer-events:auto}
+#oc-drawer .oc-drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:opacity .2s}
+#oc-drawer.open .oc-drawer-backdrop{opacity:1}
+#oc-drawer .oc-drawer-panel{
+  position:absolute;top:0;right:0;height:100%;width:min(92vw,420px);background:#fff;border-left:1px solid #e5e7eb;
+  transform:translateX(100%);transition:transform .2s ease;display:flex;flex-direction:column;
+  font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+}
+#oc-drawer.open .oc-drawer-panel{transform:translateX(0)}
+.oc-drawer-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #e5e7eb}
+.oc-drawer-head h3{margin:0;font-size:1.05rem;color:#0b1428}
+.oc-drawer-x{border:0;background:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:18px}
+
+.oc-drawer-body{padding:12px 14px;overflow:auto;flex:1}
+.oc-dl{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center;margin-bottom:10px;border:1px solid #eef2f7;border-radius:10px;padding:8px}
+.oc-dl[data-hl="1"]{box-shadow:0 0 0 3px rgba(13,38,255,.15)}
+.oc-dl-img{width:72px;height:72px;border-radius:8px;object-fit:cover;background:#f6f7fb}
+.oc-dl-title{display:block;margin:0 0 4px}
+.oc-dl-sub{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.oc-dl-chip{background:#f6f7fb;border:1px solid #e5e7eb;border-radius:999px;padding:2px 8px;font-size:.8rem;font-weight:700;color:#2b313a}
+.oc-dl-row{display:flex;justify-content:space-between;align-items:center}
+
+.oc-drawer-foot{border-top:1px solid #e5e7eb;padding:12px 14px}
+.oc-drawer-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.oc-drawer-cta{display:block;text-align:center;background:#0b1428;color:#fff;text-decoration:none;font-weight:900;padding:12px;border-radius:10px}
+</style>
