@@ -1,4 +1,3 @@
-<script>
 /* ============================================================
    ADD-TO-SELECTION (LocalStorage) — Vanilla JS
    - Modal fields: Quantity, Loft, Available Shaft
@@ -275,4 +274,3 @@ function ensureMinimalModalStyle() {
 
   CartUI.onAdded=function({id,name,image}){ if(CartUI.MODE==='drawer')openDrawer({highlightId:id}); else showToast({name,image}); };
 })();
-</script>
