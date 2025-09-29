@@ -1,387 +1,251 @@
 <script>
 /* ============================================================
-   ADD-TO-SELECTION (LocalStorage) — Vanilla JS
+   JAPAN GOLF SOCIETY — Selection (LocalStorage)
+   - Event delegation (no init)
    - Modal fields: Quantity, Loft, Available Shaft
-   - Works with dynamic DOM (Softr/Airtable)
+   - Key = productID::loft::shaft
    ============================================================ */
 
-function getSelection() {
-  try { return JSON.parse(localStorage.getItem("localCart")) || {}; }
-  catch { return {}; }
-}
-function setSelection(bag) {
-  try { localStorage.setItem("localCart", JSON.stringify(bag)); }
-  catch (e) { console.error("Failed to write localCart:", e); }
-}
+/* ---------- Storage helpers ---------- */
+const JGS_STORE_KEY = 'localCart';
+function jgsReadBag(){ try{return JSON.parse(localStorage.getItem(JGS_STORE_KEY))||{};}catch{return{};} }
+function jgsWriteBag(b){ try{ localStorage.setItem(JGS_STORE_KEY, JSON.stringify(b)); }catch(e){ console.error(e);} }
 
-/* Build a stable key from product + loft + shaft */
-function selectionKey(productID, loft, shaft) {
-  const L = (loft || "").toString().trim();
-  const S = (shaft || "").toString().trim();
-  return [productID, L, S].filter(Boolean).join("::");
+/* ---------- Key builder ---------- */
+function jgsKey(productID, loft, shaft){
+  const L = (loft||'').toString().trim();
+  const S = (shaft||'').toString().trim();
+  return [productID, L, S].filter(Boolean).join('::');
 }
 
-/* "a,b,c" -> ["a","b","c"] | "52" -> ["52"] | "" -> [] */
-function parseList(val) {
-  if (val == null) return [];
-  const s = String(val).trim();
-  if (!s) return [];
-  return s.split(",").map(v => v.trim()).filter(Boolean);
+/* ---------- Utils ---------- */
+function jgsToInt(v, def=1){ const n=parseInt(v,10); return Number.isFinite(n)&&n>0?n:def; }
+function jgsParseList(s){
+  if(!s) return [];
+  return String(s).split(',').map(x=>x.trim()).filter(Boolean);
 }
 
-/* Number helper */
-function toInt(v, def=1){
-  const n = parseInt(v, 10);
-  return Number.isFinite(n) && n>0 ? n : def;
-}
-
-/* ---------------------------
-   Open modal (Quantity + Loft + Shaft)
---------------------------- */
-window.openLocalSelectionModal = function (button, productID) {
-  document.getElementById("cart-modal")?.remove();
-
-  // Read attributes from the button
-  const presetLoft = button.getAttribute("data-loft") || "";
-  const loftOptions = parseList(presetLoft);      // allow comma list "50,52,54"
-  const shaftOptions = parseList(button.getAttribute("data-available-shaft") || "");
-
-  const bag = getSelection();
-  const already = Object.keys(bag).some(k => k.startsWith(productID));
-
-  // Loft field (dropdown if multiple, else a readonly pill if single)
-  let loftField = "";
-  if (loftOptions.length > 1) {
-    const opts = loftOptions.map(l => `<option value="${l}">${l}°</option>`).join("");
-    loftField = `
-      <label for="cart-loft" class="cart-label">Loft</label>
-      <select id="cart-loft" class="cart-input">${opts}</select>
-    `;
-  } else if (loftOptions.length === 1) {
-    loftField = `
-      <label class="cart-label">Loft</label>
-      <div class="cart-pill" id="cart-loft-pill">${loftOptions[0]}°</div>
-    `;
-  } else {
-    // No loft provided -> optional free text (kept simple)
-    loftField = `
-      <label for="cart-loft-free" class="cart-label">Loft</label>
-      <input id="cart-loft-free" class="cart-input" placeholder="e.g. 52°">
-    `;
-  }
-
-  // Shaft field (dropdown if any provided, else a free text input)
-  let shaftField = "";
-  if (shaftOptions.length) {
-    const opts = shaftOptions.map(s => `<option value="${s}">${s}</option>`).join("");
-    shaftField = `
-      <label for="cart-shaft" class="cart-label">Available Shaft</label>
-      <select id="cart-shaft" class="cart-input">${opts}</select>
-    `;
-  } else {
-    shaftField = `
-      <label for="cart-shaft-free" class="cart-label">Available Shaft</label>
-      <input id="cart-shaft-free" class="cart-input" placeholder="Type or paste shaft">
-    `;
-  }
-
-  const qtyField = `
-    <label for="cart-quantity" class="cart-label">Quantity</label>
-    <input type="number" id="cart-quantity" class="cart-input" min="1" value="1">
+/* ---------- Modal UI ---------- */
+function jgsEnsureModalStyles(){
+  if(document.getElementById('jgs-modal-style')) return;
+  const css = `
+  /* Overlay */
+  #jgs-cart-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:10000}
+  /* Box */
+  .jgs-modal{background:#fff;border-radius:12px;padding:24px;width:min(90vw,440px);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;box-shadow:0 10px 30px rgba(0,0,0,.25);position:relative;text-align:center}
+  .jgs-modal h2{margin:0 0 8px;font-size:22px;font-weight:800;color:#0b1428}
+  .jgs-modal p{margin:0 0 14px;color:#516077}
+  .jgs-label{display:block;text-align:left;margin:12px 0 6px;font-weight:700}
+  .jgs-input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-size:15px}
+  .jgs-pill{width:100%;padding:12px;border:1px dashed #d1d5db;border-radius:8px;background:#fafafa;font-size:15px;text-align:center}
+  .jgs-btn{width:100%;padding:12px;border:0;border-radius:8px;font-weight:800;cursor:pointer}
+  .jgs-btn--dark{background:#081326;color:#fff;margin-top:14px}
+  .jgs-btn--light{background:#f3f4f6;color:#0b1428;margin-top:10px}
+  .jgs-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border:0;background:#fff;border-radius:8px;cursor:pointer;font-size:18px}
+  .custom-add-to-cart-button.in-cart{background:#081326!important;color:#fff!important;border-color:#081326!important;cursor:default}
+  /* Toast */
+  #jgs-toast{position:fixed;left:0;right:0;bottom:-140px;display:flex;justify-content:center;pointer-events:none;transition:bottom .25s ease;z-index:10001}
+  #jgs-toast.show{bottom:18px}
+  #jgs-toast .card{pointer-events:auto;display:grid;grid-template-columns:56px 1fr auto 32px;gap:12px;align-items:center;background:#0b1428;color:#fff;border-radius:14px;padding:12px;box-shadow:0 15px 40px rgba(0,0,0,.28);width:min(94vw,680px)}
+  #jgs-toast .img{width:56px;height:56px;border-radius:10px;background:#fff;background-size:cover;background-position:center}
+  #jgs-toast strong{font-weight:900;display:block}
+  #jgs-toast span{opacity:.85;font-size:.92rem}
+  #jgs-toast .cta{background:#fff;color:#0b1428;text-decoration:none;font-weight:900;padding:10px 12px;border-radius:10px;white-space:nowrap}
+  #jgs-toast .x{width:32px;height:32px;border:0;background:transparent;color:#fff;font-size:20px;cursor:pointer}
   `;
+  const el = document.createElement('style');
+  el.id='jgs-modal-style';
+  el.textContent = css;
+  document.head.appendChild(el);
+}
 
-  const modalHTML = `
-    <div id="cart-modal" aria-modal="true" role="dialog">
-      <div class="cart-modal-content" role="document">
-        <button type="button" class="cart-close" aria-label="Close">×</button>
-        <h2 class="cart-title">Add to My Selection</h2>
-        <p class="cart-sub">Choose your options below.</p>
-        ${already ? `<p class="cart-note">This item already exists in your selection.</p>` : ""}
-        ${qtyField}
+function jgsShowToast({name, image, ctaHref='/request'}={}){
+  let host = document.getElementById('jgs-toast');
+  if(!host){
+    host = document.createElement('div');
+    host.id='jgs-toast';
+    host.innerHTML = `
+      <div class="card">
+        <div class="img" id="jgs-toast-img" aria-hidden="true"></div>
+        <div class="txt">
+          <strong>Added to your selection</strong>
+          <span id="jgs-toast-sub">Saved successfully</span>
+        </div>
+        <a class="cta" id="jgs-toast-cta" href="/request">Open selection</a>
+        <button class="x" id="jgs-toast-x" aria-label="Close">×</button>
+      </div>`;
+    document.body.appendChild(host);
+    document.getElementById('jgs-toast-x').addEventListener('click', ()=> host.classList.remove('show'));
+  }
+  const img = document.getElementById('jgs-toast-img');
+  const sub = document.getElementById('jgs-toast-sub');
+  const cta = document.getElementById('jgs-toast-cta');
+  img.style.backgroundImage = image ? `url("${image}")` : 'none';
+  sub.textContent = name ? name : 'Saved successfully';
+  if (ctaHref) cta.href = ctaHref;
+  host.classList.add('show');
+  clearTimeout(host._t);
+  host._t = setTimeout(()=> host.classList.remove('show'), 3200);
+}
+
+function jgsCloseModal(){
+  const m = document.getElementById('jgs-cart-modal');
+  if(m){ m.remove(); document.removeEventListener('keydown', jgsEscHandler); }
+}
+function jgsEscHandler(e){ if(e.key==='Escape') jgsCloseModal(); }
+
+function jgsOpenModal(button, productID){
+  jgsEnsureModalStyles();
+
+  const loftAttr = button.getAttribute('data-loft') || '';
+  const shaftAttr = button.getAttribute('data-available-shaft') || '';
+  const loftOptions = jgsParseList(loftAttr);     // supports "50,52,54"
+  const shaftOptions = jgsParseList(shaftAttr);   // supports list or empty
+
+  const bag = jgsReadBag();
+  const already = Object.keys(bag).some(k=>k.startsWith(productID));
+
+  let loftField='';
+  if(loftOptions.length>1){
+    loftField = `
+      <label class="jgs-label" for="jgs-loft">Loft</label>
+      <select id="jgs-loft" class="jgs-input">
+        ${loftOptions.map(l=>`<option value="${l}">${l}°</option>`).join('')}
+      </select>`;
+  } else if (loftOptions.length===1){
+    loftField = `
+      <label class="jgs-label">Loft</label>
+      <div id="jgs-loft-pill" class="jgs-pill">${loftOptions[0]}°</div>`;
+  } else {
+    loftField = `
+      <label class="jgs-label" for="jgs-loft-free">Loft</label>
+      <input id="jgs-loft-free" class="jgs-input" placeholder="e.g. 52°">`;
+  }
+
+  let shaftField='';
+  if(shaftOptions.length){
+    shaftField = `
+      <label class="jgs-label" for="jgs-shaft">Available Shaft</label>
+      <select id="jgs-shaft" class="jgs-input">
+        ${shaftOptions.map(s=>`<option value="${s}">${s}</option>`).join('')}
+      </select>`;
+  } else {
+    shaftField = `
+      <label class="jgs-label" for="jgs-shaft-free">Available Shaft</label>
+      <input id="jgs-shaft-free" class="jgs-input" placeholder="Type or paste shaft">`;
+  }
+
+  const html = `
+    <div id="jgs-cart-modal" role="dialog" aria-modal="true">
+      <div class="jgs-modal" role="document">
+        <button class="jgs-close" aria-label="Close">×</button>
+        <h2>Add to My Selection</h2>
+        <p>Choose your options below.</p>
+        ${already?`<p class="jgs-note" style="margin:0 0 8px;color:#0b1428;font-weight:700">This product already exists in your selection</p>`:''}
+        <label class="jgs-label" for="jgs-qty">Quantity</label>
+        <input id="jgs-qty" class="jgs-input" type="number" min="1" value="1">
         ${loftField}
         ${shaftField}
-        <button id="submit-cart" class="confirm">Confirm</button>
-        <button id="close-cart" class="cancel">Cancel</button>
+        <button class="jgs-btn jgs-btn--dark" id="jgs-confirm">Confirm</button>
+        <button class="jgs-btn jgs-btn--light" id="jgs-cancel">Cancel</button>
       </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML("beforeend", modalHTML);
-  ensureMinimalModalStyle();
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
 
-  const modal = document.getElementById("cart-modal");
-  const closeModal = () => { modal.remove(); document.removeEventListener("keydown", escHandler); };
-  const escHandler = (e) => { if (e.key === "Escape") closeModal(); };
+  const modal = document.getElementById('jgs-cart-modal');
+  const confirmBtn = document.getElementById('jgs-confirm');
+  const cancelBtn = document.getElementById('jgs-cancel');
+  const closeBtn = modal.querySelector('.jgs-close');
 
-  document.addEventListener("keydown", escHandler);
-  modal.querySelector(".cart-close").addEventListener("click", closeModal);
-  modal.querySelector("#close-cart").addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  const resolveLoft = ()=>{
+    if(document.getElementById('jgs-loft')) return document.getElementById('jgs-loft').value.trim();
+    if(document.getElementById('jgs-loft-pill')) return (loftOptions[0]||'').toString();
+    if(document.getElementById('jgs-loft-free')) return document.getElementById('jgs-loft-free').value.trim();
+    return '';
+    };
+  const resolveShaft = ()=>{
+    if(document.getElementById('jgs-shaft')) return document.getElementById('jgs-shaft').value.trim();
+    if(document.getElementById('jgs-shaft-free')) return document.getElementById('jgs-shaft-free').value.trim();
+    return '';
+  };
 
-  modal.querySelector("#submit-cart").addEventListener("click", () => {
-    const qty = toInt(document.getElementById("cart-quantity")?.value, 1);
+  function onConfirm(){
+    const qty = jgsToInt(document.getElementById('jgs-qty')?.value, 1);
+    const loft = resolveLoft();
+    const shaft = resolveShaft();
+    jgsAddToSelection(button, productID, qty, loft, shaft);
+    button.textContent = "✔︎ In your selection";
+    button.classList.add("in-cart");
+    jgsCloseModal();
+  }
 
-    // Resolve LOFT value
-    let chosenLoft = "";
-    if (document.getElementById("cart-loft")) {
-      chosenLoft = (document.getElementById("cart-loft").value || "").trim();
-    } else if (document.getElementById("cart-loft-pill")) {
-      chosenLoft = (loftOptions[0] || "").toString();
-    } else if (document.getElementById("cart-loft-free")) {
-      chosenLoft = (document.getElementById("cart-loft-free").value || "").trim();
-    }
+  document.addEventListener('keydown', jgsEscHandler);
+  confirmBtn.addEventListener('click', onConfirm);
+  cancelBtn.addEventListener('click', jgsCloseModal);
+  closeBtn.addEventListener('click', jgsCloseModal);
+  modal.addEventListener('click', (e)=>{ if(e.target===modal) jgsCloseModal(); });
+}
 
-    // Resolve SHAFT value
-    let chosenShaft = "";
-    if (document.getElementById("cart-shaft")) {
-      chosenShaft = (document.getElementById("cart-shaft").value || "").trim();
-    } else if (document.getElementById("cart-shaft-free")) {
-      chosenShaft = (document.getElementById("cart-shaft-free").value || "").trim();
-    }
+/* ---------- Add to selection ---------- */
+function jgsAddToSelection(button, productID, quantity, loft, shaft){
+  const bag = jgsReadBag();
 
-    window.addToLocalSelection(button, productID, qty, chosenLoft, chosenShaft);
+  const name = button.getAttribute('data-name') || '';
+  const price = button.getAttribute('data-price') || '';
+  const image = button.getAttribute('data-image') || '';
+  const condition = button.getAttribute('data-condition') || '';
+  const seller = button.getAttribute('data-sold-by') || '';
+  const category = button.getAttribute('data-main-category') || '';
+  const fallbackLoft = button.getAttribute('data-loft') || '';
+  const finalLoft = (loft || fallbackLoft || '').toString().trim();
+  const finalShaft = (shaft || '').toString().trim();
 
-    const liveButton = document.querySelector(`.custom-add-to-cart-button[data-product-id="${productID}"]`);
-    if (liveButton) { liveButton.textContent = "✔︎ In your selection"; liveButton.classList.add("in-cart"); }
-
-    closeModal();
-  });
-};
-
-/* ---------------------------
-   Save to localStorage
---------------------------- */
-window.addToLocalSelection = function (button, productID, quantity, chosenLoft = "", chosenShaft = "") {
-  const bag = getSelection();
-
-  const name = button.getAttribute("data-name") || "";
-  const price = button.getAttribute("data-price") || "";
-  const image = button.getAttribute("data-image") || "";
-  const condition = button.getAttribute("data-condition") || "";
-  const seller = button.getAttribute("data-sold-by") || "";
-  const mainCategory = button.getAttribute("data-main-category") || "";
-  const loftFallback = button.getAttribute("data-loft") || "";
-
-  // if no loft chosen (e.g. only one provided), default to attribute value
-  const loft = (chosenLoft || loftFallback || "").toString().trim();
-  const shaft = (chosenShaft || "").toString().trim();
-
-  const key = selectionKey(productID, loft, shaft);
+  const key = jgsKey(productID, finalLoft, finalShaft);
 
   if (bag[key]) {
-    bag[key].quantity = Math.min((bag[key].quantity || 0) + quantity, 999);
+    bag[key].quantity = Math.min((bag[key].quantity||0) + quantity, 999);
   } else {
     bag[key] = {
       id: key,
       base_id: productID,
-      name, price, image, condition, seller,
-      loft, shaft, category: mainCategory,
+      name, price, image, condition, seller, category,
+      loft: finalLoft, shaft: finalShaft,
       quantity
     };
   }
-  setSelection(bag);
+  jgsWriteBag(bag);
 
-  // UI feedback hook (toast/drawer)
-  if (window.CartUI && typeof window.CartUI.onAdded === 'function') {
-    const added = bag[key];
-    window.CartUI.onAdded({ id: added?.id || productID, name, image });
-  }
-};
-
-/* ---------------------------
-   Init (buttons + observers)
---------------------------- */
-window.initializeLocalSelectionSystem = function () {
-  const buttons = document.querySelectorAll(".custom-add-to-cart-button:not([disabled])");
-  const bag = getSelection();
-
-  buttons.forEach((button) => {
-    if (!button || button.dataset.listenerAdded === "true") return;
-
-    const productID = button.getAttribute("data-product-id");
-    if (!productID) return;
-
-    // Mark "in selection" if present (regardless of options)
-    const isIn = Object.keys(bag).some((k) => k.startsWith(productID));
-    if (isIn) { button.textContent = "✔︎ In your selection"; button.classList.add("in-cart"); }
-
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.openLocalSelectionModal(button, productID);
-    });
-
-    button.dataset.listenerAdded = "true";
-  });
-};
-
-// Boot + observers (DOM + SPA URL)
-(function bootstrapSelection() {
-  setTimeout(() => window.initializeLocalSelectionSystem(), 400);
-
-  const domObs = new MutationObserver(() => window.initializeLocalSelectionSystem());
-  domObs.observe(document.body, { childList: true, subtree: true });
-
-  let lastUrl = location.href;
-  const urlObs = new MutationObserver(() => {
-    if (location.href !== lastUrl) {
-      lastUrl = location.href;
-      setTimeout(() => window.initializeLocalSelectionSystem(), 400);
-    }
-  });
-  urlObs.observe(document.body, { childList: true, subtree: true });
-})();
-
-/* ---------------------------
-   Minimal modal styles (fallback)
---------------------------- */
-function ensureMinimalModalStyle() {
-  if (document.getElementById("cart-modal-fallback-style")) return;
-  const style = document.createElement("style");
-  style.id = "cart-modal-fallback-style";
-  style.textContent = `
-    #cart-modal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,.6); z-index: 10000; }
-    #cart-modal .cart-modal-content {
-      background: #fff; border-radius: 12px; padding: 24px; width: min(90vw, 440px);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    #cart-modal .cart-title { margin: 0 0 6px; font-size: 22px; font-weight: 800; color: #0b1428; }
-    #cart-modal .cart-sub { margin: 0 0 14px; color: #516077; }
-    #cart-modal .cart-note { margin: 0 0 8px; color: #0b1428; font-weight: 700; }
-    #cart-modal .cart-label { display: block; text-align: left; margin: 12px 0 6px; font-weight: 700; }
-    #cart-modal .cart-input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; }
-    #cart-modal .cart-pill { width: 100%; padding: 12px; border: 1px dashed #d1d5db; border-radius: 8px; font-size: 15px; background:#fafafa; }
-    #cart-modal .confirm { width: 100%; margin-top: 14px; padding: 12px; border: 0; border-radius: 8px; background: #081326; color: #fff; font-weight: 800; cursor: pointer; }
-    #cart-modal .cancel  { width: 100%; margin-top: 10px; padding: 12px; border: 0; border-radius: 8px; background: #f3f4f6; color: #0b1428; font-weight: 700; cursor: pointer; }
-    #cart-modal .cart-close { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: 0; background: #fff; border-radius: 8px; cursor: pointer; font-size: 18px; }
-  `;
-  document.head.appendChild(style);
+  jgsShowToast({ name, image, ctaHref: '/request' });
 }
 
-/* =========================================================
-   Selection UI feedback (toast + drawer) — plug & play
-========================================================= */
-(function(){
-  window.CartUI = window.CartUI || {};
-  CartUI.MODE = CartUI.MODE || 'toast'; // 'toast' | 'drawer'
+/* ---------- Event delegation (no init required) ---------- */
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('.custom-add-to-cart-button');
+  if(!btn) return;
 
-  function mountOnce(){
-    if (document.getElementById('oc-toast')) return;
-
-    const wrap = document.createElement('div');
-    wrap.innerHTML = `
-      <!-- TOAST -->
-      <div id="oc-toast" aria-live="polite" aria-atomic="true">
-        <div class="oc-toast-card">
-          <div class="oc-toast-img" id="oc-toast-img" aria-hidden="true"></div>
-          <div class="oc-toast-text">
-            <strong id="oc-toast-title">Added to your selection</strong>
-            <span id="oc-toast-sub">Item saved successfully.</span>
-          </div>
-          <a href="/request" class="oc-toast-cta">Open selection</a>
-          <button class="oc-toast-x" id="oc-toast-close" aria-label="Close">×</button>
-        </div>
-      </div>
-
-      <!-- DRAWER -->
-      <div id="oc-drawer" aria-hidden="true">
-        <div class="oc-drawer-backdrop" id="oc-drawer-close"></div>
-        <aside class="oc-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="oc-drawer-title">
-          <header class="oc-drawer-head">
-            <h3 id="oc-drawer-title">Added to your selection</h3>
-            <button class="oc-drawer-x" id="oc-drawer-x" aria-label="Close">×</button>
-          </header>
-          <div class="oc-drawer-body" id="oc-drawer-body"></div>
-          <footer class="oc-drawer-foot">
-            <div class="oc-drawer-row"><span>Items</span><strong id="oc-drawer-sub">0</strong></div>
-            <a href="/request" class="oc-drawer-cta">Open selection</a>
-          </footer>
-        </aside>
-      </div>
-    `;
-    document.body.appendChild(wrap);
-
-    document.getElementById('oc-toast-close').addEventListener('click', hideToast);
-    document.getElementById('oc-drawer-close').addEventListener('click', closeDrawer);
-    document.getElementById('oc-drawer-x').addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ hideToast(); closeDrawer(); }});
+  let productID = btn.getAttribute('data-product-id');
+  if(!productID){
+    productID = 'auto-' + (btn.id || (Date.now()+'-'+Math.floor(Math.random()*1e6)));
+    btn.setAttribute('data-product-id', productID);
+    console.warn('[JGS] data-product-id missing, assigned:', productID);
   }
+  e.preventDefault();
+  jgsOpenModal(btn, productID);
+});
 
-  function getBag(){
-    try{ return JSON.parse(localStorage.getItem('localCart')) || {}; }
-    catch{ return {}; }
-  }
-
-  // Toast
-  let toastTimer;
-  function showToast({name,image}){
-    mountOnce();
-    const el = document.getElementById('oc-toast');
-    const img = document.getElementById('oc-toast-img');
-    const title = document.getElementById('oc-toast-title');
-    const sub = document.getElementById('oc-toast-sub');
-
-    title.textContent = 'Added to your selection';
-    sub.textContent = name ? name : 'Saved successfully';
-    img.style.backgroundImage = image ? `url("${image}")` : 'none';
-
-    clearTimeout(toastTimer);
-    el.classList.add('show');
-    toastTimer = setTimeout(hideToast, 3200);
-  }
-  function hideToast(){
-    document.getElementById('oc-toast')?.classList.remove('show');
-  }
-
-  // Drawer
-  function openDrawer({highlightId}={}){
-    mountOnce();
-    const drawer = document.getElementById('oc-drawer');
-    const body = document.getElementById('oc-drawer-body');
-    const subEl = document.getElementById('oc-drawer-sub');
-
-    const items = Object.values(getBag());
-    let count = 0;
-    body.innerHTML = items.map(it=>{
-      count += (parseInt(it.quantity,10) || 1);
-      const hl = highlightId && it.id === highlightId ? ' data-hl="1"' : '';
-      return `
-        <div class="oc-dl"${hl}>
-          <img src="${it.image||''}" alt="" class="oc-dl-img">
-          <div class="oc-dl-meta">
-            <strong class="oc-dl-title">${it.name||''}</strong>
-            <div class="oc-dl-sub">
-              ${it.loft ? `<span class="oc-dl-chip">Loft: ${it.loft}°</span>` : ``}
-              ${it.shaft ? `<span class="oc-dl-chip">${it.shaft}</span>` : ``}
-              ${it.seller ? `<span class="oc-dl-chip">${it.seller}</span>` : ``}
-            </div>
-            <div class="oc-dl-row">
-              <span>Qty: ${it.quantity||1}</span>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-    subEl.textContent = count.toString();
-
-    drawer.setAttribute('aria-hidden','false');
-    requestAnimationFrame(()=> drawer.classList.add('open'));
-  }
-  function closeDrawer(){
-    const drawer = document.getElementById('oc-drawer');
-    if(!drawer) return;
-    drawer.classList.remove('open');
-    setTimeout(()=> drawer.setAttribute('aria-hidden','true'), 200);
-  }
-
-  CartUI.onAdded = function({id,name,image}){
-    if (CartUI.MODE === 'drawer') openDrawer({highlightId:id});
-    else showToast({name,image});
-  };
-
-  // expose for quick tests
-  CartUI.showToast = showToast;
-  CartUI.openDrawer = openDrawer;
-  CartUI.closeDrawer = closeDrawer;
-})();
+/* ---------- Mark existing buttons as "in selection" ---------- */
+function jgsMarkButtons(){
+  const bag = jgsReadBag();
+  const ids = new Set(Object.keys(bag).map(k => k.split('::')[0]));
+  document.querySelectorAll('.custom-add-to-cart-button').forEach(btn=>{
+    const id = btn.getAttribute('data-product-id');
+    if(id && ids.has(id)){
+      btn.textContent = "✔︎ In your selection";
+      btn.classList.add('in-cart');
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', jgsMarkButtons);
+const jgsObs = new MutationObserver(jgsMarkButtons);
+jgsObs.observe(document.body, {childList:true, subtree:true});
 </script>
