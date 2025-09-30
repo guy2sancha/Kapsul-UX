@@ -131,11 +131,15 @@
 .tee-option:hover .tee-chevron,
 .tee-option:focus .tee-chevron{ color:#111; transform:translateX(2px); }
 
-  /* Neutralize hover red for tee-option links */
+/* Override hover red specifically inside tee-option */
+.tee-option:hover {
+  color: inherit !important; /* neutralise la couleur rouge */
+}
 .tee-option:hover .tee-text strong,
 .tee-option:hover .tee-text small {
-  color: inherit !important;
+  color: #0b0b0b !important; /* garde le noir premium */
 }
+
 
 
 
