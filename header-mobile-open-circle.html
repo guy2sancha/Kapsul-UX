@@ -58,7 +58,7 @@
 </div>
 
 <style>
-/* ===== Show only on mobile ===== */
+/* ===== Affichage mobile uniquement ===== */
 #mobileHeader { display:none; }
 @media (max-width: 900px){
   #customHeader, #kapsul-ticker-bar { display:none; }
@@ -72,19 +72,20 @@
   padding:12px 20px;
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
-.mobile-logo img{ height:42px; }
+.mobile-logo img{ height:42px; display:block; }
 #burgerMenu{ font-size:26px; color:#fff; background:none; border:none; cursor:pointer; }
 
 /* ===== Drawer ===== */
 #mobileDrawer{
   position:fixed; top:0; left:-100%;
-  width:86%; /* un poil plus large pour respirer */
+  width:86%;
   height:100vh;
   background:#000; color:#fff;
   transition:left .35s ease;
-  z-index:2000; padding:24px 20px 28px;
+  z-index:2000;
+  padding:24px 20px 28px;
   display:flex; flex-direction:column;
-  box-shadow: 8px 0 32px rgba(0,0,0,.45); /* détaché du fond */
+  box-shadow: 8px 0 32px rgba(0,0,0,.45);
 }
 #mobileDrawer.open{ left:0; }
 .close-btn{
@@ -92,22 +93,22 @@
   align-self:flex-end; cursor:pointer; margin-bottom:26px;
 }
 
-/* ===== Nav ===== */
+/* ===== Navigation ===== */
 .mobile-nav{
-  display:flex; flex-direction:column; gap:0; /* on gère les espacements via les séparateurs */
+  display:flex; flex-direction:column; gap:0;
   font-family:'Libre Caslon Text', serif;
 }
 
-/* Séparateurs sous CHAQUE entrée (liens ET boutons) */
+/* Liens niveau 1 + Boutons d'accordéon : identiques visuellement */
 .mobile-nav > a,
 .accordion-btn{
   display:flex; justify-content:space-between; align-items:center;
   width:100%;
   background:none; border:none; text-align:left; cursor:pointer;
-  padding:14px 0;          /* tappable area 44px mini */
+  padding:14px 0;                        /* hit area 44px */
   font-size:18px; font-weight:600;
   color:#f5f5f5; text-decoration:none;
-  border-bottom:1px solid rgba(255,255,255,.22); /* trait clair */
+  border-bottom:1px solid rgba(255,255,255,.22); /* séparateur */
   transition:color .2s ease, border-color .2s ease;
 }
 .mobile-nav > a:hover,
@@ -116,46 +117,45 @@
   border-color:rgba(255,255,255,.35);
 }
 
-/* Chevrons ▾ / ▴ à droite */
+/* Chevrons ▾ / ▴ à droite sur les accordéons */
 .accordion-btn::after{
   content:"▾";
   font-size:16px; line-height:1; opacity:.9; margin-left:10px;
 }
 .accordion.open .accordion-btn::after{ content:"▴"; }
 
-/* Panel ouvert : contenu aéré + décalé + ligne guide à gauche */
+/* ===== Panneau d'accordéon (contenu) ===== */
 .accordion-panel{
   display:none; flex-direction:column;
   gap:12px;
-  padding:12px 0 18px 14px;   /* aéré et décalé */
+  padding:12px 0 18px 14px;     /* aéré + léger décalage */
   margin-left:6px;
-  border-left:1px solid rgba(255,255,255,.14); /* guide vertical subtil */
+  border-left:1px solid rgba(255,255,255,.14); /* guide vertical */
 }
 .accordion.open .accordion-panel{ display:flex; }
 
-/* Liens du panel */
+/* Liens internes : légère indention supplémentaire (ta demande) */
 .accordion-panel a{
   font-size:16.5px; line-height:1.6;
   font-weight:400; color:#d8d8d8; text-decoration:none;
   padding:4px 0;
+  padding-left:6px;                /* ✅ ajouté */
 }
 .accordion-panel a:hover{ color:#ffffff; }
 
-/* Titres de groupe dans le panel (style menu de ton screen) */
+/* Titres de groupe dans le panel — bien différenciés */
 .accordion-panel strong{
   display:block;
-  margin:10px 0 2px;
-  font-size:13px; letter-spacing:.04em;
-  color:#bdbdbd; text-transform:uppercase;
+  margin:20px 0 6px;              /* plus d’air au-dessus */
+  font-size:13px;                  /* plus petit que les liens */
+  font-weight:800;                 /* marqué */
+  color:#9ca3af;                   /* gris clair lisible */
+  text-transform:uppercase;
+  letter-spacing:1px;              /* espacement des lettres */
+  border-bottom:1px solid rgba(255,255,255,0.15);
+  padding-bottom:4px;
 }
 
-/* Option: ajoute un léger espace avant les blocs simples suivants */
-.mobile-nav > a + a,
-.mobile-nav > a + .accordion,
-.accordion + a,
-.accordion + .accordion{
-  /* rien ici, on laisse les séparateurs faire le job */
-}
 </style>
 
 <script>
