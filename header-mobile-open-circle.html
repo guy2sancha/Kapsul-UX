@@ -4,19 +4,22 @@
     <a href="/" class="mobile-logo">
       <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
     </a>
-    <button id="burgerMenu" aria-label="Open menu">☰</button>
+    <button id="burgerMenu" class="icon-btn" aria-label="Ouvrir le menu" aria-controls="mobileDrawer" aria-expanded="false">☰</button>
   </div>
 
   <!-- Drawer -->
-  <div id="mobileDrawer">
-    <button class="close-btn">✕</button>
+  <div id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu principal">
+    <button class="close-btn icon-btn" aria-label="Fermer le menu">✕</button>
+
     <nav class="mobile-nav">
 
-      <!-- Découvrir des marques -->
+      <!-- Découvrir des marques (accordéon aligné au style des liens) -->
       <div class="accordion">
-        <button class="accordion-btn">Découvrir des marques</button>
-        <div class="accordion-panel">
-          <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">Marque du mois : 9Jour</a>
+        <button class="accordion-btn" aria-expanded="false">
+          <span>Découvrir des marques</span>
+        </button>
+        <div class="accordion-panel" hidden>
+          <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">Marque du mois : 9-Jour.</a>
           <strong>Catégories</strong>
           <a href="/brands/fashion">Mode</a>
           <a href="/brands/beauty-wellness">Beauté & Bien-être</a>
@@ -33,19 +36,17 @@
         </div>
       </div>
 
-      <!-- Classement -->
-      <a href="/ranking">Classement</a>
+      <!-- Liens simples -->
+      <a class="nav-link" href="/ranking">Classement</a>
+      <a class="nav-link" href="/marketplace">Marketplace</a>
+      <a class="nav-link" href="/stories">Journal</a>
 
-      <!-- Marketplace -->
-      <a href="/marketplace">Marketplace</a>
-
-      <!-- Journal -->
-      <a href="/stories">Journal</a>
-
-      <!-- Communauté -->
+      <!-- Communauté (accordéon aligné au style des liens) -->
       <div class="accordion">
-        <button class="accordion-btn">Communauté</button>
-        <div class="accordion-panel">
+        <button class="accordion-btn" aria-expanded="false">
+          <span>Communauté</span>
+        </button>
+        <div class="accordion-panel" hidden>
           <a href="/community/curators">Devenir Curator – Partagez des marques et soyez rémunéré</a>
           <a href="/community/circlers">Devenir Circler – Donnez votre avis et gagnez des récompenses</a>
         </div>
@@ -56,85 +57,155 @@
 </div>
 
 <style>
-/* ===== Show only on mobile ===== */
+/* ===== Afficher seulement sur mobile ===== */
 #mobileHeader { display:none; }
 @media (max-width: 900px){
   #customHeader, #kapsul-ticker-bar { display:none; }
   #mobileHeader { display:block; }
 }
 
+/* ===== Réglages généraux ===== */
+:root{
+  --ink:#fff;
+  --ink-dim:#f5f5f5;
+  --ink-sub:#ccc;
+  --bg:#000;
+  --hover:#BC012C;
+  --divider:#fff;
+}
+.icon-btn{ background:none; border:0; color:var(--ink); cursor:pointer; }
+
 /* ===== Top Bar ===== */
 .mobile-bar{
-  background:#000;
+  background:var(--bg);
   display:flex; justify-content:space-between; align-items:center;
   padding:12px 20px;
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 .mobile-logo img{ height:42px; }
-#burgerMenu{ font-size:26px; color:#fff; background:none; border:none; cursor:pointer; }
+#burgerMenu{ font-size:26px; }
 
-/* ===== Drawer Luxury ===== */
+/* ===== Drawer (luxury) ===== */
 #mobileDrawer{
-  position:fixed; top:0; left:-100%; width:80%; height:100vh;
-  background:#000; color:#fff;
+  position:fixed; inset:0 0 0 auto; left:-100%;
+  width:80%; height:100dvh;
+  background:var(--bg); color:var(--ink);
   transition:left .4s ease; z-index:2000; padding:24px;
   display:flex; flex-direction:column;
 }
 #mobileDrawer.open{ left:0; }
-.close-btn{
-  font-size:26px; border:none; background:none; color:#fff;
-  align-self:flex-end; cursor:pointer; margin-bottom:30px;
+.close-btn{ font-size:26px; align-self:flex-end; margin-bottom:30px; }
+
+/* ===== Navigation ===== */
+.mobile-nav{
+  display:flex; flex-direction:column; gap:32px;
+  font-family:'Libre Caslon Text', serif;
 }
 
-/* ===== Nav Links ===== */
-.mobile-nav{ display:flex; flex-direction:column; gap:32px; font-family:'Libre Caslon Text', serif; }
-.mobile-nav > a{
+/* Liens simples (référence visuelle) */
+.mobile-nav .nav-link{
   font-size:18px; font-weight:600;
-  color:#f5f5f5; text-decoration:none;
-  border-bottom:1px solid #fff;
+  color:var(--ink-dim); text-decoration:none;
+  border-bottom:1px solid var(--divider);
   padding-bottom:8px;
   transition:color .3s ease;
 }
-.mobile-nav > a:hover{ color:#BC012C; }
+.mobile-nav .nav-link:hover{ color:var(--hover); }
 
-/* Accordions */
-.accordion-btn{
-  width:100%; text-align:left; background:none; border:none;
-  font-size:18px; font-weight:500; font-family:'Libre Caslon Text', serif;
-  padding:8px 0; color:#f0f0f0; cursor:pointer;
-  display:flex; justify-content:space-between; align-items:center;
-  border-bottom:1px solid rgba(255,255,255,0.12);
+/* ===== Accordéons alignés au style des liens simples ===== */
+.mobile-nav .accordion{
+  border-bottom:1px solid var(--divider);
+  padding-bottom:8px;
 }
-.accordion-btn::after{
-  content:"+"; font-size:16px; transition:transform .3s;
+
+/* Bouton accordéon = identique à .nav-link (couleur/poids/typo) */
+.mobile-nav .accordion-btn{
+  width:100%; display:flex; align-items:center; justify-content:space-between;
+  padding:0; margin:0; text-align:left;
+  background:none; border:none; cursor:pointer;
+
+  font-family:'Libre Caslon Text', serif;
+  font-size:18px; font-weight:600; color:var(--ink-dim);
+  transition:color .3s ease;
+  position:relative;
 }
-.accordion.open .accordion-btn::after{ transform:rotate(45deg); }
-.accordion-panel{
-  display:none; flex-direction:column;
-  margin-left:10px; gap:10px; padding:12px 0;
+
+/* Icône + / × via ::after, même teinte */
+.mobile-nav .accordion-btn::after{
+  content:"+"; font-size:18px; line-height:1; color:currentColor;
+  transform:rotate(0deg); transition:transform .3s ease;
 }
-.accordion.open .accordion-panel{ display:flex; }
-.accordion-panel a{
-  font-size:15px; font-weight:300; color:#ccc;
+.mobile-nav .accordion.open .accordion-btn::after{
+  transform:rotate(45deg);
+}
+
+/* Hover = même que nav-link */
+.mobile-nav .accordion-btn:hover,
+.mobile-nav .accordion.open .accordion-btn{
+  color:var(--hover);
+}
+
+/* Panel interne */
+.mobile-nav .accordion-panel{
+  display:flex; flex-direction:column; gap:10px;
+  padding:12px 0 0; margin-left:10px;
+}
+.mobile-nav .accordion[hidden] .accordion-panel{ display:none; }
+.mobile-nav .accordion-panel[hidden]{ display:none; }
+
+.mobile-nav .accordion-panel a{
+  font-size:15px; font-weight:300; color:var(--ink-sub);
   text-decoration:none;
 }
-.accordion-panel a:hover{ color:#fff; }
-.accordion-panel strong{
+.mobile-nav .accordion-panel a:hover{ color:#fff; }
+.mobile-nav .accordion-panel strong{
   margin-top:10px; font-size:13px; color:#aaa; text-transform:uppercase;
 }
+
+/* Supprime l’ancienne bordure faible si héritée */
+.accordion-btn{ border-bottom:0 !important; }
 </style>
 
 <script>
-// JS simple pour burger et accordions
-const burger=document.getElementById('burgerMenu');
-const drawer=document.getElementById('mobileDrawer');
-const closeBtn=document.querySelector('.close-btn');
-burger.addEventListener('click',()=>drawer.classList.add('open'));
-closeBtn.addEventListener('click',()=>drawer.classList.remove('open'));
+/* JS pour burger + accordéons + accessibilité */
+(function(){
+  const burger = document.getElementById('burgerMenu');
+  const drawer = document.getElementById('mobileDrawer');
+  const closeBtn = drawer.querySelector('.close-btn');
 
-document.querySelectorAll('.accordion-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    btn.parentElement.classList.toggle('open');
+  function openDrawer(){
+    drawer.classList.add('open');
+    burger.setAttribute('aria-expanded','true');
+    // focus gestion
+    setTimeout(()=> closeBtn.focus(), 10);
+    document.body.style.overflow='hidden';
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    burger.focus();
+    document.body.style.overflow='';
+  }
+
+  burger.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  // Fermer sur ESC
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && drawer.classList.contains('open')) closeDrawer(); });
+
+  // Accordéons
+  document.querySelectorAll('#mobileDrawer .accordion').forEach(acc=>{
+    const btn = acc.querySelector('.accordion-btn');
+    const panel = acc.querySelector('.accordion-panel');
+
+    btn.addEventListener('click', ()=>{
+      const open = acc.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if(open){
+        panel.removeAttribute('hidden');
+      }else{
+        panel.setAttribute('hidden','');
+      }
+    });
   });
-});
+})();
 </script>
