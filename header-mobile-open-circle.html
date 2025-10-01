@@ -1,27 +1,21 @@
-<!-- ============ MOBILE HEADER (OpenCircle, scoped) ============ -->
-<div id="ocMobileHeader" aria-hidden="true">
-  <!-- Top bar -->
-  <div class="oc-mobile-bar">
-    <a href="/" class="oc-mobile-logo" aria-label="Accueil OpenCircle">
+<!-- ===== HEADER MOBILE ===== -->
+<div id="mobileHeader">
+  <div class="mobile-bar">
+    <a href="/" class="mobile-logo">
       <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
     </a>
-    <button id="ocBurger" class="oc-icon-btn" aria-label="Ouvrir le menu" aria-controls="ocMobileDrawer" aria-expanded="false">☰</button>
+    <button id="burgerMenu" aria-label="Open menu">☰</button>
   </div>
 
-  <!-- Overlay -->
-  <div id="ocMobileOverlay" aria-hidden="true"></div>
-
   <!-- Drawer -->
-  <aside id="ocMobileDrawer" role="dialog" aria-modal="true" aria-label="Menu principal">
-    <button class="oc-close-btn oc-icon-btn" aria-label="Fermer le menu">✕</button>
+  <div id="mobileDrawer">
+    <button class="close-btn">✕</button>
+    <nav class="mobile-nav">
 
-    <nav class="oc-mobile-nav">
-      <!-- Découvrir des marques (accordéon) -->
-      <section class="oc-accordion">
-        <button class="oc-accordion-btn" aria-expanded="false">
-          <span>Découvrir des marques</span>
-        </button>
-        <div class="oc-accordion-panel" hidden>
+      <!-- Découvrir des marques -->
+      <div class="accordion">
+        <button class="accordion-btn">Découvrir des marques</button>
+        <div class="accordion-panel">
           <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">Marque du mois : 9Jour</a>
           <strong>Catégories</strong>
           <a href="/brands/fashion">Mode</a>
@@ -37,181 +31,108 @@
           <a href="/sustainable">Durable</a>
           <a href="/women-owned">Fondées par des femmes</a>
         </div>
-      </section>
+      </div>
 
-      <!-- Liens simples -->
-      <a class="oc-nav-link" href="/ranking">Classement</a>
-      <a class="oc-nav-link" href="/marketplace">Marketplace</a>
-      <a class="oc-nav-link" href="/stories">Journal</a>
+      <!-- Classement -->
+      <a href="/ranking">Classement</a>
 
-      <!-- Communauté (accordéon) -->
-      <section class="oc-accordion">
-        <button class="oc-accordion-btn" aria-expanded="false">
-          <span>Communauté</span>
-        </button>
-        <div class="oc-accordion-panel" hidden>
+      <!-- Marketplace -->
+      <a href="/marketplace">Marketplace</a>
+
+      <!-- Journal -->
+      <a href="/stories">Journal</a>
+
+      <!-- Communauté -->
+      <div class="accordion">
+        <button class="accordion-btn">Communauté</button>
+        <div class="accordion-panel">
           <a href="/community/curators">Devenir Curator – Partagez des marques et soyez rémunéré</a>
           <a href="/community/circlers">Devenir Circler – Donnez votre avis et gagnez des récompenses</a>
         </div>
-      </section>
+      </div>
+
     </nav>
-  </aside>
+  </div>
 </div>
 
 <style>
-/* ===== Mobile only ===== */
-#ocMobileHeader{ display:none; }
+/* ===== Show only on mobile ===== */
+#mobileHeader { display:none; }
 @media (max-width: 900px){
-  #ocMobileHeader{ display:block; }
-  #customHeader, #kapsul-ticker-bar{ display:none !important; }
+  #customHeader, #kapsul-ticker-bar { display:none; }
+  #mobileHeader { display:block; }
 }
 
-/* ===== Theme (scoped vars) ===== */
-#ocMobileHeader{
-  --oc-bg:#0b0b0b;        /* fond du drawer & top bar */
-  --oc-ink:#ffffff;       /* texte principal */
-  --oc-ink-dim:#f5f5f5;   /* liens niveau 1 */
-  --oc-ink-sub:#cfcfcf;   /* liens niveau 2 */
-  --oc-hover:#BC012C;     /* hover principal */
-  --oc-divider:#ffffff;   /* séparateurs */
-}
-
-/* ===== Basics ===== */
-#ocMobileHeader .oc-icon-btn{
-  background:none; border:0; color:var(--oc-ink); cursor:pointer;
-}
-
-/* ===== Top bar ===== */
-#ocMobileHeader .oc-mobile-bar{
-  background:var(--oc-bg) !important; color:var(--oc-ink);
+/* ===== Top Bar ===== */
+.mobile-bar{
+  background:#000;
   display:flex; justify-content:space-between; align-items:center;
-  padding:12px 20px; border-bottom:1px solid rgba(255,255,255,.08);
+  padding:12px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
-#ocMobileHeader .oc-mobile-logo img{ height:42px; display:block; }
-#ocBurger{ font-size:26px; line-height:1; }
-
-/* ===== Overlay ===== */
-#ocMobileOverlay{
-  position:fixed; inset:0; background:rgba(0,0,0,.5);
-  opacity:0; visibility:hidden; pointer-events:none;
-  transition:opacity .3s ease, visibility .3s ease;
-  z-index:9998;
-}
-#ocMobileOverlay.oc-open{ opacity:1; visibility:visible; pointer-events:auto; }
+.mobile-logo img{ height:42px; }
+#burgerMenu{ font-size:26px; color:#fff; background:none; border:none; cursor:pointer; }
 
 /* ===== Drawer ===== */
-#ocMobileDrawer{
-  position:fixed; top:0; right:0; bottom:0; width:min(82vw,420px);
-  background:var(--oc-bg) !important; color:var(--oc-ink);
-  transform:translateX(100%); transition:transform .35s ease;
-  z-index:9999 !important; padding:24px; display:flex; flex-direction:column;
+#mobileDrawer{
+  position:fixed; top:0; left:-100%; width:80%; height:100vh;
+  background:#000; color:#fff;
+  transition:left .4s ease; z-index:2000; padding:24px;
+  display:flex; flex-direction:column;
 }
-#ocMobileDrawer.oc-open{ transform:translateX(0); }
-#ocMobileDrawer .oc-close-btn{ font-size:26px; align-self:flex-end; margin-bottom:30px; }
+#mobileDrawer.open{ left:0; }
+.close-btn{
+  font-size:26px; border:none; background:none; color:#fff;
+  align-self:flex-end; cursor:pointer; margin-bottom:30px;
+}
 
-/* ===== Nav ===== */
-#ocMobileDrawer .oc-mobile-nav{
+/* ===== Nav Links ===== */
+.mobile-nav{
   display:flex; flex-direction:column; gap:32px;
   font-family:'Libre Caslon Text', serif;
 }
-
-/* Liens niveau 1 (référence visuelle) */
-#ocMobileDrawer .oc-nav-link{
-  font-size:18px; font-weight:600; color:var(--oc-ink-dim); text-decoration:none;
-  border-bottom:1px solid var(--oc-divider); padding-bottom:8px;
+.mobile-nav > a,
+.accordion-btn{
+  font-size:18px; font-weight:600;
+  color:#f5f5f5; text-decoration:none;
+  border-bottom:1px solid #fff;
+  padding-bottom:8px;
   transition:color .3s ease;
+  background:none; border:none; text-align:left;
+  cursor:pointer; width:100%;
+  display:flex; justify-content:space-between; align-items:center;
 }
-#ocMobileDrawer .oc-nav-link:hover{ color:var(--oc-hover); }
+.mobile-nav > a:hover,
+.accordion-btn:hover{ color:#BC012C; }
 
-/* ===== Accordéons alignés aux liens ===== */
-#ocMobileDrawer .oc-accordion{
-  border-bottom:1px solid var(--oc-divider); padding-bottom:8px;
+/* Accordions */
+.accordion-btn::after{
+  content:"+"; font-size:16px; transition:transform .3s;
 }
-#ocMobileDrawer .oc-accordion-btn{
-  width:100%; display:flex; align-items:center; justify-content:space-between;
-  background:none; border:none; padding:0; margin:0; text-align:left; cursor:pointer;
-  font-family:'Libre Caslon Text', serif;
-  font-size:18px; font-weight:600; color:var(--oc-ink-dim);
-  transition:color .3s ease;
+.accordion.open .accordion-btn::after{ transform:rotate(45deg); }
+.accordion-panel{
+  display:none; flex-direction:column;
+  margin-left:10px; gap:10px; padding:12px 0;
 }
-#ocMobileDrawer .oc-accordion-btn::after{
-  content:"+"; font-size:18px; line-height:1; color:currentColor;
-  transform:rotate(0deg); transition:transform .3s ease;
+.accordion.open .accordion-panel{ display:flex; }
+.accordion-panel a{
+  font-size:15px; font-weight:300; color:#ccc;
+  text-decoration:none;
 }
-#ocMobileDrawer .oc-accordion.oc-open .oc-accordion-btn{ color:var(--oc-hover); }
-#ocMobileDrawer .oc-accordion.oc-open .oc-accordion-btn::after{ transform:rotate(45deg); }
-
-/* Panneau interne */
-#ocMobileDrawer .oc-accordion-panel{
-  display:flex; flex-direction:column; gap:10px;
-  padding:12px 0 0; margin-left:10px;
-}
-#ocMobileDrawer .oc-accordion-panel[hidden]{ display:none !important; }
-#ocMobileDrawer .oc-accordion-panel a{
-  font-size:15px; font-weight:300; color:var(--oc-ink-sub); text-decoration:none;
-}
-#ocMobileDrawer .oc-accordion-panel a:hover{ color:#fff; }
-#ocMobileDrawer .oc-accordion-panel strong{
+.accordion-panel a:hover{ color:#fff; }
+.accordion-panel strong{
   margin-top:10px; font-size:13px; color:#aaa; text-transform:uppercase;
-}
-
-/* Motion respect */
-@media (prefers-reduced-motion: reduce){
-  #ocMobileOverlay{ transition:none; }
-  #ocMobileDrawer{ transition:none; }
 }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-  const burger   = document.getElementById('ocBurger');
-  const drawer   = document.getElementById('ocMobileDrawer');
-  const overlay  = document.getElementById('ocMobileOverlay');
-  const closeBtn = drawer ? drawer.querySelector('.oc-close-btn') : null;
-
-  // Guard clauses + logs utiles
-  if(!burger || !drawer || !overlay){
-    console.warn('[OC Drawer] Élément manquant:', { burger:!!burger, drawer:!!drawer, overlay:!!overlay });
-    return;
-  }
-
-  const openDrawer = () => {
-    drawer.classList.add('oc-open');
-    overlay.classList.add('oc-open');
-    burger.setAttribute('aria-expanded','true');
-    try{ setTimeout(()=> closeBtn && closeBtn.focus(), 10); }catch(e){}
-    document.body.style.overflow='hidden';
-  };
-
-  const closeDrawer = () => {
-    drawer.classList.remove('oc-open');
-    overlay.classList.remove('oc-open');
-    burger.setAttribute('aria-expanded','false');
-    try{ burger.focus(); }catch(e){}
-    document.body.style.overflow='';
-  };
-
-  // Listeners robustes
-  burger.addEventListener('click', openDrawer);
-  overlay.addEventListener('click', closeDrawer);
-  closeBtn && closeBtn.addEventListener('click', closeDrawer);
-  document.addEventListener('keydown', e => {
-    if(e.key === 'Escape' && drawer.classList.contains('oc-open')) closeDrawer();
-  });
-
-  // Accordéons
-  drawer.querySelectorAll('.oc-accordion').forEach(acc=>{
-    const btn   = acc.querySelector('.oc-accordion-btn');
-    const panel = acc.querySelector('.oc-accordion-panel');
-    if(!btn || !panel) return;
-    btn.setAttribute('aria-expanded','false');
-    btn.addEventListener('click', ()=>{
-      const isOpen = acc.classList.toggle('oc-open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      panel.toggleAttribute('hidden', !isOpen);
-    });
-  });
-
-  console.debug('[OC Drawer] Init OK');
+// JS simple pour burger et accordions
+const burger=document.getElementById('burgerMenu');
+const drawer=document.getElementById('mobileDrawer');
+const closeBtn=document.querySelector('.close-btn');
+burger.addEventListener('click',()=>drawer.classList.add('open'));
+closeBtn.addEventListener('click',()=>drawer.classList.remove('open'));
+document.querySelectorAll('.accordion-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{ btn.parentElement.classList.toggle('open'); });
 });
 </script>
