@@ -8,8 +8,8 @@
   </div>
 
   <!-- Drawer -->
-  <div id="mobileDrawer">
-    <button class="close-btn">✕</button>
+  <div id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu principal">
+    <button class="close-btn" aria-label="Fermer le menu">✕</button>
     <nav class="mobile-nav">
 
       <!-- Découvrir des marques -->
@@ -86,11 +86,23 @@
   padding:24px 20px 28px;
   display:flex; flex-direction:column;
   box-shadow: 8px 0 32px rgba(0,0,0,.45);
+  overflow-y:auto;                    /* scroll interne */
+  -webkit-overflow-scrolling:touch;   /* confort iOS */
+  /* Safe area iOS */
+  padding-top: max(24px, env(safe-area-inset-top));
+  padding-bottom: max(28px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
 }
 #mobileDrawer.open{ left:0; }
 .close-btn{
   font-size:26px; border:none; background:none; color:#fff;
   align-self:flex-end; cursor:pointer; margin-bottom:26px;
+}
+
+/* Verrouillage du fond quand le drawer est ouvert */
+html.oc-lock, html.oc-lock body{
+  overflow:hidden; height:100%;
 }
 
 /* ===== Navigation ===== */
@@ -105,7 +117,7 @@
   display:flex; justify-content:space-between; align-items:center;
   width:100%;
   background:none; border:none; text-align:left; cursor:pointer;
-  padding:14px 0;                        /* hit area 44px */
+  padding:14px 0;                        /* hit area confortable */
   font-size:18px; font-weight:600;
   color:#f5f5f5; text-decoration:none;
   border-bottom:1px solid rgba(255,255,255,.22); /* séparateur */
@@ -117,55 +129,88 @@
   border-color:rgba(255,255,255,.35);
 }
 
-/* Chevrons ▾ / ▴ à droite sur les accordéons */
+/* État accordéon OUVERT : titre en accent */
+.accordion.open .accordion-btn{
+  color:#BC012C;
+  border-color:rgba(255,255,255,.35);
+}
+
+/* Chevrons ▾ / ▴ à droite */
 .accordion-btn::after{
   content:"▾";
-  font-size:16px; line-height:1; opacity:.9; margin-left:10px;
+  font-size:16px; line-height:1;
+  opacity:.95; margin-left:10px; transform: translateY(1px);
 }
 .accordion.open .accordion-btn::after{ content:"▴"; }
 
-/* ===== Panneau d'accordéon (contenu) ===== */
+/* ===== Panneau d'accordéon ===== */
 .accordion-panel{
   display:none; flex-direction:column;
   gap:12px;
   padding:12px 0 18px 14px;     /* aéré + léger décalage */
   margin-left:6px;
   border-left:1px solid rgba(255,255,255,.14); /* guide vertical */
+  border-top:1px solid rgba(255,255,255,.22);  /* trait sous le titre */
 }
 .accordion.open .accordion-panel{ display:flex; }
 
-/* Liens internes : légère indention supplémentaire (ta demande) */
+/* Liens internes : indention légère */
 .accordion-panel a{
   font-size:16.5px; line-height:1.6;
   font-weight:400; color:#d8d8d8; text-decoration:none;
   padding:4px 0;
-  padding-left:6px;                /* ✅ ajouté */
+  padding-left:6px;                /* demandé */
+  position:relative;
 }
 .accordion-panel a:hover{ color:#ffffff; }
-
-/* Titres de groupe dans le panel — bien différenciés */
-.accordion-panel strong{
-  display:block;
-  margin:20px 0 6px;              /* plus d’air au-dessus */
-  font-size:13px;                  /* plus petit que les liens */
-  font-weight:800;                 /* marqué */
-  color:#ffb2ba;                   /* gris clair lisible */
-  text-transform:uppercase;
-  letter-spacing:1px;              /* espacement des lettres */
-  border-bottom:1px solid rgba(255,255,255,0.15);
-  padding-bottom:4px;
+.accordion-panel a:focus-visible{
+  outline:2px solid #BC012C; outline-offset:2px; border-radius:3px;
 }
 
+/* Met en valeur le lien "marque du mois" */
+.accordion-panel a[href*="brand-details"]{ font-weight:700; }
+
+/* Titres de groupe : bien différenciés */
+.accordion-panel strong{
+  display:block;
+  margin:22px 0 8px;
+  font-size:12.5px;
+  font-weight:800;
+  color:#9CA3AF;                     /* gris clair lisible */
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  border-bottom:1px solid rgba(255,255,255,.14);
+  padding-bottom:6px;
+}
 </style>
 
 <script>
-// JS simple pour burger et accordions
-const burger=document.getElementById('burgerMenu');
-const drawer=document.getElementById('mobileDrawer');
-const closeBtn=document.querySelector('.close-btn');
-burger.addEventListener('click',()=>drawer.classList.add('open'));
-closeBtn.addEventListener('click',()=>drawer.classList.remove('open'));
-document.querySelectorAll('.accordion-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{ btn.parentElement.classList.toggle('open'); });
-});
+/* JS — ouverture/fermeture + accordéons + Échap */
+(function(){
+  const burger = document.getElementById('burgerMenu');
+  const drawer = document.getElementById('mobileDrawer');
+  const closeBtn = drawer.querySelector('.close-btn');
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    document.documentElement.classList.add('oc-lock'); // lock scroll
+    try{ closeBtn.focus(); }catch(e){}
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    document.documentElement.classList.remove('oc-lock');
+    try{ burger.focus(); }catch(e){}
+  }
+
+  burger.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+
+  // Accordéons
+  document.querySelectorAll('.accordion-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> btn.parentElement.classList.toggle('open'));
+  });
+})();
 </script>
