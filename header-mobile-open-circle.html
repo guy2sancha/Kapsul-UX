@@ -17,7 +17,8 @@
         <button class="accordion-btn">Découvrir des marques</button>
         <div class="accordion-panel">
           <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">Marque du mois : 9Jour</a>
-          <strong>Catégories</strong>
+
+          <strong>CATÉGORIES</strong>
           <a href="/brands/fashion">Mode</a>
           <a href="/brands/beauty-wellness">Beauté & Bien-être</a>
           <a href="/brands/jewelry">Bijoux</a>
@@ -25,7 +26,8 @@
           <a href="/brands/food-drink">Gastronomie & Boissons</a>
           <a href="/brands/alcohol">Alcools</a>
           <a href="/brands/paper-gifts">Papeterie & Cadeaux</a>
-          <strong>Collections</strong>
+
+          <strong>COLLECTIONS</strong>
           <a href="/made-in-japan">Made in Japan</a>
           <a href="/denim">Denim</a>
           <a href="/sustainable">Durable</a>
@@ -75,53 +77,84 @@
 
 /* ===== Drawer ===== */
 #mobileDrawer{
-  position:fixed; top:0; left:-100%; width:80%; height:100vh;
+  position:fixed; top:0; left:-100%;
+  width:86%; /* un poil plus large pour respirer */
+  height:100vh;
   background:#000; color:#fff;
-  transition:left .4s ease; z-index:2000; padding:24px;
+  transition:left .35s ease;
+  z-index:2000; padding:24px 20px 28px;
   display:flex; flex-direction:column;
+  box-shadow: 8px 0 32px rgba(0,0,0,.45); /* détaché du fond */
 }
 #mobileDrawer.open{ left:0; }
 .close-btn{
   font-size:26px; border:none; background:none; color:#fff;
-  align-self:flex-end; cursor:pointer; margin-bottom:30px;
+  align-self:flex-end; cursor:pointer; margin-bottom:26px;
 }
 
-/* ===== Nav Links ===== */
+/* ===== Nav ===== */
 .mobile-nav{
-  display:flex; flex-direction:column; gap:32px;
+  display:flex; flex-direction:column; gap:0; /* on gère les espacements via les séparateurs */
   font-family:'Libre Caslon Text', serif;
 }
+
+/* Séparateurs sous CHAQUE entrée (liens ET boutons) */
 .mobile-nav > a,
 .accordion-btn{
+  display:flex; justify-content:space-between; align-items:center;
+  width:100%;
+  background:none; border:none; text-align:left; cursor:pointer;
+  padding:14px 0;          /* tappable area 44px mini */
   font-size:18px; font-weight:600;
   color:#f5f5f5; text-decoration:none;
-  border-bottom:1px solid #fff;
-  padding-bottom:8px;
-  transition:color .3s ease;
-  background:none; border:none; text-align:left;
-  cursor:pointer; width:100%;
-  display:flex; justify-content:space-between; align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.22); /* trait clair */
+  transition:color .2s ease, border-color .2s ease;
 }
 .mobile-nav > a:hover,
-.accordion-btn:hover{ color:#BC012C; }
-
-/* Accordions */
-.accordion-btn::after{
-  content:"+"; font-size:16px; transition:transform .3s;
+.accordion-btn:hover{
+  color:#BC012C;
+  border-color:rgba(255,255,255,.35);
 }
-.accordion.open .accordion-btn::after{ transform:rotate(45deg); }
+
+/* Chevrons ▾ / ▴ à droite */
+.accordion-btn::after{
+  content:"▾";
+  font-size:16px; line-height:1; opacity:.9; margin-left:10px;
+}
+.accordion.open .accordion-btn::after{ content:"▴"; }
+
+/* Panel ouvert : contenu aéré + décalé + ligne guide à gauche */
 .accordion-panel{
   display:none; flex-direction:column;
-  margin-left:10px; gap:10px; padding:12px 0;
+  gap:12px;
+  padding:12px 0 18px 14px;   /* aéré et décalé */
+  margin-left:6px;
+  border-left:1px solid rgba(255,255,255,.14); /* guide vertical subtil */
 }
 .accordion.open .accordion-panel{ display:flex; }
+
+/* Liens du panel */
 .accordion-panel a{
-  font-size:15px; font-weight:300; color:#ccc;
-  text-decoration:none;
+  font-size:16.5px; line-height:1.6;
+  font-weight:400; color:#d8d8d8; text-decoration:none;
+  padding:4px 0;
 }
-.accordion-panel a:hover{ color:#fff; }
+.accordion-panel a:hover{ color:#ffffff; }
+
+/* Titres de groupe dans le panel (style menu de ton screen) */
 .accordion-panel strong{
-  margin-top:10px; font-size:13px; color:#aaa; text-transform:uppercase;
+  display:block;
+  margin:10px 0 2px;
+  font-size:13px; letter-spacing:.04em;
+  color:#bdbdbd; text-transform:uppercase;
+}
+
+/* Option: ajoute un léger espace avant les blocs simples suivants */
+.mobile-nav > a + a,
+.mobile-nav > a + .accordion,
+.accordion + a,
+.accordion + .accordion{
+  /* rien ici, on laisse les séparateurs faire le job */
 }
 </style>
 
@@ -130,9 +163,13 @@
 const burger=document.getElementById('burgerMenu');
 const drawer=document.getElementById('mobileDrawer');
 const closeBtn=document.querySelector('.close-btn');
+
 burger.addEventListener('click',()=>drawer.classList.add('open'));
 closeBtn.addEventListener('click',()=>drawer.classList.remove('open'));
+
 document.querySelectorAll('.accordion-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{ btn.parentElement.classList.toggle('open'); });
+  btn.addEventListener('click',()=>{
+    btn.parentElement.classList.toggle('open');
+  });
 });
 </script>
