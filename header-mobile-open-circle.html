@@ -163,13 +163,9 @@
 const burger=document.getElementById('burgerMenu');
 const drawer=document.getElementById('mobileDrawer');
 const closeBtn=document.querySelector('.close-btn');
-
 burger.addEventListener('click',()=>drawer.classList.add('open'));
 closeBtn.addEventListener('click',()=>drawer.classList.remove('open'));
-
 document.querySelectorAll('.accordion-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    btn.parentElement.classList.toggle('open');
-  });
+  btn.addEventListener('click',()=>{ btn.parentElement.classList.toggle('open'); });
 });
 </script>
