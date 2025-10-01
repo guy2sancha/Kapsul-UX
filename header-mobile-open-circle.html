@@ -1,25 +1,28 @@
-<!-- ===== HEADER MOBILE ===== -->
-<div id="mobileHeader">
-  <div class="mobile-bar">
-    <a href="/" class="mobile-logo">
+<!-- ===== MOBILE HEADER (scopé OC) ===== -->
+<div id="ocMobileHeader">
+  <div class="oc-mobile-bar">
+    <a href="/" class="oc-mobile-logo">
       <img src="https://open-circle.b-cdn.net/Logo/KAPSUL%201200x400%20(16).png" alt="Kapsul Logo">
     </a>
-    <button id="burgerMenu" class="icon-btn" aria-label="Ouvrir le menu" aria-controls="mobileDrawer" aria-expanded="false">☰</button>
+    <button id="ocBurger" class="oc-icon-btn" aria-label="Ouvrir le menu" aria-controls="ocMobileDrawer" aria-expanded="false">☰</button>
   </div>
 
+  <!-- Overlay -->
+  <div id="ocMobileOverlay" aria-hidden="true"></div>
+
   <!-- Drawer -->
-  <div id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menu principal">
-    <button class="close-btn icon-btn" aria-label="Fermer le menu">✕</button>
+  <div id="ocMobileDrawer" role="dialog" aria-modal="true" aria-label="Menu principal">
+    <button class="oc-close-btn oc-icon-btn" aria-label="Fermer le menu">✕</button>
 
-    <nav class="mobile-nav">
+    <nav class="oc-mobile-nav">
 
-      <!-- Découvrir des marques (accordéon aligné au style des liens) -->
-      <div class="accordion">
-        <button class="accordion-btn" aria-expanded="false">
+      <!-- Découvrir des marques (accordéon) -->
+      <div class="oc-accordion">
+        <button class="oc-accordion-btn" aria-expanded="false">
           <span>Découvrir des marques</span>
         </button>
-        <div class="accordion-panel" hidden>
-          <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">Marque du mois : 9-Jour.</a>
+        <div class="oc-accordion-panel" hidden>
+          <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">Marque du mois : 9Jour</a>
           <strong>Catégories</strong>
           <a href="/brands/fashion">Mode</a>
           <a href="/brands/beauty-wellness">Beauté & Bien-être</a>
@@ -37,16 +40,16 @@
       </div>
 
       <!-- Liens simples -->
-      <a class="nav-link" href="/ranking">Classement</a>
-      <a class="nav-link" href="/marketplace">Marketplace</a>
-      <a class="nav-link" href="/stories">Journal</a>
+      <a class="oc-nav-link" href="/ranking">Classement</a>
+      <a class="oc-nav-link" href="/marketplace">Marketplace</a>
+      <a class="oc-nav-link" href="/stories">Journal</a>
 
-      <!-- Communauté (accordéon aligné au style des liens) -->
-      <div class="accordion">
-        <button class="accordion-btn" aria-expanded="false">
+      <!-- Communauté (accordéon) -->
+      <div class="oc-accordion">
+        <button class="oc-accordion-btn" aria-expanded="false">
           <span>Communauté</span>
         </button>
-        <div class="accordion-panel" hidden>
+        <div class="oc-accordion-panel" hidden>
           <a href="/community/curators">Devenir Curator – Partagez des marques et soyez rémunéré</a>
           <a href="/community/circlers">Devenir Circler – Donnez votre avis et gagnez des récompenses</a>
         </div>
@@ -57,154 +60,145 @@
 </div>
 
 <style>
-/* ===== Afficher seulement sur mobile ===== */
-#mobileHeader { display:none; }
+/* ===== Visible seulement < 900px ===== */
+#ocMobileHeader{ display:none; }
 @media (max-width: 900px){
-  #customHeader, #kapsul-ticker-bar { display:none; }
-  #mobileHeader { display:block; }
+  #customHeader, #kapsul-ticker-bar{ display:none !important; }
+  #ocMobileHeader{ display:block; }
 }
 
-/* ===== Réglages généraux ===== */
-:root{
-  --ink:#fff;
-  --ink-dim:#f5f5f5;
-  --ink-sub:#ccc;
-  --bg:#000;
-  --hover:#BC012C;
-  --divider:#fff;
+/* ===== Palette (scopée OC) ===== */
+#ocMobileHeader{
+  --oc-bg:#0b0b0b;         /* fond drawer (noir chic) */
+  --oc-ink:#ffffff;        /* texte plein */
+  --oc-ink-dim:#f5f5f5;    /* liens principaux */
+  --oc-ink-sub:#cfcfcf;    /* sous-liens */
+  --oc-hover:#BC012C;      /* hover rouge */
+  --oc-divider:#ffffff;    /* traits */
 }
-.icon-btn{ background:none; border:0; color:var(--ink); cursor:pointer; }
 
-/* ===== Top Bar ===== */
-.mobile-bar{
-  background:var(--bg);
+/* ===== Bouton icône ===== */
+#ocMobileHeader .oc-icon-btn{ background:none; border:0; color:var(--oc-ink); cursor:pointer; }
+
+/* ===== Barre du haut ===== */
+#ocMobileHeader .oc-mobile-bar{
+  background:var(--oc-bg) !important;  /* forcer le fond */
+  color:var(--oc-ink);
   display:flex; justify-content:space-between; align-items:center;
-  padding:12px 20px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:12px 20px; border-bottom:1px solid rgba(255,255,255,.08);
 }
-.mobile-logo img{ height:42px; }
-#burgerMenu{ font-size:26px; }
+#ocMobileHeader .oc-mobile-logo img{ height:42px; }
+#ocMobileHeader #ocBurger{ font-size:26px; }
 
-/* ===== Drawer (luxury) ===== */
-#mobileDrawer{
-  position:fixed; inset:0 0 0 auto; left:-100%;
-  width:80%; height:100dvh;
-  background:var(--bg); color:var(--ink);
-  transition:left .4s ease; z-index:2000; padding:24px;
-  display:flex; flex-direction:column;
+/* ===== Overlay ===== */
+#ocMobileOverlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.5);
+  opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease;
+  z-index:9998;
 }
-#mobileDrawer.open{ left:0; }
-.close-btn{ font-size:26px; align-self:flex-end; margin-bottom:30px; }
+#ocMobileOverlay.oc-open{ opacity:1; visibility:visible; }
 
-/* ===== Navigation ===== */
-.mobile-nav{
+/* ===== Drawer ===== */
+#ocMobileDrawer{
+  position:fixed; top:0; right:0; bottom:0; width:min(82vw, 420px);
+  background:var(--oc-bg) !important;  /* empêche tout passage en blanc */
+  color:var(--oc-ink);
+  transform:translateX(100%); transition:transform .35s ease;
+  z-index:9999; padding:24px; display:flex; flex-direction:column;
+}
+#ocMobileDrawer.oc-open{ transform:translateX(0); }
+#ocMobileDrawer .oc-close-btn{ font-size:26px; align-self:flex-end; margin-bottom:30px; }
+
+/* ===== Nav ===== */
+#ocMobileDrawer .oc-mobile-nav{
   display:flex; flex-direction:column; gap:32px;
   font-family:'Libre Caslon Text', serif;
 }
 
-/* Liens simples (référence visuelle) */
-.mobile-nav .nav-link{
+/* Liens simples (référence) */
+#ocMobileDrawer .oc-nav-link{
   font-size:18px; font-weight:600;
-  color:var(--ink-dim); text-decoration:none;
-  border-bottom:1px solid var(--divider);
-  padding-bottom:8px;
-  transition:color .3s ease;
+  color:var(--oc-ink-dim); text-decoration:none;
+  border-bottom:1px solid var(--oc-divider);
+  padding-bottom:8px; transition:color .3s ease;
 }
-.mobile-nav .nav-link:hover{ color:var(--hover); }
+#ocMobileDrawer .oc-nav-link:hover{ color:var(--oc-hover); }
 
-/* ===== Accordéons alignés au style des liens simples ===== */
-.mobile-nav .accordion{
-  border-bottom:1px solid var(--divider);
+/* ===== Accordéons alignés visuellement ===== */
+#ocMobileDrawer .oc-accordion{
+  border-bottom:1px solid var(--oc-divider);
   padding-bottom:8px;
 }
-
-/* Bouton accordéon = identique à .nav-link (couleur/poids/typo) */
-.mobile-nav .accordion-btn{
+#ocMobileDrawer .oc-accordion-btn{
   width:100%; display:flex; align-items:center; justify-content:space-between;
-  padding:0; margin:0; text-align:left;
-  background:none; border:none; cursor:pointer;
+  padding:0; margin:0; text-align:left; background:none; border:none; cursor:pointer;
 
   font-family:'Libre Caslon Text', serif;
-  font-size:18px; font-weight:600; color:var(--ink-dim);
+  font-size:18px; font-weight:600; color:var(--oc-ink-dim);
   transition:color .3s ease;
-  position:relative;
 }
-
-/* Icône + / × via ::after, même teinte */
-.mobile-nav .accordion-btn::after{
+#ocMobileDrawer .oc-accordion-btn::after{
   content:"+"; font-size:18px; line-height:1; color:currentColor;
   transform:rotate(0deg); transition:transform .3s ease;
 }
-.mobile-nav .accordion.open .accordion-btn::after{
-  transform:rotate(45deg);
-}
+#ocMobileDrawer .oc-accordion.oc-open .oc-accordion-btn{ color:var(--oc-hover); }
+#ocMobileDrawer .oc-accordion.oc-open .oc-accordion-btn::after{ transform:rotate(45deg); }
 
-/* Hover = même que nav-link */
-.mobile-nav .accordion-btn:hover,
-.mobile-nav .accordion.open .accordion-btn{
-  color:var(--hover);
-}
-
-/* Panel interne */
-.mobile-nav .accordion-panel{
+/* Panneau */
+#ocMobileDrawer .oc-accordion-panel{
   display:flex; flex-direction:column; gap:10px;
   padding:12px 0 0; margin-left:10px;
 }
-.mobile-nav .accordion[hidden] .accordion-panel{ display:none; }
-.mobile-nav .accordion-panel[hidden]{ display:none; }
-
-.mobile-nav .accordion-panel a{
-  font-size:15px; font-weight:300; color:var(--ink-sub);
-  text-decoration:none;
+#ocMobileDrawer .oc-accordion-panel[hidden]{ display:none !important; }
+#ocMobileDrawer .oc-accordion-panel a{
+  font-size:15px; font-weight:300; color:var(--oc-ink-sub); text-decoration:none;
 }
-.mobile-nav .accordion-panel a:hover{ color:#fff; }
-.mobile-nav .accordion-panel strong{
+#ocMobileDrawer .oc-accordion-panel a:hover{ color:#fff; }
+#ocMobileDrawer .oc-accordion-panel strong{
   margin-top:10px; font-size:13px; color:#aaa; text-transform:uppercase;
 }
-
-/* Supprime l’ancienne bordure faible si héritée */
-.accordion-btn{ border-bottom:0 !important; }
 </style>
 
 <script>
-/* JS pour burger + accordéons + accessibilité */
+/* ===== JS: burger + overlay + accordéons (scopé OC) ===== */
 (function(){
-  const burger = document.getElementById('burgerMenu');
-  const drawer = document.getElementById('mobileDrawer');
-  const closeBtn = drawer.querySelector('.close-btn');
+  const burger  = document.getElementById('ocBurger');
+  const drawer  = document.getElementById('ocMobileDrawer');
+  const overlay = document.getElementById('ocMobileOverlay');
+  const closeBtn= drawer.querySelector('.oc-close-btn');
 
-  function openDrawer(){
-    drawer.classList.add('open');
+  const openDrawer = () => {
+    drawer.classList.add('oc-open');
+    overlay.classList.add('oc-open');
     burger.setAttribute('aria-expanded','true');
-    // focus gestion
     setTimeout(()=> closeBtn.focus(), 10);
     document.body.style.overflow='hidden';
-  }
-  function closeDrawer(){
-    drawer.classList.remove('open');
+  };
+  const closeDrawer = () => {
+    drawer.classList.remove('oc-open');
+    overlay.classList.remove('oc-open');
     burger.setAttribute('aria-expanded','false');
     burger.focus();
     document.body.style.overflow='';
-  }
+  };
 
   burger.addEventListener('click', openDrawer);
+  overlay.addEventListener('click', closeDrawer);
   closeBtn.addEventListener('click', closeDrawer);
-  // Fermer sur ESC
-  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && drawer.classList.contains('open')) closeDrawer(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && drawer.classList.contains('oc-open')) closeDrawer();
+  });
 
   // Accordéons
-  document.querySelectorAll('#mobileDrawer .accordion').forEach(acc=>{
-    const btn = acc.querySelector('.accordion-btn');
-    const panel = acc.querySelector('.accordion-panel');
+  drawer.querySelectorAll('.oc-accordion').forEach(acc=>{
+    const btn   = acc.querySelector('.oc-accordion-btn');
+    const panel = acc.querySelector('.oc-accordion-panel');
+    btn.setAttribute('aria-expanded','false');
 
     btn.addEventListener('click', ()=>{
-      const open = acc.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if(open){
-        panel.removeAttribute('hidden');
-      }else{
-        panel.setAttribute('hidden','');
-      }
+      const isOpen = acc.classList.toggle('oc-open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      panel.toggleAttribute('hidden', !isOpen);
     });
   });
 })();
