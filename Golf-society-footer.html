@@ -1,113 +1,161 @@
-<!-- ================= FLOATING GOLF HELPER ================= -->
-<div id="gs-float-helper" aria-live="polite">
-  <button id="gs-float-btn" class="pulse" aria-haspopup="dialog" aria-controls="gs-float-bubble" aria-label="Open info">
-    <span class="gs-icon" aria-hidden="true">🏌️</span>
-  </button>
-
-  <div id="gs-float-bubble" role="dialog" aria-modal="false" aria-labelledby="gs-float-title">
-    <div class="gs-bubble-inner">
-      <button class="gs-close" aria-label="Close">×</button>
-      <div class="gs-kicker">A quick note</div>
-      <h3 id="gs-float-title">We’re building in public</h3>
-      <p>
-        This platform is new and evolving — we’re adding more courses, brands, and crafting packages for you to discover.
-        If you have any questions or requests, please reach out.
-      </p>
-      <div class="gs-actions">
-        <a class="gs-btn gs-btn-dark" href="/contact">Contact us</a>
-        <button class="gs-btn gs-btn-ghost" data-action="dismiss">Maybe later</button>
-      </div>
-    </div>
-    <div class="gs-bubble-arrow" aria-hidden="true"></div>
+<!-- =========== FOOTER =========== -->
+<footer class="jgs-footer">
+  <!-- MASTHEAD -->
+  <div class="jgs-footer-masthead">
+    <h2>日本 GOLF SOCIETY</h2>
   </div>
-</div>
+
+  <!-- GRID -->
+  <div class="jgs-footer-grid">
+    <!-- Col gauche : menu -->
+    <nav class="jgs-footer-col">
+      <ul class="jgs-footer-menu">
+        <li><a href="#">Courses Directory</a></li>
+        <li><a href="#">1-Day Experience</a></li>
+        <li><a href="#">Crafted Tours</a></li>
+        <li><a href="#">Stories</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Col centre : newsletter -->
+    <div class="jgs-footer-col jgs-footer-contact">
+      <h3>Subscribe to our Newsletter</h3>
+      <form class="jgs-contact-form" action="#" method="post">
+        <label for="golf-email" class="sr-only">Email Address</label>
+        <input id="golf-email" name="email" type="email" placeholder="Your email" required>
+        <button type="submit">Join</button>
+      </form>
+      <p class="jgs-contact-note">
+        Stay updated on new golf experiences, hidden courses, and curated tours in Japan.
+      </p>
+    </div>
+
+    <!-- Col droite : identité -->
+    <div class="jgs-footer-col jgs-footer-trust">
+      <div class="jgs-trust-badge">
+        <span class="jgs-heart">⛳️</span>
+        <div class="jgs-bcorp-txt">Authentic<br>Japanese Golf</div>
+      </div>
+      <p class="jgs-trust-copy">
+        Japan Golf Society connects international golfers with the unique culture,
+        courses, and lifestyle of Japanese golf.
+      </p>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="jgs-footer-bottom">
+    <div class="jgs-bottom-left">
+      <a href="#">About Us</a>
+      <a href="#">FAQ</a>
+      <a href="#">Contact</a>
+      <a href="#">Partnerships</a>
+    </div>
+
+    <!-- Identité -->
+    <div class="jgs-identity-icons">
+      <span class="jgs-pill">🏌️ Experience Japan through Golf</span>
+    </div>
+  </div>
+
+  <div class="jgs-legal">
+    <small>© <span id="jgs-year"></span> Japan Golf Society. All rights reserved.</small>
+  </div>
+</footer>
+
+<script>
+  // année auto
+  document.getElementById('jgs-year').textContent = new Date().getFullYear();
+</script>
 
 <style>
-  :root{
-    --gs-accent:#BC012C; --gs-ink:#0f0f0f; --gs-paper:#ffffff;
-    --gs-ui: Inter, system-ui, sans-serif;
-  }
+/* ====== FOOTER BASE ====== */
+.jgs-footer{
+  background:#fff; color:#000; border:1px solid #000;
+  width:100%; box-sizing:border-box;
+  margin-top:60px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
 
-  /* Container */
-  #gs-float-helper{ position:fixed; right:22px; bottom:22px; z-index:9999; font-family:var(--gs-ui) }
+/* Masthead */
+.jgs-footer-masthead{
+  border-bottom:1px solid #000;
+  padding:28px 0; text-align:center;
+}
+.jgs-footer-masthead h2{
+  margin:0; text-transform:uppercase; font-weight:900;
+  letter-spacing:-.03em; line-height:.9;
+  font-size:clamp(42px, 10vw, 80px);
+}
 
-  /* Floating golf ball button */
-  #gs-float-btn{
-    display:inline-flex; align-items:center; justify-content:center;
-    width:68px; height:68px; border-radius:50%;
-    background:#fdfdfd;
-    color:#111; border:1px solid #ccc;
-    box-shadow:inset -3px -3px 6px rgba(0,0,0,.15), inset 3px 3px 6px rgba(255,255,255,.9),
-               0 8px 20px rgba(0,0,0,.25);
-    cursor:pointer; transition:filter .2s ease, transform .06s ease;
-    position:relative;
-    background-image:
-      radial-gradient(circle at 12% 20%, rgba(0,0,0,0.06) 15%, transparent 16%),
-      radial-gradient(circle at 40% 60%, rgba(0,0,0,0.05) 14%, transparent 15%),
-      radial-gradient(circle at 75% 35%, rgba(0,0,0,0.04) 12%, transparent 13%);
-    background-size: 18px 18px;
-  }
-  #gs-float-btn:hover{ filter:brightness(.97); }
-  #gs-float-btn:active{ transform:translateY(1px); }
-  .gs-icon{ font-size:28px; line-height:1 }
+/* Grid */
+.jgs-footer-grid{
+  display:grid; grid-template-columns: 1fr 1.2fr 1fr;
+  border-bottom:1px solid #000;
+}
+.jgs-footer-col{ padding:26px 24px; min-height:180px; }
+.jgs-footer-col + .jgs-footer-col{ border-left:1px solid #000; }
 
-  /* Pulse ring */
-  #gs-float-btn.pulse::after{
-    content:""; position:absolute; inset:0; border-radius:999px; border:2px solid var(--gs-accent);
-    animation:gsPulse 2.1s infinite;
-  }
-  @keyframes gsPulse{
-    0%{ box-shadow:0 0 0 0 rgba(188,1,44,.45) }
-    70%{ box-shadow:0 0 0 20px rgba(188,1,44,0) }
-    100%{ box-shadow:0 0 0 0 rgba(188,1,44,0) }
-  }
+/* Menu gauche */
+.jgs-footer-menu{ list-style:none; padding:0; margin:0; }
+.jgs-footer-menu li{ margin:0 0 12px; }
+.jgs-footer-menu a{
+  text-decoration:none; color:#000;
+  font-weight:800; text-transform:uppercase; letter-spacing:.02em;
+}
 
-  /* Bubble */
-  #gs-float-bubble{
-    position:absolute; right:78px; bottom:0;
-    width:min(360px, 88vw);
-    background:var(--gs-paper); color:var(--gs-ink);
-    border:1px solid #e6e6e6; border-radius:14px; box-shadow:0 22px 60px rgba(0,0,0,.18);
-    transform-origin:100% 100%; transform:scale(.94); opacity:0; pointer-events:none;
-    transition:opacity .18s ease, transform .18s ease;
-  }
-  #gs-float-bubble.show{ opacity:1; transform:scale(1); pointer-events:auto; }
-  .gs-bubble-inner{ padding:16px 16px 14px 16px; position:relative }
-  .gs-bubble-arrow{
-    position:absolute; right:-10px; bottom:16px; width:0; height:0;
-    border-left:10px solid #e6e6e6; border-top:10px solid transparent; border-bottom:10px solid transparent;
-  }
-  .gs-bubble-arrow::after{
-    content:""; position:absolute; left:-9px; top:-9px; width:0; height:0;
-    border-left:9px solid #fff; border-top:9px solid transparent; border-bottom:9px solid transparent;
-  }
+/* Formulaire contact */
+.jgs-footer-contact h3{
+  margin:0 0 14px; font-size:16px;
+  text-transform:uppercase; font-weight:800; letter-spacing:.05em;
+}
+.jgs-contact-form{ display:flex; gap:8px; align-items:center; }
+.jgs-contact-form input{
+  flex:1; padding:10px 12px; border:1px solid #000;
+  font-size:14px; background:#fff; color:#000;
+}
+.jgs-contact-form button{
+  padding:10px 14px; border:1px solid #000; background:#000; color:#fff;
+  text-transform:uppercase; font-weight:700; letter-spacing:.04em; cursor:pointer;
+}
+.jgs-contact-form button:hover{ background:#fff; color:#000; }
+.jgs-contact-note{ margin:10px 0 14px; font-size:12px; }
 
-  /* Content */
-  .gs-kicker{ text-transform:uppercase; font-weight:800; font-size:11px; letter-spacing:.08em; color:#5c5c5c; margin-bottom:6px }
-  #gs-float-title{ margin:0 26px 6px 0; font-size:18px; font-weight:900 }
-  #gs-float-bubble p{ margin:6px 0 14px; font-size:14px; line-height:1.55; color:#333 }
+/* Col droite trust */
+.jgs-footer-trust{ display:flex; flex-direction:column; justify-content:space-between; }
+.jgs-trust-badge{ display:flex; align-items:center; gap:10px; }
+.jgs-heart{
+  width:44px; height:44px; border:2px solid #000; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:900;
+}
+.jgs-bcorp-txt{ font-size:12px; text-transform:uppercase; font-weight:800; line-height:1.1; }
+.jgs-trust-copy{ margin:12px 0 0; font-size:13px; line-height:1.4; }
 
-  /* Actions */
-  .gs-actions{ display:flex; gap:10px; align-items:center }
-  .gs-btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    padding:10px 14px; border-radius:10px; font-weight:900; letter-spacing:.02em; cursor:pointer; text-decoration:none;
-    border:1px solid #111; background:#fff; color:#111;
-  }
-  .gs-btn-dark{ background:#111; color:#fff; border-color:#111 }
-  .gs-btn-dark:hover{ filter:brightness(.96) }
-  .gs-btn-ghost{ background:#f4f4f4; border-color:#ddd; }
-  .gs-btn-ghost:hover{ filter:brightness(.98) }
+/* Bottom */
+.jgs-footer-bottom{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:12px; padding:12px 16px; border-bottom:1px solid #000;
+}
+.jgs-bottom-left{ display:flex; flex-wrap:wrap; gap:14px; }
+.jgs-bottom-left a{ color:#000; text-decoration:none; font-size:13px; }
 
-  /* Close */
-  .gs-close{
-    position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:8px;
-    border:1px solid #e6e6e6; background:#fff; color:#555; font-size:18px; line-height:1;
-    cursor:pointer;
-  }
+.jgs-identity-icons{ display:flex; flex-wrap:wrap; gap:10px; }
+.jgs-pill{
+  border:1px solid #000; padding:4px 8px; font-size:12px;
+  text-transform:uppercase; font-weight:700;
+}
 
-  @media (max-width:520px){
-    #gs-float-btn{ width:60px; height:60px }
-    #gs-float-bubble{ right:70px }
-  }
+/* Legal */
+.jgs-legal{ padding:10px 16px; text-align:left; }
+.jgs-legal small{ font-size:12px; }
+
+/* Responsive */
+@media (max-width:980px){
+  .jgs-footer-grid{ grid-template-columns:1fr; }
+  .jgs-footer-col + .jgs-footer-col{ border-left:none; border-top:1px solid #000; }
+  .jgs-footer-masthead h2{ font-size:clamp(36px, 12vw, 90px); }
+  .jgs-footer-trust{ gap:16px; }
+}
 </style>
