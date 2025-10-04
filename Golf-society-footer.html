@@ -18,16 +18,24 @@
       </ul>
     </nav>
 
-    <!-- Col centre : réseaux sociaux -->
-    <div class="jgs-footer-col jgs-footer-social">
-      <h3>Follow Us</h3>
-      <div class="jgs-social-links">
-        <a href="https://instagram.com" target="_blank" class="social-btn insta">📸 Instagram</a>
-        <a href="https://tiktok.com" target="_blank" class="social-btn tiktok">🎵 TikTok</a>
-      </div>
+    <!-- Col centre : newsletter -->
+    <div class="jgs-footer-col jgs-footer-contact">
+      <h3>Subscribe to our Newsletter</h3>
+      <form class="jgs-contact-form" action="#" method="post">
+        <label for="golf-email" class="sr-only">Email Address</label>
+        <input id="golf-email" name="email" type="email" placeholder="Your email" required>
+        <button type="submit">Join</button>
+      </form>
       <p class="jgs-contact-note">
-        Discover behind-the-scenes, course highlights, and community moments.
+        Stay updated on new golf experiences, hidden courses, and curated tours in Japan.
       </p>
+
+      <!-- Socials -->
+      <div class="jgs-socials">
+        <a href="https://instagram.com/" target="_blank" aria-label="Instagram">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram Logo">
+        </a>
+      </div>
     </div>
 
     <!-- Col droite : identité -->
@@ -104,20 +112,35 @@
   font-weight:800; text-transform:uppercase; letter-spacing:.02em;
 }
 
-/* Social follow */
-.jgs-footer-social h3{
+/* Formulaire contact */
+.jgs-footer-contact h3{
   margin:0 0 14px; font-size:16px;
   text-transform:uppercase; font-weight:800; letter-spacing:.05em;
 }
-.jgs-social-links{ display:flex; flex-direction:column; gap:10px; }
-.social-btn{
-  display:inline-block; padding:10px 14px;
-  border:1px solid #000; font-weight:700; text-transform:uppercase;
-  text-decoration:none; font-size:14px; color:#000;
-  transition:.25s ease;
+.jgs-contact-form{ display:flex; gap:8px; align-items:center; }
+.jgs-contact-form input{
+  flex:1; padding:10px 12px; border:1px solid #000;
+  font-size:14px; background:#fff; color:#000;
 }
-.social-btn:hover{ background:#000; color:#fff; }
+.jgs-contact-form button{
+  padding:10px 14px; border:1px solid #000; background:#000; color:#fff;
+  text-transform:uppercase; font-weight:700; letter-spacing:.04em; cursor:pointer;
+}
+.jgs-contact-form button:hover{ background:#fff; color:#000; }
 .jgs-contact-note{ margin:10px 0 14px; font-size:12px; }
+
+/* Social */
+.jgs-socials{
+  margin-top:16px;
+}
+.jgs-socials a{
+  display:inline-flex; width:40px; height:40px;
+  background:#fff; border:1px solid #000;
+  align-items:center; justify-content:center;
+}
+.jgs-socials img{
+  width:20px; height:20px; object-fit:contain;
+}
 
 /* Col droite trust */
 .jgs-footer-trust{ display:flex; flex-direction:column; justify-content:space-between; }
