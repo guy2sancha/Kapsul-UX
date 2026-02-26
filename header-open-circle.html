@@ -65,6 +65,7 @@
               <a class="hm-dd-link" href="/brands/beauty-wellness">Beauty &amp; Wellbeing</a>
               <a class="hm-dd-link" href="/brands/jewelry">Jewelry</a>
               <a class="hm-dd-link" href="/brands/home-decor">Home &amp; Craft</a>
+              <a class="hm-dd-link hm-dd-link--all" href="/all-brands">View all brands →</a>
             </div>
 
             <div class="hm-group">
@@ -134,6 +135,15 @@
     display:flex;align-items:center;justify-content:flex-end;
     gap:20px;white-space:nowrap;
   }
+
+  .hm-dd-link--all{
+  margin-top:6px;
+  font-weight:800;
+  padding:10px 0;
+  color:#0b0b0b;
+  border-top:1px solid rgba(0,0,0,.06);
+}
+.hm-dd-link--all:hover{color:var(--hm-accent)}
 
   .hm-btn{
     display:inline-flex;align-items:center;justify-content:center;
@@ -262,8 +272,6 @@
   /* ================== FEATURED ================== */
   .hm-feature{
     overflow:hidden;
-    border-radius:var(--hm-radius-card);
-    border:1px solid rgba(0,0,0,.08);
     background:#fafafa;
   }
   .hm-feature-media{
