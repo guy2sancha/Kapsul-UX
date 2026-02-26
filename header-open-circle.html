@@ -52,12 +52,11 @@
 
             <div class="hm-feature-meta">
               <h4 class="hm-feature-title">9-Jour.</h4>
-                            <span class="hm-badge">Brand of the month</span>
-
+              <span class="hm-badge">Brand of the month</span>
             </div>
           </section>
 
-          <!-- Links (no empty right column) -->
+          <!-- Links -->
           <div class="hm-links" aria-label="Index links">
             <div class="hm-group">
               <div class="hm-head">Categories</div>
@@ -92,6 +91,28 @@
     <!-- Submit -->
     <div class="hm-item">
       <a class="hm-link" href="/submit">Suggest a Brand</a>
+    </div>
+
+    <!-- PLUS menu (new) -->
+    <div class="hm-item hm-has-dd" data-dd>
+      <button
+        class="hm-link hm-link--button hm-link--plus"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="hm-plus-menu"
+        aria-label="More"
+      >
+        <span class="hm-plus" aria-hidden="true">+</span>
+      </button>
+
+      <div id="hm-plus-menu" class="hm-dd hm-plus-dd" role="menu" aria-label="More menu">
+        <div class="hm-plus-links" role="none">
+          <a class="hm-dd-link" href="https://www.instagram.com/" target="_blank" rel="noopener" role="menuitem">Instagram</a>
+          <a class="hm-dd-link" href="/contact" role="menuitem">Contact</a>
+          <a class="hm-dd-link" href="/jp" role="menuitem">JP Version</a>
+        </div>
+      </div>
     </div>
   </nav>
 </header>
@@ -128,8 +149,7 @@
     display:flex;justify-content:center;
     padding:10px 20px;
     font-size:12px;font-weight:500;
-        font-family: 'IBM Plex Mono';
-
+    font-family:'IBM Plex Mono';
   }
   .hm-ticker-inner{
     width:98%;
@@ -138,21 +158,21 @@
   }
 
   .hm-dd-link--all{
-  margin-top:6px;
-  font-weight:800;
-        font-family: 'IBM Plex Mono';
-  padding:10px 0;
-  color:#0b0b0b;
-  border-top:1px solid rgba(0,0,0,.06);
-}
-.hm-dd-link--all:hover{color:var(--hm-accent)}
+    margin-top:6px;
+    font-weight:800;
+    font-family:'IBM Plex Mono';
+    padding:10px 0;
+    color:#0b0b0b;
+    border-top:1px solid rgba(0,0,0,.06);
+  }
+  .hm-dd-link--all:hover{color:var(--hm-accent)}
 
   .hm-btn{
     display:inline-flex;align-items:center;justify-content:center;
     padding:4px 10px;
     border-radius:var(--hm-radius-pill);
     font-size:10px;font-weight:600;
-        font-family: 'IBM Plex Mono';
+    font-family:'IBM Plex Mono';
     text-transform:uppercase;
     letter-spacing:.08em;
     transition:background .2s, color .2s, border-color .2s;
@@ -199,8 +219,8 @@
     padding:10px 15px;
     border-radius:var(--hm-radius-pill);
     font-size:16px;font-weight:500;
-        font-family: 'IBM Plex Mono';
-    font-weight: 800;
+    font-family:'IBM Plex Mono';
+    font-weight:800;
     letter-spacing:.01em;
     color:var(--hm-cream);
     transition:color .18s, background .18s;
@@ -211,8 +231,8 @@
   /* button version keeps same look */
   .hm-link--button{
     border:0;background:transparent;cursor:pointer;
-        font-family: 'IBM Plex Mono';
-font-weight:800;
+    font-family:'IBM Plex Mono';
+    font-weight:800;
   }
 
   .hm-chevron{
@@ -220,6 +240,17 @@ font-weight:800;
     margin-left:6px;
     font-size:10px;
     transition:transform .2s, color .2s;
+  }
+
+  /* Plus button tweaks */
+  .hm-link--plus{
+    padding:10px 14px; /* slightly tighter */
+  }
+  .hm-plus{
+    font-size:18px;
+    line-height:1;
+    display:inline-block;
+    transform:translateY(-1px);
   }
 
   /* ================== DROPDOWN ================== */
@@ -255,7 +286,12 @@ font-weight:800;
     color:var(--hm-accent);
   }
 
-  /* === Mega menu layout: 2 columns only (fixes empty right space) === */
+  /* Rotate + when open */
+  .hm-item.is-open .hm-plus{
+    transform:translateY(-1px) rotate(45deg);
+  }
+
+  /* === Mega menu layout: 2 columns only === */
   .hm-mega{
     width:min(860px, 92vw);
   }
@@ -276,9 +312,7 @@ font-weight:800;
   }
 
   /* ================== FEATURED ================== */
-  .hm-feature{
-    overflow:hidden;
-  }
+  .hm-feature{overflow:hidden;}
   .hm-feature-media{
     display:block;
     aspect-ratio:4/5;
@@ -296,18 +330,18 @@ font-weight:800;
     background:var(--hm-accent);
     color:#fff;
     font-size:10px;
-        font-family: 'IBM Plex Mono';
+    font-family:'IBM Plex Mono';
     text-transform:uppercase;
     letter-spacing:.10em;
     margin-bottom:10px;
   }
-  .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px;font-family: 'IBM Plex Mono';}
+  .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px;font-family:'IBM Plex Mono';}
   .hm-feature-sub{margin:0 0 10px 0;font-size:12px;color:#6b7280}
   .hm-feature-cta{
     display:inline-block;
     font-size:13px;font-weight:800;
     color:var(--hm-ink);
-        font-family: 'IBM Plex Mono';
+    font-family:'IBM Plex Mono';
     border-bottom:1px solid rgba(0,0,0,.2);
     padding-bottom:2px;
     transition:color .15s, border-color .15s;
@@ -327,7 +361,7 @@ font-weight:800;
     text-transform:uppercase;
     letter-spacing:.10em;
     font-size:14px;
-        font-family: 'IBM Plex Mono';
+    font-family:'IBM Plex Mono';
     color:#0b0b0b;
     border-bottom:1px solid rgba(0,0,0,.08);
     padding-bottom:10px;
@@ -337,7 +371,7 @@ font-weight:800;
   .hm-dd-link{
     color:var(--hm-ink);
     font-size:14px;
-        font-family: 'IBM Plex Mono';
+    font-family:'IBM Plex Mono';
     padding:16px 0;
     line-height:1.2;
     transition:color .15s, transform .15s;
@@ -345,11 +379,27 @@ font-weight:800;
   .hm-dd-link:hover{color:var(--hm-accent);transform:translateX(2px)}
   .hm-dd-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px;border-radius:6px}
 
+  a:hover { text-decoration:none; }
 
-a:hover {
-    text-decoration: none;
-}
-  
+  /* ================== PLUS DROPDOWN (new) ================== */
+  .hm-plus-dd{
+    left:auto;
+    right:0;              /* align to the right edge of the nav */
+    min-width:220px;
+    padding:14px 18px;
+  }
+  .hm-plus-links{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .hm-plus-dd .hm-dd-link{
+    padding:12px 0;
+  }
+  .hm-plus-dd .hm-dd-link + .hm-dd-link{
+    border-top:1px solid rgba(0,0,0,.06);
+  }
+
   /* ================== RESPONSIVE ================== */
   @media (max-width:900px){
     .hm-grid{grid-template-columns:1fr}
