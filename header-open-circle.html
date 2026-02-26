@@ -52,96 +52,216 @@
       </div>
     </div>
 
-
     <!-- Journal (lien simple) -->
     <div class="nav-item"><a href="/stories">About Honmono</a></div>
 
-      <!-- Journal (lien simple) -->
+    <!-- Journal (lien simple) -->
     <div class="nav-item"><a href="/stories">Submit a Brand</a></div>
 
-<!-- ONE-COLUMN : Communauté -->
-<div class="nav-item" style="display:none;">
-  <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
-  <div class="dropdown-submenu simple">
-    <a class="ph-item" href="/community/curators">
-      <div class="ph-ico" aria-hidden="true">👀</div>
-      <div class="ph-text">
-        <div class="ph-title">Devenir Curator</div>
-        <div class="ph-sub">Partagez des marques japonaises et soyez rémunéré pour vos sélections.</div>
+    <!-- ONE-COLUMN : Communauté -->
+    <div class="nav-item" style="display:none;">
+      <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
+      <div class="dropdown-submenu simple">
+        <a class="ph-item" href="/community/curators">
+          <div class="ph-ico" aria-hidden="true">👀</div>
+          <div class="ph-text">
+            <div class="ph-title">Devenir Curator</div>
+            <div class="ph-sub">Partagez des marques japonaises et soyez rémunéré pour vos sélections.</div>
+          </div>
+        </a>
+        <a class="ph-item" href="/community/circlers">
+          <div class="ph-ico" aria-hidden="true">⭕️</div>
+          <div class="ph-text">
+            <div class="ph-title">Devenir Circler</div>
+            <div class="ph-sub">Donnez votre avis. Aidez les marques. Gagnez des récompenses.</div>
+          </div>
+        </a>
       </div>
-    </a>
-    <a class="ph-item" href="/community/circlers">
-      <div class="ph-ico" aria-hidden="true">⭕️</div>
-      <div class="ph-text">
-        <div class="ph-title">Devenir Circler</div>
-        <div class="ph-sub">Donnez votre avis. Aidez les marques. Gagnez des récompenses.</div>
-      </div>
-    </a>
-  </div>
-</div>
-
-    
+    </div>
   </nav>
 </div>
 
 <!-- ================== STYLES ================== -->
 <style>
 .ph-ico {
-  font-size: 20px; /* ou 22px si tu veux bien centré */
+  font-size: 20px;
   line-height: 1;
 }
-  
-  .curator-buttons{display:flex;gap:12px}
-  .outline-btn{border:1px solid #fff;background:transparent;color:#fff;padding:4px 8px;border-radius:10px;font-size:10px;font-weight:400;text-transform:uppercase;text-decoration:none;transition:.3s}
-  .outline-btn:hover{background:grey;color:#fff}
-  a{color:#000;text-decoration:none;background:transparent}
 
-  /* Ticker */
-  #kapsul-ticker-bar{background:#000;color:#000;font-size:14px;font-weight:500;padding:10px 20px;display:flex;justify-content:center;position:fixed;top:0;left:0;right:0;z-index:9999}
-  .ticker-inner{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;width:98%;white-space:nowrap;gap:20px}
+.curator-buttons{display:flex;gap:12px}
+.outline-btn{border:1px solid #fff;background:transparent;color:#fff;padding:4px 8px;border-radius:10px;font-size:10px;font-weight:400;text-transform:uppercase;text-decoration:none;transition:.3s}
+.outline-btn:hover{background:grey;color:#fff}
+a{color:#000;text-decoration:none;background:transparent}
 
-  /* Header */
-  #customHeader{position:fixed;top:16px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0px 2.5%;border-bottom:1px solid transparent;z-index:1000;transition:.4s}
-  #customHeader.scrolled{background:#000;border-bottom:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.2)}
-  .logo-container{flex:1;display:flex;justify-content:right}
-  .logo-container img{height:150px}
+/* Ticker */
+#kapsul-ticker-bar{background:#000;color:#000;font-size:14px;font-weight:500;padding:10px 20px;display:flex;justify-content:center;position:fixed;top:0;left:0;right:0;z-index:9999}
+.ticker-inner{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;width:98%;white-space:nowrap;gap:20px}
 
-  .nav-links{display:flex;font-size:16px;position:absolute;left:64px;background:#161616;padding:5px;border-radius:100px}
-  .nav-links a{color:#fffff0;font-weight:500;padding:10px 15px;display:flex;align-items:center;transition:transform .3s,color .2s}
-  .nav-links a:hover{color:#BC012C}
-  .nav-item{position:relative}
-  .chevron-nav{display:inline-block;font-size:10px;margin-left:4px;transition:transform .3s,color .3s}
-  .nav-item:hover .chevron-nav{transform:rotate(180deg) translateY(2px);color:#BC012C}
+/* Header */
+#customHeader{position:fixed;top:16px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0px 2.5%;border-bottom:1px solid transparent;z-index:1000;transition:.4s}
+#customHeader.scrolled{background:#000;border-bottom:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+.logo-container{flex:1;display:flex;justify-content:right}
+.logo-container img{height:150px}
 
-  /* Dropdown base */
-  .dropdown-submenu{opacity:0;transform:translateY(10px);transition:opacity .2s,transform .2s;pointer-events:none;position:absolute;background:#fff;padding:30px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.2);z-index:1000;min-width:600px;color:#000}
-  .nav-item:hover>.dropdown-submenu{display:flex;opacity:1;transform:translateY(0);pointer-events:auto}
+.nav-links{display:flex;font-size:16px;position:absolute;left:64px;background:#161616;padding:5px;border-radius:100px}
+.nav-links a{color:#fffff0;font-weight:500;padding:10px 15px;display:flex;align-items:center;transition:transform .3s,color .2s}
+.nav-links a:hover{color:#BC012C}
+.nav-item{position:relative}
+.chevron-nav{display:inline-block;font-size:10px;margin-left:4px;transition:transform .3s,color .3s}
+.nav-item:hover .chevron-nav{transform:rotate(180deg) translateY(2px);color:#BC012C}
 
-  /* Mega */
-  .dropdown-submenu.mega-3{min-width:1100px;padding:24px;padding-top:50px}
-  .dropdown-submenu.mega-3 .mega-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:70px;align-items:start}
-  .mega-brandcard{overflow:hidden;transition:transform .18s,box-shadow .18s}
-  .mega-brand-media{aspect-ratio:4/5;overflow:hidden;display:block}
-  .mega-brand-media img{width:100%;height:100%;object-fit:cover;display:block}
-  .mega-brand-meta{padding:14px;color:#111}
-  .mega-badge{display:inline-block;background:#BC012C;color:#fff;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;margin-bottom:8px}
-  .mega-brand-title{margin:0 0 2px 0;font-weight:800;font-size:16px}
-  .mega-brand-sub{margin:0 0 10px 0;font-size:12px;color:#666}
-  .mega-col{display:flex;flex-direction:column;gap:25px}
-  .mega-head{font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:12px;color:#000;border-bottom:1px solid #eee;padding-bottom:6px}
-  a.mega-link{color:#111;font-size:14px;padding:4px 0}
-  a.mega-link:hover{color:#BC012C}
+/* ================== ONLY CHANGE: DROPDOWN STYLE ================== */
+/* Goals:
+   - Cleaner "magazine" panel
+   - More depth + less harsh
+   - Better spacing & hierarchy
+   - Subtle motion + safer hitbox
+*/
 
-  /* One-column (Product Hunt style) */
-  .dropdown-submenu.simple{min-width:360px;padding:14px;display:flex;flex-direction:column;gap:10px}
-  .ph-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;text-decoration:none;transition:background .15s}
-  .ph-item:hover{background:#f7f7f7}
-  .ph-ico{flex:0 0 40px;height:40px;border-radius:10px;display:grid;place-items:center;background:#fff;border:1px solid #eee}
-  .ph-text{display:flex;flex-direction:column;gap:2px}
-  .ph-title{font-weight:700;color:#111;line-height:1.1}
-  .ph-sub{color:#6b7280;font-size:13px;line-height:1.35}
+.dropdown-submenu{
+  opacity:0;
+  transform:translateY(12px);
+  pointer-events:none;
+  position:absolute;
+  top:calc(100% + 12px);
+  left:0;
 
-  /* Responsive */
-  @media (max-width:1100px){.dropdown-submenu.mega-3{min-width:min(92vw,900px)}}
-  @media (max-width:900px){.dropdown-submenu.mega-3 .mega-grid{grid-template-columns:1fr}}
+  /* new look */
+  background:rgba(255,255,255,.96);
+  backdrop-filter:saturate(140%) blur(10px);
+  -webkit-backdrop-filter:saturate(140%) blur(10px);
+
+  padding:26px;
+  border-radius:18px;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 22px 60px rgba(0,0,0,.25);
+
+  z-index:1000;
+  min-width:600px;
+  color:#000;
+
+  transition:opacity .18s ease, transform .18s ease;
+}
+
+/* keep your existing hover trigger, but improve interaction */
+.nav-item:hover>.dropdown-submenu{
+  display:flex;
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+/* Small arrow "pointer" */
+.dropdown-submenu::before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left:26px;
+  width:14px;
+  height:14px;
+  background:rgba(255,255,255,.96);
+  border-left:1px solid rgba(0,0,0,.08);
+  border-top:1px solid rgba(0,0,0,.08);
+  transform:rotate(45deg);
+}
+
+/* Mega panel sizing */
+.dropdown-submenu.mega-3{
+  min-width:1100px;
+  padding:24px;
+  padding-top:40px; /* less weird gap than 50px */
+}
+
+/* Grid */
+.dropdown-submenu.mega-3 .mega-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr .95fr;
+  gap:52px;
+  align-items:start;
+}
+
+/* Featured card */
+.mega-brandcard{
+  overflow:hidden;
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.06);
+  background:#fafafa;
+  box-shadow:0 10px 30px rgba(0,0,0,.10);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.mega-brandcard:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 45px rgba(0,0,0,.16);
+}
+.mega-brand-media{aspect-ratio:4/5;overflow:hidden;display:block}
+.mega-brand-media img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Meta */
+.mega-brand-meta{padding:14px 14px 16px;color:#111}
+.mega-badge{
+  display:inline-block;
+  background:#BC012C;
+  color:#fff;
+  font-size:10px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  padding:6px 10px;
+  border-radius:999px;
+  margin-bottom:10px
+}
+.mega-brand-title{margin:0 0 4px 0;font-weight:900;font-size:16px;letter-spacing:.01em}
+.mega-brand-sub{margin:0;font-size:12px;color:#6b7280}
+
+/* Columns */
+.mega-col{display:flex;flex-direction:column;gap:16px}
+.mega-head{
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.10em;
+  font-size:11px;
+  color:#111;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  padding-bottom:10px
+}
+a.mega-link{
+  color:#111;
+  font-size:14px;
+  padding:6px 0;
+  border-radius:8px;
+  transition:color .15s ease, transform .15s ease;
+}
+a.mega-link:hover{
+  color:#BC012C;
+  transform:translateX(2px);
+}
+
+/* One-column (kept, slight polish) */
+.dropdown-submenu.simple{
+  min-width:360px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.ph-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;text-decoration:none;transition:background .15s}
+.ph-item:hover{background:rgba(0,0,0,.04)}
+.ph-ico{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#fff;border:1px solid rgba(0,0,0,.06)}
+.ph-text{display:flex;flex-direction:column;gap:2px}
+.ph-title{font-weight:800;color:#111;line-height:1.1}
+.ph-sub{color:#6b7280;font-size:13px;line-height:1.35}
+
+/* Responsive */
+@media (max-width:1100px){
+  .dropdown-submenu.mega-3{min-width:min(92vw,900px)}
+}
+@media (max-width:900px){
+  .dropdown-submenu.mega-3 .mega-grid{grid-template-columns:1fr}
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .dropdown-submenu,
+  .mega-brandcard,
+  a.mega-link{transition:none !important}
+}
 </style>
