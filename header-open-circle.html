@@ -60,7 +60,7 @@
             </div>
           </section>
 
-          <!-- Right column: Categories then Collections underneath -->
+          <!-- Links (no empty right column) -->
           <div class="hm-links" aria-label="Index links">
             <div class="hm-group">
               <div class="hm-head">Categories</div>
@@ -70,7 +70,7 @@
               <a class="hm-dd-link" href="/brands/home-decor">Home &amp; Craft</a>
             </div>
 
-            <div class="hm-group hm-group--spaced">
+            <div class="hm-group">
               <div class="hm-head">Collections</div>
               <a class="hm-dd-link" href="/made-in-japan">Made in Japan</a>
               <a class="hm-dd-link" href="/denim">Denim</a>
@@ -211,7 +211,7 @@
 
   /* ================== DROPDOWN ================== */
   .hm-dd{
-    position:absolute;left:0;top:calc(100% + 0px);
+    position:absolute;left:0;top:calc(100% + 12px);
     z-index:1000;
     padding:18px;
     border-radius:14px;
@@ -244,14 +244,22 @@
 
   /* === Mega menu layout: 2 columns only (fixes empty right space) === */
   .hm-mega{
-    width:min(520px, 92vw);
+    width:min(860px, 92vw);
   }
 
   .hm-grid{
     display:grid;
-    grid-template-columns:220px 1fr;
-    gap:32px;
+    grid-template-columns:360px 1fr;
+    gap:28px;
     align-items:start;
+  }
+
+  /* Right area: 2 tidy columns */
+  .hm-links{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 34px;
+    align-content:start;
   }
 
   /* ================== FEATURED ================== */
@@ -300,24 +308,8 @@
     border-radius:6px
   }
 
-  /* ================== LINKS (Categories then Collections) ================== */
-  .hm-links{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    width:100%;
-  }
-
-  .hm-group{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    width:100%;
-  }
-
-  .hm-group--spaced{
-    margin-top:28px;
-  }
+  /* ================== LINKS ================== */
+  .hm-group{display:flex;flex-direction:column;gap:10px}
 
   .hm-head{
     font-weight:900;
@@ -343,9 +335,9 @@
   /* ================== RESPONSIVE ================== */
   @media (max-width:900px){
     .hm-grid{grid-template-columns:1fr}
+    .hm-links{grid-template-columns:1fr}
     .hm-logo img{height:120px}
     .hm-mega{width:min(520px, 92vw)}
-    .hm-group--spaced{margin-top:18px}
   }
 
   @media (prefers-reduced-motion: reduce){
