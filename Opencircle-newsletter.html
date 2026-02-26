@@ -4,17 +4,17 @@
   <div class="oc-news__overlay" aria-hidden="true"></div>
 
   <div class="oc-news__content">
-    <span class="oc-news__badge">La sélection du mois</span>
-    <h2 class="oc-news__title">Notre meilleur du Japon, dans votre mailbox.</h2>
+    <span class="oc-news__badge">Monthly Selection</span>
+    <h2 class="oc-news__title">Honmono, delivered monthly.</h2>
     <p class="oc-news__text">
-      Chaque mois, notre équipe partage un regard privilégié sur les créateurs japonais : nouvelles marques à suivre, rencontre avec des créateurs et produits choisies avec soin.
+      Each month, we share a curated view of contemporary Japanese brands — new entries, short field notes, and carefully selected pieces.
     </p>
     <p class="oc-news__text">
-            Une newsletter pensée pour les esprit curieux…
+      A newsletter for curious minds.
     </p>
 
     <div class="oc-news__cta">
-      <a href="#" class="btn btn--solid" id="openModal">S’inscrire</a>
+      <a href="#" class="btn btn--solid" id="openModal">Subscribe</a>
     </div>
   </div>
 </section>
@@ -22,30 +22,29 @@
 <!-- ============================= MODAL ============================= -->
 <div id="signupModal" class="oc-modal" style="display:none;">
   <div class="oc-modal__card" role="dialog" aria-modal="true" aria-labelledby="oc-modal-title">
-    <button id="closeModal" class="oc-modal__close" aria-label="Fermer">×</button>
+    <button id="closeModal" class="oc-modal__close" aria-label="Close">×</button>
 
     <div class="oc-modal__head">
-      <span class="oc-modal__pill">Rejoindre le Circle</span>
-      <h3 id="oc-modal-title">Votre rendez-vous Nippon mensuel</h3>
+      <span class="oc-modal__pill">Join Honmono</span>
+      <h3 id="oc-modal-title">Your monthly Japan briefing</h3>
       <p class="oc-modal__sub">
-        Un condensé du meilleur d'Open Circle — directement dans votre boîte mail.
+        A concise selection from Honmono — delivered to your inbox.
       </p>
     </div>
 
     <form class="oc-form" id="newsletterForm" novalidate>
-      <input type="text" id="firstName" placeholder="Prénom" class="oc-input" autocomplete="given-name">
-      <input type="text" id="lastName"  placeholder="Nom"  class="oc-input" autocomplete="family-name">
-      <input type="email" id="email" placeholder="Adresse e-mail" required class="oc-input" autocomplete="email">
+      <input type="text" id="firstName" placeholder="First name" class="oc-input" autocomplete="given-name">
+      <input type="text" id="lastName"  placeholder="Last name"  class="oc-input" autocomplete="family-name">
+      <input type="email" id="email" placeholder="Email address" required class="oc-input" autocomplete="email">
 
-      <button id="submitSignup" class="btn btn--solid btn--full" type="submit">S’inscrire</button>
+      <button id="submitSignup" class="btn btn--solid btn--full" type="submit">Subscribe</button>
       <p class="oc-legal">
-        En vous inscrivant, vous acceptez de recevoir les emails d’Open Circle. 
-        Vous pouvez vous désinscrire à tout moment.
+        By subscribing, you agree to receive emails from Honmono.
+        You can unsubscribe at any time.
       </p>
     </form>
   </div>
 </div>
-
 
 <!-- ============================= STYLES ============================= -->
 <style>
@@ -116,7 +115,7 @@
 }
 .oc-modal__card{
   width:min(720px, 96%);
-  max-height:88dvh;                  /* ✅ limite la hauteur sur mobile */
+  max-height:88dvh;
   overflow:auto; -webkit-overflow-scrolling:touch;
   background:#fff; border:1px solid var(--ink);
   padding:22px 18px; position:relative;
@@ -142,7 +141,7 @@
 .oc-form{ margin-top:6px; }
 .oc-input{
   width:100%; padding:12px 12px; border:1px solid var(--ink); outline:none;
-  margin:0 0 10px 0; font-family:var(--ui); font-size:16px; /* 16px: évite le zoom iOS */
+  margin:0 0 10px 0; font-family:var(--ui); font-size:16px;
 }
 #country{ max-height:48px; }
 .oc-label{ display:block; margin:10px 0 8px; font-weight:600; color:#000; font-family:var(--ui); }
