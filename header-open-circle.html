@@ -15,38 +15,34 @@
         src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20512x512%20(3).svg"
         alt="Honmono"
         loading="eager"
-        decoding="async"
       />
     </a>
   </div>
 
   <nav class="hm-nav" aria-label="Primary">
-    <!-- INDEX (mega) -->
-    <div class="hm-item hm-has-dd" data-dd>
+    <!-- INDEX -->
+    <div class="hm-item" data-dd>
       <button
         class="hm-link hm-link--button"
         type="button"
         aria-haspopup="true"
         aria-expanded="false"
-        aria-controls="hm-index-menu"
       >
-        Index <span class="hm-chevron" aria-hidden="true">▼</span>
+        Index <span class="hm-chevron">▼</span>
       </button>
 
-      <div id="hm-index-menu" class="hm-dd hm-mega" role="menu" aria-label="Index menu">
+      <div class="hm-dd hm-mega" role="menu">
         <div class="hm-grid">
+
           <!-- Featured -->
-          <section class="hm-feature" aria-label="Featured brand">
+          <section class="hm-feature">
             <a
               href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z"
               class="hm-feature-media"
-              aria-label="Brand of the month: 9Jour"
             >
               <img
                 src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp"
                 alt="9Jour — Denim coloré"
-                loading="lazy"
-                decoding="async"
               />
             </a>
 
@@ -54,333 +50,213 @@
               <span class="hm-badge">Brand of the month</span>
               <h4 class="hm-feature-title">9Jour</h4>
               <p class="hm-feature-sub">Denim coloré · Kyoto, JP</p>
-              <a class="hm-feature-cta" href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">
+              <a class="hm-feature-cta" href="#">
                 View entry →
               </a>
             </div>
           </section>
 
-          <!-- Links (no empty right column) -->
-          <div class="hm-links" aria-label="Index links">
+          <!-- Right column -->
+          <div class="hm-links">
+
             <div class="hm-group">
               <div class="hm-head">Categories</div>
               <a class="hm-dd-link" href="/brands/fashion">Fashion</a>
-              <a class="hm-dd-link" href="/brands/beauty-wellness">Beauty &amp; Wellbeing</a>
+              <a class="hm-dd-link" href="/brands/beauty-wellness">Beauty & Wellbeing</a>
               <a class="hm-dd-link" href="/brands/jewelry">Jewelry</a>
-              <a class="hm-dd-link" href="/brands/home-decor">Home &amp; Craft</a>
+              <a class="hm-dd-link" href="/brands/home-decor">Home & Craft</a>
             </div>
 
-            <div class="hm-group">
+            <div class="hm-group hm-group--spaced">
               <div class="hm-head">Collections</div>
               <a class="hm-dd-link" href="/made-in-japan">Made in Japan</a>
               <a class="hm-dd-link" href="/denim">Denim</a>
               <a class="hm-dd-link" href="/sustainable">Durable</a>
               <a class="hm-dd-link" href="/women-owned">Women-founded</a>
             </div>
+
           </div>
+
         </div>
       </div>
     </div>
 
-    <!-- Selections -->
     <div class="hm-item">
       <a class="hm-link" href="/selections">Selections</a>
     </div>
 
-    <!-- About -->
     <div class="hm-item">
       <a class="hm-link" href="/stories">About</a>
     </div>
 
-    <!-- Submit -->
     <div class="hm-item">
       <a class="hm-link" href="/submit">Suggest a Brand</a>
     </div>
   </nav>
 </header>
 
-<!-- ================== STYLES ================== -->
 <style>
-  :root{
-    --hm-black:#000;
-    --hm-ink:#111;
-    --hm-cream:#fffff0;
-    --hm-accent:#BC012C;
+:root{
+  --black:#000;
+  --ink:#111;
+  --cream:#fffff0;
+  --accent:#BC012C;
+}
 
-    --hm-ticker-h:44px;
-    --hm-header-top:calc(var(--hm-ticker-h) + 8px);
+/* ===== NAV ===== */
+.hm-nav{
+  position:absolute;
+  left:64px;
+  display:flex;
+  padding:6px;
+  border-radius:999px;
+  background:rgba(22,22,22,.92);
+  border:1px solid rgba(255,255,255,.08);
+}
 
-    --hm-radius-pill:999px;
-    --hm-radius-card:16px;
+.hm-link{
+  padding:10px 16px;
+  border-radius:999px;
+  color:var(--cream);
+  font-size:15px;
+  background:transparent;
+  border:0;
+  cursor:pointer;
+}
 
-    --hm-nav-bg:rgba(22,22,22,.92);
-    --hm-nav-border:rgba(255,255,255,.08);
-    --hm-dd-bg:rgba(255,255,255,.98);
-    --hm-dd-border:rgba(0,0,0,.08);
-  }
+.hm-link:hover{
+  color:var(--accent);
+}
 
-  /* Baseline */
-  a{color:inherit;text-decoration:none;background:transparent}
-  img{max-width:100%;height:auto;display:block}
+/* ===== DROPDOWN ===== */
+.hm-dd{
+  position:absolute;
+  top:calc(100% + 14px);
+  left:0;
+  padding:24px;
+  background:white;
+  border-radius:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:.2s ease;
+}
 
-  /* ================== TICKER ================== */
-  #kapsul-ticker-bar{
-    position:fixed;top:0;left:0;right:0;z-index:9999;
-    min-height:var(--hm-ticker-h);
-    background:var(--hm-black);color:#fff;
-    display:flex;justify-content:center;
-    padding:10px 20px;
-    font-size:12px;font-weight:500;
-  }
-  .hm-ticker-inner{
-    width:98%;
-    display:flex;align-items:center;justify-content:flex-end;
-    gap:20px;white-space:nowrap;
-  }
+.hm-item:hover .hm-dd,
+.hm-item.is-open .hm-dd{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
 
-  .hm-btn{
-    display:inline-flex;align-items:center;justify-content:center;
-    padding:4px 10px;
-    border-radius:var(--hm-radius-pill);
-    font-size:10px;font-weight:600;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    transition:background .2s, color .2s, border-color .2s;
-  }
-  .hm-btn--outline{
-    border:1px solid rgba(255,255,255,.9);
-    color:#fff;background:transparent;
-  }
-  .hm-btn--outline:hover{background:rgba(255,255,255,.12)}
-  .hm-btn:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
+/* === FIXED LAYOUT === */
+.hm-mega{
+  width:min(820px, 92vw);
+}
 
-  /* ================== HEADER ================== */
-  #customHeader{
-    position:fixed;left:0;right:0;z-index:1000;
-    top:var(--hm-header-top);
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 2.5%;
-    border-bottom:1px solid transparent;
-    transition:background .35s, box-shadow .35s, border-color .35s;
-  }
-  #customHeader.scrolled{
-    background:var(--hm-black);
-    border-bottom:1px solid var(--hm-black);
-    box-shadow:0 2px 4px rgba(0,0,0,.2);
-  }
+.hm-grid{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:36px;
+}
 
-  .hm-logo{flex:1;display:flex;justify-content:right}
-  .hm-logo img{height:150px}
+/* ===== FEATURE ===== */
+.hm-feature{
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.08);
+}
 
-  /* ================== NAV ================== */
-  .hm-nav{
-    position:absolute;left:64px;
-    display:flex;gap:2px;
-    padding:6px;
-    border-radius:var(--hm-radius-pill);
-    background:var(--hm-nav-bg);
-    border:1px solid var(--hm-nav-border);
-    backdrop-filter:saturate(140%) blur(8px);
-  }
+.hm-feature-media{
+  display:block;
+  aspect-ratio:4/5;
+}
 
-  .hm-item{position:relative}
-  .hm-link{
-    display:flex;align-items:center;white-space:nowrap;
-    padding:10px 15px;
-    border-radius:var(--hm-radius-pill);
-    font-size:16px;font-weight:500;
-    letter-spacing:.01em;
-    color:var(--hm-cream);
-    transition:color .18s, background .18s;
-  }
-  .hm-link:hover{color:var(--hm-accent);background:rgba(255,255,255,.06)}
-  .hm-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
+.hm-feature-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-  /* button version keeps same look */
-  .hm-link--button{
-    border:0;background:transparent;cursor:pointer;
-    font:inherit;
-  }
+.hm-feature-meta{
+  padding:16px;
+}
 
-  .hm-chevron{
-    display:inline-block;
-    margin-left:6px;
-    font-size:10px;
-    transition:transform .2s, color .2s;
-  }
+.hm-badge{
+  background:var(--accent);
+  color:white;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
 
-  /* ================== DROPDOWN ================== */
-  .hm-dd{
-    position:absolute;left:0;top:calc(100% + 12px);
-    z-index:1000;
-    padding:18px;
-    border-radius:14px;
-    background:var(--hm-dd-bg);
-    border:1px solid var(--hm-dd-border);
-    box-shadow:0 18px 50px rgba(0,0,0,.22);
-    color:var(--hm-ink);
+.hm-feature-title{
+  margin:10px 0 4px;
+  font-weight:800;
+}
 
-    opacity:0;
-    transform:translateY(10px);
-    pointer-events:none;
-    transition:opacity .18s ease, transform .18s ease;
-  }
+.hm-feature-sub{
+  font-size:13px;
+  color:#666;
+}
 
-  /* open states (hover + click via JS adds .is-open) */
-  .hm-item:hover > .hm-dd,
-  .hm-item:focus-within > .hm-dd,
-  .hm-item.is-open > .hm-dd{
-    opacity:1;
-    transform:translateY(0);
-    pointer-events:auto;
-  }
+/* ===== RIGHT COLUMN ===== */
+.hm-links{
+  display:flex;
+  flex-direction:column;
+}
 
-  .hm-item:hover .hm-chevron,
-  .hm-item:focus-within .hm-chevron,
-  .hm-item.is-open .hm-chevron{
-    transform:rotate(180deg) translateY(1px);
-    color:var(--hm-accent);
-  }
+.hm-group{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
 
-  /* === Mega menu layout: 2 columns only (fixes empty right space) === */
-  .hm-mega{
-    width:min(860px, 92vw);
-  }
+.hm-group--spaced{
+  margin-top:32px;
+}
 
-  .hm-grid{
-    display:grid;
-    grid-template-columns:360px 1fr;
-    gap:28px;
-    align-items:start;
-  }
+.hm-head{
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  padding-bottom:8px;
+}
 
-  /* Right area: 2 tidy columns */
-  .hm-links{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:22px 34px;
-    align-content:start;
-  }
+.hm-dd-link{
+  font-size:15px;
+  color:var(--ink);
+  transition:.15s ease;
+}
 
-  /* ================== FEATURED ================== */
-  .hm-feature{
-    overflow:hidden;
-    border-radius:var(--hm-radius-card);
-    border:1px solid rgba(0,0,0,.08);
-    background:#fafafa;
-  }
-  .hm-feature-media{
-    display:block;
-    aspect-ratio:4/5;
-    overflow:hidden;
-  }
-  .hm-feature-media img{
-    width:100%;height:100%;
-    object-fit:cover;
-    transform:scale(1.001);
-  }
-  .hm-feature-meta{padding:14px 14px 16px}
-  .hm-badge{
-    display:inline-block;
-    padding:6px 10px;
-    border-radius:var(--hm-radius-pill);
-    background:var(--hm-accent);
-    color:#fff;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.10em;
-    margin-bottom:10px;
-  }
-  .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px}
-  .hm-feature-sub{margin:0 0 10px 0;font-size:12px;color:#6b7280}
-  .hm-feature-cta{
-    display:inline-block;
-    font-size:13px;font-weight:800;
-    color:var(--hm-ink);
-    border-bottom:1px solid rgba(0,0,0,.2);
-    padding-bottom:2px;
-    transition:color .15s, border-color .15s;
-  }
-  .hm-feature-cta:hover{color:var(--hm-accent);border-color:rgba(188,1,44,.5)}
-  .hm-feature-cta:focus-visible{
-    outline:2px solid rgba(188,1,44,.9);
-    outline-offset:3px;
-    border-radius:6px
-  }
-
-  /* ================== LINKS ================== */
-  .hm-group{display:flex;flex-direction:column;gap:10px}
-
-  .hm-head{
-    font-weight:900;
-    text-transform:uppercase;
-    letter-spacing:.10em;
-    font-size:11px;
-    color:#0b0b0b;
-    border-bottom:1px solid rgba(0,0,0,.08);
-    padding-bottom:10px;
-    margin-bottom:6px;
-  }
-
-  .hm-dd-link{
-    color:var(--hm-ink);
-    font-size:14px;
-    padding:6px 0;
-    line-height:1.2;
-    transition:color .15s, transform .15s;
-  }
-  .hm-dd-link:hover{color:var(--hm-accent);transform:translateX(2px)}
-  .hm-dd-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px;border-radius:6px}
-
-  /* ================== RESPONSIVE ================== */
-  @media (max-width:900px){
-    .hm-grid{grid-template-columns:1fr}
-    .hm-links{grid-template-columns:1fr}
-    .hm-logo img{height:120px}
-    .hm-mega{width:min(520px, 92vw)}
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .hm-dd, .hm-chevron, .hm-dd-link, .hm-link, .hm-btn{transition:none!important}
-  }
+.hm-dd-link:hover{
+  color:var(--accent);
+  transform:translateX(3px);
+}
 </style>
 
-<!-- ================== SCRIPT (accessibility + click open) ================== -->
 <script>
-  (function () {
-    const ddItems = Array.from(document.querySelectorAll('[data-dd]'));
-    if (!ddItems.length) return;
+(function(){
+  const item = document.querySelector('[data-dd]');
+  const btn = item.querySelector('button');
 
-    const closeAll = () => {
-      ddItems.forEach(item => {
-        item.classList.remove('is-open');
-        const btn = item.querySelector('.hm-link--button');
-        if (btn) btn.setAttribute('aria-expanded', 'false');
-      });
-    };
+  btn.addEventListener('click', function(){
+    item.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded',
+      item.classList.contains('is-open')
+    );
+  });
 
-    ddItems.forEach(item => {
-      const btn = item.querySelector('.hm-link--button');
-      if (!btn) return;
-
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const isOpen = item.classList.contains('is-open');
-        closeAll();
-        if (!isOpen) {
-          item.classList.add('is-open');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      const inside = e.target.closest('[data-dd]');
-      if (!inside) closeAll();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeAll();
-    });
-  })();
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('[data-dd]')){
+      item.classList.remove('is-open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
 </script>
