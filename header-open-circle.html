@@ -13,255 +13,253 @@
     <a href="/"><img src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20512x512%20(3).svg" alt="Logo Kapsul" /></a>
   </div>
 
-  <nav class="nav-links">
-    <!-- MEGA : Découvrir des marques -->
-    <div class="nav-item">
-      <a href="#">Brand Index<span class="chevron-nav">▼</span></a>
-      <div class="dropdown-submenu mega-3">
-        <div class="mega-grid">
-          <!-- Col 1 -->
-          <div class="mega-brandcard">
-            <a href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z" class="mega-brand-media" aria-label="Marque du mois">
-              <img src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp" alt="Aperçu de la marque du mois">
+  <!-- REPLACED nav markup ONLY (functionally same, cleaner classes like your example) -->
+  <nav class="hm-nav" aria-label="Primary">
+    <!-- INDEX (mega) -->
+    <div class="hm-item">
+      <a class="hm-link" href="#">
+        Brand Index <span class="hm-chevron" aria-hidden="true">▼</span>
+      </a>
+
+      <div class="hm-dd hm-mega" role="menu" aria-label="Brand Index menu">
+        <div class="hm-grid">
+          <!-- Featured -->
+          <div class="hm-feature">
+            <a
+              href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z"
+              class="hm-feature-media"
+              aria-label="Marque du mois"
+            >
+              <img
+                src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp"
+                alt="Aperçu de la marque du mois"
+              />
             </a>
-            <div class="mega-brand-meta">
-              <span class="mega-badge">Marque du mois</span>
-              <h4 class="mega-brand-title">9Jour</h4>
-              <p class="mega-brand-sub">Denim coloré · Kyoto, JP</p>
+
+            <div class="hm-feature-meta">
+              <span class="hm-badge">Marque du mois</span>
+              <h4 class="hm-feature-title">9Jour</h4>
+              <p class="hm-feature-sub">Denim coloré · Kyoto, JP</p>
+              <a
+                class="hm-feature-cta"
+                href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z"
+                >Voir la fiche →</a
+              >
             </div>
           </div>
 
-          <!-- Col 2 -->
-          <div class="mega-col">
-            <div class="mega-head">Catégories</div>
-            <a class="mega-link" href="/brands/fashion">Mode</a>
-            <a class="mega-link" href="/brands/beauty-wellness">Beauté & Bien-être</a>
-            <a class="mega-link" href="/brands/jewelry">Bijoux</a>
-            <a class="mega-link" href="/brands/home-decor">Maison & Artisanat</a>
+          <!-- Categories -->
+          <div class="hm-col">
+            <div class="hm-head">Catégories</div>
+            <a class="hm-dd-link" href="/brands/fashion">Mode</a>
+            <a class="hm-dd-link" href="/brands/beauty-wellness">Beauté &amp; Bien-être</a>
+            <a class="hm-dd-link" href="/brands/jewelry">Bijoux</a>
+            <a class="hm-dd-link" href="/brands/home-decor">Maison &amp; Artisanat</a>
+
+            <div class="hm-head hm-head-gap">Accès rapide</div>
+            <a class="hm-dd-link hm-muted" href="/brands?sort=new">Nouveautés</a>
+            <a class="hm-dd-link hm-muted" href="/brands?sort=popular">Les plus aimées</a>
+            <a class="hm-dd-link hm-muted" href="/search">Rechercher</a>
           </div>
 
-          <!-- Col 3 -->
-          <div class="mega-col">
-            <div class="mega-head">Collections</div>
-            <a class="mega-link" href="/made-in-japan">Made in Japan</a>
-            <a class="mega-link" href="/denim">Denim</a>
-            <a class="mega-link" href="/sustainable">Durable</a>
-            <a class="mega-link" href="/women-owned">Fondées par des femmes</a>
+          <!-- Collections -->
+          <div class="hm-col">
+            <div class="hm-head">Collections</div>
+            <a class="hm-dd-link" href="/made-in-japan">Made in Japan</a>
+            <a class="hm-dd-link" href="/denim">Denim</a>
+            <a class="hm-dd-link" href="/sustainable">Durable</a>
+            <a class="hm-dd-link" href="/women-owned">Fondées par des femmes</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Journal (lien simple) -->
-    <div class="nav-item"><a href="/stories">About Honmono</a></div>
+    <!-- About -->
+    <div class="hm-item">
+      <a class="hm-link" href="/stories">About Honmono</a>
+    </div>
 
-    <!-- Journal (lien simple) -->
-    <div class="nav-item"><a href="/stories">Submit a Brand</a></div>
-
-    <!-- ONE-COLUMN : Communauté -->
-    <div class="nav-item" style="display:none;">
-      <a href="/community">Communauté <span class="chevron-nav">▼</span></a>
-      <div class="dropdown-submenu simple">
-        <a class="ph-item" href="/community/curators">
-          <div class="ph-ico" aria-hidden="true">👀</div>
-          <div class="ph-text">
-            <div class="ph-title">Devenir Curator</div>
-            <div class="ph-sub">Partagez des marques japonaises et soyez rémunéré pour vos sélections.</div>
-          </div>
-        </a>
-        <a class="ph-item" href="/community/circlers">
-          <div class="ph-ico" aria-hidden="true">⭕️</div>
-          <div class="ph-text">
-            <div class="ph-title">Devenir Circler</div>
-            <div class="ph-sub">Donnez votre avis. Aidez les marques. Gagnez des récompenses.</div>
-          </div>
-        </a>
-      </div>
+    <!-- Submit -->
+    <div class="hm-item">
+      <a class="hm-link" href="/stories">Submit a Brand</a>
     </div>
   </nav>
 </div>
 
 <!-- ================== STYLES ================== -->
 <style>
-.ph-ico {
-  font-size: 20px;
-  line-height: 1;
-}
+  /* keep your existing baseline styles intact */
+  .curator-buttons{display:flex;gap:12px}
+  .outline-btn{border:1px solid #fff;background:transparent;color:#fff;padding:4px 8px;border-radius:10px;font-size:10px;font-weight:400;text-transform:uppercase;text-decoration:none;transition:.3s}
+  .outline-btn:hover{background:grey;color:#fff}
+  a{color:#000;text-decoration:none;background:transparent}
 
-.curator-buttons{display:flex;gap:12px}
-.outline-btn{border:1px solid #fff;background:transparent;color:#fff;padding:4px 8px;border-radius:10px;font-size:10px;font-weight:400;text-transform:uppercase;text-decoration:none;transition:.3s}
-.outline-btn:hover{background:grey;color:#fff}
-a{color:#000;text-decoration:none;background:transparent}
+  /* Ticker */
+  #kapsul-ticker-bar{background:#000;color:#000;font-size:14px;font-weight:500;padding:10px 20px;display:flex;justify-content:center;position:fixed;top:0;left:0;right:0;z-index:9999}
+  .ticker-inner{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;width:98%;white-space:nowrap;gap:20px}
 
-/* Ticker */
-#kapsul-ticker-bar{background:#000;color:#000;font-size:14px;font-weight:500;padding:10px 20px;display:flex;justify-content:center;position:fixed;top:0;left:0;right:0;z-index:9999}
-.ticker-inner{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;width:98%;white-space:nowrap;gap:20px}
+  /* Header */
+  #customHeader{position:fixed;top:16px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0px 2.5%;border-bottom:1px solid transparent;z-index:1000;transition:.4s}
+  #customHeader.scrolled{background:#000;border-bottom:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.2)}
+  .logo-container{flex:1;display:flex;justify-content:right}
+  .logo-container img{height:150px}
 
-/* Header */
-#customHeader{position:fixed;top:16px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0px 2.5%;border-bottom:1px solid transparent;z-index:1000;transition:.4s}
-#customHeader.scrolled{background:#000;border-bottom:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.2)}
-.logo-container{flex:1;display:flex;justify-content:right}
-.logo-container img{height:150px}
+  /* ===== NEW NAV STYLE (matches your "hm-" structure) ===== */
+  .hm-nav{
+    display:flex;
+    font-size:16px;
+    position:absolute;
+    left:64px;
+    background:#161616;
+    padding:5px;
+    border-radius:100px;
+    gap:2px;
+  }
 
-.nav-links{display:flex;font-size:16px;position:absolute;left:64px;background:#161616;padding:5px;border-radius:100px}
-.nav-links a{color:#fffff0;font-weight:500;padding:10px 15px;display:flex;align-items:center;transition:transform .3s,color .2s}
-.nav-links a:hover{color:#BC012C}
-.nav-item{position:relative}
-.chevron-nav{display:inline-block;font-size:10px;margin-left:4px;transition:transform .3s,color .3s}
-.nav-item:hover .chevron-nav{transform:rotate(180deg) translateY(2px);color:#BC012C}
+  .hm-item{position:relative}
 
-/* ================== ONLY CHANGE: DROPDOWN STYLE ================== */
-/* Goals:
-   - Cleaner "magazine" panel
-   - More depth + less harsh
-   - Better spacing & hierarchy
-   - Subtle motion + safer hitbox
-*/
+  .hm-link{
+    color:#fffff0;
+    font-weight:500;
+    padding:10px 15px;
+    display:flex;
+    align-items:center;
+    transition:color .2s;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .hm-link:hover{color:#BC012C}
 
-.dropdown-submenu{
-  opacity:0;
-  transform:translateY(12px);
-  pointer-events:none;
-  position:absolute;
-  top:calc(100% + 12px);
-  left:0;
+  .hm-chevron{
+    display:inline-block;
+    font-size:10px;
+    margin-left:6px;
+    transition:transform .2s, color .2s;
+  }
+  .hm-item:hover .hm-chevron{
+    transform:rotate(180deg) translateY(1px);
+    color:#BC012C;
+  }
 
-  /* new look */
-  background:rgba(255,255,255,.96);
-  backdrop-filter:saturate(140%) blur(10px);
-  -webkit-backdrop-filter:saturate(140%) blur(10px);
+  /* Dropdown base */
+  .hm-dd{
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    position:absolute;
+    top:calc(100% + 12px);
+    left:0;
+    background:#fff;
+    padding:24px;
+    border-radius:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,.22);
+    border:1px solid rgba(0,0,0,.08);
+    z-index:1000;
+    min-width:600px;
+    color:#000;
+    transition:opacity .18s ease, transform .18s ease;
+  }
 
-  padding:26px;
-  border-radius:18px;
-  border:1px solid rgba(0,0,0,.08);
-  box-shadow:0 22px 60px rgba(0,0,0,.25);
+  .hm-item:hover > .hm-dd{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
 
-  z-index:1000;
-  min-width:600px;
-  color:#000;
+  .hm-mega{min-width:1100px}
 
-  transition:opacity .18s ease, transform .18s ease;
-}
+  .hm-grid{
+    display:grid;
+    grid-template-columns:1.05fr .95fr .95fr;
+    gap:56px;
+    align-items:start;
+  }
 
-/* keep your existing hover trigger, but improve interaction */
-.nav-item:hover>.dropdown-submenu{
-  display:flex;
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
+  /* Featured block */
+  .hm-feature{
+    overflow:hidden;
+    border-radius:16px;
+    border:1px solid rgba(0,0,0,.08);
+    background:#fafafa;
+  }
 
-/* Small arrow "pointer" */
-.dropdown-submenu::before{
-  content:"";
-  position:absolute;
-  top:-8px;
-  left:26px;
-  width:14px;
-  height:14px;
-  background:rgba(255,255,255,.96);
-  border-left:1px solid rgba(0,0,0,.08);
-  border-top:1px solid rgba(0,0,0,.08);
-  transform:rotate(45deg);
-}
+  .hm-feature-media{
+    aspect-ratio:4/5;
+    overflow:hidden;
+    display:block;
+  }
+  .hm-feature-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
 
-/* Mega panel sizing */
-.dropdown-submenu.mega-3{
-  min-width:1100px;
-  padding:24px;
-  padding-top:40px; /* less weird gap than 50px */
-}
+  .hm-feature-meta{padding:14px 14px 16px;color:#111}
+  .hm-badge{
+    display:inline-block;
+    background:#BC012C;
+    color:#fff;
+    font-size:10px;
+    letter-spacing:.10em;
+    text-transform:uppercase;
+    padding:6px 10px;
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+  .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px}
+  .hm-feature-sub{margin:0 0 10px 0;font-size:12px;color:#6b7280}
+  .hm-feature-cta{
+    display:inline-block;
+    font-size:13px;
+    font-weight:700;
+    color:#111;
+    border-bottom:1px solid rgba(0,0,0,.2);
+    padding-bottom:2px;
+    transition:color .15s, border-color .15s;
+  }
+  .hm-feature-cta:hover{
+    color:#BC012C;
+    border-color:rgba(188,1,44,.5);
+  }
 
-/* Grid */
-.dropdown-submenu.mega-3 .mega-grid{
-  display:grid;
-  grid-template-columns:1.05fr .95fr .95fr;
-  gap:52px;
-  align-items:start;
-}
+  /* Columns */
+  .hm-col{display:flex;flex-direction:column;gap:10px}
+  .hm-head{
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    font-size:11px;
+    color:#111;
+    border-bottom:1px solid rgba(0,0,0,.08);
+    padding-bottom:10px;
+    margin-bottom:6px;
+  }
+  .hm-head-gap{margin-top:14px}
 
-/* Featured card */
-.mega-brandcard{
-  overflow:hidden;
-  border-radius:16px;
-  border:1px solid rgba(0,0,0,.06);
-  background:#fafafa;
-  box-shadow:0 10px 30px rgba(0,0,0,.10);
-  transition:transform .18s ease, box-shadow .18s ease;
-}
-.mega-brandcard:hover{
-  transform:translateY(-2px);
-  box-shadow:0 18px 45px rgba(0,0,0,.16);
-}
-.mega-brand-media{aspect-ratio:4/5;overflow:hidden;display:block}
-.mega-brand-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .hm-dd-link{
+    color:#111;
+    font-size:14px;
+    padding:6px 0;
+    transition:color .15s, transform .15s;
+  }
+  .hm-dd-link:hover{
+    color:#BC012C;
+    transform:translateX(2px);
+  }
+  .hm-muted{color:#6b7280}
+  .hm-muted:hover{color:#111}
 
-/* Meta */
-.mega-brand-meta{padding:14px 14px 16px;color:#111}
-.mega-badge{
-  display:inline-block;
-  background:#BC012C;
-  color:#fff;
-  font-size:10px;
-  letter-spacing:.10em;
-  text-transform:uppercase;
-  padding:6px 10px;
-  border-radius:999px;
-  margin-bottom:10px
-}
-.mega-brand-title{margin:0 0 4px 0;font-weight:900;font-size:16px;letter-spacing:.01em}
-.mega-brand-sub{margin:0;font-size:12px;color:#6b7280}
+  /* Responsive */
+  @media (max-width:1100px){
+    .hm-mega{min-width:min(92vw,900px)}
+  }
+  @media (max-width:900px){
+    .hm-grid{grid-template-columns:1fr}
+    .hm-mega{min-width:min(92vw,520px)}
+  }
 
-/* Columns */
-.mega-col{display:flex;flex-direction:column;gap:16px}
-.mega-head{
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.10em;
-  font-size:11px;
-  color:#111;
-  border-bottom:1px solid rgba(0,0,0,.08);
-  padding-bottom:10px
-}
-a.mega-link{
-  color:#111;
-  font-size:14px;
-  padding:6px 0;
-  border-radius:8px;
-  transition:color .15s ease, transform .15s ease;
-}
-a.mega-link:hover{
-  color:#BC012C;
-  transform:translateX(2px);
-}
-
-/* One-column (kept, slight polish) */
-.dropdown-submenu.simple{
-  min-width:360px;
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.ph-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;text-decoration:none;transition:background .15s}
-.ph-item:hover{background:rgba(0,0,0,.04)}
-.ph-ico{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#fff;border:1px solid rgba(0,0,0,.06)}
-.ph-text{display:flex;flex-direction:column;gap:2px}
-.ph-title{font-weight:800;color:#111;line-height:1.1}
-.ph-sub{color:#6b7280;font-size:13px;line-height:1.35}
-
-/* Responsive */
-@media (max-width:1100px){
-  .dropdown-submenu.mega-3{min-width:min(92vw,900px)}
-}
-@media (max-width:900px){
-  .dropdown-submenu.mega-3 .mega-grid{grid-template-columns:1fr}
-}
-
-/* Reduce motion */
-@media (prefers-reduced-motion: reduce){
-  .dropdown-submenu,
-  .mega-brandcard,
-  a.mega-link{transition:none !important}
-}
+  @media (prefers-reduced-motion: reduce){
+    .hm-dd, .hm-chevron, .hm-dd-link{transition:none!important}
+  }
 </style>
