@@ -404,6 +404,30 @@
   .hm-plus-dd .hm-dd-link{padding:12px 0}
   .hm-plus-dd .hm-dd-link + .hm-dd-link{border-top:1px solid rgba(0,0,0,.06)}
 
+  /* Animation smooth sur les barres */
+.hm-bar{
+  transition: 
+    transform .25s cubic-bezier(.4,.0,.2,1),
+    opacity .2s ease,
+    background .2s ease;
+}
+
+/* Hover sur le bouton + */
+.hm-link--plus:hover .hm-bar{
+  background: var(--hm-accent);
+}
+
+/* Petit rotate premium au hover (quand fermé uniquement) */
+.hm-item:not(.is-open) .hm-link--plus:hover .hm-morph{
+  transform: rotate(90deg);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* Reset transform base */
+.hm-morph{
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
   /* ================== RESPONSIVE ================== */
   @media (max-width:900px){
     .hm-grid{grid-template-columns:1fr}
