@@ -1,317 +1,379 @@
-<!-- =========================
-HONMONO – HEADER SYSTEM
-Tool / Aesthetic / Cultural
-========================= -->
-
-<!-- ========= TICKER ========= -->
-<div id="hm-ticker">
+<!-- ================== TICKER ================== -->
+<div id="kapsul-ticker-bar" role="region" aria-label="Honmono ticker">
   <div class="hm-ticker-inner">
-    <a href="#newsletter" class="hm-newsletter-btn">
-      Subscribe to Newsletter
-    </a>
+    <div class="hm-ticker-actions">
+      <a href="#newsletter" class="hm-btn hm-btn--outline">Subscribe to Newsletter</a>
+    </div>
   </div>
 </div>
 
-<!-- ========= HEADER ========= -->
-<header id="hm-header">
-
-  <!-- LOGO -->
+<!-- ================== HEADER ================== -->
+<header id="customHeader" role="banner">
   <div class="hm-logo">
-    <a href="/">
-      <img src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20512x512%20(3).svg" alt="Honmono">
+    <a href="/" aria-label="Honmono Home">
+      <img
+        src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20512x512%20(3).svg"
+        alt="Honmono"
+        loading="eager"
+        decoding="async"
+      />
     </a>
   </div>
 
-  <!-- NAV -->
-  <nav class="hm-nav">
+  <nav class="hm-nav" aria-label="Primary">
+    <!-- INDEX (mega) -->
+    <div class="hm-item hm-has-dd" data-dd>
+      <button class="hm-link hm-link--button" type="button" aria-haspopup="true" aria-expanded="false">
+        Index <span class="hm-chevron" aria-hidden="true">▼</span>
+      </button>
 
-    <!-- INDEX -->
-    <div class="hm-item hm-dropdown">
-      <a class="hm-link" href="#">
-        Index <span class="hm-chevron">▾</span>
-      </a>
-
-      <div class="hm-mega">
-
-        <div class="hm-mega-grid">
-
+      <div class="hm-dd hm-mega" role="menu" aria-label="Index menu">
+        <div class="hm-grid">
           <!-- Featured -->
-          <div class="hm-feature">
-            <a href="#">
-              <img src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp" alt="">
+          <section class="hm-feature" aria-label="Featured brand">
+            <a
+              href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z"
+              class="hm-feature-media"
+              aria-label="Brand of the month: 9Jour"
+            >
+              <img
+                src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp"
+                alt="9Jour — Denim coloré"
+                loading="lazy"
+                decoding="async"
+              />
             </a>
+
             <div class="hm-feature-meta">
-              <span class="hm-badge">Brand of the Month</span>
-              <h4>9Jour</h4>
-              <p>Denim · Kyoto</p>
+              <span class="hm-badge">Brand of the month</span>
+              <h4 class="hm-feature-title">9Jour</h4>
+              <p class="hm-feature-sub">Denim coloré · Kyoto, JP</p>
+              <a class="hm-feature-cta" href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z">
+                View entry →
+              </a>
             </div>
-          </div>
+          </section>
 
-          <!-- Categories -->
+          <!-- Column: Categories + Quick access -->
           <div class="hm-col">
-            <div class="hm-title">Categories</div>
-            <a href="/brands/fashion">Fashion</a>
-            <a href="/brands/beauty">Beauty & Wellbeing</a>
-            <a href="/brands/jewelry">Jewelry</a>
-            <a href="/brands/home">Home & Craft</a>
+            <div class="hm-head">Categories</div>
+            <a class="hm-dd-link" href="/brands/fashion">Fashion</a>
+            <a class="hm-dd-link" href="/brands/beauty-wellness">Beauty &amp; Wellbeing</a>
+            <a class="hm-dd-link" href="/brands/jewelry">Jewelry</a>
+            <a class="hm-dd-link" href="/brands/home-decor">Home &amp; Craft</a>
 
-            <div class="hm-title gap">Quick Access</div>
-            <a href="/brands?sort=new">New entries</a>
-            <a href="/brands?sort=popular">Most liked</a>
-            <a href="/search">Search</a>
+            <div class="hm-head hm-head-gap">Quick access</div>
+            <a class="hm-dd-link hm-muted" href="/brands?sort=new">New entries</a>
+            <a class="hm-dd-link hm-muted" href="/brands?sort=popular">Most liked</a>
+            <a class="hm-dd-link hm-muted" href="/search">Search</a>
           </div>
 
-          <!-- Collections -->
+          <!-- Column: Collections + Perspective -->
           <div class="hm-col">
-            <div class="hm-title">Collections</div>
-            <a href="/made-in-japan">Made in Japan</a>
-            <a href="/denim">Denim</a>
-            <a href="/durable">Durable</a>
-            <a href="/women-led">Women-led</a>
+            <div class="hm-head">Collections</div>
+            <a class="hm-dd-link" href="/made-in-japan">Made in Japan</a>
+            <a class="hm-dd-link" href="/denim">Denim</a>
+            <a class="hm-dd-link" href="/sustainable">Durable</a>
+            <a class="hm-dd-link" href="/women-owned">Women-founded</a>
 
-            <div class="hm-title gap">Perspective</div>
-            <a href="/field-notes">Field Notes</a>
+            <div class="hm-head hm-head-gap">Perspective</div>
+            <a class="hm-dd-link hm-muted" href="/field-notes">Field Notes</a>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- SELECTIONS -->
+    <!-- Selections -->
     <div class="hm-item">
       <a class="hm-link" href="/selections">Selections</a>
     </div>
 
-    <!-- ABOUT -->
+    <!-- About -->
     <div class="hm-item">
-      <a class="hm-link" href="/about">About</a>
+      <a class="hm-link" href="/stories">About</a>
     </div>
 
-    <!-- PLUS EXPAND -->
-    <div class="hm-item hm-plus">
-
-      <input type="checkbox" id="hmPlusToggle">
-      <label for="hmPlusToggle" class="hm-link hm-plus-btn">+</label>
-
-      <div class="hm-plus-panel">
-        <a href="/submit">Suggest</a>
-        <a href="https://instagram.com" target="_blank">Instagram</a>
-        <a href="/jp">日本語</a>
-      </div>
-
+    <!-- Submit -->
+    <div class="hm-item">
+      <a class="hm-link" href="/submit">Suggest a Brand</a>
     </div>
-
   </nav>
 </header>
 
-
-<!-- =========================
-STYLES
-========================= -->
-
+<!-- ================== STYLES ================== -->
 <style>
+  :root{
+    --hm-black:#000;
+    --hm-ink:#111;
+    --hm-cream:#fffff0;
+    --hm-accent:#BC012C;
 
-/* ---------- RESET ---------- */
+    --hm-ticker-h:44px;
+    --hm-header-top:calc(var(--hm-ticker-h) + 8px);
 
-a { text-decoration:none; color:inherit; }
-img { display:block; width:100%; }
+    --hm-radius-pill:999px;
+    --hm-radius-card:16px;
 
-/* ---------- VARIABLES ---------- */
+    --hm-nav-bg:rgba(22,22,22,.92);
+    --hm-nav-border:rgba(255,255,255,.08);
+    --hm-dd-bg:rgba(255,255,255,.98);
+    --hm-dd-border:rgba(0,0,0,.08);
+  }
 
-:root{
-  --accent:#BC012C;
-  --dark:#111;
-  --soft:#f5f5f5;
-}
+  /* Baseline (keep safe) */
+  a{color:inherit;text-decoration:none;background:transparent}
+  img{max-width:100%;height:auto;display:block}
 
-/* ---------- TICKER ---------- */
+  /* ================== TICKER ================== */
+  #kapsul-ticker-bar{
+    position:fixed;top:0;left:0;right:0;z-index:9999;
+    min-height:var(--hm-ticker-h);
+    background:var(--hm-black);color:#fff;
+    display:flex;justify-content:center;
+    padding:10px 20px;
+    font-size:12px;font-weight:500;
+  }
+  .hm-ticker-inner{
+    width:98%;
+    display:flex;align-items:center;justify-content:flex-end;
+    gap:20px;white-space:nowrap;
+  }
 
-#hm-ticker{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#000;
-  display:flex;
-  justify-content:center;
-  padding:10px 0;
-  z-index:9999;
-}
+  .hm-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:4px 10px;
+    border-radius:var(--hm-radius-pill);
+    font-size:10px;font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .hm-btn--outline{
+    border:1px solid rgba(255,255,255,.9);
+    color:#fff;background:transparent;
+  }
+  .hm-btn--outline:hover{background:rgba(255,255,255,.12)}
+  .hm-btn:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
 
-.hm-newsletter-btn{
-  border:1px solid #fff;
-  padding:6px 14px;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  border-radius:999px;
-  color:#fff;
-}
+  /* ================== HEADER ================== */
+  #customHeader{
+    position:fixed;left:0;right:0;z-index:1000;
+    top:var(--hm-header-top);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 2.5%;
+    border-bottom:1px solid transparent;
+    transition:background .35s, box-shadow .35s, border-color .35s;
+  }
+  #customHeader.scrolled{
+    background:var(--hm-black);
+    border-bottom:1px solid var(--hm-black);
+    box-shadow:0 2px 4px rgba(0,0,0,.2);
+  }
 
-/* ---------- HEADER ---------- */
+  .hm-logo{flex:1;display:flex;justify-content:right}
+  .hm-logo img{height:150px}
 
-#hm-header{
-  position:fixed;
-  top:44px;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 3%;
-  z-index:1000;
-}
+  /* ================== NAV ================== */
+  .hm-nav{
+    position:absolute;left:64px;
+    display:flex;gap:2px;
+    padding:6px;
+    border-radius:var(--hm-radius-pill);
+    background:var(--hm-nav-bg);
+    border:1px solid var(--hm-nav-border);
+    backdrop-filter:saturate(140%) blur(8px);
+  }
 
-/* ---------- LOGO ---------- */
+  .hm-item{position:relative}
+  .hm-link{
+    display:flex;align-items:center;white-space:nowrap;
+    padding:10px 15px;
+    border-radius:var(--hm-radius-pill);
+    font-size:16px;font-weight:500;
+    letter-spacing:.01em;
+    color:var(--hm-cream);
+    transition:color .18s, background .18s;
+  }
+  .hm-link:hover{color:var(--hm-accent);background:rgba(255,255,255,.06)}
+  .hm-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
 
-.hm-logo img{
-  height:130px;
-}
+  /* button version keeps same look */
+  .hm-link--button{
+    border:0;background:transparent;cursor:pointer;
+    font:inherit;
+  }
 
-/* ---------- NAV CAPSULE ---------- */
+  .hm-chevron{
+    display:inline-block;
+    margin-left:6px;
+    font-size:10px;
+    transition:transform .2s, color .2s;
+  }
 
-.hm-nav{
-  position:absolute;
-  left:60px;
-  display:flex;
-  gap:4px;
-  background:rgba(20,20,20,.95);
-  padding:6px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.08);
-  backdrop-filter:blur(6px);
-}
+  /* ================== DROPDOWN ================== */
+  .hm-dd{
+    position:absolute;left:0;top:calc(100% + 12px);
+    z-index:1000;
+    min-width:600px;
+    padding:24px;
+    border-radius:14px;
+    background:var(--hm-dd-bg);
+    border:1px solid var(--hm-dd-border);
+    box-shadow:0 18px 50px rgba(0,0,0,.22);
+    color:var(--hm-ink);
 
-/* ---------- NAV LINKS ---------- */
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
 
-.hm-link{
-  padding:10px 16px;
-  border-radius:999px;
-  font-size:15px;
-  color:#fff;
-  transition:.2s;
-}
+  /* open states (hover + click via JS adds .is-open) */
+  .hm-item:hover > .hm-dd,
+  .hm-item:focus-within > .hm-dd,
+  .hm-item.is-open > .hm-dd{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
 
-.hm-link:hover{
-  color:var(--accent);
-  background:rgba(255,255,255,.06);
-}
+  .hm-item:hover .hm-chevron,
+  .hm-item:focus-within .hm-chevron,
+  .hm-item.is-open .hm-chevron{
+    transform:rotate(180deg) translateY(1px);
+    color:var(--hm-accent);
+  }
 
-/* ---------- DROPDOWN ---------- */
+  .hm-mega{min-width:1100px}
 
-.hm-dropdown{ position:relative; }
+  .hm-grid{
+    display:grid;
+    grid-template-columns:1.05fr .95fr .95fr;
+    gap:56px;
+    align-items:start;
+  }
 
-.hm-mega{
-  position:absolute;
-  top:120%;
-  left:0;
-  width:1000px;
-  background:#fff;
-  padding:30px;
-  border-radius:16px;
-  box-shadow:0 25px 60px rgba(0,0,0,.25);
-  opacity:0;
-  transform:translateY(10px);
-  pointer-events:none;
-  transition:.2s;
-}
+  /* ================== FEATURED ================== */
+  .hm-feature{
+    overflow:hidden;
+    border-radius:var(--hm-radius-card);
+    border:1px solid rgba(0,0,0,.08);
+    background:#fafafa;
+  }
+  .hm-feature-media{
+    display:block;
+    aspect-ratio:4/5;
+    overflow:hidden;
+  }
+  .hm-feature-media img{
+    width:100%;height:100%;
+    object-fit:cover;
+    transform:scale(1.001);
+  }
+  .hm-feature-meta{padding:14px 14px 16px}
+  .hm-badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:var(--hm-radius-pill);
+    background:var(--hm-accent);
+    color:#fff;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    margin-bottom:10px;
+  }
+  .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px}
+  .hm-feature-sub{margin:0 0 10px 0;font-size:12px;color:#6b7280}
+  .hm-feature-cta{
+    display:inline-block;
+    font-size:13px;font-weight:800;
+    color:var(--hm-ink);
+    border-bottom:1px solid rgba(0,0,0,.2);
+    padding-bottom:2px;
+    transition:color .15s, border-color .15s;
+  }
+  .hm-feature-cta:hover{color:var(--hm-accent);border-color:rgba(188,1,44,.5)}
+  .hm-feature-cta:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px;border-radius:6px}
 
-.hm-dropdown:hover .hm-mega{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
+  /* ================== COLUMNS ================== */
+  .hm-col{display:flex;flex-direction:column;gap:10px}
+  .hm-head{
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    font-size:11px;
+    color:#0b0b0b;
+    border-bottom:1px solid rgba(0,0,0,.08);
+    padding-bottom:10px;
+    margin-bottom:6px;
+  }
+  .hm-head-gap{margin-top:14px}
 
-/* ---------- MEGA GRID ---------- */
+  .hm-dd-link{
+    color:var(--hm-ink);
+    font-size:14px;
+    padding:6px 0;
+    line-height:1.2;
+    transition:color .15s, transform .15s;
+  }
+  .hm-dd-link:hover{color:var(--hm-accent);transform:translateX(2px)}
+  .hm-dd-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px;border-radius:6px}
 
-.hm-mega-grid{
-  display:grid;
-  grid-template-columns:1.2fr 1fr 1fr;
-  gap:50px;
-}
+  .hm-muted{color:#6b7280}
+  .hm-muted:hover{color:var(--hm-ink)}
 
-/* ---------- FEATURE ---------- */
+  /* ================== RESPONSIVE ================== */
+  @media (max-width:1100px){
+    .hm-mega{min-width:min(92vw,900px)}
+    .hm-dd{max-width:92vw}
+  }
+  @media (max-width:900px){
+    .hm-grid{grid-template-columns:1fr}
+    .hm-mega{min-width:min(92vw,520px)}
+    .hm-logo img{height:120px}
+  }
 
-.hm-feature{
-  background:var(--soft);
-  border-radius:14px;
-  overflow:hidden;
-}
-
-.hm-feature-meta{
-  padding:15px;
-}
-
-.hm-badge{
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  background:var(--accent);
-  color:#fff;
-  padding:5px 10px;
-  border-radius:999px;
-  display:inline-block;
-  margin-bottom:10px;
-}
-
-/* ---------- COLUMNS ---------- */
-
-.hm-col{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.hm-title{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  font-weight:700;
-  border-bottom:1px solid #ddd;
-  padding-bottom:8px;
-  margin-bottom:8px;
-}
-
-.hm-title.gap{
-  margin-top:18px;
-}
-
-/* ---------- PLUS PANEL ---------- */
-
-.hm-plus{
-  position:relative;
-  display:flex;
-  align-items:center;
-}
-
-#hmPlusToggle{ display:none; }
-
-.hm-plus-panel{
-  display:flex;
-  gap:4px;
-  overflow:hidden;
-  width:0;
-  transition:.25s;
-}
-
-#hmPlusToggle:checked ~ .hm-plus-panel{
-  width:320px;
-}
-
-.hm-plus-panel a{
-  padding:10px 14px;
-  border-radius:999px;
-  color:#fff;
-}
-
-.hm-plus-panel a:hover{
-  background:rgba(255,255,255,.06);
-  color:var(--accent);
-}
-
-/* ---------- RESPONSIVE ---------- */
-
-@media(max-width:1000px){
-  .hm-mega{ width:90vw; }
-  .hm-mega-grid{ grid-template-columns:1fr; }
-}
-
+  @media (prefers-reduced-motion: reduce){
+    .hm-dd, .hm-chevron, .hm-dd-link, .hm-link, .hm-btn{transition:none!important}
+  }
 </style>
+
+<!-- ================== SCRIPT (accessibility + click open) ================== -->
+<script>
+  (function () {
+    const ddItems = Array.from(document.querySelectorAll('[data-dd]'));
+    if (!ddItems.length) return;
+
+    const closeAll = () => {
+      ddItems.forEach(item => {
+        item.classList.remove('is-open');
+        const btn = item.querySelector('.hm-link--button');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    ddItems.forEach(item => {
+      const btn = item.querySelector('.hm-link--button');
+      if (!btn) return;
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = item.classList.contains('is-open');
+        closeAll();
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      const inside = e.target.closest('[data-dd]');
+      if (!inside) closeAll();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAll();
+    });
+  })();
+</script>
