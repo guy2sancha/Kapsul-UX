@@ -93,7 +93,7 @@
       <a class="hm-link" href="/submit">Suggest a Brand</a>
     </div>
 
-    <!-- PLUS menu (new) -->
+    <!-- PLUS menu -->
     <div class="hm-item hm-has-dd" data-dd>
       <button
         class="hm-link hm-link--button hm-link--plus"
@@ -129,17 +129,20 @@
     --hm-header-top:calc(var(--hm-ticker-h) + 8px);
 
     --hm-radius-pill:999px;
-    --hm-radius-card:16px;
 
     --hm-nav-bg:rgba(22,22,22,.92);
     --hm-nav-border:rgba(255,255,255,.08);
     --hm-dd-bg:rgba(255,255,255,.98);
     --hm-dd-border:rgba(0,0,0,.08);
+
+    /* NEW: nav height to keep everything perfectly aligned */
+    --hm-nav-item-h:44px;
   }
 
   /* Baseline */
   a{color:inherit;text-decoration:none;background:transparent}
   img{max-width:100%;height:auto;display:block}
+  a:hover{text-decoration:none}
 
   /* ================== TICKER ================== */
   #kapsul-ticker-bar{
@@ -156,16 +159,6 @@
     display:flex;align-items:center;justify-content:flex-end;
     gap:20px;white-space:nowrap;
   }
-
-  .hm-dd-link--all{
-    margin-top:6px;
-    font-weight:800;
-    font-family:'IBM Plex Mono';
-    padding:10px 0;
-    color:#0b0b0b;
-    border-top:1px solid rgba(0,0,0,.06);
-  }
-  .hm-dd-link--all:hover{color:var(--hm-accent)}
 
   .hm-btn{
     display:inline-flex;align-items:center;justify-content:center;
@@ -211,46 +204,59 @@
     background:var(--hm-nav-bg);
     border:1px solid var(--hm-nav-border);
     backdrop-filter:saturate(140%) blur(8px);
+
+    /* NEW: hard-align items */
+    align-items:center;
   }
 
   .hm-item{position:relative}
-  .hm-link{
-    display:flex;align-items:center;white-space:nowrap;
-    padding:10px 15px;
+
+  /* ===== NEW: make every nav item identical height and vertically centered ===== */
+  .hm-link,
+  .hm-link--button{
+    height:var(--hm-nav-item-h);
+    padding:0 15px;                 /* no vertical padding => no baseline drift */
+    display:flex;
+    align-items:center;
+    justify-content:center;
     border-radius:var(--hm-radius-pill);
-    font-size:16px;font-weight:500;
+    white-space:nowrap;
+
+    font-size:16px;
     font-family:'IBM Plex Mono';
     font-weight:800;
     letter-spacing:.01em;
     color:var(--hm-cream);
+
+    line-height:1;                  /* key */
     transition:color .18s, background .18s;
   }
+
   .hm-link:hover{color:var(--hm-accent);background:rgba(255,255,255,.06)}
   .hm-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
 
-  /* button version keeps same look */
   .hm-link--button{
     border:0;background:transparent;cursor:pointer;
-    font-family:'IBM Plex Mono';
-    font-weight:800;
   }
 
   .hm-chevron{
     display:inline-block;
     margin-left:6px;
     font-size:10px;
+    line-height:1;
     transition:transform .2s, color .2s;
   }
 
-  /* Plus button tweaks */
+  /* PLUS button */
   .hm-link--plus{
-    padding:10px 14px; /* slightly tighter */
+    padding:0 15px;                 /* same as others */
+    min-width:44px;                 /* makes it feel "icon button" */
   }
   .hm-plus{
     font-size:18px;
     line-height:1;
-    display:inline-block;
-    transform:translateY(-1px);
+    display:block;
+    transform:none;                 /* remove translateY */
   }
 
   /* ================== DROPDOWN ================== */
@@ -286,15 +292,12 @@
     color:var(--hm-accent);
   }
 
-  /* Rotate + when open */
   .hm-item.is-open .hm-plus{
-    transform:translateY(-1px) rotate(45deg);
+    transform:rotate(45deg);
   }
 
-  /* === Mega menu layout: 2 columns only === */
-  .hm-mega{
-    width:min(860px, 92vw);
-  }
+  /* Mega menu sizing */
+  .hm-mega{ width:min(860px, 92vw); }
 
   .hm-grid{
     display:grid;
@@ -303,7 +306,6 @@
     align-items:start;
   }
 
-  /* Right area: 2 tidy columns */
   .hm-links{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -336,22 +338,6 @@
     margin-bottom:10px;
   }
   .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px;font-family:'IBM Plex Mono';}
-  .hm-feature-sub{margin:0 0 10px 0;font-size:12px;color:#6b7280}
-  .hm-feature-cta{
-    display:inline-block;
-    font-size:13px;font-weight:800;
-    color:var(--hm-ink);
-    font-family:'IBM Plex Mono';
-    border-bottom:1px solid rgba(0,0,0,.2);
-    padding-bottom:2px;
-    transition:color .15s, border-color .15s;
-  }
-  .hm-feature-cta:hover{color:var(--hm-accent);border-color:rgba(188,1,44,.5)}
-  .hm-feature-cta:focus-visible{
-    outline:2px solid rgba(188,1,44,.9);
-    outline-offset:3px;
-    border-radius:6px
-  }
 
   /* ================== LINKS ================== */
   .hm-group{display:flex;flex-direction:column;gap:10px}
@@ -379,19 +365,25 @@
   .hm-dd-link:hover{color:var(--hm-accent);transform:translateX(2px)}
   .hm-dd-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px;border-radius:6px}
 
-  a:hover { text-decoration:none; }
+  .hm-dd-link--all{
+    margin-top:6px;
+    font-weight:800;
+    padding:10px 0;
+    color:#0b0b0b;
+    border-top:1px solid rgba(0,0,0,.06);
+  }
+  .hm-dd-link--all:hover{color:var(--hm-accent)}
 
-  /* ================== PLUS DROPDOWN (new) ================== */
+  /* ================== PLUS DROPDOWN ================== */
   .hm-plus-dd{
     left:auto;
-    right:0;              /* align to the right edge of the nav */
+    right:0;
     min-width:220px;
     padding:14px 18px;
   }
   .hm-plus-links{
     display:flex;
     flex-direction:column;
-    gap:0;
   }
   .hm-plus-dd .hm-dd-link{
     padding:12px 0;
