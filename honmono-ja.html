@@ -1,0 +1,439 @@
+<!-- ================== TICKER ================== -->
+<div id="kapsul-ticker-bar" role="region" aria-label="Honmono ticker">
+  <div class="hm-ticker-inner">
+    <div class="hm-ticker-actions">
+      <a href="#newsletter" class="hm-btn hm-btn--outline">Subscribe to Newsletter</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================== HEADER ================== -->
+<header id="customHeader" role="banner">
+  <div class="hm-logo">
+    <a href="/" aria-label="Honmono Home">
+      <img
+        src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20512x512%20(3).svg"
+        alt="Honmono"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+  </div>
+
+  <nav class="hm-nav" aria-label="Primary">
+    <!-- INDEX (mega) -->
+    <div class="hm-item hm-has-dd" data-dd>
+      <button
+        class="hm-link hm-link--button"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="hm-index-menu"
+      >
+        ブランド一覧 <span class="hm-chevron" aria-hidden="true">▼</span>
+      </button>
+
+      <div id="hm-index-menu" class="hm-dd hm-mega" role="menu" aria-label="Index menu">
+        <div class="hm-grid">
+          <!-- Featured -->
+          <section class="hm-feature" aria-label="Featured brand">
+            <a
+              href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z"
+              class="hm-feature-media"
+              aria-label="Brand of the month: 9Jour"
+            >
+              <img
+                src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp"
+                alt="9Jour — Denim coloré"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+
+            <div class="hm-feature-meta">
+              <h4 class="hm-feature-title">9-Jour.</h4>
+              <span class="hm-badge">Brand of the month</span>
+            </div>
+          </section>
+
+          <!-- Links -->
+          <div class="hm-links" aria-label="Index links">
+            <div class="hm-group">
+              <div class="hm-head">Categories</div>
+              <a class="hm-dd-link" href="/brands/fashion">_ Fashion</a>
+              <a class="hm-dd-link" href="/brands/beauty-wellness">_ Beauty &amp; Wellbeing</a>
+              <a class="hm-dd-link" href="/brands/jewelry">_ Jewelry</a>
+              <a class="hm-dd-link" href="/brands/home-decor">_ Home &amp; Craft</a>
+              <a class="hm-dd-link hm-dd-link--all" href="/all-brands">View all brands →</a>
+            </div>
+
+            <div class="hm-group">
+              <div class="hm-head">Collections</div>
+              <a class="hm-dd-link" href="/made-in-japan">_ Made in Japan</a>
+              <a class="hm-dd-link" href="/sustainable">_ Durable</a>
+              <a class="hm-dd-link" href="/women-owned">_ Women-founded</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selections -->
+    <div class="hm-item">
+      <a class="hm-link" href="/selections">セレクション</a>
+    </div>
+
+    <!-- About -->
+    <div class="hm-item">
+      <a class="hm-link" href="/stories">私たちについて</a>
+    </div>
+
+
+    <!-- PLUS menu -->
+    <div class="hm-item hm-has-dd" data-dd>
+      <button
+        class="hm-link hm-link--button hm-link--plus"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="hm-plus-menu"
+        aria-label="More"
+      >
+        <!-- Premium morph icon -->
+        <span class="hm-morph" aria-hidden="true">
+          <span class="hm-bar hm-bar--h"></span>
+          <span class="hm-bar hm-bar--v"></span>
+        </span>
+      </button>
+
+      <div id="hm-plus-menu" class="hm-dd hm-plus-dd" role="menu" aria-label="More menu">
+        <div class="hm-plus-links" role="none">
+          <a class="hm-dd-link" href="/submit" role="menuitem">Suggest a Brand</a>
+          <a class="hm-dd-link" href="/contact" role="menuitem">Get in Touch</a>
+                    <a class="hm-dd-link" href="https://www.instagram.com/" target="_blank" rel="noopener" role="menuitem">Follow us</a>
+          <a class="hm-dd-link" href="/ja" role="menuitem">日本語</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================== STYLES ================== -->
+<style>
+  :root{
+    --hm-black:#000;
+    --hm-ink:#111;
+    --hm-cream:#fffff0;
+    --hm-accent:#BC012C;
+
+    --hm-ticker-h:44px;
+    --hm-header-top:calc(var(--hm-ticker-h) + 8px);
+
+    --hm-radius-pill:999px;
+
+    --hm-nav-bg:rgba(22,22,22,.92);
+    --hm-nav-border:rgba(255,255,255,.08);
+    --hm-dd-bg:rgba(255,255,255,.98);
+    --hm-dd-border:rgba(0,0,0,.08);
+
+    /* nav item height to keep perfect alignment */
+    --hm-nav-item-h:44px;
+  }
+
+  /* Baseline */
+  a{color:inherit;text-decoration:none;background:transparent}
+  img{max-width:100%;height:auto;display:block}
+  a:hover{text-decoration:none}
+
+  /* ================== TICKER ================== */
+  #kapsul-ticker-bar{
+    position:fixed;top:0;left:0;right:0;z-index:9999;
+    min-height:var(--hm-ticker-h);
+    background:var(--hm-black);color:#fff;
+    display:flex;justify-content:center;
+    padding:10px 20px;
+    font-size:12px;font-weight:500;
+    font-family:'IBM Plex Mono';
+  }
+  .hm-ticker-inner{
+    width:98%;
+    display:flex;align-items:center;justify-content:flex-end;
+    gap:20px;white-space:nowrap;
+  }
+
+  .hm-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:4px 10px;
+    border-radius:var(--hm-radius-pill);
+    font-size:10px;font-weight:600;
+    font-family:'IBM Plex Mono';
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .hm-btn--outline{
+    border:1px solid rgba(255,255,255,.9);
+    color:#fff;background:transparent;
+  }
+  .hm-btn--outline:hover{background:rgba(255,255,255,.12)}
+  .hm-btn:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
+
+  /* ================== HEADER ================== */
+  #customHeader{
+    position:fixed;left:0;right:0;z-index:1000;
+    top:var(--hm-header-top);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 2.5%;
+    border-bottom:1px solid transparent;
+    transition:background .35s, box-shadow .35s, border-color .35s;
+  }
+  #customHeader.scrolled{
+    background:var(--hm-black);
+    border-bottom:1px solid var(--hm-black);
+    box-shadow:0 2px 4px rgba(0,0,0,.2);
+  }
+
+  .hm-logo{flex:1;display:flex;justify-content:right}
+  .hm-logo img{height:150px}
+
+  /* ================== NAV ================== */
+  .hm-nav{
+    position:absolute;left:64px;
+    display:flex;gap:2px;
+    padding:6px;
+    border-radius:var(--hm-radius-pill);
+    background:var(--hm-nav-bg);
+    border:1px solid var(--hm-nav-border);
+    backdrop-filter:saturate(140%) blur(8px);
+    align-items:center;
+  }
+
+  .hm-item{position:relative}
+
+  /* Perfect alignment */
+  .hm-link,
+  .hm-link--button{
+    height:var(--hm-nav-item-h);
+    padding:0 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:var(--hm-radius-pill);
+    white-space:nowrap;
+
+    font-size:16px;
+    font-family:'IBM Plex Mono';
+    font-weight:800;
+    letter-spacing:.01em;
+    color:var(--hm-cream);
+
+    line-height:1;
+    transition:color .18s, background .18s;
+  }
+
+  .hm-link:hover{color:var(--hm-accent);background:rgba(255,255,255,.06)}
+  .hm-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px}
+
+  .hm-link--button{
+    border:0;background:transparent;cursor:pointer;
+  }
+
+  .hm-chevron{
+    display:inline-block;
+    margin-left:6px;
+    font-size:10px;
+    line-height:1;
+    transition:transform .2s, color .2s;
+  }
+
+  /* ===== Premium morph icon (+ to -) ===== */
+  .hm-link--plus{
+    min-width:var(--hm-nav-item-h);
+    padding:0 12px;
+  }
+  .hm-morph{
+    position:relative;
+    width:18px;
+    height:18px;
+    display:inline-block;
+  }
+  .hm-bar{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:18px;
+    height:2px;
+    background:var(--hm-cream);
+    border-radius:999px;
+    transform-origin:center;
+    transition:transform .22s ease, opacity .22s ease, background .18s ease;
+  }
+  .hm-bar--h{
+    transform:translate(-50%,-50%) rotate(0deg);
+  }
+  .hm-bar--v{
+    transform:translate(-50%,-50%) rotate(90deg);
+  }
+
+  /* When open: vertical bar fades -> minus */
+  .hm-item.is-open .hm-bar--v{ opacity:0; transform:translate(-50%,-50%) rotate(90deg) scaleX(.7); }
+  .hm-item.is-open .hm-bar--h{ transform:translate(-50%,-50%) rotate(0deg) scaleX(1); }
+
+  /* Optional: accent on open */
+  .hm-item.is-open .hm-bar{ background:var(--hm-accent); }
+
+  /* ================== DROPDOWN ================== */
+  .hm-dd{
+    position:absolute;
+    left:0;
+    top:calc(100% + 6px);
+    z-index:1000;
+
+    padding:18px;
+    border-radius:14px;
+    background:var(--hm-dd-bg);
+    border:1px solid var(--hm-dd-border);
+    box-shadow:0 18px 50px rgba(0,0,0,.22);
+    color:var(--hm-ink);
+
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+
+  /* ONLY click open (no hover / no focus-within) */
+  .hm-item.is-open > .hm-dd{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+
+  /* Chevron rotates only when open */
+  .hm-item.is-open .hm-chevron{
+    transform:rotate(180deg) translateY(1px);
+    color:var(--hm-accent);
+  }
+
+  /* Mega menu sizing */
+  .hm-mega{ width:min(860px, 92vw); }
+  .hm-grid{
+    display:grid;
+    grid-template-columns:0.4fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  .hm-links{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 34px;
+    align-content:start;
+  }
+
+  /* ================== FEATURED ================== */
+  .hm-feature{overflow:hidden;}
+  .hm-feature-media{
+    display:block;
+    aspect-ratio:4/5;
+    overflow:hidden;
+  }
+  .hm-feature-media img{
+    width:100%;height:100%;
+    object-fit:cover;
+    transform:scale(1.001);
+  }
+  .hm-feature-meta{padding:14px 14px 16px}
+  .hm-badge{
+    display:inline-block;
+    padding:2px 10px;
+    background:var(--hm-accent);
+    color:#fff;
+    font-size:10px;
+    font-family:'IBM Plex Mono';
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    margin-bottom:10px;
+  }
+  .hm-feature-title{margin:0 0 4px 0;font-weight:900;font-size:16px;font-family:'IBM Plex Mono';}
+
+  /* ================== LINKS ================== */
+  .hm-group{display:flex;flex-direction:column;gap:10px}
+  .hm-head{
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    font-size:14px;
+    font-family:'IBM Plex Mono';
+    color:#0b0b0b;
+    border-bottom:1px solid rgba(0,0,0,.08);
+    padding-bottom:10px;
+    margin-bottom:6px;
+  }
+  .hm-dd-link{
+    color:var(--hm-ink);
+    font-size:14px;
+    font-family:'IBM Plex Mono';
+    padding:16px 0;
+    line-height:1.2;
+    transition:color .15s, transform .15s;
+    display:block;
+  }
+  .hm-dd-link:hover{color:var(--hm-accent);transform:translateX(2px)}
+  .hm-dd-link:focus-visible{outline:2px solid rgba(188,1,44,.9);outline-offset:3px;border-radius:6px}
+
+  .hm-dd-link--all{
+    margin-top:6px;
+    font-weight:800;
+    padding:10px 0;
+    color:#0b0b0b;
+    border-top:1px solid rgba(0,0,0,.06);
+  }
+  .hm-dd-link--all:hover{color:var(--hm-accent)}
+
+  /* Plus dropdown alignment */
+  .hm-plus-dd{
+    left:auto;
+    right:0;
+    min-width:220px;
+    padding:14px 18px;
+  }
+  .hm-plus-links{display:flex;flex-direction:column}
+  .hm-plus-dd .hm-dd-link{padding:12px 0}
+  .hm-plus-dd .hm-dd-link + .hm-dd-link{border-top:1px solid rgba(0,0,0,.06)}
+
+  /* Animation smooth sur les barres */
+.hm-bar{
+  transition: 
+    transform .25s cubic-bezier(.4,.0,.2,1),
+    opacity .2s ease,
+    background .2s ease;
+}
+
+/* Hover sur le bouton + */
+.hm-link--plus:hover .hm-bar{
+  background: var(--hm-accent);
+}
+
+/* Petit rotate premium au hover (quand fermé uniquement) */
+.hm-item:not(.is-open) .hm-link--plus:hover .hm-morph{
+  transform: rotate(90deg);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+/* Reset transform base */
+.hm-morph{
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+  /* ================== RESPONSIVE ================== */
+  @media (max-width:900px){
+    .hm-grid{grid-template-columns:1fr}
+    .hm-links{grid-template-columns:1fr}
+    .hm-logo img{height:120px}
+    .hm-mega{width:min(520px, 92vw)}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hm-dd, .hm-chevron, .hm-dd-link, .hm-link, .hm-btn, .hm-bar{transition:none!important}
+  }
+</style>
