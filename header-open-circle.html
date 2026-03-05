@@ -10,14 +10,15 @@
 <!-- ================== HEADER ================== -->
 <header id="customHeader" role="banner">
   <div class="hm-logo">
-    <a href="/" aria-label="Honmono Home">
-      <img
-        src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20222x40.gif"
-        alt="Honmono"
-        loading="eager"
-        decoding="async"
-      />
-    </a>
+    <a href="/" class="hm-logo-link" aria-label="Honmono Home">
+  <img
+    class="hm-logo-anim"
+    src="/svg/h.svg"
+    alt="Honmono"
+    loading="eager"
+    decoding="async"
+  />
+</a>
   </div>
 
   <nav class="hm-nav" aria-label="Primary">
@@ -425,6 +426,18 @@
 /* Reset transform base */
 .hm-morph{
   transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+
+  .hm-logo-link{display:inline-flex;align-items:center}
+.hm-logo-anim{
+  height:44px; width:auto; display:block;
+  image-rendering:auto;
+}
+@media (max-width:900px){
+  .hm-logo-anim{height:36px}
+}
+@media (prefers-reduced-motion: reduce){
+  .hm-logo-anim{animation:none}
 }
 
   /* ================== RESPONSIVE ================== */
