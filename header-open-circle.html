@@ -427,29 +427,6 @@
   transition: transform .3s cubic-bezier(.4,0,.2,1);
 }
 
-  /* Crossfade logo frames */
-.hm-logo { position: relative; }
-
-.hm-logo .hm-logo-fader{
-  position: relative;
-  display: inline-block;
-}
-
-.hm-logo .hm-logo-fader img{
-  position:absolute;
-  inset:0;
-  height:auto;
-  width:auto;
-  display:block;
-  opacity:0;
-  transition: opacity 220ms ease; /* smoothness */
-  will-change: opacity;
-}
-
-.hm-logo .hm-logo-fader img.is-visible{
-  opacity:1;
-}
-
   /* ================== RESPONSIVE ================== */
   @media (max-width:900px){
     .hm-grid{grid-template-columns:1fr}
