@@ -10,15 +10,14 @@
 <!-- ================== HEADER ================== -->
 <header id="customHeader" role="banner">
   <div class="hm-logo">
-    <a href="/" class="hm-logo-link" aria-label="Honmono Home">
-  <img
-    class="hm-logo-anim"
-    src="https://open-circle.b-cdn.net/Logo/SVG%20GIF/5.svg"
-    alt="Honmono"
-    loading="eager"
-    decoding="async"
-  />
-</a>
+    <a href="/" aria-label="Honmono Home">
+      <img
+        src="https://open-circle.b-cdn.net/Logo/Logo%20Noir%20222x40.gif"
+        alt="Honmono"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
   </div>
 
   <nav class="hm-nav" aria-label="Primary">
@@ -186,7 +185,7 @@
     position:fixed;left:0;right:0;z-index:1000;
     top:var(--hm-header-top);
     display:flex;align-items:center;justify-content:space-between;
-    padding:0 1.5%;
+    padding:0 2.5%;
     border-bottom:1px solid transparent;
     transition:background .35s, box-shadow .35s, border-color .35s;
   }
@@ -197,7 +196,7 @@
   }
 
   .hm-logo{flex:1;display:flex;justify-content:right}
-  .hm-logo img{height:auto}
+  .hm-logo img{height:150px}
 
   /* ================== NAV ================== */
   .hm-nav{
@@ -428,18 +427,6 @@
   transition: transform .3s cubic-bezier(.4,0,.2,1);
 }
 
-  .hm-logo-link{display:inline-flex;align-items:center}
-.hm-logo-anim{
-  height:44px; width:auto; display:block;
-  image-rendering:auto;
-}
-@media (max-width:900px){
-  .hm-logo-anim{height:36px}
-}
-@media (prefers-reduced-motion: reduce){
-  .hm-logo-anim{animation:none}
-}
-
   /* ================== RESPONSIVE ================== */
   @media (max-width:900px){
     .hm-grid{grid-template-columns:1fr}
@@ -452,4 +439,3 @@
     .hm-dd, .hm-chevron, .hm-dd-link, .hm-link, .hm-btn, .hm-bar{transition:none!important}
   }
 </style>
-
