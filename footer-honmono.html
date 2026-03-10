@@ -1,0 +1,328 @@
+<!-- =========== FOOTER =========== -->
+<footer class="oc-footer">
+
+  <!-- MASTHEAD -->
+  <div class="oc-footer-masthead">
+    <h2 aria-label="Honmono">
+      <span class="oc-rotator" id="honmono-rotator">
+        <span class="oc-rotator-word is-active">HONMONO</span>
+        <span class="oc-rotator-word">ほんもの</span>
+        <span class="oc-rotator-word">本物</span>
+        <span class="oc-rotator-word">⠓⠕⠝⠍⠕⠝⠕</span>
+      </span>
+    </h2>
+  </div>
+
+  <!-- GRID -->
+  <div class="oc-footer-grid">
+
+    <!-- Col gauche : menu -->
+    <nav class="oc-footer-col">
+      <ul class="oc-footer-menu">
+        <li><a href="#">_ Fashion</a></li>
+        <li><a href="#">_ Jewelry</a></li>
+        <li><a href="#">_ Beauty</a></li>
+        <li><a href="#">_ Objects</a></li>
+        <li><a href="#">_ Outdoor</a></li>
+
+      </ul>
+    </nav>
+
+    <!-- Col centre : CTA marques -->
+    <div class="oc-footer-col oc-footer-brand-cta">
+      <span class="oc-eyebrow">For Japanese brands</span>
+      <h3>Create your brand profile on Honmono</h3>
+
+      <p class="oc-brand-copy">
+        Apply to be considered for inclusion in the index and present your brand to an international audience interested in contemporary Japanese design.
+      </p>
+
+      <a href="/submit" class="oc-brand-button">Submit your brand</a>
+    </div>
+
+    <!-- Col droite : identité -->
+    <div class="oc-footer-col oc-footer-trust">
+      <div class="oc-trust-badge">
+        <span class="oc-heart">❤</span>
+        <div class="oc-bcorp-txt">Made in Japan</div>
+      </div>
+
+      <p class="oc-trust-copy">
+        A curated index of contemporary Japanese brands across fashion, beauty and objects.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="oc-footer-bottom">
+    <div class="oc-bottom-left">
+      <a href="#">About Honmono</a>
+      <a href="#">Submit a brand</a>
+      <a href="#">Contact</a>
+      <a href="#">Instagram</a>
+    </div>
+
+    <div class="oc-identity-icons">
+      <span class="oc-pill">🇯🇵 ものづくり Lovers</span>
+    </div>
+  </div>
+
+  <div class="oc-legal">
+    <small>© <span id="oc-year"></span> KAPSUL株式会社. All rights reserved.</small>
+  </div>
+
+</footer>
+
+<style>
+/* ====== FOOTER BASE ====== */
+.oc-footer{
+  background:#fff;
+  color:#000;
+  border:1px solid #000;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:60px;
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ===== MASTHEAD ===== */
+.oc-footer-masthead{
+  border-bottom:1px solid #000;
+  padding:28px 0;
+  text-align:center;
+}
+
+.oc-footer-masthead h2{
+  margin-top:-50px;
+  margin-bottom:0;
+  text-transform:uppercase;
+  letter-spacing:-.03em;
+  line-height:.9;
+  font-size:clamp(42px,10vw,60px);
+}
+
+/* ===== ROTATOR ===== */
+.oc-rotator{
+  position:relative;
+  display:inline-grid;
+  place-items:center;
+  min-width:9ch;
+  min-height:1em;
+}
+
+.oc-rotator-word{
+  grid-area:1 / 1;
+  white-space:nowrap;
+  opacity:0;
+  transition:opacity .55s ease;
+}
+
+.oc-rotator-word.is-active{
+  opacity:1;
+}
+
+/* ===== GRID ===== */
+.oc-footer-grid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1fr;
+  border-bottom:1px solid #000;
+}
+
+.oc-footer-col{
+  padding:26px 24px;
+  min-height:180px;
+}
+
+.oc-footer-col + .oc-footer-col{
+  border-left:1px solid #000;
+}
+
+/* ===== MENU ===== */
+.oc-footer-menu{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.oc-footer-menu li{
+  margin:0 0 12px;
+}
+
+.oc-footer-menu a{
+  text-decoration:none;
+  color:#000;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+}
+
+/* ===== BRAND CTA ===== */
+.oc-footer-brand-cta{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+}
+
+.oc-eyebrow{
+  display:inline-block;
+  margin:0 0 10px;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-weight:800;
+}
+
+.oc-footer-brand-cta h3{
+  margin:0 0 12px;
+  font-size:26px;
+  line-height:1.05;
+  font-weight:800;
+  letter-spacing:-.03em;
+  max-width:560px;
+}
+
+.oc-brand-copy{
+  margin:0 0 18px;
+  font-size:14px;
+  line-height:1.45;
+  max-width:560px;
+}
+
+.oc-brand-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:0 18px;
+  border:1px solid #000;
+  background:#000;
+  color:#fff;
+  text-decoration:none;
+  text-transform:uppercase;
+  font-weight:700;
+  letter-spacing:.04em;
+  font-size:13px;
+  transition:background .2s ease, color .2s ease;
+}
+
+.oc-brand-button:hover{
+  background:#fff;
+  color:#000;
+}
+
+/* ===== TRUST ===== */
+.oc-footer-trust{
+  display:flex;
+  flex-direction:column;
+}
+
+.oc-trust-badge{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.oc-heart{
+  width:44px;
+  height:44px;
+  border:2px solid #000;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:900;
+}
+
+.oc-bcorp-txt{
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:800;
+  line-height:1.1;
+}
+
+.oc-trust-copy{
+  margin:12px 0 0;
+  font-size:13px;
+  line-height:1.4;
+}
+
+/* ===== BOTTOM ===== */
+.oc-footer-bottom{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  border-bottom:1px solid #000;
+}
+
+.oc-bottom-left{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.oc-bottom-left a{
+  color:#000;
+  text-decoration:none;
+  font-size:13px;
+}
+
+.oc-identity-icons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.oc-pill{
+  border:1px solid #000;
+  padding:4px 8px;
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+/* ===== LEGAL ===== */
+.oc-legal{
+  padding:10px 16px;
+  text-align:left;
+}
+
+.oc-legal small{
+  font-size:12px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:980px){
+  .oc-footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .oc-footer-col + .oc-footer-col{
+    border-left:none;
+    border-top:1px solid #000;
+  }
+
+  .oc-footer-masthead h2{
+    font-size:clamp(36px,12vw,90px);
+  }
+
+  .oc-footer-brand-cta h3{
+    font-size:22px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .oc-rotator-word{
+    transition:none !important;
+  }
+
+  .oc-brand-button{
+    transition:none !important;
+  }
+}
+</style>
