@@ -1,0 +1,965 @@
+<!-- ================== HONMONO HEADER / DESKTOP + MOBILE + LOGO ROTATOR ================== -->
+
+<!-- ================== TICKER ================== -->
+<div id="kapsul-ticker-bar" role="region" aria-label="Honmono ticker">
+  <div class="hm-ticker-inner">
+    <div class="hm-ticker-actions">
+      <a href="#newsletter" class="hm-btn hm-btn--outline">Subscribe to Newsletter</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================== DESKTOP HEADER ================== -->
+<header id="customHeader" role="banner">
+  <div class="hm-logo">
+    <a href="/" aria-label="Honmono Home">
+      <img
+        src="https://open-circle.b-cdn.net/Logo/SVG%20GIF/Logo%20Noir%20222x40.svg"
+        alt="Honmono"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+  </div>
+
+  <nav class="hm-nav" aria-label="Primary">
+    <!-- INDEX (mega) -->
+    <div class="hm-item hm-has-dd" data-dd>
+      <button
+        class="hm-link hm-link--button"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="hm-index-menu"
+      >
+        Brand Index <span class="hm-chevron" aria-hidden="true">▼</span>
+      </button>
+
+      <div id="hm-index-menu" class="hm-dd hm-mega" role="menu" aria-label="Index menu">
+        <div class="hm-grid">
+          <section class="hm-feature" aria-label="Featured brand">
+            <a
+              href="https://www.opencircle.jp/brand-details?recordId=recE3FdK8z0P4345Z"
+              class="hm-feature-media"
+              aria-label="Brand of the month: 9Jour"
+            >
+              <img
+                src="https://open-circle.b-cdn.net/Brands/9Jour./3.webp"
+                alt="9Jour — Denim coloré"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+
+            <div class="hm-feature-meta">
+              <span class="hm-badge">Brand of the month</span>
+              <h4 class="hm-feature-title">9-Jour.</h4>
+            </div>
+          </section>
+
+          <div class="hm-links" aria-label="Index links">
+            <div class="hm-group">
+              <div class="hm-head">Categories</div>
+              <a class="hm-dd-link" href="/all-brands?filter-by-Type=Fashion">_ Fashion</a>
+              <a class="hm-dd-link" href="/all-brands?filter-by-Type=Jewelry">_ Jewelry</a>
+              <a class="hm-dd-link" href="/all-brands?filter-by-Type=Beauty">_ Beauty</a>
+              <a class="hm-dd-link" href="/all-brands?filter-by-Type=Objects">_ Objects</a>
+              <a class="hm-dd-link" href="/all-brands?filter-by-Type=Outdoor">_ Outdoor</a>
+              <a class="hm-dd-link hm-dd-link--all" href="/all-brands">View all brands →</a>
+            </div>
+
+            <div class="hm-group">
+              <div class="hm-head">Collections</div>
+              <a class="hm-dd-link" href="/made-in-japan">_ Made in Japan</a>
+              <a class="hm-dd-link" href="/sustainable">_ Durable</a>
+              <a class="hm-dd-link" href="/women-owned">_ Women-founded</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hm-item">
+      <a class="hm-link" href="/ranking">Cultural Ranking</a>
+    </div>
+
+    <div class="hm-item">
+      <a class="hm-link" href="/about">About</a>
+    </div>
+
+    <div class="hm-item hm-has-dd" data-dd>
+      <button
+        class="hm-link hm-link--button hm-link--plus"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="hm-plus-menu"
+        aria-label="More"
+      >
+        <span class="hm-morph" aria-hidden="true">
+          <span class="hm-bar hm-bar--h"></span>
+          <span class="hm-bar hm-bar--v"></span>
+        </span>
+      </button>
+
+      <div id="hm-plus-menu" class="hm-dd hm-plus-dd" role="menu" aria-label="More menu">
+        <div class="hm-plus-links" role="none">
+          <a class="hm-dd-link" href="/japan-access" role="menuitem">Japan Access</a>
+          <a class="hm-dd-link" href="/submit" role="menuitem">Suggest a Brand</a>
+          <a class="hm-dd-link" href="/contact" role="menuitem">Contact</a>
+          <a class="hm-dd-link" href="https://www.instagram.com/honmono.life/" target="_blank" rel="noopener" role="menuitem">Follow</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ================== MOBILE HEADER ================== -->
+<header id="hmMobileHeader" role="banner">
+  <div class="hm-mobile-bar">
+    <button
+      class="hm-mobile-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="hmMobileDrawer"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="/" class="hm-mobile-logo" aria-label="Honmono Home">
+      <img
+        src="https://open-circle.b-cdn.net/Logo/SVG%20GIF/Logo%20Noir%20222x40.svg"
+        alt="Honmono"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+
+    <div class="hm-mobile-spacer" aria-hidden="true"></div>
+  </div>
+</header>
+
+<div id="hmMobileOverlay" hidden></div>
+
+<aside id="hmMobileDrawer" aria-hidden="true">
+  <div class="hm-mobile-drawer-inner">
+    <div class="hm-mobile-top">
+      <span class="hm-mobile-menu-label">Menu</span>
+      <button class="hm-mobile-close" type="button" aria-label="Close menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <nav class="hm-mobile-nav" aria-label="Mobile primary navigation">
+      <div class="hm-mobile-group">
+        <button
+          class="hm-mobile-accordion"
+          type="button"
+          aria-expanded="false"
+          aria-controls="hmMobileIndexPanel"
+        >
+          <span>Brand Index</span>
+          <span class="hm-mobile-acc-icon">+</span>
+        </button>
+
+        <div id="hmMobileIndexPanel" class="hm-mobile-panel" hidden>
+          <div class="hm-mobile-subhead">Categories</div>
+          <a href="/all-brands?filter-by-Type=Fashion">Fashion</a>
+          <a href="/all-brands?filter-by-Type=Jewelry">Jewelry</a>
+          <a href="/all-brands?filter-by-Type=Beauty">Beauty</a>
+          <a href="/all-brands?filter-by-Type=Objects">Objects</a>
+          <a href="/all-brands?filter-by-Type=Outdoor">Outdoor</a>
+          <a href="/all-brands" class="hm-mobile-all">View all brands →</a>
+
+          <div class="hm-mobile-subhead">Collections</div>
+          <a href="/made-in-japan">Made in Japan</a>
+          <a href="/sustainable">Durable</a>
+          <a href="/women-owned">Women-founded</a>
+        </div>
+      </div>
+
+      <a href="/ranking">Cultural Ranking</a>
+      <a href="/about">About</a>
+      <a href="/japan-access">Japan Access</a>
+      <a href="/submit">Suggest a Brand</a>
+      <a href="/contact">Contact</a>
+      <a href="https://www.instagram.com/honmono.life/" target="_blank" rel="noopener">Follow</a>
+    </nav>
+
+    <div class="hm-mobile-footer">
+      <a href="#newsletter" class="hm-btn hm-btn--outline">Subscribe to Newsletter</a>
+    </div>
+  </div>
+</aside>
+
+<style>
+  :root{
+    --hm-black:#000;
+    --hm-ink:#111;
+    --hm-cream:#fffff0;
+    --hm-accent:#BC012C;
+
+    --hm-ticker-h:44px;
+    --hm-ticker-h-mobile:36px;
+    --hm-header-top:calc(var(--hm-ticker-h) + 36px);
+
+    --hm-radius-pill:999px;
+
+    --hm-nav-bg:rgba(22,22,22,.92);
+    --hm-nav-border:rgba(255,255,255,.08);
+    --hm-dd-bg:rgba(255,255,255,.98);
+    --hm-dd-border:rgba(0,0,0,.08);
+
+    --hm-nav-item-h:44px;
+  }
+
+  a{color:inherit;text-decoration:none;background:transparent}
+  a:hover{text-decoration:none}
+  img{max-width:100%;height:auto;display:block}
+  button{font:inherit}
+  html{scroll-behavior:smooth}
+
+  /* ================== TICKER ================== */
+  #kapsul-ticker-bar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    min-height:var(--hm-ticker-h);
+    background:var(--hm-black);
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    padding:10px 20px;
+    font-size:12px;
+    font-weight:500;
+    font-family:'IBM Plex Mono', monospace;
+    transition:transform .32s cubic-bezier(.4,0,.2,1);
+    will-change:transform;
+  }
+
+  .hm-ticker-inner{
+    width:98%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:20px;
+    white-space:nowrap;
+  }
+
+  .hm-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:4px 10px;
+    border-radius:var(--hm-radius-pill);
+    font-size:10px;
+    font-weight:600;
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    transition:background .2s, color .2s, border-color .2s;
+  }
+
+  .hm-btn--outline{
+    border:1px solid rgba(255,255,255,.9);
+    color:#fff;
+    background:transparent;
+  }
+
+  .hm-btn--outline:hover{
+    background:rgba(255,255,255,.12);
+  }
+
+  .hm-btn:focus-visible{
+    outline:2px solid rgba(188,1,44,.9);
+    outline-offset:3px;
+  }
+
+  /* ================== DESKTOP HEADER ================== */
+  #customHeader{
+    position:fixed;
+    left:0;
+    right:0;
+    z-index:1000;
+    top:var(--hm-header-top);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:30px 1.5%;
+    border-bottom:1px solid transparent;
+    transition:
+      background .35s,
+      box-shadow .35s,
+      border-color .35s,
+      transform .32s cubic-bezier(.4,0,.2,1);
+    will-change:transform;
+  }
+
+  #customHeader.scrolled{
+    background:var(--hm-black);
+    border-bottom:1px solid var(--hm-black);
+    box-shadow:0 2px 4px rgba(0,0,0,.2);
+  }
+
+  .hm-logo{
+    flex:1;
+    display:flex;
+    justify-content:right;
+  }
+
+  .hm-logo img{
+    height:auto;
+  }
+
+  /* ================== DESKTOP NAV ================== */
+  .hm-nav{
+    position:absolute;
+    left:64px;
+    display:flex;
+    gap:2px;
+    padding:6px;
+    border-radius:var(--hm-radius-pill);
+    background:var(--hm-nav-bg);
+    border:1px solid var(--hm-nav-border);
+    backdrop-filter:saturate(140%) blur(8px);
+    align-items:center;
+  }
+
+  .hm-item{
+    position:relative;
+  }
+
+  .hm-link,
+  .hm-link--button{
+    height:var(--hm-nav-item-h);
+    padding:0 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:var(--hm-radius-pill);
+    white-space:nowrap;
+    font-size:16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:800;
+    letter-spacing:.01em;
+    color:var(--hm-cream);
+    line-height:1;
+    transition:color .18s, background .18s;
+  }
+
+  .hm-link:hover{
+    color:var(--hm-accent);
+    background:rgba(255,255,255,.06);
+  }
+
+  .hm-link:focus-visible,
+  .hm-link--button:focus-visible{
+    outline:2px solid rgba(188,1,44,.9);
+    outline-offset:3px;
+  }
+
+  .hm-link--button{
+    border:0;
+    background:transparent;
+    cursor:pointer;
+  }
+
+  .hm-chevron{
+    display:inline-block;
+    margin-left:6px;
+    font-size:10px;
+    line-height:1;
+    transition:transform .2s, color .2s;
+  }
+
+  .hm-link--plus{
+    min-width:var(--hm-nav-item-h);
+    padding:0 12px;
+  }
+
+  .hm-morph{
+    position:relative;
+    width:18px;
+    height:18px;
+    display:inline-block;
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+  }
+
+  .hm-bar{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:18px;
+    height:2px;
+    background:var(--hm-cream);
+    border-radius:999px;
+    transform-origin:center;
+    transition:
+      transform .25s cubic-bezier(.4,.0,.2,1),
+      opacity .2s ease,
+      background .2s ease;
+  }
+
+  .hm-bar--h{
+    transform:translate(-50%,-50%) rotate(0deg);
+  }
+
+  .hm-bar--v{
+    transform:translate(-50%,-50%) rotate(90deg);
+  }
+
+  .hm-item.is-open .hm-bar--v{
+    opacity:0;
+    transform:translate(-50%,-50%) rotate(90deg) scaleX(.7);
+  }
+
+  .hm-item.is-open .hm-bar--h{
+    transform:translate(-50%,-50%) rotate(0deg) scaleX(1);
+  }
+
+  .hm-item.is-open .hm-bar{
+    background:var(--hm-accent);
+  }
+
+  .hm-link--plus:hover .hm-bar{
+    background:var(--hm-accent);
+  }
+
+  .hm-item:not(.is-open) .hm-link--plus:hover .hm-morph{
+    transform:rotate(90deg);
+  }
+
+  /* ================== DROPDOWNS ================== */
+  .hm-dd{
+    position:absolute;
+    left:0;
+    top:calc(100% + 6px);
+    z-index:1000;
+    padding:18px;
+    border-radius:14px;
+    background:var(--hm-dd-bg);
+    border:1px solid var(--hm-dd-border);
+    box-shadow:0 18px 50px rgba(0,0,0,.22);
+    color:var(--hm-ink);
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+
+  .hm-item.is-open > .hm-dd{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+
+  .hm-item.is-open .hm-chevron{
+    transform:rotate(180deg) translateY(1px);
+    color:var(--hm-accent);
+  }
+
+  .hm-mega{
+    width:min(860px, 92vw);
+  }
+
+  .hm-grid{
+    display:grid;
+    grid-template-columns:0.4fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+
+  .hm-links{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 34px;
+    align-content:start;
+  }
+
+  .hm-feature{
+    overflow:hidden;
+  }
+
+  .hm-feature-media{
+    display:block;
+    aspect-ratio:4/5;
+    overflow:hidden;
+  }
+
+  .hm-feature-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scale(1.001);
+  }
+
+  .hm-feature-meta{
+    padding:14px 14px 16px;
+  }
+
+  .hm-badge{
+    display:inline-block;
+    padding:2px 10px;
+    background:var(--hm-accent);
+    color:#fff;
+    font-size:10px;
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    margin-bottom:10px;
+  }
+
+  .hm-feature-title{
+    margin:0;
+    font-weight:900;
+    font-size:16px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .hm-group{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .hm-head{
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    font-size:14px;
+    font-family:'IBM Plex Mono', monospace;
+    color:#0b0b0b;
+    border-bottom:1px solid rgba(0,0,0,.08);
+    padding-bottom:10px;
+    margin-bottom:6px;
+  }
+
+  .hm-dd-link{
+    color:var(--hm-ink);
+    font-size:14px;
+    font-family:'IBM Plex Mono', monospace;
+    padding:16px 0;
+    line-height:1.2;
+    transition:color .15s, transform .15s;
+    display:block;
+  }
+
+  .hm-dd-link:hover{
+    color:var(--hm-accent);
+    transform:translateX(2px);
+  }
+
+  .hm-dd-link:focus-visible{
+    outline:2px solid rgba(188,1,44,.9);
+    outline-offset:3px;
+    border-radius:6px;
+  }
+
+  .hm-dd-link--all{
+    margin-top:6px;
+    font-weight:800;
+    padding:10px 0;
+    color:#0b0b0b;
+    border-top:1px solid rgba(0,0,0,.06);
+  }
+
+  .hm-dd-link--all:hover{
+    color:var(--hm-accent);
+  }
+
+  .hm-plus-dd{
+    left:auto;
+    right:0;
+    min-width:220px;
+    padding:14px 18px;
+  }
+
+  .hm-plus-links{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .hm-plus-dd .hm-dd-link{
+    padding:12px 0;
+  }
+
+  .hm-plus-dd .hm-dd-link + .hm-dd-link{
+    border-top:1px solid rgba(0,0,0,.06);
+  }
+
+  /* ================== MOBILE SYSTEM ================== */
+  #hmMobileHeader,
+  #hmMobileDrawer,
+  #hmMobileOverlay{
+    display:none;
+  }
+
+  /* ================== HIDE ON SCROLL ================== */
+  body.hm-header-hidden #kapsul-ticker-bar{
+    transform:translateY(-100%);
+  }
+
+  body.hm-header-hidden #customHeader{
+    transform:translateY(calc(-1 * (var(--hm-ticker-h) + 140px)));
+  }
+
+  /* ================== RESPONSIVE ================== */
+  @media (max-width:900px){
+    #customHeader{
+      display:none;
+    }
+
+    #kapsul-ticker-bar{
+      min-height:var(--hm-ticker-h-mobile);
+      padding:8px 14px;
+    }
+
+    .hm-ticker-inner{
+      width:100%;
+      justify-content:center;
+    }
+
+    .hm-btn{
+      font-size:10px;
+      padding:4px 10px;
+    }
+
+    #hmMobileHeader{
+      display:block;
+      position:fixed;
+      top:var(--hm-ticker-h-mobile);
+      left:0;
+      right:0;
+      z-index:10001;
+      background:rgba(0,0,0,.96);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter:saturate(140%) blur(10px);
+      transition:transform .32s cubic-bezier(.4,0,.2,1);
+      will-change:transform;
+    }
+
+    .hm-mobile-bar{
+      height:64px;
+      display:grid;
+      grid-template-columns:52px 1fr 52px;
+      align-items:center;
+      padding:0 12px;
+    }
+
+    .hm-mobile-toggle,
+    .hm-mobile-close{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:#fff;
+      width:44px;
+      height:44px;
+      padding:0;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+
+    .hm-mobile-toggle{
+      position:relative;
+      justify-self:start;
+    }
+
+    .hm-mobile-toggle span{
+      position:absolute;
+      width:20px;
+      height:2px;
+      background:var(--hm-cream);
+      border-radius:999px;
+      transition:transform .25s ease, opacity .2s ease;
+    }
+
+    .hm-mobile-toggle span:nth-child(1){
+      transform:translateY(-6px);
+    }
+
+    .hm-mobile-toggle span:nth-child(2){
+      transform:translateY(0);
+    }
+
+    .hm-mobile-toggle span:nth-child(3){
+      transform:translateY(6px);
+    }
+
+    .hm-mobile-logo{
+      justify-self:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hm-mobile-logo img{
+      width:132px;
+      height:auto;
+      display:block;
+      filter:brightness(0) invert(1);
+    }
+
+    .hm-mobile-spacer{
+      width:44px;
+      height:44px;
+      justify-self:end;
+    }
+
+    #hmMobileOverlay{
+      display:block;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.42);
+      z-index:10002;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease;
+    }
+
+    #hmMobileDrawer{
+      display:block;
+      position:fixed;
+      top:0;
+      left:0;
+      bottom:0;
+      width:min(88vw, 420px);
+      background:#000;
+      color:#fffff0;
+      z-index:10003;
+      transform:translateX(-100%);
+      transition:transform .28s cubic-bezier(.4,0,.2,1);
+      border-right:1px solid rgba(255,255,255,.08);
+    }
+
+    .hm-mobile-drawer-inner{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:18px 18px 24px;
+      overflow-y:auto;
+    }
+
+    .hm-mobile-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height:52px;
+      margin-bottom:18px;
+    }
+
+    .hm-mobile-menu-label{
+      font-family:'IBM Plex Mono', monospace;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:rgba(255,255,240,.72);
+    }
+
+    .hm-mobile-close{
+      position:relative;
+    }
+
+    .hm-mobile-close span{
+      position:absolute;
+      width:18px;
+      height:2px;
+      background:var(--hm-cream);
+      border-radius:999px;
+    }
+
+    .hm-mobile-close span:first-child{
+      transform:rotate(45deg);
+    }
+
+    .hm-mobile-close span:last-child{
+      transform:rotate(-45deg);
+    }
+
+    .hm-mobile-nav{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      margin-top:8px;
+    }
+
+    .hm-mobile-nav > a,
+    .hm-mobile-accordion{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height:56px;
+      padding:0;
+      border:0;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:transparent;
+      color:var(--hm-cream);
+      font-family:'IBM Plex Mono', monospace;
+      font-size:18px;
+      font-weight:700;
+      text-align:left;
+      cursor:pointer;
+    }
+
+    .hm-mobile-group{
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .hm-mobile-accordion{
+      width:100%;
+    }
+
+    .hm-mobile-acc-icon{
+      font-size:18px;
+      line-height:1;
+      transition:transform .2s ease;
+    }
+
+    .hm-mobile-accordion[aria-expanded="true"] .hm-mobile-acc-icon{
+      transform:rotate(45deg);
+      color:var(--hm-accent);
+    }
+
+    .hm-mobile-panel{
+      padding:6px 0 14px;
+    }
+
+    .hm-mobile-subhead{
+      margin:14px 0 8px;
+      font-family:'IBM Plex Mono', monospace;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:rgba(255,255,240,.58);
+    }
+
+    .hm-mobile-panel a{
+      display:block;
+      padding:10px 0;
+      color:var(--hm-cream);
+      font-family:'IBM Plex Mono', monospace;
+      font-size:15px;
+      line-height:1.3;
+    }
+
+    .hm-mobile-panel a.hm-mobile-all{
+      color:#fff;
+      font-weight:800;
+      padding-top:14px;
+    }
+
+    .hm-mobile-footer{
+      margin-top:auto;
+      padding-top:22px;
+    }
+
+    .hm-mobile-footer .hm-btn{
+      width:100%;
+      justify-content:center;
+      min-height:44px;
+    }
+
+    body.hm-mobile-open{
+      overflow:hidden;
+    }
+
+    body.hm-mobile-open #hmMobileOverlay{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    body.hm-mobile-open #hmMobileDrawer{
+      transform:translateX(0);
+    }
+
+    body.hm-mobile-open .hm-mobile-toggle span:nth-child(1){
+      transform:translateY(0) rotate(45deg);
+    }
+
+    body.hm-mobile-open .hm-mobile-toggle span:nth-child(2){
+      opacity:0;
+    }
+
+    body.hm-mobile-open .hm-mobile-toggle span:nth-child(3){
+      transform:translateY(0) rotate(-45deg);
+    }
+
+    body.hm-header-hidden #hmMobileHeader{
+      transform:translateY(calc(-1 * (var(--hm-ticker-h-mobile) + 64px)));
+    }
+  }
+
+  @media (max-width:900px) and (min-width:601px){
+    .hm-mobile-logo img{
+      width:140px;
+    }
+  }
+
+  @media (max-width:600px){
+    .hm-mobile-logo img{
+      width:126px;
+    }
+  }
+
+  @media (min-width:901px){
+    .hm-grid{
+      grid-template-columns:0.4fr 1fr;
+    }
+
+    .hm-links{
+      grid-template-columns:1fr 1fr;
+    }
+
+    .hm-logo img{
+      height:auto;
+    }
+
+    .hm-mega{
+      width:min(860px, 92vw);
+    }
+  }
+
+  @media (max-width:900px){
+    .hm-grid{
+      grid-template-columns:1fr;
+    }
+
+    .hm-links{
+      grid-template-columns:1fr;
+    }
+
+    .hm-mega{
+      width:min(520px, 92vw);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hm-dd,
+    .hm-chevron,
+    .hm-dd-link,
+    .hm-link,
+    .hm-btn,
+    .hm-bar,
+    .hm-morph,
+    .hm-mobile-toggle span,
+    #hmMobileOverlay,
+    #hmMobileDrawer,
+    #hmMobileHeader,
+    #customHeader,
+    #kapsul-ticker-bar,
+    .hm-mobile-acc-icon{
+      transition:none !important;
+    }
+
+    html{
+      scroll-behavior:auto;
+    }
+  }
+</style>
