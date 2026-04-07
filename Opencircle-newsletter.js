@@ -96,7 +96,7 @@ function closeModal() {
         });
         if (!res.ok) throw new Error('Network error');
 
-        alert("Thank you for joining Open Circle.\n\nWe've sent you a confirmation email.");
+        alert("Thank you for joining Honmono.");
         closeModal();
         form.reset();
       } catch (err) {
