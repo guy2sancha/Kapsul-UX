@@ -80,7 +80,7 @@
       <a class="hm-link" href="/collections">Cultural Collections</a>
     </div>
 
-       <div class="hm-item">
+    <div class="hm-item">
       <a class="hm-link" href="/the-lens">Through The Lens</a>
     </div>
 
@@ -101,10 +101,10 @@
 
       <div id="hm-plus-menu" class="hm-dd hm-plus-dd" role="menu" aria-label="More menu">
         <div class="hm-plus-links" role="none">
-                    <a class="hm-dd-link" href="/about" role="menuitem">About</a>
-<a class="hm-dd-link" href="mailto:geoffrey@kapsul-studios.com" role="menuitem">Contact</a>
+          <a class="hm-dd-link" href="/about" role="menuitem">About</a>
+          <a class="hm-dd-link" href="mailto:geoffrey@kapsul-studios.com" role="menuitem">Contact</a>
           <a class="hm-dd-link" href="https://www.instagram.com/honmono.life/" target="_blank" rel="noopener" role="menuitem">Follow</a>
-                                        <a class="hm-dd-link" href="/join-honmono" target="_blank" rel="noopener" role="menuitem">HONMONOに申し込む</a>
+          <a class="hm-dd-link" href="/join-honmono" target="_blank" rel="noopener" role="menuitem">HONMONOに申し込む</a>
         </div>
       </div>
     </div>
@@ -135,7 +135,9 @@
       />
     </a>
 
-    <div class="hm-mobile-spacer" aria-hidden="true"></div>
+    <a href="#newsletter" class="hm-mobile-newsletter" aria-label="Subscribe to newsletter">
+      Newsletter
+    </a>
   </div>
 </header>
 
@@ -171,16 +173,18 @@
           <a href="/brands?filter-by-Type=Objects">Objects</a>
           <a href="/brands" class="hm-mobile-all">View all brands ↗</a>
 
-          <div class="hm-mobile-subhead">...</div>
+          <div class="hm-mobile-subhead">Collections</div>
+          <a href="/japanese-denim">Japanese Denim</a>
+          <a href="/collections" class="hm-mobile-all">View all collections ↗</a>
         </div>
       </div>
 
       <a href="/collections">Cultural Collections</a>
-            <a href="/the-lens">Through The Lens</a>
-            <a href="/about">About</a>
+      <a href="/the-lens">Through The Lens</a>
+      <a href="/about">About</a>
       <a href="/contact">Contact</a>
       <a href="https://www.instagram.com/honmono.life/" target="_blank" rel="noopener">Follow</a>
-                        <a href="/join-honmono" target="_blank" rel="noopener">HONMONOに申し込む</a>
+      <a href="/join-honmono" target="_blank" rel="noopener">HONMONOに申し込む</a>
     </nav>
 
     <div class="hm-mobile-footer">
@@ -629,8 +633,9 @@
     .hm-mobile-bar{
       height:var(--hm-mobile-header-h);
       display:grid;
-      grid-template-columns:52px 1fr 52px;
+      grid-template-columns:52px 1fr auto;
       align-items:center;
+      column-gap:10px;
       padding:0 12px;
     }
 
@@ -680,6 +685,7 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
+      min-width:0;
     }
 
     .hm-mobile-logo img{
@@ -689,10 +695,34 @@
       filter:brightness(0) invert(1);
     }
 
-    .hm-mobile-spacer{
-      width:44px;
-      height:44px;
+    .hm-mobile-newsletter{
       justify-self:end;
+      display:inline-flex;
+      align-items:center;
+      justify-content:flex-end;
+      min-height:44px;
+      font-family:'IBM Plex Mono', monospace;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--hm-cream);
+      opacity:.92;
+      white-space:nowrap;
+      transition:color .18s ease, opacity .18s ease;
+    }
+
+    .hm-mobile-newsletter:hover{
+      color:var(--hm-accent);
+      opacity:1;
+    }
+
+    .hm-mobile-newsletter:focus-visible{
+      outline:2px solid rgba(188,1,44,.9);
+      outline-offset:3px;
+      border-radius:4px;
+      color:var(--hm-accent);
+      opacity:1;
     }
 
     #hmMobileOverlay{
@@ -886,7 +916,29 @@
 
   @media (max-width:600px){
     .hm-mobile-logo img{
-      width:66px;
+      width:78px;
+    }
+
+    .hm-mobile-newsletter{
+      font-size:10px;
+      letter-spacing:.06em;
+    }
+  }
+
+  @media (max-width:420px){
+    .hm-mobile-bar{
+      grid-template-columns:44px 1fr auto;
+      column-gap:8px;
+      padding:0 10px;
+    }
+
+    .hm-mobile-logo img{
+      width:68px;
+    }
+
+    .hm-mobile-newsletter{
+      font-size:9px;
+      letter-spacing:.05em;
     }
   }
 
@@ -936,7 +988,8 @@
     #hmMobileHeader,
     #customHeader,
     #kapsul-ticker-bar,
-    .hm-mobile-acc-icon{
+    .hm-mobile-acc-icon,
+    .hm-mobile-newsletter{
       transition:none !important;
     }
 
